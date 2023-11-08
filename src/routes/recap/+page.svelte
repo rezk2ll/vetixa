@@ -1,14 +1,55 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import See from './../../lib/components/icons/See.svelte';
 	import type { PageData } from './$types';
 	import Trash from '$lib/components/icons/Trash.svelte';
+	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
+	import type { Fiche } from '@prisma/client';
 
 	export let data: PageData;
 
 	$: ({ fiches } = data);
+	let showConfirmation = false;
+	let deleteFromRef: HTMLFormElement;
+
+	let selectedFiche: any | null;
+
+	$: handler = () => {
+		deleteFromRef.requestSubmit();
+
+		selectedFiche = null;
+		showConfirmation = false;
+	};
+
+	const remove = (fiche: Fiche) => {
+		selectedFiche = fiche;
+		showConfirmation = true;
+	};
 </script>
 
-<div class="antialiased">
+<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFromRef}>
+	{#if selectedFiche}
+		<input type="hidden" name="id" bind:value={selectedFiche.id} />
+	{/if}
+</form>
+
+<ConfirmationDialog bind:show={showConfirmation} {handler}>
+	<div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+		{#if selectedFiche?.animalId}
+			 
+		<h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
+			Supprimer la fiche de {selectedFiche.animal.name }
+		</h3>
+		{/if}
+		<div class="mt-2">
+			<p class="text-sm text-gray-500">
+				Êtes-vous sûr de vouloir supprimer cette fiche ? Toutes vos données seront définitivement
+				supprimé. Cette action ne peut pas être annulée.
+			</p>
+		</div>
+	</div>
+</ConfirmationDialog>
+<div class="antialiased" data-sveltekit-preload-data="hover">
 	<div class="flex flex-col items-center justify-start lg:pt-20 xl:pt-10">
 		<div
 			class="w-full xl:w-11/12 px-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded-2xl"
@@ -100,10 +141,18 @@
 										<div class="text-lg text-center">{fiche.pronostic}</div>
 									</td>
 									<td class="p-2 whitespace-nowrap flex pt-4">
-										<button type="button" class="w-full flex items-center justify-center h-4">
+										<a
+											type="button"
+											class="w-full flex items-center justify-center h-4"
+											href="/recap/{fiche.id}"
+										>
 											<See />
-										</button>
-										<button type="button" class="w-full flex items-center justify-center h-4">
+										</a>
+										<button
+											type="button"
+											class="w-full flex items-center justify-center h-4"
+											on:click={() => remove(fiche)}
+										>
 											<Trash />
 										</button>
 									</td>
