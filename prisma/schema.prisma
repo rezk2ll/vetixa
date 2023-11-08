@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -33,9 +33,9 @@ model Fiche {
   date_admission String
   pronostic      String
   date_sortie    String
-  client         Client       @relation(fields: [clientId], references: [id])
+  client         Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId       Int
-  animal         Animal       @relation(fields: [animalId], references: [id])
+  animal         Animal       @relation(fields: [animalId], references: [id], onDelete: Cascade)
   animalId       Int
   diagnostics    Diagnostic[]
 }
