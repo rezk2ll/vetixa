@@ -1,14 +1,15 @@
 <script lang="ts">
 	export let label: string;
-	export let placeholder: string;
+	export let placeholder: string = "";
 	export let value: string;
 	export let isInValid: boolean;
 	export let name: string;
+	export let required: boolean = true;
 </script>
 
 <div class="relative mt-6">
 	<input
-		required
+		{required}
 		id={name}
 		{name}
 		bind:value
@@ -16,7 +17,7 @@
 		type="text"
 		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
-			: 'ring-gray-300 focus:ring-blue-500'}"
+			: 'ring-gray-200 focus:ring-blue-500'}"
 	/>
 	<label
 		for="field"

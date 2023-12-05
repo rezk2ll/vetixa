@@ -6,7 +6,7 @@
 	export let name: string;
 </script>
 
-<div class="relative mt-6">
+<div class="relative w-full">
 	<textarea
 		required
 		id={name}

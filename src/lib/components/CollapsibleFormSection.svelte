@@ -7,30 +7,30 @@
 </script>
 
 <div
-	class="w-full {size === 'small'
+	class="w-full px-1 {size === 'small'
 		? 'xl:w-1/2'
 		: size === 'big'
 		? 'xl:w-10/12'
-		: ''} p-5 xl:p-10 bg-white {color === 'info'
-		? 'border border-teal-400'
+		: ''} bg-white {color === 'info'
+		? ''
 		: shadow
 		? 'shadow-2xl'
-		: ''} border-gray-200 xl:rounded-2xl h-fit mb-5"
+		: ''} pb-1"
 >
 	<button
 		type="button"
-		class="flex justify-between px-5 py-4 border-b rounded-xl border-gray-100 {color === 'primary'
+		class="flex justify-between px-5 py-4 border-b border-gray-100 {color === 'primary'
 			? 'bg-blueGray-200'
 			: color === 'secondary'
 			? 'bg-gray-300'
-			: 'bg-teal-300'} w-full"
+			: 'bg-gray-100'} w-full"
 		on:click={() => (show = !show)}
 	>
 		<h2 class="font-semibold text-gray-800">{title}</h2>
-		<span class="transition {show ? '' : 'rotate-180	'}">
+		<span class="transition {show ? '' : '-rotate-90	'}">
 			<svg
 				fill="none"
-				shape-rendering="geometricPrecision"
+				shape-rendering="geometricPrecision"  
 				stroke="currentColor"
 				stroke-linecap="round"
 				stroke-linejoin="round"
@@ -41,7 +41,7 @@
 			</svg>
 		</span>
 	</button>
-	<div class="py-3 xl:px-5 {show ? '' : 'hidden'}">
+	<div class="transition-all ease-in-out {show ? '' : 'hidden'} w-full px-1">
 		<slot />
 	</div>
 </div>

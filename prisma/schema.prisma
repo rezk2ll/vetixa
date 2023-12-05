@@ -6,52 +6,79 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Client {
-  id     Int     @id @default(autoincrement())
-  name   String
-  tel    String?
-  Fiches Fiche[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  firstName String
+  lastName  String
+  tel       String?  @unique
+  email     String?  @unique
+  address   String?
+  animals   Animal[]
 }
 
 model Animal {
+  id         Int     @id @default(autoincrement())
+  name       String
+  sex        String
+  birthday   String
+  weight     String
+  type       String
+  color      String?
+  Identifier String? @unique
+  visits     Visit[]
+
+  clientId Int
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model Visit {
+  id           Int      @id @default(autoincrement())
+  motif        String
+  date         DateTime @default(now())
+  observations String
+  actions      String
+
+  medical_acts   MedicalAct[]
+  surgical_acts  SurgicalAct[]
+  clinical_exams ClinicalExams[]
+  Bill           Bill?
+  Animal         Animal          @relation(fields: [animalId], references: [id])
+  animalId       Int
+}
+
+model MedicalAct {
   id     Int     @id @default(autoincrement())
   name   String
-  sex    String
-  age    String
-  weight String
-  type   String
-  Fiches Fiche[]
+  price  Float
+  code   String
+  Visits Visit[]
 }
 
-model Fiche {
-  id             Int          @id @default(autoincrement())
-  motif          String
-  date_admission String
-  pronostic      String
-  date_sortie    String
-  client         Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId       Int
-  animal         Animal       @relation(fields: [animalId], references: [id], onDelete: Cascade)
-  animalId       Int
-  diagnostics    Diagnostic[]
+model SurgicalAct {
+  id     Int     @id @default(autoincrement())
+  name   String
+  price  Float
+  code   String
+  Visits Visit[]
 }
 
-model Diagnostic {
-  id           Int      @id @default(autoincrement())
-  date         String
-  ficheId      Int
-  fiche        Fiche    @relation(fields: [ficheId], references: [id])
-  time         String
-  alimentation String
-  abreuvement  String
-  urines       String
-  vaumissement String
-  bilan        String
-  traitement   String
-  anti         String
-  state        String
+model ClinicalExams {
+  id     Int     @id @default(autoincrement())
+  name   String
+  price  Float
+  code   String
+  Visits Visit[]
+}
+
+model Bill {
+  id      Int     @id @default(autoincrement())
+  visit   Visit   @relation(fields: [visitId], references: [id])
+  visitId Int     @unique
+  paid    Boolean
+  method  String
 }

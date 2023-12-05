@@ -9,25 +9,24 @@
 	<meta name="keywords" content="Sveltekit, Seif, bardo, jiji, luna" />
 	<meta name="author" content="Dhaw" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Hospit management by jiji</title>
+	<title>Hospit management</title>
 </svelte:head>
 
 <Nav />
-<div class="min-h-screen w-full overflow-hidden gradiant flex flex-col pt-10 xl:pt-20">
-	<div class="bg-layout bg-no-repeat w-full">
-		<slot />
-		<div class="h-36 fixed bottom-0 w-full gradiant -z-30" />
-	</div>
+<div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col pt-10 xl:pt-20">
+	<slot />
 </div>
 
-<style>
+<style lang="postcss">
 	.gradiant {
-		background: linear-gradient(
-				105.88deg,
-				rgba(238, 5, 82, 0.3) 0%,
-				rgba(235, 219, 2, 0.2) 43.6%,
-				rgba(65, 4, 233, 0.2) 100%
-			),
-			linear-gradient(0deg, #ffffff, #ffffff);
+		@media screen(md) {
+			background: linear-gradient(
+					105.88deg,
+					rgba(238, 5, 82, 0.3) 0%,
+					rgba(235, 219, 2, 0.2) 43.6%,
+					rgba(65, 4, 233, 0.2) 100%
+				),
+				linear-gradient(0deg, #ffffff, #ffffff);
+		}
 	}
 </style>

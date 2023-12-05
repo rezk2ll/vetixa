@@ -36,10 +36,9 @@
 <ConfirmationDialog bind:show={showConfirmation} {handler}>
 	<div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
 		{#if selectedFiche?.animalId}
-			 
-		<h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
-			Supprimer la fiche de {selectedFiche.animal.name }
-		</h3>
+			<h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
+				Supprimer la fiche de {selectedFiche.animal.name}
+			</h3>
 		{/if}
 		<div class="mt-2">
 			<p class="text-sm text-gray-500">
@@ -50,7 +49,7 @@
 	</div>
 </ConfirmationDialog>
 <div class="antialiased" data-sveltekit-preload-data="hover">
-	<div class="flex flex-col items-center justify-start lg:pt-20 xl:pt-10">
+	<div class="flex flex-col items-center justify-start lg:pt-20 xl:pt-10 xl:pl-14">
 		<div
 			class="w-full xl:w-11/12 px-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded-2xl"
 		>
@@ -72,7 +71,7 @@
 									<div class="font-semibold text-left">Nom</div>
 								</th>
 								<th class="p-2 whitespace-nowrap">
-									<div class="font-semibold text-left">Type</div>
+									<div class="font-semibold text-left">Espèce</div>
 								</th>
 								<th class="p-2 whitespace-nowrap">
 									<div class="font-semibold text-center">Sexe</div>

@@ -12,7 +12,7 @@
 
 	$: details = [
 		{ name: 'Nom', value: animal.name },
-		{ name: "Type d'animale", value: animal.type },
+		{ name: "Espèce", value: animal.type },
 		{ name: 'Age', value: animal.age },
 		{ name: 'Sexe', value: animal.sex },
 		{ name: 'Poids', value: animal.weight },

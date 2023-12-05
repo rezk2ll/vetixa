@@ -1,19 +1,42 @@
 <script lang="ts">
-	import FicheForm from '$lib/components/forms/FicheForm.svelte';
-	import File from '$lib/components/icons/File.svelte';
+	import QuickAccess from '$lib/components/dispaly/QuickAccess.svelte';
+	import Calendar from '$lib/components/icons/Calendar.svelte';
+	import Store from '$lib/components/icons/Store.svelte';
+	import User from '$lib/components/icons/User.svelte';
 </script>
 
-<div class="flex xl:space-x-4 w-full px-0 md:px-10 pt-2 items-center justify-center">
+<div class="flex xl:space-x-4 w-full px-0 md:px-10 pt-2 xl:pt-16 items-center justify-center">
 	<div class="shrink hidden md:block">
 		<img src="/banner.png" alt="banner" />
 	</div>
-	<div class="flex flex-col bg-white shadow-2xl rounded-2xl xl:p-10 w-full xl:w-2/6 p-5 pt-6">
-		<div class="flex flex-col items-center justify-center w-full">
-			<div class="flex space-x-10 items-center">
-				<File />
-				<h1 class="text-xl font-bold">Fiche Hospit - ASV</h1>
-			</div>
-			<FicheForm />
-		</div>
+	<div class="flex flex-col items-center justify-center h-auto pt-14 xl:pt-1">
+		<QuickAccess
+			title="Nouveau client"
+			description="Ajoutez de nouveaux clients en collectant rapidement les informations nécessaires"
+			color="pink"
+			href="/clients/new"
+			action="Ajouter"
+		>
+			<User />
+		</QuickAccess>
+		<QuickAccess
+			title="Gestion de stock"
+			description="Contrôlez totalement votre stock de clinique vétérinaire"
+			color="blue"
+			href="/store"
+			action="Gérer"
+		>
+			<Store />
+		</QuickAccess>
+		<QuickAccess
+			title="Agenda"
+			description="Organisez votre emploi du temps avec l'agenda intégré, 
+			simplifiant la planification des rendez-vous"
+			color="gray"
+			href="/agenda"
+			action="Consulter"
+		>
+			<Calendar />
+		</QuickAccess>
 	</div>
 </div>
