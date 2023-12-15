@@ -3,7 +3,10 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			pb: import('pocketbase').default;
+			user: import('pocketbase').AuthModel;
+		}
 		// interface PageData {}
 		// interface Platform {}
 	}
