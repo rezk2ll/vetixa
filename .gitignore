@@ -9,5 +9,5 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-prisma/migrations
-prisma/dev.db
+.vscode
+data
