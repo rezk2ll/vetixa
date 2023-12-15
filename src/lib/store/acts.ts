@@ -1,6 +1,10 @@
-import type { SurgicalAct, MedicalAct, ClinicalExams } from '@prisma/client';
 import { writable } from 'svelte/store';
+import type {
+	ClinicalExamsResponse,
+	MedicalActsResponse,
+	SurgicalActsResponse
+} from '../../pocketbase-types';
 
-export const medicalActs = writable<MedicalAct[]>();
-export const surgivalActs = writable<SurgicalAct[]>();
-export const clinicalExams = writable<ClinicalExams[]>();
+export const medicalActs = writable<MedicalActsResponse[]>();
+export const surgivalActs = writable<SurgicalActsResponse[]>();
+export const clinicalExams = writable<ClinicalExamsResponse[]>();
