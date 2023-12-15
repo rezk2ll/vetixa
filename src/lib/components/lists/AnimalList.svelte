@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Animal } from '@prisma/client';
 	import Modal from '../Modal.svelte';
 	import AddAnimalForm from '../forms/AddAnimalForm.svelte';
 	import { enhance } from '$app/forms';
@@ -7,11 +6,12 @@
 	import AgeDisplay from '../dispaly/AgeDisplay.svelte';
 	import Dog from '../icons/Dog.svelte';
 	import Cat from '../icons/Cat.svelte';
+	import type { AnimalsResponse } from '../../../pocketbase-types';
 
 	let openAddAnimalModal = false;
 
 	let deleteFormRef: HTMLFormElement;
-	let selectedItem: Animal | null;
+	let selectedItem: AnimalsResponse | null;
 	let showConfirmation = false;
 
 	$: handler = () => {
@@ -21,12 +21,14 @@
 		showConfirmation = false;
 	};
 
-	const remove = (item: Animal) => {
+	const remove = (item: AnimalsResponse) => {
 		selectedItem = item;
 		showConfirmation = true;
 	};
-	export let data: Animal[];
+	export let data: AnimalsResponse[];
 	export let canAdd: boolean = true;
+
+	$: console.debug({ data })
 </script>
 
 <form use:enhance action="?/removeAnimal" method="POST" class="hidden" bind:this={deleteFormRef}>

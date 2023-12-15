@@ -1,18 +1,22 @@
 <script lang="ts">
 	import SelectActForm from './../forms/SelectActForm.svelte';
 	import Modal from '../Modal.svelte';
-	import type { SurgicalAct, MedicalAct, ClinicalExams } from '@prisma/client';
+	import type {
+		ClinicalExamsResponse,
+		MedicalActsResponse,
+		SurgicalActsResponse
+	} from '../../../pocketbase-types';
 
 	export let title: string;
 	export let description: string;
-	export let items: SurgicalAct[] | MedicalAct[] | ClinicalExams[] = [];
+	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];
 	export let name: string;
 
 	let open = false;
-	let value: string = "";
+	let value: string = '';
 </script>
 
-<input type="hidden" {value} {name}>
+<input type="hidden" {value} {name} />
 <div
 	class="flex flex-col items-center py-6 space-y-3 text-center bg-gray-100 rounded-xl dark:bg-gray-800 h-full"
 >

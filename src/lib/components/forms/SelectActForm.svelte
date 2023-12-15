@@ -1,9 +1,13 @@
 <script lang="ts">
-	import type { MedicalAct, SurgicalAct, ClinicalExams } from '@prisma/client';
 	import Select from 'svelte-select';
+	import type {
+		SurgicalActsResponse,
+		MedicalActsResponse,
+		ClinicalExamsResponse
+	} from '../../../pocketbase-types';
 
 	export let title: string;
-	export let items: SurgicalAct[] | MedicalAct[] | ClinicalExams[];
+	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];
 	export let open = false;
 	export let value: string;
 
@@ -13,7 +17,7 @@
 	}));
 
 	const handleChane = (e: any) => {
-		value = JSON.stringify(e.detail.map((item: any) => ({ id: item.value })));
+		value = JSON.stringify(e.detail.map((item: any) => item.value));
 	};
 </script>
 

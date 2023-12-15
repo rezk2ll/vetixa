@@ -2,13 +2,13 @@
 	import AddClientForm from '$lib/components/forms/AddClientForm.svelte';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import type { Client } from '@prisma/client';
 	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
+	import type { ClientsResponse } from '../../../pocketbase-types';
 
 	let openAddClientModal = false;
 	let deleteFormRef: HTMLFormElement;
-	let selectedItem: Client | null;
+	let selectedItem: ClientsResponse | null;
 	let showConfirmation = false;
 
 	$: handler = () => {
@@ -18,14 +18,14 @@
 		showConfirmation = false;
 	};
 
-	const remove = (item: Client) => {
+	const remove = (item: ClientsResponse) => {
 		selectedItem = item;
 		showConfirmation = true;
 	};
 
 	export let data: ({
 		animals: { sex: string; name: string }[];
-	} & Client)[];
+	} & ClientsResponse)[];
 </script>
 
 <form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
@@ -37,11 +37,8 @@
 <ConfirmationDialog bind:show={showConfirmation} {handler}>
 	<div>
 		<div class="mt-2 text-center">
-			<h3
-				class="text-lg font-medium leading-6 text-gray-800 dark:text-white"
-				id="modal-title"
-			>
-				Supprimer { selectedItem?.name }
+			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+				Supprimer {selectedItem?.name}
 			</h3>
 			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 				Êtes-vous sûr de vouloir supprimer ce client ? Toutes vos données seront définitivement
@@ -58,7 +55,7 @@
 		<div
 			class="w-full xl:w-11/12 px-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded-2xl"
 		>
-			<div class="flex items-center gap-x-3 w-full ">
+			<div class="flex items-center gap-x-3 w-full">
 				<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 					<h2 class="text-lg font-medium text-gray-800 dark:text-white">Clients</h2>
 

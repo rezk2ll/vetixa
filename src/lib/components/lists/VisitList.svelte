@@ -1,16 +1,15 @@
 <script lang="ts">
 	import Modal from '$lib/components/Modal.svelte';
-	import type { Visit } from '@prisma/client';
 	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import AddVisitForm from '../forms/AddVisitForm.svelte';
-
 	import { fr } from 'date-fns/locale';
 	import { format } from 'date-fns';
+	import type { VisitsResponse } from '../../../pocketbase-types';
 
 	let openAddModal = false;
 	let deleteFormRef: HTMLFormElement;
-	let selectedItem: Visit | null;
+	let selectedItem: VisitsResponse | null;
 	let showConfirmation = false;
 
 	$: handler = () => {
@@ -20,37 +19,39 @@
 		showConfirmation = false;
 	};
 
-	const remove = (item: Visit) => {
+	const remove = (item: VisitsResponse) => {
 		selectedItem = item;
 		showConfirmation = true;
 	};
 
-	export let data: ({
-		Bill: {
-			id: number;
-			visitId: number;
-			paid: boolean;
-			method: string;
-		} | null;
-		clinical_exams: {
-			id: number;
-			name: string;
-			price: number;
-			code: string;
-		}[];
-		surgical_acts: {
-			id: number;
-			name: string;
-			price: number;
-			code: string;
-		}[];
-		medical_acts: {
-			id: number;
-			name: string;
-			price: number;
-			code: string;
-		}[];
-	} & Visit)[];
+	export let data:
+		| ({
+				Bill: {
+					id: string;
+					visitId: string;
+					paid: boolean;
+					method: string;
+				} | null;
+				clinical_exams: {
+					id: string;
+					name: string;
+					price: number;
+					code: string;
+				}[];
+				surgical_acts: {
+					id: string;
+					name: string;
+					price: number;
+					code: string;
+				}[];
+				medical_acts: {
+					id: string;
+					name: string;
+					price: number;
+					code: string;
+				}[];
+		  } & VisitsResponse)[]
+		| [];
 </script>
 
 <form use:enhance action="?/deleteVisit" method="POST" class="hidden" bind:this={deleteFormRef}>
@@ -64,7 +65,7 @@
 		{#if selectedItem?.date}
 			<div class="mt-2 text-center">
 				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
-					Supprimer la visite de {format(selectedItem.date, 'EEEE dd/LL/yyyy  HH:mm', {
+					Supprimer la visite de {format(new Date(selectedItem.created), 'EEEE dd/LL/yyyy  HH:mm', {
 						locale: fr
 					})}
 				</h3>
@@ -168,7 +169,7 @@
 														<h2
 															class="font-medium capitalize text-gray-800 dark:text-white hover:underline"
 														>
-															{format(visit.date, 'EEEE dd/LL/yyyy  HH:mm', { locale: fr })}
+															{format(new Date(visit.created), 'EEEE dd/LL/yyyy  HH:mm', { locale: fr })}
 														</h2>
 													</div>
 												</a>
