@@ -5,7 +5,7 @@ import { loginSchema } from '$lib/schemas';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.pb.authStore.isValid) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const form = await superValidate(loginSchema);
@@ -27,6 +27,6 @@ export const actions: Actions = {
 			return message(form, 'failed');
 		}
 
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 };

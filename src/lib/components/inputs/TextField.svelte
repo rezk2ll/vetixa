@@ -5,6 +5,7 @@
 	export let isInValid: boolean;
 	export let name: string;
 	export let required: boolean = true;
+	export let disabled: boolean = false;
 </script>
 
 <div class="relative mt-6">
@@ -14,6 +15,7 @@
 		{name}
 		bind:value
 		{placeholder}
+		{disabled}
 		type="text"
 		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'

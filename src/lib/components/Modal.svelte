@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let open = false;
-	export let size: 'small' | 'big' = 'small';
+	export let size: 'small' | 'medium' | 'big' = 'small';
 </script>
 
 <div class="relative flex justify-center">
@@ -22,6 +22,8 @@
 				class="relative w-full inline-block px-10 pt-5 pb-4 overflow-hidden text-middle align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm {size ===
 				'big'
 					? 'xl:max-w-screen-xl'
+					: size === 'medium'
+					? 'xl:max-w-xl'
 					: ''} sm:p-6 sm:align-middle"
 			>
 				<slot />

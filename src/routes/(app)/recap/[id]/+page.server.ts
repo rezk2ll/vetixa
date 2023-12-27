@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const id = +params.id;
 
 	if (isNaN(id)) {
-		throw redirect(301, '/404');
+		redirect(301, '/404');
 	}
 
 	const fiche = await prisma.fiche.findUnique({
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	});
 
 	if (!fiche) {
-		throw redirect(301, '/404');
+		redirect(301, '/404');
 	}
 
 	const diagnostics = await prisma.diagnostic.findMany({ where: { ficheId: id } });

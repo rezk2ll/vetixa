@@ -27,8 +27,6 @@
 	};
 	export let data: AnimalsResponse[];
 	export let canAdd: boolean = true;
-
-	$: console.debug({ data })
 </script>
 
 <form use:enhance action="?/removeAnimal" method="POST" class="hidden" bind:this={deleteFormRef}>

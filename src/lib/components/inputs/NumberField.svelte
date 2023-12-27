@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let label: string;
 	export let placeholder: string;
-	export let value: string;
+	export let value: number | string;
 	export let isInValid: boolean = false;
 	export let name: string;
+	export let onChange: (e: any) => void = () => {}
 </script>
 
 <div class="relative mt-6">
@@ -13,6 +14,7 @@
 		{name}
 		bind:value
 		{placeholder}
+		on:change={onChange}
 		type="number"
 		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'

@@ -6,7 +6,6 @@
 
 	let open = false;
 
-	$: console.log($currentUser);
 	$: avatarUrl = $currentUser && pb.files.getUrl($currentUser, $currentUser?.avatar);
 </script>
 

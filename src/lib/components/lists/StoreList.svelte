@@ -1,0 +1,378 @@
+<script lang="ts">
+	import { addInventoryItemSchema, sellInventoryItemSchema } from '$lib/schemas';
+	import type { SuperValidated } from 'sveltekit-superforms';
+	import Modal from '../Modal.svelte';
+	import AddInventoryItemForm from '../forms/addInventoryItemForm.svelte';
+	import { inventoryItems } from '$lib/store/inventory';
+	import type { StatusFilter } from '../../../types';
+	import SellInventoryItemForm from '../forms/sellInventoryItemForm.svelte';
+
+	export let addForm: SuperValidated<typeof addInventoryItemSchema>;
+	export let sellForm: SuperValidated<typeof sellInventoryItemSchema>;
+
+	let openAddInventoryItemModal = false;
+	let openSellInventoryItemModal = false;
+	let statusFilter: StatusFilter = 'all';
+	let search: string;
+	let page = 0;
+	const totalPages = Math.ceil($inventoryItems.length / 10);
+
+	$: items = $inventoryItems.filter((item) => {
+		if (search && search.length) {
+			if (!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
+				return false;
+			}
+		}
+
+		if (statusFilter === 'alert') {
+			return item.quantity < 10 && item.quantity > 0;
+		}
+
+		if (statusFilter === 'available') {
+			return item.quantity > 10;
+		}
+
+		if (statusFilter === 'unavailable') {
+			return item.quantity === 0;
+		}
+
+		return true;
+	});
+
+	$: pageItems = items.slice(page * 10, page * 10 + 10);
+
+	$: availableCount = $inventoryItems.filter((item) => item.quantity > 10).length;
+	$: alertCount = $inventoryItems.filter((item) => item.quantity < 10 && item.quantity > 0).length;
+	$: unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
+</script>
+
+<Modal bind:open={openAddInventoryItemModal} size="medium">
+	<AddInventoryItemForm bind:addForm bind:open={openAddInventoryItemModal} />
+</Modal>
+
+<Modal bind:open={openSellInventoryItemModal} size="medium">
+	<SellInventoryItemForm bind:sellForm bind:open={openSellInventoryItemModal} />
+</Modal>
+
+<div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
+	<div
+		class="w-full px-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded"
+	>
+		<div class="flex flex-col space-y-4">
+			<div class="flex items-center justify-between w-full gr">
+				<div>
+					<div class="flex items-center gap-x-3">
+						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Inventaire</h2>
+						<span
+							class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
+							>{$inventoryItems.length} articles</span
+						>
+					</div>
+
+					<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
+						La liste des articles est inscrite à l'inventaire
+					</p>
+				</div>
+
+				<div class="flex items-center mt-4 gap-x-3">
+					<button
+						on:click={() => (openAddInventoryItemModal = true)}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-5 h-5"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+
+						<span>Ajouter</span>
+					</button>
+					<button
+						on:click={() => (openSellInventoryItemModal = true)}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600 dark:hover:bg-emerald-500 dark:bg-emerald-600"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							height="16"
+							width="18"
+							viewBox="0 0 576 512"
+							fill="currentColor"
+							><path
+								d="M253.3 35.1c6.1-11.8 1.5-26.3-10.2-32.4s-26.3-1.5-32.4 10.2L117.6 192H32c-17.7 0-32 14.3-32 32s14.3 32 32 32L83.9 463.5C91 492 116.6 512 146 512H430c29.4 0 55-20 62.1-48.5L544 256c17.7 0 32-14.3 32-32s-14.3-32-32-32H458.4L365.3 12.9C359.2 1.2 344.7-3.4 332.9 2.7s-16.3 20.6-10.2 32.4L404.3 192H171.7L253.3 35.1zM192 304v96c0 8.8-7.2 16-16 16s-16-7.2-16-16V304c0-8.8 7.2-16 16-16s16 7.2 16 16zm96-16c8.8 0 16 7.2 16 16v96c0 8.8-7.2 16-16 16s-16-7.2-16-16V304c0-8.8 7.2-16 16-16zm128 16v96c0 8.8-7.2 16-16 16s-16-7.2-16-16V304c0-8.8 7.2-16 16-16s16 7.2 16 16z"
+							/></svg
+						>
+
+						<span>Vendre</span>
+					</button>
+				</div>
+			</div>
+			<div class="flex items-center justify-between">
+				<div
+					class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+				>
+					<button
+						on:click={() => (statusFilter = 'all')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						'all'
+							? 'bg-gray-100'
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+					>
+						Tout
+					</button>
+					<button
+						on:click={() => (statusFilter = 'available')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						'available'
+							? 'bg-gray-100'
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+					>
+						En Stock
+						<span
+							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						>
+							{availableCount}
+						</span>
+					</button>
+					<button
+						on:click={() => (statusFilter = 'alert')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						'alert'
+							? 'bg-gray-100'
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+					>
+						En Alerte
+						<span
+							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						>
+							{alertCount}
+						</span>
+					</button>
+
+					<button
+						on:click={() => (statusFilter = 'unavailable')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						'unavailable'
+							? 'bg-gray-100'
+							: ''} sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+					>
+						En Rupture
+						<span
+							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						>
+							{unavailableCount}
+						</span>
+					</button>
+				</div>
+
+				<div class="flex items-center mt-0 h-6">
+					<span class="absolute">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+							/>
+						</svg>
+					</span>
+
+					<input
+						bind:value={search}
+						type="text"
+						placeholder="Rechercher"
+						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+					/>
+				</div>
+			</div>
+			<div class="flex flex-col mt-6">
+				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+					<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+								<thead class="bg-gray-50 dark:bg-gray-800">
+									<tr>
+										<th
+											scope="col"
+											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>
+											<span>Nom</span>
+										</th>
+
+										<th
+											scope="col"
+											class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>
+											Status
+										</th>
+
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>
+											Quantité
+										</th>
+
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>Prix de vente</th
+										>
+
+										<th scope="col" class="relative py-3.5 px-4">
+											<span class="sr-only">Edit</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody
+									class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
+								>
+									{#each pageItems as item}
+										<tr>
+											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+												<div>
+													<h2 class="font-medium text-gray-800 dark:text-white">{item.name}</h2>
+													<p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+														code: {item.code}
+													</p>
+													<p
+														class="text-sm font-normal text-gray-600 dark:text-gray-400 first-letter:capitalize"
+													>
+														{@html item.description}
+													</p>
+												</div>
+											</td>
+											<td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+												{#if item.quantity > 10}
+													<div
+														class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800"
+													>
+														Disponible
+													</div>
+												{:else if item.quantity < 10 && item.quantity > 0}
+													<div
+														class="inline px-3 py-1 text-sm font-normal rounded-full text-orange-500 gap-x-2 bg-orange-100/60 dark:bg-gray-800"
+													>
+														En alerte
+													</div>
+												{:else}
+													<div
+														class="inline px-3 py-1 text-sm font-normal rounded-full text-red-500 gap-x-2 bg-red-100/60 dark:bg-gray-800"
+													>
+														En rupture
+													</div>
+												{/if}
+											</td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.quantity} </td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.price} </td>
+
+											<td class="px-4 py-4 text-sm whitespace-nowrap">
+												<button
+													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
+												>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke-width="1.5"
+														stroke="currentColor"
+														class="w-6 h-6"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+														/>
+													</svg>
+												</button>
+											</td>
+										</tr>
+									{/each}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
+				<div class="text-sm text-gray-500 dark:text-gray-400">
+					Page <span class="font-medium text-gray-700 dark:text-gray-100"
+						>{page + 1} sur {totalPages}</span
+					>
+				</div>
+
+				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
+					<button
+						on:click={() => (page -= 1)}
+						disabled={page <= 0}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
+						0
+							? 'bg-slate-200'
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
+							? 'hover:bg-slate-200'
+							: 'hover:bg-gray-100'}  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-5 h-5 rtl:-scale-x-100"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+							/>
+						</svg>
+
+						<span> précédent </span>
+					</button>
+
+					<button
+						disabled={page >= totalPages - 1}
+						on:click={() => (page += 1)}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >= totalPages - 1
+							? 'bg-slate-200'
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
+							? 'hover:bg-slate-200'
+							: 'hover:bg-gray-100'} dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+					>
+						<span> Suivant </span>
+
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-5 h-5 rtl:-scale-x-100"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+							/>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
