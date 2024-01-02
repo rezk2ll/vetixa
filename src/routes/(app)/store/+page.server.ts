@@ -1,16 +1,24 @@
 import { message, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
-import { addInventoryItemSchema, sellInventoryItemSchema } from '$lib/schemas';
+import {
+	addInventoryItemSchema,
+	deleteInventoryItemSchema,
+	sellInventoryItemSchema,
+	updateInventoryItemSchema
+} from '$lib/schemas';
 import type {
 	InventoryItemResponse,
 	InventorySaleRecord,
 	InventorySaleResponse
 } from '../../../pocketbase-types';
 import type { RecordModel } from 'pocketbase';
+import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {
 	const addForm = await superValidate(addInventoryItemSchema, { id: 'addForm' });
 	const sellForm = await superValidate(sellInventoryItemSchema, { id: 'sellForm' });
+	const updateForm = await superValidate(updateInventoryItemSchema, { id: 'updateForm' });
+	const deleteForm = await superValidate(deleteInventoryItemSchema, { id: 'deleteForm' });
 
 	const items = await pb.collection('inventory_item').getFullList<InventoryItemResponse>();
 	const monthlySales = await pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
@@ -46,11 +54,13 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 
 	const totalSoldItems = totalSales.reduce((acc, curr) => {
 		return acc + curr.quantity;
-	}, 0)
+	}, 0);
 
 	return {
 		addForm,
 		sellForm,
+		updateForm,
+		deleteForm,
 		items,
 		totalSales: totalSales.length,
 		dailyRevenu,
@@ -64,26 +74,26 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 
 export const actions: Actions = {
 	add: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, addInventoryItemSchema);
+		const addForm = await superValidate(request, addInventoryItemSchema);
 
 		try {
-			if (!form.valid) {
-				return message(form, 'Invalid data');
+			if (!addForm.valid) {
+				return fail(400, { addForm })
 			}
 
 			const item = await pb
 				.collection('inventory_item')
-				.getList(1, 1, { filter: `code = ${form.data.code}` });
+				.getList(1, 1, { filter: `code = ${addForm.data.code}` });
 
 			if (item.totalItems != 0) {
-				return message(form, 'Item already exists');
+				return fail(400, { addForm })
 			}
 
-			await pb.collection('inventory_item').create(form.data);
+			await pb.collection('inventory_item').create(addForm.data);
 
-			return { success: true };
+			return { addForm };
 		} catch (error) {
-			return message(form, 'Failed to add inventory item');
+			return fail(400, { addForm });
 		}
 	},
 	sell: async ({ locals: { pb, user }, request }) => {
@@ -123,8 +133,37 @@ export const actions: Actions = {
 
 			return { form };
 		} catch (error) {
-			console.log({ error });
 			return message(form, 'Failed to sell inventory item');
+		}
+	},
+	delete: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, deleteInventoryItemSchema);
+
+		try {
+			if (!form.valid) {
+				return message(form, 'invalid item id');
+			}
+
+			await pb.collection('inventory_item').delete(form.data.id);
+			return { form };
+		} catch (error) {
+			return message(form, 'Failed to delete inventory item');
+		}
+	},
+	update: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, updateInventoryItemSchema);
+		try {
+			if (!form.valid) {
+				console.log(form.data);
+				return message(form, 'Invalid data');
+			}
+
+			await pb.collection('inventory_item').update(form.data.id, form.data);
+
+			return { form };
+		} catch (error) {
+			console.log(error);
+			return message(form, 'Failed to update inventory item');
 		}
 	}
 };

@@ -1,22 +1,38 @@
 <script lang="ts">
-	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
-	import type { addInventoryItemSchema } from '$lib/schemas';
+	import type { updateInventoryItemSchema } from '$lib/schemas';
+	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '../inputs/NumberField.svelte';
+	import TextAreaField from '../inputs/TextAreaField.svelte';
 	import TextField from '../inputs/TextField.svelte';
-	import type { SuperValidated } from 'sveltekit-superforms';
+	import type { InventoryItemResponse } from '../../../pocketbase-types';
 
 	export let open = false;
-	export let addForm: SuperValidated<typeof addInventoryItemSchema>;
+	export let updateForm: SuperValidated<typeof updateInventoryItemSchema>;
+	export let item: InventoryItemResponse;
 
-	const { form, message, enhance } = superForm(addForm, {
-		resetForm: true,
+	const { form, message } = superForm(updateForm, {
+		clearOnSubmit: 'errors-and-message',
+		applyAction: true,
+		resetForm: false,
+		invalidateAll: true,
+		dataType: 'json',
 		onResult: ({ result }) => {
-			if (result.type === 'success') {
+			if (result.type === "success") {
 				location.reload();
 			}
 		}
 	});
+
+	$: {
+		$form.id = item.id;
+		$form.name = item.name;
+		$form.quantity = item.quantity;
+		$form.price = item.price;
+		$form.cost = item.cost;
+		$form.description = item.description;
+		$form.code = item.code;
+	}
 </script>
 
 <div>
@@ -33,7 +49,7 @@
 			class="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
 			id="modal-title"
 		>
-			Nouvel article
+			mettre à jour {item.name}
 		</h3>
 		<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 			Veuillez remplir le formulaire ci-dessous avec des détails précis
@@ -46,7 +62,8 @@
 	</div>
 </div>
 
-<form use:enhance action="?/add" class="mt-4" method="POST">
+<form action="?/update" class="mt-4" method="POST">
+	<input type="hidden" name="id" bind:value={item.id} />
 	<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 	<TextField name="code" label="Code" bind:value={$form.code} isInValid={false} />
 	<NumberField
@@ -89,7 +106,7 @@
 
 		<button
 			type="submit"
-			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-emerald-500 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
 		>
 			Confirmer
 		</button>

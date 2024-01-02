@@ -4,7 +4,6 @@
 	import { inventoryItems } from '$lib/store/inventory';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
-	import type { InventoryItemResponse } from '../../../pocketbase-types';
 	import Select from 'svelte-select';
 	import NumberField from '../inputs/NumberField.svelte';
 
@@ -16,7 +15,12 @@
 		applyAction: true,
 		resetForm: false,
 		invalidateAll: true,
-		dataType: 'json'
+		dataType: 'json',
+		onResult: ({ result }) => {
+			if (result.type === "success") {
+				location.reload();
+			}
+		}
 	});
 
 	let selectedValue = '';

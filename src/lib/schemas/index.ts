@@ -34,3 +34,11 @@ const inventoryItemSchema = z.object({
 export const sellInventoryItemSchema = z.object({
 	items: z.array(inventoryItemSchema).nonempty()
 });
+
+export const updateInventoryItemSchema = addInventoryItemSchema.extend({
+	id: z.string().min(1)
+});
+
+export const deleteInventoryItemSchema = z.object({
+	id: z.string().min(1)
+})

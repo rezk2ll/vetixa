@@ -28,7 +28,7 @@
 	} & ClientsResponse)[];
 </script>
 
-<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
+<form action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
 	{#if selectedItem}
 		<input type="hidden" name="id" bind:value={selectedItem.id} />
 	{/if}

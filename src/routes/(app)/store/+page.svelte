@@ -11,6 +11,8 @@
 	const {
 		sellForm,
 		addForm,
+		updateForm,
+		deleteForm,
 		items,
 		totalSales,
 		monthlyRevenu,
@@ -28,7 +30,7 @@
 	$: stats = [
 		$inventoryItems.filter((item) => item.quantity === 0).length,
 		$inventoryItems.filter((item) => item.quantity > 10).length,
-		$inventoryItems.filter((item) => item.quantity < 10 && item.quantity > 0).length
+		$inventoryItems.filter((item) => item.quantity <= 10 && item.quantity > 0).length
 	];
 </script>
 
@@ -39,7 +41,7 @@
 			unavailable={stats[0]}
 			{...{ totalSales, monthlyRevenu, monthlySales, dailyRevenu, dailySales }}
 		/>
-		<StoreList {addForm} {sellForm} />
+		<StoreList {addForm} {sellForm} {updateForm} {deleteForm} />
 	</div>
 	<div class="flex-shrink w-4/12 flex flex-col px-10 gap-0">
 		<StockStatusChart bind:data={stats} />

@@ -1,20 +1,37 @@
 <script lang="ts">
-	import { addInventoryItemSchema, sellInventoryItemSchema } from '$lib/schemas';
+	import type {
+		addInventoryItemSchema,
+		deleteInventoryItemSchema,
+		sellInventoryItemSchema,
+		updateInventoryItemSchema
+	} from '$lib/schemas';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import Modal from '../Modal.svelte';
 	import AddInventoryItemForm from '../forms/addInventoryItemForm.svelte';
 	import { inventoryItems } from '$lib/store/inventory';
 	import type { StatusFilter } from '../../../types';
 	import SellInventoryItemForm from '../forms/sellInventoryItemForm.svelte';
+	import ConfirmationDialog from '../ConfirmationDialog.svelte';
+	import type { InventoryItemResponse } from '../../../pocketbase-types';
+	import UpdateInventoryItemForm from '../forms/updateInventoryItemForm.svelte';
+	import { superForm } from 'sveltekit-superforms/client';
 
 	export let addForm: SuperValidated<typeof addInventoryItemSchema>;
 	export let sellForm: SuperValidated<typeof sellInventoryItemSchema>;
+	export let updateForm: SuperValidated<typeof updateInventoryItemSchema>;
+	export let deleteForm: SuperValidated<typeof deleteInventoryItemSchema>;
 
 	let openAddInventoryItemModal = false;
 	let openSellInventoryItemModal = false;
+	let openUpdateInventoryItemModal = false;
 	let statusFilter: StatusFilter = 'all';
 	let search: string;
 	let page = 0;
+	let showConfirmation = false;
+	let selectedItem: InventoryItemResponse | null;
+	let deleteFormRef: HTMLFormElement;
+	let selectedUpdateItem: InventoryItemResponse | null;
+
 	const totalPages = Math.ceil($inventoryItems.length / 10);
 
 	$: items = $inventoryItems.filter((item) => {
@@ -25,7 +42,7 @@
 		}
 
 		if (statusFilter === 'alert') {
-			return item.quantity < 10 && item.quantity > 0;
+			return item.quantity <= 10 && item.quantity > 0;
 		}
 
 		if (statusFilter === 'available') {
@@ -42,8 +59,33 @@
 	$: pageItems = items.slice(page * 10, page * 10 + 10);
 
 	$: availableCount = $inventoryItems.filter((item) => item.quantity > 10).length;
-	$: alertCount = $inventoryItems.filter((item) => item.quantity < 10 && item.quantity > 0).length;
+	$: alertCount = $inventoryItems.filter((item) => item.quantity <= 10 && item.quantity > 0).length;
 	$: unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
+
+	$: handler = () => {
+		deleteFormRef.requestSubmit();
+
+		selectedItem = null;
+		showConfirmation = false;
+	};
+
+	const remove = (item: InventoryItemResponse) => {
+		selectedItem = item;
+		showConfirmation = true;
+	};
+
+	$: update = (item: InventoryItemResponse) => {
+		selectedUpdateItem = item;
+		openUpdateInventoryItemModal = true;
+	};
+
+	const { enhance } = superForm(deleteForm, {
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				location.reload();
+			}
+		}
+	});
 </script>
 
 <Modal bind:open={openAddInventoryItemModal} size="medium">
@@ -53,6 +95,36 @@
 <Modal bind:open={openSellInventoryItemModal} size="medium">
 	<SellInventoryItemForm bind:sellForm bind:open={openSellInventoryItemModal} />
 </Modal>
+
+<Modal bind:open={openUpdateInventoryItemModal} size="medium">
+	{#if selectedUpdateItem}
+		<UpdateInventoryItemForm
+			bind:updateForm
+			bind:open={openUpdateInventoryItemModal}
+			item={selectedUpdateItem}
+		/>
+	{/if}
+</Modal>
+
+<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
+	{#if selectedItem}
+		<input type="hidden" name="id" bind:value={selectedItem.id} />
+	{/if}
+</form>
+
+<ConfirmationDialog bind:show={showConfirmation} {handler}>
+	<div>
+		<div class="mt-2 text-center">
+			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+				Supprimer {selectedItem?.name}
+			</h3>
+			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+				Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront définitivement
+				supprimé. Cette action ne peut pas être annulée.
+			</p>
+		</div>
+	</div>
+</ConfirmationDialog>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
 	<div
@@ -117,10 +189,13 @@
 			</div>
 			<div class="flex items-center justify-between">
 				<div
-					class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
 				>
 					<button
-						on:click={() => (statusFilter = 'all')}
+						on:click={() => {
+							statusFilter = 'all';
+							page = 0;
+						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'all'
 							? 'bg-gray-100'
@@ -129,7 +204,10 @@
 						Tout
 					</button>
 					<button
-						on:click={() => (statusFilter = 'available')}
+						on:click={() => {
+							statusFilter = 'available';
+							page = 0;
+						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'available'
 							? 'bg-gray-100'
@@ -143,7 +221,10 @@
 						</span>
 					</button>
 					<button
-						on:click={() => (statusFilter = 'alert')}
+						on:click={() => {
+							statusFilter = 'alert';
+							page = 0;
+						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'alert'
 							? 'bg-gray-100'
@@ -158,11 +239,14 @@
 					</button>
 
 					<button
-						on:click={() => (statusFilter = 'unavailable')}
+						on:click={() => {
+							statusFilter = 'unavailable';
+							page = 0;
+						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'unavailable'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
 					>
 						En Rupture
 						<span
@@ -263,7 +347,7 @@
 													>
 														Disponible
 													</div>
-												{:else if item.quantity < 10 && item.quantity > 0}
+												{:else if item.quantity <= 10 && item.quantity > 0}
 													<div
 														class="inline px-3 py-1 text-sm font-normal rounded-full text-orange-500 gap-x-2 bg-orange-100/60 dark:bg-gray-800"
 													>
@@ -282,6 +366,8 @@
 
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
 												<button
+													type="button"
+													on:click={() => update(item)}
 													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 												>
 													<svg
@@ -290,12 +376,32 @@
 														viewBox="0 0 24 24"
 														stroke-width="1.5"
 														stroke="currentColor"
-														class="w-6 h-6"
+														class="w-5 h-5"
 													>
 														<path
 															stroke-linecap="round"
 															stroke-linejoin="round"
-															d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+															d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+														/>
+													</svg>
+												</button>
+												<button
+													type="button"
+													on:click={() => remove(item)}
+													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
+												>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke-width="1.5"
+														stroke="currentColor"
+														class="w-5 h-5"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
 														/>
 													</svg>
 												</button>
@@ -348,7 +454,8 @@
 					<button
 						disabled={page >= totalPages - 1}
 						on:click={() => (page += 1)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >= totalPages - 1
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
+						totalPages - 1
 							? 'bg-slate-200'
 							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
 							? 'hover:bg-slate-200'
