@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 	const client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
 
 	if (!client) {
-		redirect(301, '/404');
+		throw redirect(301, '/404');
 	}
 
 	const animals: AnimalsResponse[] = client.expand?.['animals(client)'] || [];

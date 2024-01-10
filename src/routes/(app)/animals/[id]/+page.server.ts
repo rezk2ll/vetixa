@@ -42,7 +42,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 	const surgicalActs = await pb.collection('surgical_acts').getFullList<SurgicalActsResponse>();
 
 	if (!animal) {
-		redirect(301, '/404');
+		throw redirect(301, '/404');
 	}
 
 	return { animal: expandedAnimal, medicalActs, clinicalExams, surgicalActs };
@@ -77,7 +77,7 @@ export const actions: Actions = {
 		const animal = await pb.collection('animals').getOne(id);
 
 		if (!animal) {
-			redirect(301, '/404');
+			throw redirect(301, '/404');
 		}
 
 		const visit = await pb.collection('visits').create<VisitsResponse>({
