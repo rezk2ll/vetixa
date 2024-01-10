@@ -3,9 +3,8 @@
 	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import AddVisitForm from '../forms/AddVisitForm.svelte';
-	import { fr } from 'date-fns/locale';
-	import { format } from 'date-fns';
 	import type { VisitsResponse } from '../../../pocketbase-types';
+	import { formatDateString } from '$lib/utils/date';
 
 	let openAddModal = false;
 	let deleteFormRef: HTMLFormElement;
@@ -65,9 +64,7 @@
 		{#if selectedItem?.date}
 			<div class="mt-2 text-center">
 				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
-					Supprimer la visite de {format(new Date(selectedItem.created), 'EEEE dd/LL/yyyy  HH:mm', {
-						locale: fr
-					})}
+					Supprimer la visite de {formatDateString(selectedItem.created)}
 				</h3>
 				<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 					Êtes-vous sûr de vouloir supprimer cette visite ? Toutes vos données seront définitivement
@@ -167,9 +164,9 @@
 												<a href="/visit/{visit.id}" class="flex items-center gap-x-2">
 													<div>
 														<h2
-															class="font-medium capitalize text-gray-800 dark:text-white hover:underline"
+															class="capitalize font-medium text-gray-800 dark:text-white hover:underline"
 														>
-															{format(new Date(visit.created), 'EEEE dd/LL/yyyy  HH:mm', { locale: fr })}
+															{formatDateString(visit.created)}
 														</h2>
 													</div>
 												</a>
