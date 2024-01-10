@@ -12,10 +12,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	} catch (_) {
 		pb.authStore.clear();
-
-    console.log(_)
+		console.log(_);
 	}
 
+	pb.autoCancellation(false);
 	event.locals.pb = pb;
 	event.locals.user = pb.authStore.model;
 
