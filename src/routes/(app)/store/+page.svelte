@@ -1,7 +1,7 @@
 <script lang="ts">
-	import StockStats from '$lib/components/charts/StockStats.svelte';
-	import StockSalesRank from '$lib/components/charts/StockSalesRank.svelte';
-	import StockStatusChart from '$lib/components/charts/StockStatusChart.svelte';
+	import StockStats from '$lib/components/charts/stock/StockStats.svelte';
+	import StockSalesRank from '$lib/components/charts/stock/StockSalesRank.svelte';
+	import StockStatusChart from '$lib/components/charts/stock/StockStatusChart.svelte';
 	import StoreList from '$lib/components/lists/StoreList.svelte';
 	import type { PageData } from './$types';
 	import { inventoryItems } from '$lib/store/inventory';
