@@ -9,7 +9,7 @@
 	import Modal from '../Modal.svelte';
 	import AddInventoryItemForm from '../forms/addInventoryItemForm.svelte';
 	import { inventoryItems } from '$lib/store/inventory';
-	import type { StatusFilter } from '../../../types';
+	import type { storeStatusFilter as StatusFilter } from '../../../types';
 	import SellInventoryItemForm from '../forms/sellInventoryItemForm.svelte';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import type { InventoryItemResponse } from '../../../pocketbase-types';
@@ -126,12 +126,10 @@
 	</div>
 </ConfirmationDialog>
 
-<div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
-	<div
-		class="w-full px-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded"
-	>
+<div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-4">
+	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4">
-			<div class="flex items-center justify-between w-full gr">
+			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
 				<div>
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Inventaire</h2>
@@ -146,7 +144,7 @@
 					</p>
 				</div>
 
-				<div class="flex items-center mt-4 gap-x-3">
+				<div class="flex items-center mt-4 gap-x-2">
 					<button
 						on:click={() => (openAddInventoryItemModal = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
@@ -187,7 +185,9 @@
 					</button>
 				</div>
 			</div>
-			<div class="flex items-center justify-between">
+			<div
+				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
+			>
 				<div
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
 				>
@@ -279,13 +279,13 @@
 						bind:value={search}
 						type="text"
 						placeholder="Rechercher"
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-60 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
 					/>
 				</div>
 			</div>
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-					<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
 						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
 							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
 								<thead class="bg-gray-50 dark:bg-gray-800">
@@ -295,6 +295,13 @@
 											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>
 											<span>Nom</span>
+										</th>
+
+										<th
+											scope="col"
+											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>
+											<span>code</span>
 										</th>
 
 										<th
@@ -330,15 +337,17 @@
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
 												<div>
 													<h2 class="font-medium text-gray-800 dark:text-white">{item.name}</h2>
-													<p class="text-sm font-normal text-gray-600 dark:text-gray-400">
-														code: {item.code}
-													</p>
 													<p
 														class="text-sm font-normal text-gray-600 dark:text-gray-400 first-letter:capitalize"
 													>
 														{@html item.description}
 													</p>
 												</div>
+											</td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap">
+												<p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+													{item.code}
+												</p>
 											</td>
 											<td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
 												{#if item.quantity > 10}
