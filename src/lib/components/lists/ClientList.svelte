@@ -2,7 +2,6 @@
 	import AddClientForm from '$lib/components/forms/AddClientForm.svelte';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import type { ClientsResponse } from '../../../pocketbase-types';
 
