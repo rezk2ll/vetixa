@@ -14,6 +14,7 @@ export enum Collections {
 	InventoryItem = "inventory_item",
 	InventorySale = "inventory_sale",
 	MedicalActs = "medical_acts",
+	Queue = "queue",
 	SurgicalActs = "surgical_acts",
 	Users = "users",
 	Visits = "visits",
@@ -112,6 +113,11 @@ export type MedicalActsRecord = {
 	price?: number
 }
 
+export type QueueRecord = {
+	served?: boolean
+	visit?: RecordIdString
+}
+
 export type SurgicalActsRecord = {
 	code?: string
 	name?: string
@@ -143,6 +149,7 @@ export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransacti
 export type InventoryItemResponse<Texpand = unknown> = Required<InventoryItemRecord> & BaseSystemFields<Texpand>
 export type InventorySaleResponse<Texpand = unknown> = Required<InventorySaleRecord> & BaseSystemFields<Texpand>
 export type MedicalActsResponse<Texpand = unknown> = Required<MedicalActsRecord> & BaseSystemFields<Texpand>
+export type QueueResponse<Texpand = unknown> = Required<QueueRecord> & BaseSystemFields<Texpand>
 export type SurgicalActsResponse<Texpand = unknown> = Required<SurgicalActsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 export type VisitsResponse<Texpand = unknown> = Required<VisitsRecord> & BaseSystemFields<Texpand>
@@ -158,6 +165,7 @@ export type CollectionRecords = {
 	inventory_item: InventoryItemRecord
 	inventory_sale: InventorySaleRecord
 	medical_acts: MedicalActsRecord
+	queue: QueueRecord
 	surgical_acts: SurgicalActsRecord
 	users: UsersRecord
 	visits: VisitsRecord
@@ -172,6 +180,7 @@ export type CollectionResponses = {
 	inventory_item: InventoryItemResponse
 	inventory_sale: InventorySaleResponse
 	medical_acts: MedicalActsResponse
+	queue: QueueResponse
 	surgical_acts: SurgicalActsResponse
 	users: UsersResponse
 	visits: VisitsResponse
@@ -189,6 +198,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'inventory_item'): RecordService<InventoryItemResponse>
 	collection(idOrName: 'inventory_sale'): RecordService<InventorySaleResponse>
 	collection(idOrName: 'medical_acts'): RecordService<MedicalActsResponse>
+	collection(idOrName: 'queue'): RecordService<QueueResponse>
 	collection(idOrName: 'surgical_acts'): RecordService<SurgicalActsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 	collection(idOrName: 'visits'): RecordService<VisitsResponse>
