@@ -71,3 +71,34 @@ export const getPreviousDaysLabels = (date: Date, length: number = 7): string[] 
 export const sortDates = (start: string, end: string): number => {
 	return new Date(end).getTime() - new Date(start).getTime();
 };
+
+/**
+ * calculate the difference between two dates
+ *
+ * @param {string} begin - the start date
+ * @param {number} end - the end date timestamp
+ */
+export const calculateDiff = (begin: string, end: number): string => {
+	const date = new Date(begin);
+	const diff = end - date.getTime();
+
+	const hours = Math.floor(diff / (1000 * 60 * 60));
+	const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+	const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+	let displayTime = '';
+
+	if (hours > 0) {
+		displayTime += `${hours}h `;
+	}
+
+	if (minutes > 0) {
+		displayTime += `${minutes}m `;
+	}
+
+	if (seconds > 0) {
+		displayTime += `${seconds}s`;
+	}
+
+	return displayTime;
+};
