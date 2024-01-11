@@ -51,3 +51,7 @@ export const addFundsSchema = z.object({
 		.refine((n) => n > 0),
 	description: z.string().optional().default('')
 });
+
+export const updateQueueSchema = z.object({
+	id: z.string().min(1)
+});
