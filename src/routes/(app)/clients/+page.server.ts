@@ -1,59 +1,84 @@
-import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { ClientsResponse } from '../../../pocketbase-types';
 import type { RecordModel } from 'pocketbase';
+import { message, superValidate } from 'sveltekit-superforms/server';
+import { addClientSchema, removeClientSchema, updateClientSchema } from '$lib/schemas';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {
-	const clients = await pb
+	const addForm = await superValidate(addClientSchema, { id: 'add-client' });
+	const updateForm = await superValidate(updateClientSchema, { id: 'update-client' });
+	const deleteForm = await superValidate(removeClientSchema, { id: 'delete-client' });
+
+	const clientsList = await pb
 		.collection('clients')
 		.getFullList<ClientsResponse>({ expand: 'animals(client)' });
 
-	const clientsWithAnimals = clients.map((client) => ({
+	const clients = clientsList.map((client) => ({
 		...client,
 		animals: (client.expand as RecordModel['expand'])?.['animals(client)'] || []
 	}));
 
-	return { clients: clientsWithAnimals };
+	return { clients, addForm, updateForm, deleteForm };
 };
 
 export const actions: Actions = {
-	add: async ({ request, locals: { pb } }) => {
+	addClient: async ({ request, locals: { pb } }) => {
+		const form = await superValidate(request, addClientSchema, { id: 'add-client' });
 		try {
-			const data = await request.formData();
+			if (!form.valid) {
+				return message(form, 'Invalid data', { status: 400 });
+			}
 
-			const firstName = data.get('firstname') as string;
-			const lastName = data.get('lastname') as string;
-			const email = data.get('email') as string;
-			const tel = data.get('phone') as string;
-			const address = data.get('address') as string;
-
-			const name = `${firstName} ${lastName}`;
-
-			await pb.collection('clients').create({
-				firstName,
-				lastName,
-				name,
-				address,
-				tel,
-				email
-			});
-
-			return { success: true };
+			await pb.collection('clients').create(form.data);
 		} catch (error) {
-			return fail(500, { message: 'error' });
-		}
-	},
-	delete: async ({ request, locals: { pb } }) => {
-		try {
-			const data = await request.formData();
+			console.error(error);
 
-			const id = data.get('id') as string;
+			return message(form, 'Failed to add client', { status: 500 });
+		}
+
+		return { form };
+	},
+
+	removeClient: async ({ request, locals: { pb } }) => {
+		const form = await superValidate(request, removeClientSchema, { id: 'delete-client' });
+		try {
+			if (!form.valid) {
+				return message(form, 'Invalid data', { status: 400 });
+			}
+
+			const { id } = form.data;
+
+			const client = await pb.collection('clients').getOne(id);
+
+			if (client.animals && client.animals.length > 0) {
+				return message(form, 'Client has animals assigned', { status: 400 });
+			}
 
 			await pb.collection('clients').delete(id);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 
-			return fail(500, { message: 'Failed to delete client' });
+			return message(form, 'Failed to delete client', { status: 500 });
 		}
+
+		return { form };
+	},
+
+	updateClient: async ({ request, locals: { pb } }) => {
+		const form = await superValidate(request, updateClientSchema, { id: 'update-client' });
+
+		try {
+			if (!form.valid) {
+				return message(form, 'Failed to update client');
+			}
+
+			await pb.collection('clients').update(form.data.id, form.data);
+		} catch (error) {
+			console.error(error);
+
+			return message(form, 'Failed to update client');
+		}
+
+		return { form };
 	}
 };

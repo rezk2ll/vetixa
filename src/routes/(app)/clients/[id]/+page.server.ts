@@ -2,11 +2,16 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { AnimalsResponse, ClientsResponse } from '../../../../pocketbase-types';
 import { message, superValidate } from 'sveltekit-superforms/server';
-import { addAnimalSchema, removeAnimalSchema, updateAnimalSchema } from '$lib/schemas';
+import {
+	addAnimalSchema,
+	removeAnimalSchema,
+	updateAnimalSchema,
+	updateClientSchema
+} from '$lib/schemas';
 
 export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 	const { id } = params;
-
+	const form = await superValidate(updateClientSchema, { id: 'update-client' });
 	const addForm = superValidate(addAnimalSchema, { id: 'add-animal' });
 	const updateForm = superValidate(updateAnimalSchema, { id: 'update-animal' });
 	const removeForm = superValidate(removeAnimalSchema, { id: 'remove-animal' });
@@ -24,6 +29,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 			...(client as ClientsResponse),
 			animals
 		},
+		form,
 		addForm,
 		updateForm,
 		removeForm
@@ -77,7 +83,7 @@ export const actions: Actions = {
 			return fail(500, { message: 'Failed to delete animal' });
 		}
 
-		return { form }
+		return { form };
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {
@@ -92,6 +98,24 @@ export const actions: Actions = {
 		} catch (error) {
 			console.error(error);
 			return message(form, 'Failed to update animal');
+		}
+
+		return { form };
+	},
+
+	updateClient: async ({ request, locals: { pb } }) => {
+		const form = await superValidate(request, updateClientSchema, { id: 'update-client' });
+
+		try {
+			if (!form.valid) {
+				return message(form, 'Failed to update client');
+			}
+
+			await pb.collection('clients').update(form.data.id, form.data);
+		} catch (error) {
+			console.error(error);
+
+			return message(form, 'Failed to update client');
 		}
 
 		return { form };
