@@ -44,7 +44,6 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				console.log(form.errors);
 				return message(form, 'invalid data');
 			}
 
