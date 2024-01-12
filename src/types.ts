@@ -9,6 +9,7 @@ import type {
 export type storeStatusFilter = 'all' | 'available' | 'alert' | 'unavailable';
 export type fundsStatusFilter = 'all' | 'income' | 'expense';
 export type QueueStatusFilter = 'pending' | 'completed';
+export type AnimalStatusFilter = 'all' | 'chat' | 'chien' | 'male' | 'female';
 
 export interface Fund extends FundTransactionsResponse {
 	category: string;
