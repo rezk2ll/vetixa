@@ -10,9 +10,12 @@ import type {
 	QueueRecord
 } from '../../../../pocketbase-types';
 import type { RecordModel } from 'pocketbase';
+import { updateAnimalSchema } from '$lib/schemas';
+import { superValidate, message } from 'sveltekit-superforms/client';
 
 export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 	const { id } = params;
+	const form = await superValidate(updateAnimalSchema, { id: 'update-animal' });
 
 	const animal = await pb.collection('animals').getOne(id, {
 		expand: 'visits(animal)'
@@ -46,7 +49,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 		throw redirect(301, '/404');
 	}
 
-	return { animal: expandedAnimal, medicalActs, clinicalExams, surgicalActs };
+	return { animal: expandedAnimal, medicalActs, clinicalExams, surgicalActs, form };
 };
 
 export const actions: Actions = {
@@ -102,5 +105,22 @@ export const actions: Actions = {
 			method: 'cash',
 			paid: false
 		});
+	},
+
+	updateAnimal: async ({ request, locals: { pb } }) => {
+		const form = await superValidate(request, updateAnimalSchema, { id: 'update-animal' });
+
+		try {
+			if (!form.valid) {
+				return message(form, 'Failed to update animal');
+			}
+
+			await pb.collection('animals').update(form.data.id, form.data);
+		} catch (error) {
+			console.error(error);
+			return message(form, 'Failed to update animal');
+		}
+
+		return { form };
 	}
 };
