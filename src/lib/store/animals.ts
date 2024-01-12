@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { AnimalsResponse } from '../../pocketbase-types';
+import type { AnimalsResponse } from '$root/types';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type { addAnimalSchema, removeAnimalSchema, updateAnimalSchema } from '$lib/schemas';
 

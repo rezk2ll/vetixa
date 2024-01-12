@@ -1,6 +1,6 @@
 import { removeAnimalSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/server';
-import type { AnimalsResponse } from '../../../pocketbase-types';
+import type { AnimalsResponse } from '$root/types';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {

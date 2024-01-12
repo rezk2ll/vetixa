@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import type { AnimalsResponse, ClientsResponse } from '../../../../pocketbase-types';
+import type { AnimalsResponse, ClientsResponse } from '$root/types';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import {
 	addAnimalSchema,

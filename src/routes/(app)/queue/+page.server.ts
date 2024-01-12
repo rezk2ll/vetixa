@@ -4,7 +4,7 @@ import type {
 	ClientsResponse,
 	QueueResponse,
 	VisitsResponse
-} from '../../../pocketbase-types';
+} from '$root/types';
 import type { Actions, PageServerLoad } from './$types';
 import { updateQueueSchema } from '$lib/schemas';
 import type { RecordModel } from 'pocketbase';

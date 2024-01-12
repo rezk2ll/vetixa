@@ -3,7 +3,7 @@ import type {
 	ClinicalExamsResponse,
 	MedicalActsResponse,
 	SurgicalActsResponse
-} from '../../pocketbase-types';
+} from '$root/types';
 
 export const medicalActs = writable<MedicalActsResponse[]>();
 export const surgivalActs = writable<SurgicalActsResponse[]>();

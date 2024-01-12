@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatDateTime } from '$lib/utils/date';
-	import type { QueueItem } from '../../../types';
+	import type { QueueItem } from '$root/types';
 	import Cat from '../icons/Cat.svelte';
 	import Dog from '../icons/Dog.svelte';
 

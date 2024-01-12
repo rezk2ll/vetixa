@@ -1,14 +1,13 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { enhance } from '$app/forms';
-	import See from './../../lib/components/icons/See.svelte';
+	import See from '$lib/components/icons/See.svelte';
 	import type { PageData } from './$types';
 	import Trash from '$lib/components/icons/Trash.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
-	import type { Fiche } from '@prisma/client';
 
 	export let data: PageData;
 
-	$: ({ fiches } = data);
+	$: fiches = [];
 	let showConfirmation = false;
 	let deleteFromRef: HTMLFormElement;
 
@@ -163,4 +162,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->

@@ -5,7 +5,7 @@
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import TextField from '$lib/components/inputs/TextField.svelte';
-	import type { InventoryItemResponse } from '../../../pocketbase-types';
+	import type { InventoryItemResponse } from '$root/types';
 
 	export let open = false;
 	export let updateForm: SuperValidated<typeof updateInventoryItemSchema>;

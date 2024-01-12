@@ -1,10 +1,12 @@
 import type {
-	AnimalsResponse,
-	ClientsResponse,
 	FundTransactionsResponse,
 	QueueResponse,
-	VisitsResponse
+	VisitsResponse,
+	AnimalsResponse,
+	ClientsResponse
 } from './pocketbase-types';
+
+export * from './pocketbase-types';
 
 export type storeStatusFilter = 'all' | 'available' | 'alert' | 'unavailable';
 export type fundsStatusFilter = 'all' | 'income' | 'expense';

@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import Details from '$lib/components/Details.svelte';
 	import CollapsibleSection from '$lib/components/CollapsibleSection.svelte';
 	import DiagnosticForm from '$lib/components/forms/DiagnosticForm.svelte';
@@ -62,4 +62,4 @@
 			{/each}
 		</CollapsibleSection>
 	</div>
-</div>
+</div> -->

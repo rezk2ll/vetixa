@@ -5,7 +5,7 @@
 		ClinicalExamsResponse,
 		MedicalActsResponse,
 		SurgicalActsResponse
-	} from '../../../pocketbase-types';
+	} from '$root/types';
 
 	export let title: string;
 	export let description: string;

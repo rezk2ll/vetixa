@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import AddVisitForm from '../forms/AddVisitForm.svelte';
-	import type { VisitsResponse } from '../../../pocketbase-types';
+	import type { VisitsResponse } from '$root/types';
 	import { formatDateString } from '$lib/utils/date';
 
 	let openAddModal = false;

@@ -8,7 +8,7 @@ import type {
 	BillsRecord,
 	VisitsResponse,
 	QueueRecord
-} from '../../../../pocketbase-types';
+} from '$root/types';
 import type { RecordModel } from 'pocketbase';
 import { updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/client';

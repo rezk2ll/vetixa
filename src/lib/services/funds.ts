@@ -5,10 +5,10 @@ import type {
 	InventorySaleResponse,
 	TypedPocketBase,
 	UsersResponse
-} from '../../pocketbase-types';
+} from '$root/types';
 import { setHours } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
-import type { Fund } from '../../types';
+import type { Fund } from '$root/types';
 
 type BalanceData = {
 	income: number;

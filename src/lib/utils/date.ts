@@ -1,5 +1,5 @@
 import { format, addDays } from 'date-fns';
-import { fr as locale } from 'date-fns/locale';
+import locale from 'date-fns/locale/fr/index';
 
 /**
  * format a timestamp string to a string

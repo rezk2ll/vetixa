@@ -4,7 +4,7 @@
 		SurgicalActsResponse,
 		MedicalActsResponse,
 		ClinicalExamsResponse
-	} from '../../../pocketbase-types';
+	} from '$root/types';
 
 	export let title: string;
 	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];

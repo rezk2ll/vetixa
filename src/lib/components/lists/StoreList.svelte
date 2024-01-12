@@ -6,14 +6,14 @@
 		updateInventoryItemSchema
 	} from '$lib/schemas';
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import Modal from '../Modal.svelte';
-	import AddInventoryItemForm from '../forms/addInventoryItemForm.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
 	import { inventoryItems } from '$lib/store/inventory';
-	import type { storeStatusFilter as StatusFilter } from '../../../types';
-	import SellInventoryItemForm from '../forms/sellInventoryItemForm.svelte';
-	import ConfirmationDialog from '../ConfirmationDialog.svelte';
-	import type { InventoryItemResponse } from '../../../pocketbase-types';
-	import UpdateInventoryItemForm from '../forms/updateInventoryItemForm.svelte';
+	import type { storeStatusFilter as StatusFilter } from '$root/types';
+	import SellInventoryItemForm from '$lib/components/forms/inventory/SellInventoryItemForm.svelte';
+	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
+	import type { InventoryItemResponse } from '$root/types';
+	import UpdateInventoryItemForm from '$lib/components/forms/inventory/updateInventoryItemForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 
 	export let addForm: SuperValidated<typeof addInventoryItemSchema>;

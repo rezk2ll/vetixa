@@ -2,7 +2,7 @@
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { updateClientFormStore } from '$lib/store/clients';
 	import { superForm } from 'sveltekit-superforms/client';
-	import type { IClient } from '../../../../types';
+	import type { IClient } from '$root/types';
 
 	export let open = false;
 	export let item: IClient;
