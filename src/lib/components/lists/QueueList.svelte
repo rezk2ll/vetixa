@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { calculateDiff, formatDateString } from '$lib/utils/date';
-	import { queue } from '$lib/store/queue';
+	import { queue, updateQueueFormStore } from '$lib/store/queue';
 	import type { QueueStatusFilter as StatusFilter } from '../../../types';
 	import Cat from '../icons/Cat.svelte';
 	import Dog from '../icons/Dog.svelte';
+	import { superForm } from 'sveltekit-superforms/client';
 
 	let statusFilter: StatusFilter = 'pending';
 	let search: string;
 	let page = 0;
 	let currentTime = new Date().getTime();
+	let formRef: HTMLFormElement | undefined;
+	const { enhance, form } = superForm($updateQueueFormStore, {
+		dataType: 'json'
+	});
+
 	$: totalPages = Math.max(Math.ceil($queue.length / 10), 1);
 
 	$: items = $queue.filter((item) => {
@@ -26,7 +32,7 @@
 			return item.served;
 		}
 
-		return true;
+		return !item.served;
 	});
 
 	$: pageItems = items.slice(page * 10, page * 10 + 10);
@@ -34,10 +40,22 @@
 	$: waitingCount = $queue.filter(({ served }) => !served).length;
 	$: servedCount = $queue.length - waitingCount;
 
-	$: waitingTime = (date: string) => {
-		return calculateDiff(date, currentTime);
+	$: waitingTime = (date: string, time: string | null = null) => {
+		const finalTime = time ? new Date(time).getTime() : currentTime;
+
+		return calculateDiff(date, finalTime);
+	};
+
+	$: open = (id: string) => {
+		$form.id = id;
+
+		formRef?.requestSubmit();
 	};
 </script>
+
+<form class="hidden" method="post" use:enhance bind:this={formRef}>
+	<input type="hidden" name="id" bind:value={$form.id} />
+</form>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
 	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
@@ -50,7 +68,7 @@
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">File d'attente</h2>
 						<span
 							class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
-							>{$queue.length} client {$queue.length > 1 ? 's' : ''}</span
+							>{$queue.length} client{$queue.length > 1 ? 's' : ''}</span
 						>
 					</div>
 
@@ -178,9 +196,13 @@
 									{#each pageItems as item}
 										<tr>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-												<h2 class="font-medium text-gray-800 dark:text-white capitalize">
-													{formatDateString(item.created)}
-												</h2>
+												<button type="button" on:click={() => open(item.id)}>
+													<h2
+														class="font-medium hover:underline hover:pointer text-gray-800 dark:text-white capitalize"
+													>
+														{formatDateString(item.created)}
+													</h2>
+												</button>
 											</td>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
 												<p
@@ -218,13 +240,13 @@
 												<p
 													class="text-sm font-normal text-gray-600 dark:text-gray-400 first-letter:capitalize"
 												>
-													{waitingTime(item.created)}
+													{waitingTime(item.created, item.served ? item.updated : null)}
 												</p>
 											</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
 												<button
 													type="button"
-													on:click={() => {}}
+													on:click={() => open(item.id)}
 													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 												>
 													<svg
