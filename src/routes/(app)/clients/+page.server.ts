@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 
 	const clientsList = await pb
 		.collection('clients')
-		.getFullList<ClientsResponse>({ expand: 'animals(client)' });
+		.getFullList<ClientsResponse>({ expand: 'animals(client)', sort: '-created' });
 
 	const clients = clientsList.map((client) => ({
 		...client,
