@@ -149,7 +149,7 @@
 								/>
 							</svg>
 
-							<span>nouveau Animal</span>
+							<span>Nouveau animal</span>
 						</button>
 					</div>
 				{/if}
