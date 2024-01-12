@@ -6,7 +6,8 @@ import type {
 	ClinicalExamsResponse,
 	SurgicalActsResponse,
 	BillsRecord,
-	VisitsResponse
+	VisitsResponse,
+	QueueRecord
 } from '../../../../pocketbase-types';
 import type { RecordModel } from 'pocketbase';
 
@@ -89,6 +90,11 @@ export const actions: Actions = {
 			surgical_acts: relatedSurgicalActs,
 			medical_acts: relatedMedicalActs,
 			date: Date.now()
+		});
+
+		await pb.collection('queue').create<QueueRecord>({
+			visit: visit.id,
+			served: false
 		});
 
 		await pb.collection('bills').create<BillsRecord>({
