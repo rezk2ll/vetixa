@@ -14,7 +14,3 @@ export const addAnimalSchema = z.object({
 export const updateAnimalSchema = addAnimalSchema.extend({
 	id: z.string().min(1)
 });
-
-export const removeAnimalSchema = z.object({
-	id: z.string().min(1)
-});

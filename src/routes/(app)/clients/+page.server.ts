@@ -2,12 +2,12 @@ import type { Actions, PageServerLoad } from './$types';
 import type { ClientsResponse } from '$root/types';
 import type { RecordModel } from 'pocketbase';
 import { message, superValidate } from 'sveltekit-superforms/server';
-import { addClientSchema, removeClientSchema, updateClientSchema } from '$lib/schemas';
+import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {
 	const addForm = await superValidate(addClientSchema, { id: 'add-client' });
 	const updateForm = await superValidate(updateClientSchema, { id: 'update-client' });
-	const deleteForm = await superValidate(removeClientSchema, { id: 'delete-client' });
+	const deleteForm = await superValidate(removeSchema, { id: 'delete-client' });
 
 	const clientsList = await pb
 		.collection('clients')
@@ -40,7 +40,7 @@ export const actions: Actions = {
 	},
 
 	removeClient: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, removeClientSchema, { id: 'delete-client' });
+		const form = await superValidate(request, removeSchema, { id: 'delete-client' });
 		try {
 			if (!form.valid) {
 				return message(form, 'Invalid data', { status: 400 });

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type {
 		addInventoryItemSchema,
-		deleteInventoryItemSchema,
+		removeSchema,
 		sellInventoryItemSchema,
 		updateInventoryItemSchema
 	} from '$lib/schemas';
@@ -19,7 +19,7 @@
 	export let addForm: SuperValidated<typeof addInventoryItemSchema>;
 	export let sellForm: SuperValidated<typeof sellInventoryItemSchema>;
 	export let updateForm: SuperValidated<typeof updateInventoryItemSchema>;
-	export let deleteForm: SuperValidated<typeof deleteInventoryItemSchema>;
+	export let deleteForm: SuperValidated<typeof removeSchema>;
 
 	let openAddInventoryItemModal = false;
 	let openSellInventoryItemModal = false;

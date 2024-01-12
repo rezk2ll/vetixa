@@ -1,4 +1,4 @@
-import { removeAnimalSchema, updateAnimalSchema } from '$lib/schemas';
+import { removeSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/server';
 import type { AnimalsResponse } from '$root/types';
 import type { Actions, PageServerLoad } from './$types';
@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.collection('animals')
 		.getFullList<AnimalsResponse>({ sort: '-created' });
 
-	const removeForm = await superValidate(removeAnimalSchema, { id: 'remove-animal' });
+	const removeForm = await superValidate(removeSchema, { id: 'remove-animal' });
 	const updateForm = await superValidate(updateAnimalSchema, { id: 'update-animal' });
 
 	return { animals, removeForm, updateForm };
@@ -16,7 +16,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	removeAnimal: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, removeAnimalSchema, { id: 'remove-animal' });
+		const form = await superValidate(request, removeSchema, { id: 'remove-animal' });
 		try {
 			if (!form.valid) {
 				return message(form, 'Failed to delete animal');

@@ -2,7 +2,7 @@ import { message, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
 import {
 	addInventoryItemSchema,
-	deleteInventoryItemSchema,
+	removeSchema,
 	sellInventoryItemSchema,
 	updateInventoryItemSchema
 } from '$lib/schemas';
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 	const addForm = await superValidate(addInventoryItemSchema, { id: 'addForm' });
 	const sellForm = await superValidate(sellInventoryItemSchema, { id: 'sellForm' });
 	const updateForm = await superValidate(updateInventoryItemSchema, { id: 'updateForm' });
-	const deleteForm = await superValidate(deleteInventoryItemSchema, { id: 'deleteForm' });
+	const deleteForm = await superValidate(removeSchema, { id: 'deleteForm' });
 
 	const items = await pb.collection('inventory_item').getFullList<InventoryItemResponse>();
 	const monthlySales = await pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
@@ -137,7 +137,7 @@ export const actions: Actions = {
 		}
 	},
 	delete: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, deleteInventoryItemSchema);
+		const form = await superValidate(request, removeSchema);
 
 		try {
 			if (!form.valid) {

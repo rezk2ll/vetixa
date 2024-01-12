@@ -33,7 +33,3 @@ export const sellInventoryItemSchema = z.object({
 export const updateInventoryItemSchema = addInventoryItemSchema.extend({
 	id: z.string().min(1)
 });
-
-export const deleteInventoryItemSchema = z.object({
-	id: z.string().min(1)
-});

@@ -22,6 +22,3 @@ export const updateClientSchema = clientSchema
 		name: `${client.firstname} ${client.lastname}`
 	}));
 
-export const removeClientSchema = z.object({
-	id: z.string().min(1)
-});
