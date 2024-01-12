@@ -29,3 +29,9 @@ export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
 }
 
 export type Queue = QueueItem[];
+
+export type ClientsResponseData = IClient[];
+
+export interface IClient extends Omit<ClientsResponse, 'animals'> {
+	animals: AnimalsResponse[];
+}
