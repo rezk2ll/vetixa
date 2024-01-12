@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import TextField from '../inputs/TextField.svelte';
+	import TextField from '$lib/components/inputs/TextField.svelte';
 
 	export let open = false;
 </script>

@@ -5,7 +5,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Select from 'svelte-select';
-	import NumberField from '../inputs/NumberField.svelte';
+	import NumberField from '$lib/components/inputs/NumberField.svelte';
 
 	export let open = false;
 	export let sellForm: SuperValidated<typeof sellInventoryItemSchema>;

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import TextAreaField from './../inputs/TextAreaField.svelte';
+	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import { enhance } from '$app/forms';
 	import ActSelect from '../dispaly/ActSelect.svelte';
 	import Flask from '../icons/Flask.svelte';
 	import Nurse from '../icons/Nurse.svelte';
 	import Syringe from '../icons/Syringe.svelte';
-	import FileField from '../inputs/FileField.svelte';
+	import FileField from '$lib/components/inputs/FileField.svelte';
 	import CollapsibleFormSection from '../CollapsibleFormSection.svelte';
 	import { clinicalExams, medicalActs, surgivalActs } from '$lib/store/acts';
 

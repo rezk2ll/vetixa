@@ -2,8 +2,8 @@
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import type { addInventoryItemSchema } from '$lib/schemas';
 	import { superForm } from 'sveltekit-superforms/client';
-	import NumberField from '../inputs/NumberField.svelte';
-	import TextField from '../inputs/TextField.svelte';
+	import NumberField from '$lib/components/inputs/NumberField.svelte';
+	import TextField from '$lib/components/inputs/TextField.svelte';
 	import type { SuperValidated } from 'sveltekit-superforms';
 
 	export let open = false;
