@@ -154,7 +154,6 @@ export const actions: Actions = {
 		const form = await superValidate(request, updateInventoryItemSchema);
 		try {
 			if (!form.valid) {
-				console.log(form.data);
 				return message(form, 'Invalid data');
 			}
 
