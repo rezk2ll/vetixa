@@ -15,11 +15,11 @@
 		? 'border border-teal-400'
 		: shadow
 		? 'shadow-2xl'
-		: ''} border-gray-200 xl:rounded-2xl h-fit mb-5"
+		: ''} border-gray-200 xl:rounded-lg h-fit mb-5"
 >
 	<button
 		type="button"
-		class="flex justify-between px-5 py-4 border-b rounded-xl border-gray-100 {color === 'primary'
+		class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 {color === 'primary'
 			? 'bg-blueGray-200'
 			: color === 'secondary'
 			? 'bg-gray-300'
