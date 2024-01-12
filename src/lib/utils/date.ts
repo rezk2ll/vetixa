@@ -102,3 +102,13 @@ export const calculateDiff = (begin: string, end: number): string => {
 
 	return displayTime;
 };
+/**
+ * format a date to display the time
+ *
+ * @param {string} date - the input date
+ * @returns {string} the formatted string
+ */
+export const formatDateTime = (date: string) =>
+	format(new Date(date), 'E HH:mm', {
+		locale
+	});
