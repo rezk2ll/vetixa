@@ -4,7 +4,10 @@ import type { AnimalsResponse } from '../../../pocketbase-types';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const animals = await locals.pb.collection('animals').getFullList<AnimalsResponse>();
+	const animals = await locals.pb
+		.collection('animals')
+		.getFullList<AnimalsResponse>({ sort: '-created' });
+
 	const removeForm = await superValidate(removeAnimalSchema, { id: 'remove-animal' });
 	const updateForm = await superValidate(updateAnimalSchema, { id: 'update-animal' });
 
