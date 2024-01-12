@@ -108,8 +108,6 @@ export class FundsService {
 			const user = (sale.expand as RecordModel).seller as unknown as UsersResponse;
 			const item = (sale.expand as RecordModel).item as unknown as InventoryItemResponse ?? '';
 
-			console.log({ user, item, sale })
-
 			return {
 				...sale,
 				description: `${item.name ?? ''}`,
