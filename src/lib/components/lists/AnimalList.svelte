@@ -149,7 +149,7 @@
 								/>
 							</svg>
 
-							<span>Ajouter</span>
+							<span>nouveau Animal</span>
 						</button>
 					</div>
 				{/if}
@@ -264,7 +264,7 @@
 						bind:value={search}
 						type="text"
 						placeholder="Rechercher"
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-60 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
 					/>
 				</div>
 			</div>
@@ -272,7 +272,7 @@
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
 						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-fixed">
 								<thead class="bg-slate-50 dark:bg-gray-800">
 									<tr>
 										<th
