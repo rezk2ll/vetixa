@@ -14,11 +14,12 @@
 	$: addClientFormStore.set(data.addForm);
 	$: updateClientFormStore.set(data.updateForm);
 	$: removeClientFormStore.set(data.deleteForm);
+	$: ({ shortCut } = data)
 </script>
 
 <div
 	class="antialiased w-full flex items-center xl:px-14 pt-10 justify-center"
 	data-sveltekit-preload-data="hover"
 >
-	<ClientList />
+	<ClientList open={shortCut} />
 </div>

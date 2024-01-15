@@ -4,10 +4,13 @@ import type { RecordModel } from 'pocketbase';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
 
-export const load: PageServerLoad = async ({ locals: { pb } }) => {
+export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 	const addForm = await superValidate(addClientSchema, { id: 'add-client' });
 	const updateForm = await superValidate(updateClientSchema, { id: 'update-client' });
 	const deleteForm = await superValidate(removeSchema, { id: 'delete-client' });
+
+	const shortCut = !!url.searchParams.get('shortcut');
+	console.log({ shortCut })
 
 	const clientsList = await pb
 		.collection('clients')
@@ -18,7 +21,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 		animals: (client.expand as RecordModel['expand'])?.['animals(client)'] || []
 	}));
 
-	return { clients, addForm, updateForm, deleteForm };
+	return { clients, addForm, updateForm, deleteForm, shortCut };
 };
 
 export const actions: Actions = {
