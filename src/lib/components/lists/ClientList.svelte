@@ -3,14 +3,14 @@
 	import type { IClient } from '$root/types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import AddAnimalForm from '../forms/animals/AddAnimalForm.svelte';
-	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
 	import { clients, removeClientFormStore } from '$lib/store/clients';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import AddClientForm from '../forms/clients/AddClientForm.svelte';
 	import UpdateClientForm from '../forms/clients/UpdateClientForm.svelte';
 
-	let openAddModal = false;
+	export let open: boolean = false;
+
+	let openAddModal = open;
 	let openUpdateModal = false;
 	let search: string;
 	let page = 0;
