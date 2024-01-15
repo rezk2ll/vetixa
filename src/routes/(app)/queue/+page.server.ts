@@ -14,7 +14,7 @@ export const load = (async ({ locals: { pb } }) => {
 	const form = await superValidate(updateQueueSchema);
 
 	const queueList = await pb.collection('queue').getFullList<QueueResponse>({
-		// filter: 'created >= @todayStart && created <= @todayEnd',
+		filter: 'created >= @todayStart && created <= @todayEnd',
 		expand: 'visit, visit.animal, visit.animal.client'
 	});
 
