@@ -14,7 +14,7 @@
 			title="Nouveau client"
 			description="Ajoutez de nouveaux clients en collectant rapidement les informations nécessaires"
 			color="pink"
-			href="/clients/new"
+			href="/clients?shortcut=yes"
 			action="Ajouter"
 		>
 			<User />
