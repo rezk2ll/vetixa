@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 	const deleteForm = await superValidate(removeSchema, { id: 'delete-client' });
 
 	const shortCut = !!url.searchParams.get('shortcut');
-	console.log({ shortCut })
 
 	const clientsList = await pb
 		.collection('clients')
