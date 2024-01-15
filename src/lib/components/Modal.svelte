@@ -19,7 +19,7 @@
 			>
 
 			<div
-				class="relative w-full inline-block px-10 pt-5 pb-4 overflow-hidden text-middle align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm {size ===
+				class="relative w-full inline-block px-4 xl:px-10 pt-5 pb-4 overflow-hidden text-middle align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm {size ===
 				'big'
 					? 'xl:max-w-screen-xl'
 					: size === 'medium'

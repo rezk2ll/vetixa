@@ -11,9 +11,9 @@
 <div class="flex flex-col overflow-hidden bg-white w-full whitespace-normal">
 	<div class="grid grid-cols-1 sm:grid-cols-4">
 		<div class="flex flex-col col-span-5 whitespace-normal">
-			<div class="flex flex-col space-y-4 p-6 text-gray-600 whitespace-normal text-wrap">
+			<div class="flex flex-col space-y-4 xl:p-6 text-gray-600 whitespace-normal text-wrap">
 				<div class="flex flex-row text-sm">
-					<span class="mr-3">
+					<span class="xl:mr-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							enable-background="new 0 0 24 24"

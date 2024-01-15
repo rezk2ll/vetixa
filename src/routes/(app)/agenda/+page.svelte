@@ -83,7 +83,8 @@
 	};
 
 	const { form: deleteForm, enhance } = superForm($removeEventFormStore, {
-		dataType: 'json'
+		dataType: 'json',
+		taintedMessage: null
 	});
 </script>
 
