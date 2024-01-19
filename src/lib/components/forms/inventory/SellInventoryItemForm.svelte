@@ -1,26 +1,21 @@
 <script lang="ts">
 	import TextField from '$lib/components/inputs/TextField.svelte';
-	import type { sellInventoryItemSchema } from '$lib/schemas';
-	import { inventoryItems } from '$lib/store/inventory';
-	import type { SuperValidated } from 'sveltekit-superforms';
+	import { inventoryItems, sellInventoryFormStore } from '$lib/store/inventory';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Select from 'svelte-select';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 
 	export let open = false;
-	export let sellForm: SuperValidated<typeof sellInventoryItemSchema>;
 
-	const { form, enhance } = superForm(sellForm, {
+	const { form, enhance } = superForm($sellInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
-		applyAction: true,
-		resetForm: false,
-		invalidateAll: true,
 		dataType: 'json',
 		onResult: ({ result }) => {
-			if (result.type === "success") {
-				location.reload();
+			if (result.type === 'success') {
+				open = false;
 			}
-		}
+		},
+		taintedMessage: null
 	});
 
 	let selectedValue = '';

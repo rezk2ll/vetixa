@@ -1,27 +1,23 @@
 <script lang="ts">
-	import type { updateInventoryItemSchema } from '$lib/schemas';
-	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import type { InventoryItemResponse } from '$root/types';
+	import { updateInventoryFormStore } from '$root/lib/store/inventory';
 
 	export let open = false;
-	export let updateForm: SuperValidated<typeof updateInventoryItemSchema>;
 	export let item: InventoryItemResponse;
 
-	const { form, message } = superForm(updateForm, {
+	const { form, message } = superForm($updateInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
-		applyAction: true,
-		resetForm: false,
-		invalidateAll: true,
 		dataType: 'json',
 		onResult: ({ result }) => {
-			if (result.type === "success") {
-				location.reload();
+			if (result.type === 'success') {
+				open = false;
 			}
-		}
+		},
+		taintedMessage: null
 	});
 
 	$: {
@@ -32,6 +28,8 @@
 		$form.cost = item.cost;
 		$form.description = item.description;
 		$form.code = item.code;
+		$form.tva = item.tva;
+		$form.alert = item.alert;
 	}
 </script>
 
@@ -64,30 +62,45 @@
 
 <form action="?/update" class="mt-4" method="POST">
 	<input type="hidden" name="id" bind:value={item.id} />
-	<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
-	<TextField name="code" label="Code" bind:value={$form.code} isInValid={false} />
-	<NumberField
-		label="Quantité"
-		placeholder="1"
-		bind:value={$form.quantity}
-		name="quantity"
-		isInValid={false}
-	/>
-	<NumberField
-		label="Prix d'achat unitaire"
-		placeholder="1"
-		bind:value={$form.cost}
-		name="cost"
-		isInValid={false}
-	/>
-	<NumberField
-		label="prix de vente unitaire"
-		placeholder="1"
-		bind:value={$form.price}
-		name="price"
-		isInValid={false}
-	/>
-	<hr class="pb-4" />
+	<div class="flex flex-row space-x-5">
+		<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
+		<TextField name="code" label="Code" bind:value={$form.code} isInValid={false} />
+	</div>
+	<div class="flex flex-row space-x-5">
+		<NumberField
+			label="Quantité"
+			placeholder="1"
+			bind:value={$form.quantity}
+			name="quantity"
+			isInValid={false}
+		/>
+		<NumberField
+			label="Alert"
+			placeholder=""
+			bind:value={$form.alert}
+			name="alert"
+			isInValid={false}
+		/>
+	</div>
+	<div class="flex flex-row space-x-5">
+		<NumberField
+			label="Prix d'achat unitaire"
+			placeholder="1"
+			value={$form.cost}
+			name="cost"
+			isInValid={false}
+		/>
+		<NumberField
+			label="prix de vente unitaire"
+			placeholder="1"
+			bind:value={$form.price}
+			name="price"
+			isInValid={false}
+		/>
+		<NumberField label="TVA" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
+	</div>
+
+	<hr class="py-4" />
 	<TextAreaField
 		name="description"
 		bind:value={$form.description}

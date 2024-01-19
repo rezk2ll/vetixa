@@ -1,25 +1,13 @@
 <script lang="ts">
-	import type {
-		addInventoryItemSchema,
-		removeSchema,
-		sellInventoryItemSchema,
-		updateInventoryItemSchema
-	} from '$lib/schemas';
-	import type { SuperValidated } from 'sveltekit-superforms';
 	import Modal from '$lib/components/Modal.svelte';
 	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
-	import { inventoryItems } from '$lib/store/inventory';
+	import { inventoryItems, removeInventoryFormStore } from '$lib/store/inventory';
 	import type { storeStatusFilter as StatusFilter } from '$root/types';
 	import SellInventoryItemForm from '$lib/components/forms/inventory/SellInventoryItemForm.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
 	import type { InventoryItemResponse } from '$root/types';
 	import UpdateInventoryItemForm from '$lib/components/forms/inventory/updateInventoryItemForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-
-	export let addForm: SuperValidated<typeof addInventoryItemSchema>;
-	export let sellForm: SuperValidated<typeof sellInventoryItemSchema>;
-	export let updateForm: SuperValidated<typeof updateInventoryItemSchema>;
-	export let deleteForm: SuperValidated<typeof removeSchema>;
 
 	let openAddInventoryItemModal = false;
 	let openSellInventoryItemModal = false;
@@ -42,11 +30,11 @@
 		}
 
 		if (statusFilter === 'alert') {
-			return item.quantity <= 10 && item.quantity > 0;
+			return item.quantity <= item.alert && item.quantity > 0;
 		}
 
 		if (statusFilter === 'available') {
-			return item.quantity > 10;
+			return item.quantity > item.alert;
 		}
 
 		if (statusFilter === 'unavailable') {
@@ -58,8 +46,8 @@
 
 	$: pageItems = items.slice(page * 10, page * 10 + 10);
 
-	$: availableCount = $inventoryItems.filter((item) => item.quantity > 10).length;
-	$: alertCount = $inventoryItems.filter((item) => item.quantity <= 10 && item.quantity > 0).length;
+	$: availableCount = $inventoryItems.filter((item) => item.quantity > item.alert).length;
+	$: alertCount = $inventoryItems.filter((item) => item.quantity <= item.alert && item.quantity > 0).length;
 	$: unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
 
 	$: handler = () => {
@@ -79,7 +67,7 @@
 		openUpdateInventoryItemModal = true;
 	};
 
-	const { enhance } = superForm(deleteForm, {
+	const { enhance } = superForm($removeInventoryFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				location.reload();
@@ -88,21 +76,17 @@
 	});
 </script>
 
-<Modal bind:open={openAddInventoryItemModal} size="medium">
-	<AddInventoryItemForm bind:addForm bind:open={openAddInventoryItemModal} />
+<Modal bind:open={openAddInventoryItemModal} size="bigmedium">
+	<AddInventoryItemForm bind:open={openAddInventoryItemModal} />
 </Modal>
 
 <Modal bind:open={openSellInventoryItemModal} size="medium">
-	<SellInventoryItemForm bind:sellForm bind:open={openSellInventoryItemModal} />
+	<SellInventoryItemForm bind:open={openSellInventoryItemModal} />
 </Modal>
 
 <Modal bind:open={openUpdateInventoryItemModal} size="medium">
 	{#if selectedUpdateItem}
-		<UpdateInventoryItemForm
-			bind:updateForm
-			bind:open={openUpdateInventoryItemModal}
-			item={selectedUpdateItem}
-		/>
+		<UpdateInventoryItemForm bind:open={openUpdateInventoryItemModal} item={selectedUpdateItem} />
 	{/if}
 </Modal>
 
@@ -350,13 +334,13 @@
 												</p>
 											</td>
 											<td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-												{#if item.quantity > 10}
+												{#if item.quantity > item.alert}
 													<div
 														class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800"
 													>
 														Disponible
 													</div>
-												{:else if item.quantity <= 10 && item.quantity > 0}
+												{:else if item.quantity <= item.alert && item.quantity > 0}
 													<div
 														class="inline px-3 py-1 text-sm font-normal rounded-full text-orange-500 gap-x-2 bg-orange-100/60 dark:bg-gray-800"
 													>

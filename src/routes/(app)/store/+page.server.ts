@@ -78,7 +78,11 @@ export const actions: Actions = {
 
 		try {
 			if (!addForm.valid) {
-				return fail(400, { addForm })
+				console.log(addForm.data);
+
+				console.log(addForm.errors);
+
+				return fail(400, { addForm });
 			}
 
 			const item = await pb
@@ -86,7 +90,7 @@ export const actions: Actions = {
 				.getList(1, 1, { filter: `code = ${addForm.data.code}` });
 
 			if (item.totalItems != 0) {
-				return fail(400, { addForm })
+				return fail(400, { addForm });
 			}
 
 			await pb.collection('inventory_item').create(addForm.data);

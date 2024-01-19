@@ -3,6 +3,7 @@ import type { ClientsResponse } from '$root/types';
 import type { RecordModel } from 'pocketbase';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
+import { redirect, type Redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 	const addForm = await superValidate(addClientSchema, { id: 'add-client' });
@@ -31,14 +32,17 @@ export const actions: Actions = {
 				return message(form, 'Invalid data', { status: 400 });
 			}
 
-			await pb.collection('clients').create(form.data);
+			const client = await pb.collection('clients').create(form.data);
+
+			throw redirect(303, `/clients/${client.id}/?new=true`);
 		} catch (error) {
+			if ((error as Redirect).location) {
+				throw error;
+			}
 			console.error(error);
 
 			return message(form, 'Failed to add client', { status: 500 });
 		}
-
-		return { form };
 	},
 
 	removeClient: async ({ request, locals: { pb } }) => {

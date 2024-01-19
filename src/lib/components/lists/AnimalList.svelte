@@ -12,8 +12,9 @@
 	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
 
 	export let canAdd: boolean = true;
+	export let isNew: boolean = false;
 
-	let openAddAnimalModal = false;
+	let openAddAnimalModal = isNew;
 	let openUpdateAnimalModal = false;
 	let statusFilter: StatusFilter = 'all';
 	let search: string;

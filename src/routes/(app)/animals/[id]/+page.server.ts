@@ -13,8 +13,10 @@ import type { RecordModel } from 'pocketbase';
 import { updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/client';
 
-export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
+export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;
+	const isNew = url.searchParams.get('new') === 'true';
+
 	const form = await superValidate(updateAnimalSchema, { id: 'update-animal' });
 
 	const animal = await pb.collection('animals').getOne(id, {
@@ -49,7 +51,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 		throw redirect(301, '/404');
 	}
 
-	return { animal: expandedAnimal, medicalActs, clinicalExams, surgicalActs, form };
+	return { animal: expandedAnimal, medicalActs, clinicalExams, surgicalActs, form, isNew };
 };
 
 export const actions: Actions = {

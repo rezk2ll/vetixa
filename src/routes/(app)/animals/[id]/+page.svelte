@@ -12,7 +12,7 @@
 
 	let openUpdateModal = false;
 
-	$: ({ animal } = data);
+	$: ({ animal, isNew } = data);
 
 	$: ({ visits } = animal);
 
@@ -47,6 +47,6 @@
 			<Details details={animalDetails} />
 		</CollapsibleSection>
 
-		<VisitList data={visits} />
+		<VisitList data={visits} {isNew} />
 	</div>
 </div>

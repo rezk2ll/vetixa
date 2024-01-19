@@ -8,7 +8,7 @@
 	export let disabled: boolean = false;
 </script>
 
-<div class="relative mt-6">
+<div class="relative mt-6 w-full">
 	<input
 		{required}
 		id={name}

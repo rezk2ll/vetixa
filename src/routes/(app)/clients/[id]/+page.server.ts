@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, type Redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { AnimalsResponse, ClientsResponse } from '$root/types';
 import { message, superValidate } from 'sveltekit-superforms/server';
@@ -9,8 +9,10 @@ import {
 	updateClientSchema
 } from '$lib/schemas';
 
-export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
+export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;
+
+	const isNew = url.searchParams.get('new') === 'true';
 	const form = await superValidate(updateClientSchema, { id: 'update-client' });
 	const addForm = superValidate(addAnimalSchema, { id: 'add-animal' });
 	const updateForm = superValidate(updateAnimalSchema, { id: 'update-animal' });
@@ -32,7 +34,8 @@ export const load: PageServerLoad = async ({ params, locals: { pb } }) => {
 		form,
 		addForm,
 		updateForm,
-		removeForm
+		removeForm,
+		isNew
 	};
 };
 
@@ -61,7 +64,12 @@ export const actions: Actions = {
 			if (!animal) {
 				return fail(400, { message: 'error' });
 			}
+
+			throw redirect(303, `/animals/${animal.id}/?new=true`);
 		} catch (error) {
+			if ((error as Redirect).location) {
+				throw error;
+			}
 			console.error(error);
 			return message(form, 'Failed to add animal');
 		}

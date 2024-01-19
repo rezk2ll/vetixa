@@ -52,6 +52,7 @@
 				right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
 			},
 			height: 'auto',
+			allDaySlot: false,
 			navLinks: true,
 			editable: true,
 			eventSources: [getEvents],

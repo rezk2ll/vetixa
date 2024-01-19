@@ -7,7 +7,7 @@
 	export let onChange: (e: any) => void = () => {}
 </script>
 
-<div class="relative mt-6">
+<div class="relative mt-6 w-full">
 	<input
 		required
 		id={name}
@@ -15,6 +15,7 @@
 		bind:value
 		{placeholder}
 		on:change={onChange}
+		step="0.01"
 		type="number"
 		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'

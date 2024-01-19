@@ -16,7 +16,7 @@
 
 	export let data: PageData;
 
-	$: ({ client } = data);
+	$: ({ client, isNew } = data);
 
 	let openUpdateModal = false;
 
@@ -53,6 +53,6 @@
 			<Details details={clientDetails} />
 		</CollapsibleSection>
 
-		<AnimalList />
+		<AnimalList {isNew} />
 	</div>
 </div>

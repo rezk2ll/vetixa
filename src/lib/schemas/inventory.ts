@@ -14,6 +14,18 @@ export const addInventoryItemSchema = z.object({
 		.number()
 		.or(z.string().regex(/\d+/).transform(Number))
 		.refine((n) => n > 0),
+	alert: z
+		.number()
+		.min(1)
+		.default(10)
+		.or(z.string().regex(/\d+/).transform(Number))
+		.refine((n) => n > 0),
+	tva: z
+		.number()
+		.min(1)
+		.default(10)
+		.or(z.string().regex(/\d+/).transform(Number))
+		.refine((n) => n > 0),
 	description: z.string().optional(),
 	code: z.string()
 });

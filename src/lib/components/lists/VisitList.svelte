@@ -6,7 +6,9 @@
 	import type { VisitsResponse } from '$root/types';
 	import { formatDateString } from '$lib/utils/date';
 
-	let openAddModal = false;
+	export let isNew: boolean = false;
+
+	let openAddModal = isNew;
 	let deleteFormRef: HTMLFormElement;
 	let selectedItem: VisitsResponse | null;
 	let showConfirmation = false;

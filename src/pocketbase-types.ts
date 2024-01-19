@@ -101,12 +101,14 @@ export type FundTransactionsRecord = {
 }
 
 export type InventoryItemRecord = {
+	alert?: number
 	code: string
 	cost?: number
 	description?: HTMLString
 	name?: string
 	price?: number
 	quantity?: number
+	tva?: number
 }
 
 export type InventorySaleRecord = {
