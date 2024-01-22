@@ -3,10 +3,22 @@
 	import Nav from '$lib/components/Nav.svelte';
 	import { currentUser } from '$lib/store/user';
 	import type { PageData } from './$types';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import LoadingSpinner from '$root/lib/components/dispaly/LoadingSpinner.svelte';
 
 	export let data: PageData;
 
+	let loading = false;
+
 	$: currentUser.set(data.user);
+
+	beforeNavigate(() => {
+		loading = true;
+	});
+
+	afterNavigate(() => {
+		loading = false;
+	});
 </script>
 
 <svelte:head>
@@ -20,7 +32,11 @@
 
 <Nav />
 <div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col pt-10 xl:pt-20">
-	<slot />
+	{#if loading}
+		<LoadingSpinner />
+	{:else}
+		<slot />
+	{/if}
 </div>
 
 <style lang="postcss">
