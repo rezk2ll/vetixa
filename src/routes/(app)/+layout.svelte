@@ -5,19 +5,18 @@
 	import type { PageData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import LoadingSpinner from '$root/lib/components/dispaly/LoadingSpinner.svelte';
+	import { globalLoading } from '$root/lib/store/loading';
 
 	export let data: PageData;
-
-	let loading = false;
 
 	$: currentUser.set(data.user);
 
 	beforeNavigate(() => {
-		loading = true;
+		globalLoading.set(true);
 	});
 
 	afterNavigate(() => {
-		loading = false;
+		globalLoading.set(false);
 	});
 </script>
 
@@ -32,7 +31,7 @@
 
 <Nav />
 <div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col pt-10 xl:pt-20">
-	{#if loading}
+	{#if $globalLoading}
 		<LoadingSpinner />
 	{:else}
 		<slot />
