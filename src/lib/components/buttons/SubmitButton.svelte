@@ -34,7 +34,6 @@
 				fill="black"
 			/>
 		</svg>
-		Chargement
 	{:else}
 		Confirmer
 	{/if}
