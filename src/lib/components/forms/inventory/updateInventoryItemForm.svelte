@@ -5,11 +5,12 @@
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import type { InventoryItemResponse } from '$root/types';
 	import { updateInventoryFormStore } from '$root/lib/store/inventory';
+	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;
 	export let item: InventoryItemResponse;
 
-	const { form, message } = superForm($updateInventoryFormStore, {
+	const { form, message, submitting } = superForm($updateInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
 		dataType: 'json',
 		onResult: ({ result }) => {
@@ -117,11 +118,6 @@
 			Annuler
 		</button>
 
-		<button
-			type="submit"
-			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-emerald-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-emerald-500 focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
-		>
-			Confirmer
-		</button>
+		<SubmitButton loading={$submitting} />
 	</div>
 </form>

@@ -3,10 +3,11 @@
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import { addExpenseFormStore } from '$lib/store/funds';
+	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;
 
-	const { enhance } = superForm($addExpenseFormStore, {
+	const { enhance, submitting } = superForm($addExpenseFormStore, {
 		clearOnSubmit: 'errors-and-message',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
@@ -61,11 +62,6 @@
 			Annuler
 		</button>
 
-		<button
-			type="submit"
-			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-red-500 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
-		>
-			Confirmer
-		</button>
+		<SubmitButton loading={$submitting} />
 	</div>
 </form>

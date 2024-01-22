@@ -4,10 +4,11 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import Select from 'svelte-select';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
+	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;
 
-	const { form, enhance } = superForm($sellInventoryFormStore, {
+	const { form, enhance, submitting } = superForm($sellInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
 		dataType: 'json',
 		onResult: ({ result }) => {
@@ -216,17 +217,6 @@
 			Annuler
 		</button>
 
-		<button
-			disabled={total < 1}
-			type="submit"
-			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform {total <
-			1
-				? 'bg-slate-600'
-				: 'bg-emerald-600'}  rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 {total < 1
-				? 'hover:bg-slate-600'
-				: 'hover:bg-emerald-500'}  focus:outline-none focus:ring focus:ring-emerald-300 focus:ring-opacity-40"
-		>
-			Confirmer la vente
-		</button>
+		<SubmitButton loading={$submitting} disabled={total < 1} />
 	</div>
 </form>

@@ -5,19 +5,20 @@
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addAnimalFormStore } from '$lib/store/animals';
+	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;
 
 	let birthday = '';
 
-	const { enhance, form } = superForm($addAnimalFormStore, {
+	const { enhance, form, submitting } = superForm($addAnimalFormStore, {
 		onResult: ({ result }) => {
-			if (result.type === "success") {
+			if (result.type === 'success') {
 				open = false;
 			}
 		},
 		taintedMessage: null
-	})
+	});
 
 	$: $form.birthday = new Date(birthday);
 </script>
@@ -56,10 +57,34 @@
 
 <form use:enhance action="?/addAnimal" class="mt-4" method="POST">
 	<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
-	<SelectField options={['chat', 'chien']} label="Espèce" name="type" bind:value={$form.type} isInValid={false} />
-	<SelectField name="sex" options={['male', 'female']} label="Sexe" bind:value={$form.sex} isInValid={false} />
-	<DateField label="Date de naissance" placeholder="" bind:value={birthday} name="birthday" isInValid={false} />
-	<NumberField label="Poids" placeholder="Poids" bind:value={$form.weight} name="weight" isInValid={false} />
+	<SelectField
+		options={['chat', 'chien']}
+		label="Espèce"
+		name="type"
+		bind:value={$form.type}
+		isInValid={false}
+	/>
+	<SelectField
+		name="sex"
+		options={['male', 'female']}
+		label="Sexe"
+		bind:value={$form.sex}
+		isInValid={false}
+	/>
+	<DateField
+		label="Date de naissance"
+		placeholder=""
+		bind:value={birthday}
+		name="birthday"
+		isInValid={false}
+	/>
+	<NumberField
+		label="Poids"
+		placeholder="Poids"
+		bind:value={$form.weight}
+		name="weight"
+		isInValid={false}
+	/>
 
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
@@ -70,11 +95,6 @@
 			Annuler
 		</button>
 
-		<button
-			type="submit"
-			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-		>
-			Confirmer
-		</button>
+		<SubmitButton loading={$submitting} />
 	</div>
 </form>

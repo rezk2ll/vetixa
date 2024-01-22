@@ -4,10 +4,11 @@
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { addInventoryFormStore } from '$root/lib/store/inventory';
+	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;
 
-	const { form, message, enhance } = superForm($addInventoryFormStore, {
+	const { form, message, enhance, submitting } = superForm($addInventoryFormStore, {
 		resetForm: true,
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
@@ -132,11 +133,6 @@
 			Annuler
 		</button>
 
-		<button
-			type="submit"
-			class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-		>
-			Confirmer
-		</button>
+		<SubmitButton loading={$submitting} />
 	</div>
 </form>
