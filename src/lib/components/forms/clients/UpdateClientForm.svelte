@@ -66,7 +66,7 @@
 
 <form use:enhance action="/clients/?/updateClient" class="mt-4" method="POST">
 	<TextField name="lastname" label="Nom" bind:value={$form.lastname} isInValid={false} />
-	<TextField name="firstname" label="prénom" bind:value={$form.firstname} isInValid={false} />
+	<TextField name="firstname" label="Prénom" bind:value={$form.firstname} isInValid={false} />
 	<TextField name="tel" label="Numéro de téléphone" bind:value={$form.tel} isInValid={false} />
 	<TextField
 		name="email"
