@@ -1,12 +1,18 @@
 import { removeSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/server';
-import type { AnimalsResponse } from '$root/types';
+import type { AnimalsResponse, ClientsResponse } from '$root/types';
 import type { Actions, PageServerLoad } from './$types';
+import type { RecordModel } from 'pocketbase';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const animals = await locals.pb
+	const animalsList = await locals.pb
 		.collection('animals')
-		.getFullList<AnimalsResponse>({ sort: '-created' });
+		.getFullList<AnimalsResponse>({ sort: '-created', expand: 'client' });
+
+	const animals = animalsList.map((animal) => ({
+		...animal,
+		client: ((animal.expand as RecordModel).client as ClientsResponse).name || ''
+	}));
 
 	const removeForm = await superValidate(removeSchema, { id: 'remove-animal' });
 	const updateForm = await superValidate(updateAnimalSchema, { id: 'update-animal' });
