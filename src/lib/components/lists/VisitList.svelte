@@ -2,7 +2,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
-	import AddVisitForm from '../forms/AddVisitForm.svelte';
+	import AddVisitForm from '../forms/visit/AddVisitForm.svelte';
 	import type { VisitsResponse } from '$root/types';
 	import { formatDateString } from '$lib/utils/date';
 
@@ -76,7 +76,7 @@
 		{/if}
 	</div>
 </ConfirmationDialog>
-<Modal bind:open={openAddModal} size="big">
+<Modal bind:open={openAddModal} size="medium">
 	<AddVisitForm bind:open={openAddModal} />
 </Modal>
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
