@@ -31,6 +31,8 @@
 		$form.sex = item.sex;
 		$form.type = item.type;
 		$form.weight = item.weight;
+		$form.color = item.color;
+		$form.breed = item.breed;
 	}
 </script>
 
@@ -94,6 +96,20 @@
 		bind:value={$form.weight}
 		name="weight"
 		isInValid={false}
+	/>
+	<TextField
+		name="color"
+		label="Couleur"
+		bind:value={$form.color}
+		isInValid={false}
+		required={false}
+	/>
+	<TextField
+		name="breed"
+		label="Race"
+		bind:value={$form.breed}
+		isInValid={false}
+		required={false}
 	/>
 
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">

@@ -86,6 +86,21 @@
 		isInValid={false}
 	/>
 
+	<TextField
+		name="color"
+		label="Couleur"
+		bind:value={$form.color}
+		isInValid={false}
+		required={false}
+	/>
+	<TextField
+		name="breed"
+		label="Race"
+		bind:value={$form.breed}
+		isInValid={false}
+		required={false}
+	/>
+
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"
