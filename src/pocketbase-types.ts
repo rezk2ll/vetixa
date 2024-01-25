@@ -64,6 +64,7 @@ export enum AnimalsTypeOptions {
 }
 export type AnimalsRecord = {
 	birthday?: IsoDateString
+	breed?: string
 	client?: RecordIdString
 	color?: string
 	identifier?: string
