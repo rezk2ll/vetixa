@@ -7,6 +7,11 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import UpdateAnimalForm from '$lib/components/forms/animals/updateAnimalForm.svelte';
 	import { updateAnimalFormStore } from '$lib/store/animals';
+	import {
+		addVisitFormStore,
+		deleteVisitFormStore,
+		updateVisitFormStore
+	} from '$root/lib/store/visit';
 
 	export let data: PageData;
 
@@ -18,16 +23,23 @@
 
 	$: animalDetails = [
 		{ name: 'Nom', value: animal.name },
+		{ name: 'Propriétaire', value: animal.client },
 		{ name: 'Espèce', value: animal.type },
 		{ name: 'Sexe', value: animal.sex },
 		{ name: 'Age', value: animal.birthday, isAge: true },
-		{ name: 'Poids', value: animal.weight }
+		{ name: 'Poids', value: animal.weight },
+		{ name: 'Couleur', value: animal.color },
+		{ name: 'Race', value: animal.breed }
 	];
 
 	$: clinicalExams.set(data.clinicalExams);
 	$: surgivalActs.set(data.surgicalActs);
 	$: medicalActs.set(data.medicalActs);
-	$: updateAnimalFormStore.set(data.form)
+	$: updateAnimalFormStore.set(data.form);
+
+	$: addVisitFormStore.set(data.addForm);
+	$: updateVisitFormStore.set(data.updateForm);
+	$: deleteVisitFormStore.set(data.deleteForm);
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">
