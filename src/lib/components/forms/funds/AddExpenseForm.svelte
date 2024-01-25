@@ -7,13 +7,14 @@
 
 	export let open = false;
 
-	const { enhance, submitting } = superForm($addExpenseFormStore, {
+	const { enhance, submitting, form } = superForm($addExpenseFormStore, {
 		clearOnSubmit: 'errors-and-message',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				location.reload();
 			}
-		}
+		},
+		taintedMessage: null
 	});
 </script>
 
@@ -50,8 +51,8 @@
 </div>
 
 <form use:enhance action="?/addExpenses" class="mt-4" method="POST">
-	<TextAreaField name="description" label="Description" value="" placeholder="" isInValid={false} />
-	<NumberField label="montant" placeholder="montant" value="" name="amount" isInValid={false} />
+	<TextAreaField name="description" label="Description" bind:value={$form.description} placeholder="" isInValid={false} />
+	<NumberField label="Montant" placeholder="montant" bind:value={$form.amount} name="amount" isInValid={false} />
 
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
