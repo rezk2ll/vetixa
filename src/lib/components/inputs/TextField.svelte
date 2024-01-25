@@ -22,7 +22,7 @@
 			: 'ring-gray-200 focus:ring-blue-500'}"
 	/>
 	<label
-		for="field"
+		for={name}
 		class="absolute left-0 bg-white px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs font-medium leading-4 {isInValid
 			? 'text-red-500'
 			: ''}">{label}</label
