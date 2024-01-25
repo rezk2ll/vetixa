@@ -284,7 +284,13 @@
 												<span>Nom</span>
 											</div>
 										</th>
-
+										{#if canAdd === false}
+											<th
+												scope="col"
+												class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+												>Propriétaire</th
+											>
+										{/if}
 										<th
 											scope="col"
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -306,7 +312,16 @@
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Age</th
 										>
-
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>Couleur</th
+										>
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>Race</th
+										>
 										<th scope="col" class="relative py-3.5 px-4">
 											<span class="sr-only">Modifier</span>
 										</th>
@@ -329,6 +344,20 @@
 													</div>
 												</div>
 											</td>
+											{#if canAdd === false}
+												<td
+													class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												>
+													<div class="flex items-center gap-x-2">
+														<p
+															class="px-3 py-1 text-xs
+																 'text-blue-500 bg-blue-100/60 rounded-full dark:bg-gray-800"
+														>
+															{animal.client}
+														</p>
+													</div>
+												</td>
+											{/if}
 											<td
 												class="px-4 py-4 text-sm {animal.sex === 'male'
 													? 'text-blue-500 '
@@ -353,6 +382,15 @@
 											>
 												<AgeDisplay date={animal.birthday} />
 											</td>
+											<td
+												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												>{animal.color}</td
+											>
+
+											<td
+												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												>{animal.breed}</td
+											>
 
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
