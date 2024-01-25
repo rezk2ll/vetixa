@@ -84,7 +84,7 @@
 	<SellInventoryItemForm bind:open={openSellInventoryItemModal} />
 </Modal>
 
-<Modal bind:open={openUpdateInventoryItemModal} size="medium">
+<Modal bind:open={openUpdateInventoryItemModal} size="bigmedium">
 	{#if selectedUpdateItem}
 		<UpdateInventoryItemForm bind:open={openUpdateInventoryItemModal} item={selectedUpdateItem} />
 	{/if}
