@@ -80,7 +80,7 @@
 	<AddInventoryItemForm bind:open={openAddInventoryItemModal} />
 </Modal>
 
-<Modal bind:open={openSellInventoryItemModal} size="medium">
+<Modal bind:open={openSellInventoryItemModal} size="bigmedium">
 	<SellInventoryItemForm bind:open={openSellInventoryItemModal} />
 </Modal>
 
