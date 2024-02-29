@@ -39,7 +39,10 @@ const inventoryItemSchema = z.object({
 });
 
 export const sellInventoryItemSchema = z.object({
-	items: z.array(inventoryItemSchema).nonempty()
+	items: z.array(inventoryItemSchema).nonempty(),
+	method: z.string().min(1).default('cash'),
+	incash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)),
+	outcash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number))
 });
 
 export const updateInventoryItemSchema = addInventoryItemSchema.extend({
