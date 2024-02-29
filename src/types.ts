@@ -37,3 +37,5 @@ export type ClientsResponseData = IClient[];
 export interface IClient extends Omit<ClientsResponse, 'animals'> {
 	animals: AnimalsResponse[];
 }
+
+export type PaymentMethodType = 'cash' | 'tpe' | 'cheque';
