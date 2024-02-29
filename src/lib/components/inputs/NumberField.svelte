@@ -4,8 +4,10 @@
 	export let value: number | string;
 	export let isInValid: boolean = false;
 	export let name: string;
-	export let isFloat: boolean = false;
+	export let isNumber: boolean = false;
 	export let onChange: (e: any) => void = () => {};
+
+	$: props = { ...(isNumber ? {} : { step: 'any' }) };
 </script>
 
 <div class="relative mt-6 w-full">
@@ -13,10 +15,11 @@
 		required
 		id={name}
 		{name}
+		min="0"
 		bind:value
 		{placeholder}
+		{...props}
 		on:change={onChange}
-		step={isFloat ? '0.0.1' : '1'}
 		type="number"
 		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
