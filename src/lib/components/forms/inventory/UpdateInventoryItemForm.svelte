@@ -10,7 +10,7 @@
 	export let open = false;
 	export let item: InventoryItemResponse;
 
-	const { form, message, submitting } = superForm($updateInventoryFormStore, {
+	const { form, message, submitting, enhance } = superForm($updateInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
 		dataType: 'json',
 		onResult: ({ result }) => {
@@ -21,17 +21,34 @@
 		taintedMessage: null
 	});
 
-	$: {
-		$form.id = item.id;
-		$form.name = item.name;
-		$form.quantity = item.quantity;
-		$form.price = item.price;
-		$form.cost = item.cost;
-		$form.description = item.description;
-		$form.code = item.code;
-		$form.tva = item.tva;
-		$form.alert = item.alert;
-	}
+	$form.id = item.id;
+	$form.name = item.name;
+	$form.quantity = item.quantity;
+	$form.price = +item.price.toFixed(2);
+	$form.cost = item.cost;
+	$form.description = item.description;
+	$form.code = item.code;
+	$form.tva = item.tva;
+	$form.alert = item.alert;
+
+	$: totalCost = ($form.quantity * $form.cost).toFixed(2);
+
+	const handleCostChange = (e: Event) => {
+		const value = +(e.target as HTMLInputElement).value;
+
+		if ($form.quantity) {
+			$form.cost = +(value / $form.quantity).toFixed(2);
+		}
+	};
+
+	const handleHTCChange = (e: Event): void => {
+		const value = +(e.target as HTMLInputElement).value;
+
+		htPrice = +(value / (1 + $form.tva / 100)).toFixed(2);
+	};
+
+	let htPrice = +($form.price / (1 + $form.tva / 100)).toFixed(2);
+	$: $form.price = +(htPrice * (1 + $form.tva / 100)).toFixed(2);
 </script>
 
 <div>
@@ -61,44 +78,63 @@
 	</div>
 </div>
 
-<form action="?/update" class="mt-4" method="POST">
-	<input type="hidden" name="id" bind:value={item.id} />
+<form use:enhance action="?/update" class="mt-4 w-full" method="POST">
 	<div class="flex flex-row space-x-5">
-		<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 		<TextField name="code" label="Code" bind:value={$form.code} isInValid={false} />
+		<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 	</div>
-	<div class="flex flex-row space-x-5">
+	<div class="flex flex-row space-x-5 w-full">
 		<NumberField
 			label="Quantité"
 			placeholder="1"
 			bind:value={$form.quantity}
+			isNumber={true}
 			name="quantity"
 			isInValid={false}
 		/>
 		<NumberField
-			label="Alert"
+			label="Alerte"
 			placeholder=""
 			bind:value={$form.alert}
 			name="alert"
+			isNumber={true}
 			isInValid={false}
 		/>
 	</div>
 	<div class="flex flex-row space-x-5">
 		<NumberField
-			label="Prix d'achat unitaire"
+			label="Prix d'achat total"
 			placeholder="1"
-			value={$form.cost}
-			name="cost"
+			value={totalCost}
+			name="total"
+			onChange={handleCostChange}
 			isInValid={false}
 		/>
 		<NumberField
-			label="prix de vente unitaire"
+			label="Prix d'achat unitaire"
 			placeholder="1"
-			bind:value={$form.price}
+			bind:value={$form.cost}
+			name="cost"
+			isInValid={false}
+		/>
+	</div>
+	<div class="flex flex-row space-x-5">
+		<NumberField label="TVA" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
+		<NumberField
+			label="prix de vente unitaire HT"
+			placeholder="1"
+			bind:value={htPrice}
+			name="price_ht"
+			isInValid={false}
+		/>
+		<NumberField
+			label="prix de vente unitaire TTC"
+			placeholder="1"
+			onChange={handleHTCChange}
+			value={$form.price}
 			name="price"
 			isInValid={false}
 		/>
-		<NumberField label="TVA" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 	</div>
 
 	<hr class="py-4" />
