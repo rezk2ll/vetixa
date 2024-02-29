@@ -137,7 +137,6 @@
 		/>
 	</div>
 
-	<hr class="py-4" />
 	<TextAreaField
 		name="description"
 		bind:value={$form.description}
