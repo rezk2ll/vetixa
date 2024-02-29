@@ -6,7 +6,7 @@
 	import SellInventoryItemForm from '$lib/components/forms/inventory/SellInventoryItemForm.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
 	import type { InventoryItemResponse } from '$root/types';
-	import UpdateInventoryItemForm from '$lib/components/forms/inventory/updateInventoryItemForm.svelte';
+	import UpdateInventoryItemForm from '$lib/components/forms/inventory/UpdateInventoryItemForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 
 	let openAddInventoryItemModal = false;
