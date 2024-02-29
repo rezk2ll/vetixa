@@ -18,19 +18,26 @@
 		taintedMessage: null
 	});
 
-	$: totalCost = $form.cost * $form.quantity;
+	$form.quantity = 1;
+
+	$: totalCost = ($form.quantity * $form.cost).toFixed(2);
 
 	$: handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
 		if ($form.quantity) {
-			$form.cost = value / $form.quantity;
+			$form.cost = +(value / $form.quantity).toFixed(2);
 		}
 	};
 
-	let htPrice = 0;
+	const handleHTCChange = (e: Event): void => {
+		const value = +(e.target as HTMLInputElement).value;
 
-	$: $form.price = htPrice * (1 + $form.tva / 100);
+		htPrice = +(value / (1 + $form.tva / 100)).toFixed(2);
+	};
+
+	let htPrice = 0;
+	$: $form.price = +(htPrice * (1 + $form.tva / 100)).toFixed(2);
 </script>
 
 <div>
@@ -62,8 +69,8 @@
 
 <form use:enhance action="?/add" class="mt-4 w-full" method="POST">
 	<div class="flex flex-row space-x-5">
-		<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 		<TextField name="code" label="Code" bind:value={$form.code} isInValid={false} />
+		<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 	</div>
 	<div class="flex flex-row space-x-5 w-full">
 		<NumberField
@@ -110,7 +117,8 @@
 		<NumberField
 			label="prix de vente unitaire TTC"
 			placeholder="1"
-			bind:value={$form.price}
+			onChange={handleHTCChange}
+			value={$form.price}
 			name="price"
 			isInValid={false}
 		/>
