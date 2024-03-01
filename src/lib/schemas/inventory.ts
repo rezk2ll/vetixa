@@ -22,7 +22,7 @@ export const addInventoryItemSchema = z.object({
 		.refine((n) => n > 0),
 	tva: z
 		.number()
-		.min(1)
+		.min(0)
 		.default(10)
 		.or(z.string().regex(/\d+/).transform(Number))
 		.refine((n) => n > 0),
