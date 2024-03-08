@@ -9,7 +9,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 	const { id } = params;
 
 	const vistRecord = await pb.collection('visits').getOne(id, {
-		expand: 'medical_acts, clinical_exams, surgical_acts, animal'
+		expand: 'medical_acts, clinical_exams, surgical_acts, animal, bill(visit)'
 	});
 
 	console.log({ vistRecord  });
