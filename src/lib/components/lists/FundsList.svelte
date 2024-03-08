@@ -86,7 +86,7 @@
 	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4 pt-10 lg:pt-0">
 			<div
-				class="flex pl-2 lg:pl-0 flex-col lg:flex-row items-start lg:items-center justify-between w-full gr"
+				class="flex pl-2 lg:pl-0 flex-col lg:flex-row items-start lg:items-center justify-between w-full"
 			>
 				<div>
 					<div class="flex items-center gap-x-3">
