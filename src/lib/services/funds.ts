@@ -1,11 +1,5 @@
 import type { RecordModel } from 'pocketbase';
-import type {
-	FundTransactionsResponse,
-	InventoryItemResponse,
-	InventorySaleResponse,
-	TypedPocketBase,
-	UsersResponse
-} from '$root/types';
+import type { FundTransactionsResponse, TypedPocketBase, UsersResponse } from '$root/types';
 import { setHours } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
 import type { Fund } from '$root/types';
@@ -80,13 +74,6 @@ export class FundsService {
 				expand: 'user'
 			});
 
-		const salesList = await this.pb
-			.collection('inventory_sale')
-			.getFullList<InventorySaleResponse>({
-				filter: `created >= ${start} && created <= ${end}`,
-				expand: 'seller, item'
-			});
-
 		const expandedTransactions = transactionslist.map((transaction) => {
 			if (!transaction.expand) {
 				return {
@@ -104,21 +91,6 @@ export class FundsService {
 			} as Fund;
 		});
 
-		const expandedSales = salesList.map((sale) => {
-			const user = (sale.expand as RecordModel).seller as unknown as UsersResponse;
-			const item = (sale.expand as RecordModel).item as unknown as InventoryItemResponse ?? '';
-
-			return {
-				...sale,
-				description: `${item.name ?? ''}`,
-				amount: sale.total,
-				user: user.name,
-				category: 'vente'
-			} as Fund;
-		});
-
-		return [...expandedSales, ...expandedTransactions].sort((a, b) =>
-			sortDates(a.created, b.created)
-		);
+		return expandedTransactions.sort((a, b) => sortDates(a.created, b.created));
 	};
 }

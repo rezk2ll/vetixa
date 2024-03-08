@@ -7,6 +7,8 @@ import {
 	updateInventoryItemSchema
 } from '$lib/schemas';
 import type {
+	FundTransactionsMethodOptions,
+	FundTransactionsRecord,
 	InventoryItemResponse,
 	InventorySaleRecord,
 	InventorySaleResponse
@@ -108,7 +110,8 @@ export const actions: Actions = {
 				return message(form, 'Invalid data');
 			}
 
-			const { items } = form.data;
+			let total = 0;
+			const { items, method, incash, outcash } = form.data;
 
 			for (const item of items) {
 				const existingItem = await pb
@@ -130,10 +133,21 @@ export const actions: Actions = {
 					seller: user?.id
 				});
 
+				total += item.quantity * existingItem.price;
+
 				await pb.collection('inventory_item').update(item.id, {
 					quantity: existingItem.quantity - item.quantity
 				});
 			}
+
+			await pb.collection('fund_transactions').create<FundTransactionsRecord>({
+				amount: total,
+				description: 'vente de stock',
+				method: method as FundTransactionsMethodOptions,
+				incash,
+				outcash,
+				user: user?.id
+			} satisfies FundTransactionsRecord);
 
 			return { form };
 		} catch (error) {
