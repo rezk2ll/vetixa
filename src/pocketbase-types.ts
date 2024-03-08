@@ -95,9 +95,17 @@ export type ClinicalExamsRecord = {
 	price?: number
 }
 
+export enum FundTransactionsMethodOptions {
+	"cash" = "cash",
+	"tpe" = "tpe",
+	"cheque" = "cheque",
+}
 export type FundTransactionsRecord = {
 	amount?: number
 	description?: string
+	incash?: number
+	method?: FundTransactionsMethodOptions
+	outcash?: number
 	user?: RecordIdString
 }
 
@@ -112,8 +120,16 @@ export type InventoryItemRecord = {
 	tva?: number
 }
 
+export enum InventorySaleMethodOptions {
+	"cash" = "cash",
+	"tpe" = "tpe",
+	"cheque" = "cheque",
+}
 export type InventorySaleRecord = {
+	incash?: number
 	item?: RecordIdString
+	method?: InventorySaleMethodOptions
+	outcash?: number
 	quantity?: number
 	seller?: RecordIdString
 	total?: number
