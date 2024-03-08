@@ -105,7 +105,7 @@
 			isInValid={false}
 		/>
 	</div>
-	<div class="flex flex-row space-x-5">
+	<div class="flex flex-row space-x-5 pb-6">
 		<NumberField label="TVA" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
 			label="prix de vente unitaire HT"
