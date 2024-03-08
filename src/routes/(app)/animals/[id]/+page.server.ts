@@ -34,11 +34,14 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 				expand: 'medical_acts, clinical_exams, surgical_acts'
 			});
 
+			const bill = await pb.collection('bills').getFirstListItem(`visit="${visit.id}"`);
+
 			return {
 				...(expandedVisit as VisitsResponse),
 				medical_acts: (expandedVisit.expand as RecordModel)?.medical_acts || [],
 				clinical_exams: (expandedVisit.expand as RecordModel)?.clinical_exams || [],
-				surgical_acts: (expandedVisit.expand as RecordModel)?.surgical_acts || []
+				surgical_acts: (expandedVisit.expand as RecordModel)?.surgical_acts || [],
+				bill
 			};
 		})
 	);

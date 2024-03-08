@@ -10,7 +10,10 @@
 	import {
 		addVisitFormStore,
 		deleteVisitFormStore,
-		updateVisitFormStore
+		updateVisitFormStore,
+
+		visitItems
+
 	} from '$root/lib/store/visit';
 
 	export let data: PageData;
@@ -36,10 +39,10 @@
 	$: surgivalActs.set(data.surgicalActs);
 	$: medicalActs.set(data.medicalActs);
 	$: updateAnimalFormStore.set(data.form);
-
 	$: addVisitFormStore.set(data.addForm);
 	$: updateVisitFormStore.set(data.updateForm);
 	$: deleteVisitFormStore.set(data.deleteForm);
+	$: visitItems.set(visits);
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">
@@ -59,6 +62,6 @@
 			<Details details={animalDetails} />
 		</CollapsibleSection>
 
-		<VisitList data={visits} {isNew} />
+		<VisitList {isNew} />
 	</div>
 </div>
