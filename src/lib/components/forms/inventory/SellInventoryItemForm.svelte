@@ -104,6 +104,9 @@
 			$form.outcash = 0;
 		}
 	};
+
+	$: disabled = total < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== total);
+	$: invalidCash = total > 1 && $form.incash - $form.outcash !== total;
 </script>
 
 <div>
@@ -181,25 +184,25 @@
 			items={methods}
 			disabled={total < 1}
 			listOffset={10}
-			bind:value={$form.method}
+			value="cash"
+			bind:justValue={$form.method}
 			on:change={handleMethodChange}
 		/>
-		<!-- TODO: fix value -->
-		{#if $form.method !== 'cash'}
+		{#if $form.method === 'cash'}
 			<div class="flex flex-row space-x-2">
 				<NumberField
 					bind:value={$form.incash}
 					name="incash"
 					label="Entré"
 					placeholder=""
-					isInValid={false}
+					isInValid={invalidCash}
 				/>
 				<NumberField
 					bind:value={$form.outcash}
 					name="outcash"
 					label="Sortie"
 					placeholder=""
-					isInValid={false}
+					isInValid={invalidCash}
 				/>
 			</div>
 		{/if}
@@ -259,6 +262,6 @@
 			Annuler
 		</button>
 
-		<SubmitButton loading={$submitting} disabled={total < 1} />
+		<SubmitButton loading={$submitting} {disabled} />
 	</div>
 </form>
