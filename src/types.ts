@@ -12,6 +12,7 @@ export type storeStatusFilter = 'all' | 'available' | 'alert' | 'unavailable';
 export type fundsStatusFilter = 'all' | 'income' | 'expense';
 export type QueueStatusFilter = 'pending' | 'completed';
 export type AnimalStatusFilter = 'all' | 'chat' | 'chien' | 'male' | 'female';
+export type VisitStatusFilter = 'all' | 'pending' | 'partial' | 'completed';
 
 export interface Fund extends FundTransactionsResponse {
 	category: string;
@@ -19,10 +20,10 @@ export interface Fund extends FundTransactionsResponse {
 }
 
 export interface QueueItem extends Omit<QueueResponse, 'visit'> {
-	visit: expandedVisit;
+	visit: Visit;
 }
 
-export interface expandedVisit extends Omit<VisitsResponse, 'animal'> {
+export interface Visit extends Omit<VisitsResponse, 'animal'> {
 	animal: expandedAnimal;
 }
 
