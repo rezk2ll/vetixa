@@ -1,10 +1,5 @@
 import { message, superValidate } from 'sveltekit-superforms/server';
-import type {
-	AnimalsResponse,
-	ClientsResponse,
-	QueueResponse,
-	VisitsResponse
-} from '$root/types';
+import type { AnimalsResponse, BillsResponse, ClientsResponse, QueueResponse, VisitsResponse } from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import { updateQueueSchema } from '$lib/schemas';
 import type { RecordModel } from 'pocketbase';
@@ -18,20 +13,31 @@ export const load = (async ({ locals: { pb } }) => {
 		expand: 'visit, visit.animal, visit.animal.client'
 	});
 
-	const queue = queueList.map((item) => ({
-		...item,
-		visit: {
-			...((item.expand as RecordModel).visit as VisitsResponse),
-			animal: {
-				...(((item.expand as RecordModel).visit.expand as RecordModel).animal as AnimalsResponse),
-				client: {
-					...((
-						((item.expand as RecordModel).visit.expand as RecordModel).animal.expand as RecordModel
-					).client as ClientsResponse)
+	const queue = await Promise.all(
+		queueList.map(async (item) => {
+			const bill = await pb
+				.collection('bills')
+				.getFirstListItem<BillsResponse>(`visit = "${item.visit}"`);
+
+			return {
+				...item,
+				visit: {
+					...((item.expand as RecordModel).visit as VisitsResponse),
+					bill,
+					animal: {
+						...(((item.expand as RecordModel).visit.expand as RecordModel)
+							.animal as AnimalsResponse),
+						client: {
+							...((
+								((item.expand as RecordModel).visit.expand as RecordModel).animal
+									.expand as RecordModel
+							).client as ClientsResponse)
+						}
+					}
 				}
-			}
-		}
-	}));
+			};
+		})
+	);
 
 	return { queue, form };
 }) satisfies PageServerLoad;
@@ -55,7 +61,7 @@ export const actions: Actions = {
 				});
 			}
 
-			throw redirect(301, `/visit/${form.data.id}`);
+			throw redirect(301, `/visit/${item.visit}`);
 		} catch (error) {
 			if ((error as Redirect).location) {
 				throw error;
