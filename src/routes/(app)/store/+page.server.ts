@@ -80,10 +80,6 @@ export const actions: Actions = {
 
 		try {
 			if (!addForm.valid) {
-				console.log(addForm.data);
-
-				console.log(addForm.errors);
-
 				return fail(400, { addForm });
 			}
 
