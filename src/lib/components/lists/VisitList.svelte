@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Modal from '$lib/components/Modal.svelte';
+	import Modal from '$components/Modal.svelte';
 	import { enhance } from '$app/forms';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import AddVisitForm from '$components/forms/visit/AddVisitForm.svelte';
 	import type { VisitStatusFilter as StatusFilter, Visit } from '$types';
 	import { formatDateString } from '$lib/utils/date';
 	import { visitItems } from '$store/visit';
-	import PaymentStatus from '../dispaly/PaymentStatus.svelte';
+	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
 
 	export let isNew: boolean = false;
 
