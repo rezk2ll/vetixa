@@ -51,7 +51,7 @@
 	{/if}
 </Modal>
 <div class="antialiased xl:pl-14">
-	<div class="flex flex-col xl:flex-row xl:px-14 xl:py-10 w-full pt-5">
+	<div class="flex flex-col xl:flex-row xl:pl-14 xl:py-10 w-full pt-5">
 		<CollapsibleSection
 			title={`${animal.name}`}
 			color="primary"
