@@ -1,8 +1,9 @@
 <script lang="ts">
-	export let paid: boolean = false;
-	export let total: number = 0;
-	export let total_paid: number = 0;
+	import type { BillsResponse } from '$root/pocketbase-types';
 
+	export let bill: BillsResponse;
+
+	$: ({ paid, total, total_paid } = bill);
 	$: partiallyPaid = total_paid > 0 && total_paid < total;
 	$: pendingPayment = total_paid === 0;
 </script>
