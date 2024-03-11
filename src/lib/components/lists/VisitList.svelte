@@ -88,7 +88,7 @@
 </Modal>
 <div class="flex flex-col items-center justify-start w-full">
 	<div
-		class="w-full xl:w-11/12 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded"
+		class="w-full xl:w-11/12 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded px-2"
 	>
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
@@ -120,7 +120,7 @@
 			</button>
 		</div>
 		<div
-			class="flex px-1 py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between"
+			class="flex px-1 py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
 		>
 			<div
 				class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
