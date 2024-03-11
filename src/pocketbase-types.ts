@@ -74,9 +74,17 @@ export type AnimalsRecord = {
 	weight?: number
 }
 
+export enum BillsMethodOptions {
+	"cash" = "cash",
+	"tpe" = "tpe",
+	"cheque" = "cheque",
+}
+
 export type BillsRecord = {
-	method?: string
+	method?: BillsMethodOptions
 	paid?: boolean
+	total?: number
+	total_paid?: number
 	visit?: RecordIdString
 }
 

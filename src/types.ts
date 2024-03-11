@@ -3,7 +3,8 @@ import type {
 	QueueResponse,
 	VisitsResponse,
 	AnimalsResponse,
-	ClientsResponse
+	ClientsResponse,
+	BillsResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -25,6 +26,7 @@ export interface QueueItem extends Omit<QueueResponse, 'visit'> {
 
 export interface Visit extends Omit<VisitsResponse, 'animal'> {
 	animal: expandedAnimal;
+	bill: BillsResponse;
 }
 
 export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
