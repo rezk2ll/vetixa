@@ -37,8 +37,8 @@
 			const searchString = search.toLocaleLowerCase();
 
 			if (
-				!item.motif.toLocaleLowerCase().includes(searchString) &&
-				!item.animal.name.toLocaleLowerCase().includes(searchString)
+				!item.motif.toLowerCase().includes(searchString) &&
+				!item.animal.name.toLowerCase().includes(searchString)
 			) {
 				return false;
 			}
@@ -275,7 +275,8 @@
 												</a>
 											</div>
 										</td>
-										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+										<td
+											class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>{visit.motif}</td
 										>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
@@ -285,7 +286,7 @@
 											>{visit.bill.total - visit.bill.total_paid} Dt</td
 										>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
-											<PaymentStatus {...visit.bill} />
+											<PaymentStatus bill={visit.bill} />
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div class="flex items-end justify-end gap-x-6 w-full">
@@ -311,7 +312,7 @@
 
 												<a
 													href="#"
-													title="Modifier le client"
+													title="Modifier la visite"
 													class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
 												>
 													<svg
