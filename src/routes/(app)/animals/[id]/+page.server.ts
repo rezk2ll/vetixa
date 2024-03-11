@@ -38,6 +38,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 
 			return {
 				...(expandedVisit as VisitsResponse),
+				animal,
 				medical_acts: (expandedVisit.expand as RecordModel)?.medical_acts || [],
 				clinical_exams: (expandedVisit.expand as RecordModel)?.clinical_exams || [],
 				surgical_acts: (expandedVisit.expand as RecordModel)?.surgical_acts || [],
