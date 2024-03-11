@@ -6,6 +6,7 @@
 	import type { VisitStatusFilter as StatusFilter, Visit } from '$types';
 	import { formatDateString } from '$lib/utils/date';
 	import { visitItems } from '$store/visit';
+	import PaymentStatus from '../dispaly/PaymentStatus.svelte';
 
 	export let isNew: boolean = false;
 
@@ -41,10 +42,24 @@
 			) {
 				return false;
 			}
-
-			return true;
 		}
+
+		if (statusFilter === 'completed') {
+			return item.bill && item.bill.paid && item.bill.total === item.bill.total_paid;
+		}
+
+		if (statusFilter === 'partial') {
+			return item.bill && item.bill.total_paid > 0 && item.bill.total_paid < item.bill.total;
+		}
+
+		return true;
 	});
+
+	$: paidCount = $visitItems.filter(({ bill }) => bill && bill.paid).length;
+	$: partialCount = $visitItems.filter(
+		({ bill }) => bill && bill.total_paid > 0 && bill.total_paid < bill.total
+	).length;
+	$: pendingCount = $visitItems.filter(({ bill }) => bill && bill.total_paid === 0).length;
 </script>
 
 <form use:enhance action="?/deleteVisit" method="POST" class="hidden" bind:this={deleteFormRef}>
@@ -79,7 +94,9 @@
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Visites</h2>
 
-				<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full">{items.length}</span>
+				<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
+					>{$visitItems.length}</span
+				>
 			</div>
 			<button
 				on:click={() => (openAddModal = true)}
@@ -134,7 +151,7 @@
 					<span
 						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 					>
-						2
+						{paidCount}
 					</span>
 				</button>
 				<button
@@ -151,7 +168,7 @@
 					<span
 						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 					>
-						1
+						{partialCount}
 					</span>
 				</button>
 				<button
@@ -168,7 +185,7 @@
 					<span
 						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 					>
-						1
+						{pendingCount}
 					</span>
 				</button>
 			</div>
@@ -217,26 +234,23 @@
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>Motif</th
 									>
+
 									<th
 										scope="col"
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-										>Examens</th
+										>Total</th
 									>
 									<th
 										scope="col"
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-										>Actes chirurgicaux</th
+										>Reste</th
 									>
-									<th
-										scope="col"
-										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-										>Actes médicaux</th
-									>
+
 									<th
 										scope="col"
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 									>
-										statut de paiement
+										statut
 									</th>
 									<th scope="col" class="relative py-3.5 px-4">
 										<span class="sr-only">Modifier</span>
@@ -261,20 +275,17 @@
 												</a>
 											</div>
 										</td>
-										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>{visit.motif}</td
 										>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{visit.clinical_exams.length}</td
+											>{visit.bill.total} Dt</td
 										>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{visit.surgical_acts.length}</td
-										>
-										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{visit.medical_acts.length}</td
+											>{visit.bill.total - visit.bill.total_paid} Dt</td
 										>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
-											<!-- {visit.Bill?.paid ? 'oui' : 'non'} -->
+											<PaymentStatus {...visit.bill} />
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div class="flex items-end justify-end gap-x-6 w-full">
