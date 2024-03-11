@@ -103,8 +103,8 @@ export const actions: Actions = {
 
 			await pb.collection('bills').create<BillsRecord>({
 				visit: visit.id,
-				method: 'cash',
-				paid: false
+				paid: false,
+				total_paid: 0
 			});
 
 			throw redirect(303, `/queue`);
