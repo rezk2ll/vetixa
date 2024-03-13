@@ -99,7 +99,7 @@ export const actions = {
 			}
 
 			const bill = await pb.collection('bills').getFirstListItem<BillsResponse>(`visit = "${id}"`);
-			const paid = bill.total - amount === 0;
+			const paid = bill.total - (amount + bill.total_paid) === 0;
 			const totalPaid = bill.total_paid + amount;
 
 			await pb.collection('bills').update(bill.id, {
@@ -120,6 +120,8 @@ export const actions = {
 
 			return { form };
 		} catch (error) {
+			console.error(error);
+
 			return message(form, 'Failed to update visit payment');
 		}
 	}
