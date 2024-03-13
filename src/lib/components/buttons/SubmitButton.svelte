@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let loading: boolean = false;
 	export let disabled: boolean = false;
+	export let full: boolean = false;
 
 	$: disable = loading || disabled;
 </script>
@@ -8,13 +9,13 @@
 <button
 	disabled={disable}
 	type="submit"
-	class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform {disable
+	class="px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform {disable
 		? 'bg-slate-600'
 		: 'bg-emerald-600'} rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 {disable
 		? 'hover:bg-slate-500'
 		: 'hover:bg-emerald-500'} focus:outline-none focus:ring {disable
 		? 'focus:ring-slate-300'
-		: 'focus:ring-emerald-300'} focus:ring-opacity-40"
+		: 'focus:ring-emerald-300'} focus:ring-opacity-40 {full ? 'lg:w-full lg:mx-0' : ''}"
 >
 	{#if loading}
 		<svg
