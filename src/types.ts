@@ -42,3 +42,4 @@ export interface IClient extends Omit<ClientsResponse, 'animals'> {
 }
 
 export type PaymentMethodType = 'cash' | 'tpe' | 'cheque';
+export type VisitTabsType = 'exams' | 'diagnostics' | 'files' | 'hospit' | 'shop';
