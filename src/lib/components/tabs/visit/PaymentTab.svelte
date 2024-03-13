@@ -10,9 +10,12 @@
 	import PaymentStatus from '../../dispaly/PaymentStatus.svelte';
 
 	export let bill: BillsResponse;
+	export let visitId: string;
 
 	const { form, enhance, submitting } = superForm($payVisitFormStore, {
-		taintedMessage: null
+		taintedMessage: null,
+		dataType: 'json',
+    resetForm: true
 	});
 
 	const handleMethodChange = (e: any) => {
@@ -22,9 +25,15 @@
 		}
 	};
 
+	$: $form.id = visitId;
 	$: disabled =
-		$form.amount < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount);
-	$: invalidCash = $form.amount > 1 && $form.incash - $form.outcash !== $form.amount;
+		$form.amount <= 0 ||
+		($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount) ||
+		$form.method === undefined ||
+		rest === 0;
+	$: invalidCash = $form.amount > 0 && $form.incash - $form.outcash !== $form.amount;
+	$: disabledSelect = $form.amount === undefined || $form.amount <= 0;
+	$: rest = bill.total - bill.total_paid;
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
@@ -39,7 +48,7 @@
 						<button
 							type="button"
 							disabled
-							class="min-w-20 px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700  focus:outline-none"
+							class="min-w-20 px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700 focus:outline-none"
 							>TOTAL</button
 						>
 						<span class="font-bold text-gray-800 dark:text-gray-200">{bill.total} DT</span>
@@ -48,12 +57,10 @@
 						<button
 							type="button"
 							disabled
-							class="min-w-20 px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700  focus:outline-none"
+							class="min-w-20 px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700 focus:outline-none"
 							>RESTE</button
 						>
-						<span class="font-bold text-gray-800 dark:text-gray-200"
-							>{bill.total - bill.total_paid} DT</span
-						>
+						<span class="font-bold text-gray-800 dark:text-gray-200">{rest} DT</span>
 					</div>
 				</div>
 			</div>
@@ -67,11 +74,13 @@
 				<div class="w-full">
 					<Select
 						items={paymentMethods}
-						disabled={$form.amount < 1}
+						disabled={disabledSelect}
 						listOffset={10}
 						value="cash"
+						placeholder="veuillez sélectionner"
 						bind:justValue={$form.method}
 						on:change={handleMethodChange}
+						class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
 					/>
 					{#if $form.method === 'cash'}
 						<div class="flex flex-row space-x-2">
@@ -80,6 +89,7 @@
 								name="incash"
 								label="Entré"
 								placeholder=""
+								disabled={disabledSelect}
 								isInValid={invalidCash}
 							/>
 							<NumberField
@@ -87,6 +97,7 @@
 								name="outcash"
 								label="Sortie"
 								placeholder=""
+								disabled={disabledSelect}
 								isInValid={invalidCash}
 							/>
 						</div>
