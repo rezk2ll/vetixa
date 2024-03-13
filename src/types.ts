@@ -4,7 +4,8 @@ import type {
 	VisitsResponse,
 	AnimalsResponse,
 	ClientsResponse,
-	BillsResponse
+	BillsResponse,
+	ClinicalExamsResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -24,9 +25,10 @@ export interface QueueItem extends Omit<QueueResponse, 'visit'> {
 	visit: Visit;
 }
 
-export interface Visit extends Omit<VisitsResponse, 'animal'> {
+export interface Visit extends Omit<VisitsResponse, 'animal' | 'clinical_exams'> {
 	animal: expandedAnimal;
 	bill: BillsResponse;
+	clinical_exams: ClinicalExamsResponse[];
 }
 
 export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
