@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BillsResponse } from '$root/pocketbase-types';
+	import type { BillsResponse } from '$types';
 
 	export let bill: BillsResponse;
 
@@ -10,7 +10,7 @@
 
 <div class="flex items-center gap-x-4 w-full">
 	<span
-		class="flex font-semibold items-center justify-center text-white w-full p-2 {paid
+		class="flex font-semibold items-center justify-center text-white w-full p-1 {paid
 			? 'bg-emerald-500/80'
 			: pendingPayment
 			? 'bg-red-500/80'
