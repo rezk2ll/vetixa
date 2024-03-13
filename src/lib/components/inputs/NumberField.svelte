@@ -6,6 +6,7 @@
 	export let name: string;
 	export let isNumber: boolean = false;
 	export let onChange: (e: any) => void = () => {};
+	export let disabled: boolean = false;
 
 	$: props = { ...(isNumber ? {} : { step: 'any' }) };
 </script>
@@ -14,6 +15,7 @@
 	<input
 		required
 		id={name}
+		{disabled}
 		{name}
 		min="0"
 		bind:value
