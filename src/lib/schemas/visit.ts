@@ -19,3 +19,10 @@ export const payVisitSchema = z.object({
 	outcash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)),
 	description: z.string()
 });
+
+export const addVisitItemSchema = z.object({
+	id: z.string().min(1),
+	item: z.string().min(1)
+});
+
+export const removeVisitItemSchema = addVisitItemSchema;
