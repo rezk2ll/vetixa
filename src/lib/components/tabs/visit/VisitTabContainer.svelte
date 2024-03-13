@@ -1,12 +1,14 @@
 <script lang="ts">
-	import type { VisitTabsType } from '$root/types';
+	import type { VisitTabsType } from '$types';
 	import { activeVisitTab } from '$store/visit';
+	import ExamsTab from '$components/tabs/visit/ExamsTab.svelte';
+	import FilesTab from '$components/tabs/visit/FilesTab.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
-	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded-md">
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="flex overflow-x-auto whitespace-nowrap w-full">
 				<button
@@ -109,5 +111,10 @@
 				</button>
 			</div>
 		</div>
+		{#if $activeVisitTab === 'exams'}
+			<ExamsTab />
+		{:else if $activeVisitTab === 'files'}
+			<FilesTab />
+		{/if}
 	</div>
 </div>
