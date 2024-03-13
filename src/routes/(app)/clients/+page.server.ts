@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import type { ClientsResponse } from '$root/types';
+import type { ClientsResponse } from '$types';
 import type { RecordModel } from 'pocketbase';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';

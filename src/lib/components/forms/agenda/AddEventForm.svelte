@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { addEventFormStore } from '$root/lib/store/agenda';
+	import { addEventFormStore } from '$store/agenda';
 	import TextAreaField from '../../inputs/TextAreaField.svelte';
 	import DateInput from 'date-picker-svelte/DateInput.svelte';
 	import { localeFromDateFnsLocale } from 'date-picker-svelte/locale';

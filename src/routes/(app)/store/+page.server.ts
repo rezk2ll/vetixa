@@ -12,7 +12,7 @@ import type {
 	InventoryItemResponse,
 	InventorySaleRecord,
 	InventorySaleResponse
-} from '$root/types';
+} from '$types';
 import type { RecordModel } from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 

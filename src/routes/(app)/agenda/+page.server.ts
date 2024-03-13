@@ -1,7 +1,7 @@
-import type { AgendaResponse } from '$root/pocketbase-types';
+import type { AgendaResponse } from '$types';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
-import { addAgendaEventSchema, removeSchema, updateAgendaEventSchema } from '$root/lib/schemas';
+import { addAgendaEventSchema, removeSchema, updateAgendaEventSchema } from '$lib/schemas';
 
 export const load = (async ({ locals: { pb } }) => {
 	const addForm = await superValidate(addAgendaEventSchema, { id: 'add-event' });

@@ -5,7 +5,7 @@
 	import Select from 'svelte-select';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
-	import type { PaymentMethodType } from '$root/types';
+	import type { PaymentMethodType } from '$types';
 
 	export let open = false;
 

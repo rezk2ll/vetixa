@@ -6,7 +6,7 @@
 	import { fundItems } from '$lib/store/funds';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import { fr } from 'date-fns/locale';
-	import type { fundsStatusFilter as StatusFilter } from '$root/types';
+	import type { fundsStatusFilter as StatusFilter } from '$types';
 	import { format, setHours, setMinutes } from 'date-fns';
 	import { goto } from '$app/navigation';
 

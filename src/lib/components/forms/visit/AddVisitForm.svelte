@@ -1,6 +1,6 @@
 <script lang="ts">
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
-	import { addVisitFormStore } from '$root/lib/store/visit';
+	import { addVisitFormStore } from '$store/visit';
 	import { superForm } from 'sveltekit-superforms/client';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 

@@ -1,8 +1,8 @@
 import type { RecordModel } from 'pocketbase';
-import type { FundTransactionsResponse, TypedPocketBase, UsersResponse } from '$root/types';
+import type { FundTransactionsResponse, TypedPocketBase, UsersResponse } from '$types';
 import { setHours } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
-import type { Fund } from '$root/types';
+import type { Fund } from '$types';
 
 type BalanceData = {
 	income: number;

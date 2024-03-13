@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatDateTime } from '$root/lib/utils/date';
-	import type { AgendaResponse } from '$root/types';
+	import { formatDateTime } from '$utils/date';
+	import type { AgendaResponse } from '$types';
 
 	export let item: AgendaResponse;
 	export let open = false;

@@ -14,7 +14,7 @@
 
 		visitItems
 
-	} from '$root/lib/store/visit';
+	} from '$store/visit';
 
 	export let data: PageData;
 

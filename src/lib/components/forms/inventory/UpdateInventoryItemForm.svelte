@@ -3,8 +3,8 @@
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import TextField from '$lib/components/inputs/TextField.svelte';
-	import type { InventoryItemResponse } from '$root/types';
-	import { updateInventoryFormStore } from '$root/lib/store/inventory';
+	import type { InventoryItemResponse } from '$types';
+	import { updateInventoryFormStore } from '$store/inventory';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;

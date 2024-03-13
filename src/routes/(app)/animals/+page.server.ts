@@ -1,6 +1,6 @@
 import { removeSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/server';
-import type { AnimalsResponse, ClientsResponse } from '$root/types';
+import type { AnimalsResponse, ClientsResponse } from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import type { RecordModel } from 'pocketbase';
 

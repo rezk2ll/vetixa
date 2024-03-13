@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AgendaResponse } from '$root/pocketbase-types';
+	import type { AgendaResponse } from '$types';
 	import { Calendar } from '@fullcalendar/core';
 	import dayGridPlugin from '@fullcalendar/daygrid';
 	import interactionPlugin from '@fullcalendar/interaction';
@@ -8,13 +8,13 @@
 	import { onMount } from 'svelte';
 	import french from '@fullcalendar/core/locales/fr';
 	import type { PageData } from './$types';
-	import Modal from '$root/lib/components/Modal.svelte';
-	import AddEventForm from '$root/lib/components/forms/agenda/AddEventForm.svelte';
-	import UpdateEventForm from '$root/lib/components/forms/agenda/UpdateEventForm.svelte';
-	import DisplayEventForm from '$root/lib/components/forms/agenda/DisplayEventForm.svelte';
+	import Modal from '$components/Modal.svelte';
+	import AddEventForm from '$components/forms/agenda/AddEventForm.svelte';
+	import UpdateEventForm from '$components/forms/agenda/UpdateEventForm.svelte';
+	import DisplayEventForm from '$components/forms/agenda/DisplayEventForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { removeEventFormStore } from '$root/lib/store/agenda';
-	import ConfirmationDialog from '$root/lib/components/ConfirmationDialog.svelte';
+	import { removeEventFormStore } from '$store/agenda';
+	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 
 	export let data: PageData;
 	$: ({ events } = data);

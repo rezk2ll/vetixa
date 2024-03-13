@@ -1,13 +1,13 @@
 <script lang="ts">
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { addEventFormStore, updateEventFormStore } from '$root/lib/store/agenda';
+	import { addEventFormStore, updateEventFormStore } from '$store/agenda';
 	import TextAreaField from '../../inputs/TextAreaField.svelte';
 	import DateInput from 'date-picker-svelte/DateInput.svelte';
 	import { localeFromDateFnsLocale } from 'date-picker-svelte/locale';
 	import { fr } from 'date-fns/locale';
 	import { formatISO } from 'date-fns';
-	import type { AgendaResponse } from '$root/pocketbase-types';
+	import type { AgendaResponse } from '$types';
 
 	let locale = localeFromDateFnsLocale(fr);
 

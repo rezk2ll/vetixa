@@ -9,11 +9,11 @@ import type {
 	VisitsResponse,
 	QueueRecord,
 	ClientsResponse
-} from '$root/types';
+} from '$types';
 import type { RecordModel } from 'pocketbase';
 import { removeSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/client';
-import { addVisitSchema, updateVisitSchema } from '$root/lib/schemas/visit';
+import { addVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;

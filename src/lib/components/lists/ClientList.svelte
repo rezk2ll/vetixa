@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$lib/components/Modal.svelte';
-	import type { IClient } from '$root/types';
+	import type { IClient } from '$types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { clients, removeClientFormStore } from '$lib/store/clients';

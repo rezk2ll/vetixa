@@ -1,4 +1,4 @@
-import type { AgendaResponse } from '$root/types';
+import type { AgendaResponse } from '$types';
 import { writable } from 'svelte/store';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type { addAgendaEventSchema, removeSchema, updateAgendaEventSchema } from '../schemas';

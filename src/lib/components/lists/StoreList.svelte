@@ -2,10 +2,10 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
 	import { inventoryItems, removeInventoryFormStore } from '$lib/store/inventory';
-	import type { storeStatusFilter as StatusFilter } from '$root/types';
+	import type { storeStatusFilter as StatusFilter } from '$types';
 	import SellInventoryItemForm from '$lib/components/forms/inventory/SellInventoryItemForm.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
-	import type { InventoryItemResponse } from '$root/types';
+	import type { InventoryItemResponse } from '$types';
 	import UpdateInventoryItemForm from '$lib/components/forms/inventory/UpdateInventoryItemForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 

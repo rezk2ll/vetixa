@@ -1,15 +1,12 @@
 <script lang="ts">
 	import Select from 'svelte-select';
-	import type {
-		SurgicalActsResponse,
-		MedicalActsResponse,
-		ClinicalExamsResponse
-	} from '$root/types';
+	import type { SurgicalActsResponse, MedicalActsResponse, ClinicalExamsResponse } from '$types';
 
 	export let title: string;
 	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];
 	export let open = false;
 	export let value: string;
+	export let handler: () => void = () => {};
 
 	$: data = items.map((item) => ({
 		value: item.id,
@@ -19,6 +16,11 @@
 	const handleChane = (e: any) => {
 		value = JSON.stringify(e.detail.map((item: any) => item.value));
 	};
+
+	const handleConfirm = () => {
+		handler();
+		open = false;
+	}
 </script>
 
 <div>
@@ -28,7 +30,7 @@
 
 	<div class="mt-2 text-center">
 		<h3
-			class="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
+			class="text-lg font-medium leading-6 text-gray-800 dark:text-white"
 			id="modal-title"
 		>
 			{title}
@@ -57,7 +59,7 @@
 			</button>
 
 			<button
-				on:click={() => (open = false)}
+				on:click={handleConfirm}
 				type="button"
 				class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
 			>

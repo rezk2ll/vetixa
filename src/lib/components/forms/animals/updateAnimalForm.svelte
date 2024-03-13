@@ -5,7 +5,7 @@
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { updateAnimalFormStore } from '$lib/store/animals';
-	import type { AnimalsResponse } from '$root/types';
+	import type { AnimalsResponse } from '$types';
 	import { format } from 'date-fns';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 

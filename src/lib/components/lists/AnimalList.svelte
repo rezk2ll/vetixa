@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Modal from '../Modal.svelte';
 	import { animals, deleteAnimalFormStore } from '$lib/store/animals';
-	import type { AnimalStatusFilter as StatusFilter } from '$root/types';
+	import type { AnimalStatusFilter as StatusFilter } from '$types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
-	import type { AnimalsResponse } from '$root/types';
+	import type { AnimalsResponse } from '$types';
 	import { superForm } from 'sveltekit-superforms/client';
 	import AgeDisplay from '../dispaly/AgeDisplay.svelte';
 	import Cat from '../icons/Cat.svelte';

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { InventoryItemResponse } from '$root/types';
+import type { InventoryItemResponse } from '$types';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type {
 	addInventoryItemSchema,

@@ -3,7 +3,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import TextField from '$lib/components/inputs/TextField.svelte';
-	import { addInventoryFormStore } from '$root/lib/store/inventory';
+	import { addInventoryFormStore } from '$store/inventory';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 
 	export let open = false;
