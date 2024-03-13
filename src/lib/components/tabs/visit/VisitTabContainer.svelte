@@ -12,9 +12,9 @@
 				<button
 					type="button"
 					on:click={() => activeVisitTab.set('exams')}
-					class=" {isActive('exams')
+					class="px-4 {isActive('exams')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
-						: 'bg-transparent border-b border-l-transparent border-r-transparent cursor-base focus:outline-none hover:border-gray-400  text-gray-600'}  inline-flex items-center h-12 px-2 py-2 text-center border-gray-300 sm:px-4 whitespace-nowrap"
+						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -32,9 +32,9 @@
 				<button
 					type="button"
 					on:click={() => activeVisitTab.set('diagnostics')}
-					class=" {isActive('diagnostics')
+					class="px-4 {isActive('diagnostics')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
-						: 'bg-transparent border-b border-l-transparent border-r-transparent cursor-base  focus:outline-none hover:border-gray-400  text-gray-600'}  inline-flex items-center h-12 px-2 py-2 text-center border-gray-300 sm:px-4 whitespace-nowrap"
+						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -52,9 +52,9 @@
 				<button
 					type="button"
 					on:click={() => activeVisitTab.set('files')}
-					class=" {isActive('files')
+					class="px-4 {isActive('files')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
-						: 'bg-transparent border-b border-l-transparent border-r-transparent cursor-base focus:outline-none hover:border-gray-400  text-gray-600'}  inline-flex items-center h-12 px-2 py-2 text-center border-gray-300 sm:px-4 whitespace-nowrap"
+						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +71,9 @@
 				<button
 					type="button"
 					on:click={() => activeVisitTab.set('hospit')}
-					class=" {isActive('hospit')
+					class="px-4 {isActive('hospit')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
-						: 'bg-transparent border-b cursor-base border-l-transparent border-r-transparent focus:outline-none hover:border-gray-400  text-gray-600 '}  inline-flex items-center h-12 px-2 py-2 text-center border-gray-300 sm:px-4 whitespace-nowrap"
+						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -90,9 +90,9 @@
 				<button
 					type="button"
 					on:click={() => activeVisitTab.set('shop')}
-					class=" {isActive('shop')
-						? 'border border-b-transparent rounded-t-md focus:outline-none text-zinc-700'
-						: 'bg-transparent border-b cursor-base border-l-transparent border-r-transparent focus:outline-none hover:border-gray-400  text-gray-600'}  inline-flex items-center h-12 px-2 py-2 text-center border-gray-300 sm:px-4 whitespace-nowrap"
+					class="px-4 {isActive('shop')
+						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
+						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
