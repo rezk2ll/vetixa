@@ -43,7 +43,7 @@
 				multiple
 				showChevron
 				listOffset={10}
-				placeholder="veuillez en sélectionner"
+				placeholder="veuillez sélectionner"
 			/>
 		</div>
 
