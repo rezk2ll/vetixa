@@ -4,10 +4,10 @@
 	import { paymentMethods } from '$lib/utils/payment';
 	import Select from 'svelte-select';
 	import { superForm } from 'sveltekit-superforms/client';
-	import TextAreaField from '../../inputs/TextAreaField.svelte';
-	import SubmitButton from '../../buttons/SubmitButton.svelte';
-	import type { BillsResponse } from '$root/pocketbase-types';
-	import PaymentStatus from '../../dispaly/PaymentStatus.svelte';
+	import TextAreaField from '$components/inputs/TextAreaField.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import type { BillsResponse } from '$types';
+	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
 
 	export let bill: BillsResponse;
 	export let visitId: string;
@@ -15,7 +15,7 @@
 	const { form, enhance, submitting } = superForm($payVisitFormStore, {
 		taintedMessage: null,
 		dataType: 'json',
-    resetForm: true
+		resetForm: true
 	});
 
 	const handleMethodChange = (e: any) => {
@@ -37,7 +37,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
-	<div class="w-full p-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full p-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 xl:rounded px-2">
 		<div class="flex flex-col w-full space-y-2">
 			<div class="flex flex-col w-full">
 				<h2 class="text-xl font-semibold text-gray-800">Paiement</h2>
