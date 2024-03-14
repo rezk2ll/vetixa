@@ -1,16 +1,13 @@
 <script lang="ts">
 	import SelectActForm from './../forms/SelectActForm.svelte';
 	import Modal from '../Modal.svelte';
-	import type {
-		ClinicalExamsResponse,
-		MedicalActsResponse,
-		SurgicalActsResponse
-	} from '$root/types';
+	import type { ClinicalExamsResponse, MedicalActsResponse, SurgicalActsResponse } from '$types';
 
 	export let title: string;
 	export let description: string;
 	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];
 	export let name: string;
+	export let handler: () => void = () => {};
 
 	let open = false;
 	let value: string = '';
@@ -21,7 +18,7 @@
 	class="flex flex-col items-center py-6 space-y-3 text-center bg-gray-100 rounded-xl dark:bg-gray-800 h-full"
 >
 	<Modal bind:open>
-		<SelectActForm bind:open {title} {items} bind:value>
+		<SelectActForm bind:open {title} {items} {handler} bind:value>
 			<slot />
 		</SelectActForm>
 	</Modal>
