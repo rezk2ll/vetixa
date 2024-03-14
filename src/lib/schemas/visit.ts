@@ -20,9 +20,12 @@ export const payVisitSchema = z.object({
 	description: z.string()
 });
 
-export const addVisitItemSchema = z.object({
+export const addVisitItemsSchema = z.object({
+	id: z.string().min(1),
+	items: z.array(z.string().min(1))
+});
+
+export const removeVisitItemSchema = z.object({
 	id: z.string().min(1),
 	item: z.string().min(1)
 });
-
-export const removeVisitItemSchema = addVisitItemSchema;

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type {
-	addVisitItemSchema,
+	addVisitItemsSchema,
 	addVisitSchema,
 	payVisitSchema,
 	removeVisitItemSchema,
@@ -16,7 +16,7 @@ export const addVisitFormStore = writable<SuperValidated<typeof addVisitSchema>>
 export const updateVisitFormStore = writable<SuperValidated<typeof updateVisitSchema>>();
 export const deleteVisitFormStore = writable<SuperValidated<typeof removeSchema>>();
 export const payVisitFormStore = writable<SuperValidated<typeof payVisitSchema>>();
-export const addVisitExamFormStore = writable<SuperValidated<typeof addVisitItemSchema>>();
+export const addVisitExamFormStore = writable<SuperValidated<typeof addVisitItemsSchema>>();
 export const removeVisitItemFormStore = writable<SuperValidated<typeof removeVisitItemSchema>>();
 
 export const activeVisitTab = writable<VisitTabsType>('exams');
