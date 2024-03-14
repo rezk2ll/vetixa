@@ -5,7 +5,7 @@
 	export let title: string;
 	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];
 	export let open = false;
-	export let value: string;
+	export let value: string[];
 	export let handler: () => void = () => {};
 
 	$: data = items.map((item) => ({
@@ -14,13 +14,13 @@
 	}));
 
 	const handleChane = (e: any) => {
-		value = JSON.stringify(e.detail.map((item: any) => item.value));
+		value = e.detail.map(({ value }: any) => value);
 	};
 
 	const handleConfirm = () => {
 		handler();
 		open = false;
-	}
+	};
 </script>
 
 <div>
@@ -29,10 +29,7 @@
 	</div>
 
 	<div class="mt-2 text-center">
-		<h3
-			class="text-lg font-medium leading-6 text-gray-800 dark:text-white"
-			id="modal-title"
-		>
+		<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
 			{title}
 		</h3>
 	</div>
