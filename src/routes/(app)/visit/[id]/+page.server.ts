@@ -1,44 +1,49 @@
 import { redirect, error } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type {
-	FundTransactionsRecord,
-	BillsResponse,
 	ClinicalExamsResponse,
 	MedicalActsResponse,
 	SurgicalActsResponse,
-	FundTransactionsMethodOptions,
-	BillsRecord,
-	BillsMethodOptions
+	BillsMethodOptions,
+	VisitsResponse
 } from '$types';
+import {
+	addVisitItemsSchema,
+	payVisitSchema,
+	removeVisitItemSchema,
+	updateVisitSchema
+} from '$lib/schemas/visit';
 import type { RecordModel } from 'pocketbase';
-import { payVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
 import { message, superValidate } from 'sveltekit-superforms/server';
+import BillService from '$lib/services/bill';
 
 export const load = (async ({ params, locals: { pb } }) => {
 	const { id } = params;
 
 	try {
-		const visitRecord = await pb.collection('visits').getOne(id, {
+		const form = await superValidate(updateVisitSchema, { id: 'update-visit' });
+		const addExamForm = await superValidate(addVisitItemsSchema, { id: 'add-exam' });
+		const removeExamForm = await superValidate(removeVisitItemSchema, { id: 'remove-exam' });
+		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
 			expand: 'medical_acts, clinical_exams, surgical_acts, animal'
 		});
-
-		const form = await superValidate(updateVisitSchema, { id: 'update-visit' });
 
 		if (!visitRecord) {
 			throw redirect(301, '/404');
 		}
+
+		const billService = new BillService(pb, visitRecord);
+		const bill = await billService.get();
 
 		const visit = {
 			...visitRecord,
 			animal: (visitRecord.expand as RecordModel)?.animal || {},
 			medical_acts: (visitRecord.expand as RecordModel)?.medical_acts || [],
 			clinical_exams: (visitRecord.expand as RecordModel)?.clinical_exams || [],
-			surgical_acts: (visitRecord.expand as RecordModel)?.surgical_acts || []
+			surgical_acts: (visitRecord.expand as RecordModel)?.surgical_acts || [],
+			bill
 		};
 
-		const bill = await pb
-			.collection('bills')
-			.getFirstListItem<BillsResponse>(`visit = "${visitRecord.id}"`);
 		const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
 		const clinicalExams = await pb
 			.collection('clinical_exams')
@@ -51,7 +56,9 @@ export const load = (async ({ params, locals: { pb } }) => {
 			medicalActs,
 			clinicalExams,
 			surgicalActs,
-			form
+			form,
+			addExamForm,
+			removeExamForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -88,41 +95,88 @@ export const actions = {
 			}
 
 			const { amount, id, incash, method, outcash, description } = form.data;
-			const item = await pb.collection('visits').getOne<BillsResponse>(id);
+			const item = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!item) {
 				throw Error('visit not found');
 			}
 
-			if (item.paid) {
-				throw Error('visit already paid');
-			}
+			const billService = new BillService(pb, item);
 
-			const bill = await pb.collection('bills').getFirstListItem<BillsResponse>(`visit = "${id}"`);
-			const paid = bill.total - (amount + bill.total_paid) === 0;
-			const totalPaid = bill.total_paid + amount;
-
-			await pb.collection('bills').update(bill.id, {
-				...bill,
-				paid,
-				total_paid: totalPaid,
-				method: method as BillsMethodOptions
-			} satisfies BillsRecord);
-
-			await pb.collection('fund_transactions').create({
+			await billService.pay(
 				amount,
-				method: method as FundTransactionsMethodOptions,
-				outcash,
+				method as BillsMethodOptions,
 				incash,
+				outcash,
 				description,
-				user: user?.id
-			} satisfies FundTransactionsRecord);
+				user?.id ?? ''
+			);
 
 			return { form };
 		} catch (error) {
 			console.error(error);
 
 			return message(form, 'Failed to update visit payment');
+		}
+	},
+
+	addExams: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, addVisitItemsSchema, { id: 'add-exam' });
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, items } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'clinical_exams+': items
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+
+			return message(form, 'Failed to add visit exam');
+		}
+	},
+
+	removeExam: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, removeVisitItemSchema, { id: 'remove-exam' });
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, item } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'clinical_exams-': item
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
 		}
 	}
 } satisfies Actions;
