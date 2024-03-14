@@ -5,12 +5,13 @@
 
 	$: ({ paid, total, total_paid } = bill);
 	$: partiallyPaid = total_paid > 0 && total_paid < total;
-	$: pendingPayment = total_paid === 0;
+	$: pendingPayment = total_paid === 0 && total > 0;
+	$: done = paid && total > 0;
 </script>
 
 <div class="flex items-center gap-x-4 w-full">
 	<span
-		class="flex font-semibold items-center justify-center text-white w-full p-1 {paid
+		class="flex font-semibold items-center justify-center text-white w-full p-1 {done
 			? 'bg-emerald-500/80'
 			: pendingPayment
 			? 'bg-red-500/80'
@@ -18,7 +19,7 @@
 			? 'bg-orange-500/80'
 			: ''} rounded shrink-0"
 	>
-		{#if paid}
+		{#if done}
 			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
 				<svg class="w-6 h-6" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
