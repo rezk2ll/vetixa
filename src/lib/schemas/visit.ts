@@ -29,3 +29,15 @@ export const removeVisitItemSchema = z.object({
 	id: z.string().min(1),
 	item: z.string().min(1)
 });
+
+export const addVisitFileSchema = z.object({
+	id: z.string().min(1),
+	file: z
+		.instanceof(File, { message: 'Veuillez télécharger un fichier' })
+		.refine((file) => file.size <= 100 * 1024 * 1024)
+});
+
+export const removeVisitFileSchema = z.object({
+	id: z.string().min(1),
+	file: z.string().min(1)
+});

@@ -1,7 +1,14 @@
 <script lang="ts">
 	import PaymentTab from '$components/tabs/visit/PaymentTab.svelte';
 	import TabContainer from '$components/tabs/visit/VisitTabContainer.svelte';
-	import { addVisitExamFormStore, currentVisit, removeVisitItemFormStore } from '$store/visit';
+	import {
+		addVisitExamFormStore,
+		addVisitFileFormStore,
+		currentVisit,
+		payVisitFormStore,
+		removeVisitFileFormStore,
+		removeVisitItemFormStore
+	} from '$store/visit';
 	import {
 		clinicalExams as clinicalExamsStore,
 		medicalActs as medicalActsStore,
@@ -11,8 +18,19 @@
 
 	export let data: PageData;
 
-	$: ({ visit, clinicalExams, medicalActs, surgicalActs, form, bill, addExamForm, removeExamForm } =
-		data);
+	$: ({
+		visit,
+		clinicalExams,
+		medicalActs,
+		surgicalActs,
+		form,
+		bill,
+		addExamForm,
+		removeExamForm,
+		addFileForm,
+		removeFileForm,
+		payVisitForm
+	} = data);
 
 	$: currentVisit.set(visit);
 	$: addVisitExamFormStore.set(addExamForm);
@@ -20,6 +38,9 @@
 	$: medicalActsStore.set(medicalActs);
 	$: clinicalExamsStore.set(clinicalExams);
 	$: surgivalActsStore.set(surgicalActs);
+	$: payVisitFormStore.set(payVisitForm);
+	$: addVisitFileFormStore.set(addFileForm);
+	$: removeVisitFileFormStore.set(removeFileForm);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">

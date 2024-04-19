@@ -8,8 +8,10 @@ import type {
 	VisitsResponse
 } from '$types';
 import {
+	addVisitFileSchema,
 	addVisitItemsSchema,
 	payVisitSchema,
+	removeVisitFileSchema,
 	removeVisitItemSchema,
 	updateVisitSchema
 } from '$lib/schemas/visit';
@@ -24,6 +26,10 @@ export const load = (async ({ params, locals: { pb } }) => {
 		const form = await superValidate(updateVisitSchema, { id: 'update-visit' });
 		const addExamForm = await superValidate(addVisitItemsSchema, { id: 'add-exam' });
 		const removeExamForm = await superValidate(removeVisitItemSchema, { id: 'remove-exam' });
+		const payVisitForm = await superValidate(payVisitSchema, { id: 'pay-visit' });
+		const addFileForm = await superValidate(addVisitFileSchema, { id: 'add-file' });
+		const removeFileForm = await superValidate(removeVisitFileSchema, { id: 'remove-file' });
+
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
 			expand: 'medical_acts, clinical_exams, surgical_acts, animal'
 		});
@@ -58,7 +64,10 @@ export const load = (async ({ params, locals: { pb } }) => {
 			surgicalActs,
 			form,
 			addExamForm,
-			removeExamForm
+			removeExamForm,
+			payVisitForm,
+			addFileForm,
+			removeFileForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -173,6 +182,60 @@ export const actions = {
 			});
 
 			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	addFile: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, addVisitFileSchema, { id: 'add-file' });
+
+		try {
+			if (!form.valid) {
+				console.log(form.data)
+				throw Error('invalid data');
+			}
+
+			const { id } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+
+			// await pb.collection('visits').update(id, {
+			// 	...visit,
+			// 	'files+': file
+			// });
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},	
+
+	removeFile: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, removeVisitFileSchema, { id: 'remove-file' });
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, file } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'files-': file
+			});
 
 			return { form };
 		} catch (error) {
