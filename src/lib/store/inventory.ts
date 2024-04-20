@@ -7,10 +7,13 @@ import type {
 	sellInventoryItemSchema,
 	updateInventoryItemSchema
 } from '$lib/schemas';
+import type { Infer } from 'sveltekit-superforms';
 
 export const inventoryItems = writable<InventoryItemResponse[]>([]);
-export const addInventoryFormStore = writable<SuperValidated<typeof addInventoryItemSchema>>();
+export const addInventoryFormStore =
+	writable<SuperValidated<Infer<typeof addInventoryItemSchema>>>();
 export const updateInventoryFormStore =
-	writable<SuperValidated<typeof updateInventoryItemSchema>>();
-export const sellInventoryFormStore = writable<SuperValidated<typeof sellInventoryItemSchema>>();
-export const removeInventoryFormStore = writable<SuperValidated<typeof removeSchema>>();
+	writable<SuperValidated<Infer<typeof updateInventoryItemSchema>>>();
+export const sellInventoryFormStore =
+	writable<SuperValidated<Infer<typeof sellInventoryItemSchema>>>();
+export const removeInventoryFormStore = writable<SuperValidated<Infer<typeof removeSchema>>>();
