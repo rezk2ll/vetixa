@@ -16,8 +16,7 @@
 			if (result.type === 'success') {
 				open = false;
 			}
-		},
-		taintedMessage: null
+		}
 	});
 
 	$: $form.birthday = new Date(birthday);
