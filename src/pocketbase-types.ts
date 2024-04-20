@@ -79,7 +79,6 @@ export enum BillsMethodOptions {
 	"tpe" = "tpe",
 	"cheque" = "cheque",
 }
-
 export type BillsRecord = {
 	method?: BillsMethodOptions
 	paid?: boolean
@@ -170,6 +169,7 @@ export type VisitsRecord = {
 	animal?: RecordIdString
 	clinical_exams?: RecordIdString[]
 	date?: IsoDateString
+	files?: string[]
 	medical_acts?: RecordIdString[]
 	motif?: string
 	observations?: HTMLString
