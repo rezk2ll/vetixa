@@ -14,15 +14,16 @@ import type { RecordModel } from 'pocketbase';
 import { removeSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/client';
 import { addVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;
 	const isNew = url.searchParams.get('new') === 'true';
 
-	const addForm = await superValidate(addVisitSchema, { id: 'add-visit' });
-	const updateForm = await superValidate(updateVisitSchema, { id: 'update-visit' });
-	const deleteForm = await superValidate(removeSchema, { id: 'delete-visit' });
-	const form = await superValidate(updateAnimalSchema, { id: 'update-animal' });
+	const addForm = await superValidate(zod(addVisitSchema), { id: 'add-visit' });
+	const updateForm = await superValidate(zod(updateVisitSchema), { id: 'update-visit' });
+	const deleteForm = await superValidate(zod(removeSchema), { id: 'delete-visit' });
+	const form = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 
 	const animal = await pb.collection('animals').getOne(id, {
 		expand: 'visits(animal), client'
@@ -76,7 +77,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 
 export const actions: Actions = {
 	addVisit: async ({ request, params, locals: { pb } }) => {
-		const form = await superValidate(request, addVisitSchema, { id: 'add-visit' });
+		const form = await superValidate(request, zod(addVisitSchema), { id: 'add-visit' });
 
 		try {
 			const { id } = params;
@@ -121,7 +122,7 @@ export const actions: Actions = {
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, updateAnimalSchema, { id: 'update-animal' });
+		const form = await superValidate(request, zod(updateAnimalSchema), { id: 'update-animal' });
 
 		try {
 			if (!form.valid) {

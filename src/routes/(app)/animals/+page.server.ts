@@ -3,6 +3,7 @@ import { superValidate, message } from 'sveltekit-superforms/server';
 import type { AnimalsResponse, ClientsResponse } from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import type { RecordModel } from 'pocketbase';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const animalsList = await locals.pb
@@ -14,15 +15,17 @@ export const load: PageServerLoad = async ({ locals }) => {
 		client: ((animal.expand as RecordModel).client as ClientsResponse).name || ''
 	}));
 
-	const removeForm = await superValidate(removeSchema, { id: 'remove-animal' });
-	const updateForm = await superValidate(updateAnimalSchema, { id: 'update-animal' });
+	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
+	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
+
+	console.log('returning', removeForm, updateForm)
 
 	return { animals, removeForm, updateForm };
 };
 
 export const actions: Actions = {
 	removeAnimal: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, removeSchema, { id: 'remove-animal' });
+		const form = await superValidate(request, zod(removeSchema), { id: 'remove-animal' });
 		try {
 			if (!form.valid) {
 				return message(form, 'Failed to delete animal');
@@ -38,7 +41,7 @@ export const actions: Actions = {
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, updateAnimalSchema, { id: 'update-animal' });
+		const form = await superValidate(request, zod(updateAnimalSchema), { id: 'update-animal' });
 
 		try {
 			if (!form.valid) {

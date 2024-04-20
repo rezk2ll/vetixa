@@ -16,19 +16,20 @@ import {
 	updateVisitSchema
 } from '$lib/schemas/visit';
 import type { RecordModel } from 'pocketbase';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { message, superValidate, withFiles } from 'sveltekit-superforms/server';
 import BillService from '$lib/services/bill';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async ({ params, locals: { pb } }) => {
 	const { id } = params;
 
 	try {
-		const form = await superValidate(updateVisitSchema, { id: 'update-visit' });
-		const addExamForm = await superValidate(addVisitItemsSchema, { id: 'add-exam' });
-		const removeExamForm = await superValidate(removeVisitItemSchema, { id: 'remove-exam' });
-		const payVisitForm = await superValidate(payVisitSchema, { id: 'pay-visit' });
-		const addFileForm = await superValidate(addVisitFileSchema, { id: 'add-file' });
-		const removeFileForm = await superValidate(removeVisitFileSchema, { id: 'remove-file' });
+		const form = await superValidate(zod(updateVisitSchema), { id: 'update-visit' });
+		const addExamForm = await superValidate(zod(addVisitItemsSchema), { id: 'add-exam' });
+		const removeExamForm = await superValidate(zod(removeVisitItemSchema), { id: 'remove-exam' });
+		const payVisitForm = await superValidate(zod(payVisitSchema), { id: 'pay-visit' });
+		const addFileForm = await superValidate(zod(addVisitFileSchema), { id: 'add-file' });
+		const removeFileForm = await superValidate(zod(removeVisitFileSchema), { id: 'remove-file' });
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
 			expand: 'medical_acts, clinical_exams, surgical_acts, animal'
@@ -47,7 +48,8 @@ export const load = (async ({ params, locals: { pb } }) => {
 			medical_acts: (visitRecord.expand as RecordModel)?.medical_acts || [],
 			clinical_exams: (visitRecord.expand as RecordModel)?.clinical_exams || [],
 			surgical_acts: (visitRecord.expand as RecordModel)?.surgical_acts || [],
-			bill
+			bill,
+			files: (visitRecord.files || []).map((file) => pb.files.getUrl(visitRecord, file))
 		};
 
 		const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
@@ -78,7 +80,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 
 export const actions = {
 	updateVisit: async ({ locals: { pb }, request, params }) => {
-		const form = await superValidate(request, updateVisitSchema, { id: 'update-visit' });
+		const form = await superValidate(request, zod(updateVisitSchema), { id: 'update-visit' });
 
 		try {
 			if (!form.valid) {
@@ -96,7 +98,7 @@ export const actions = {
 	},
 
 	addPayment: async ({ locals: { pb, user }, request }) => {
-		const form = await superValidate(request, payVisitSchema, { id: 'pay-visit' });
+		const form = await superValidate(request, zod(payVisitSchema), { id: 'pay-visit' });
 
 		try {
 			if (!form.valid) {
@@ -130,7 +132,7 @@ export const actions = {
 	},
 
 	addExams: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, addVisitItemsSchema, { id: 'add-exam' });
+		const form = await superValidate(request, zod(addVisitItemsSchema), { id: 'add-exam' });
 
 		try {
 			if (!form.valid) {
@@ -161,7 +163,7 @@ export const actions = {
 	},
 
 	removeExam: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, removeVisitItemSchema, { id: 'remove-exam' });
+		const form = await superValidate(request, zod(removeVisitItemSchema), { id: 'remove-exam' });
 
 		try {
 			if (!form.valid) {
@@ -190,11 +192,11 @@ export const actions = {
 	},
 
 	addFile: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, addVisitFileSchema, { id: 'add-file' });
+		const formData = await request.formData();
+		const form = await superValidate(formData, zod(addVisitFileSchema), { id: 'add-file' });
 
 		try {
 			if (!form.valid) {
-				console.log(form.data)
 				throw Error('invalid data');
 			}
 
@@ -205,20 +207,16 @@ export const actions = {
 				throw Error('visit not found');
 			}
 
+			await pb.collection('visits').update(id, form.data);
 
-			// await pb.collection('visits').update(id, {
-			// 	...visit,
-			// 	'files+': file
-			// });
-
-			return { form };
+			return withFiles({ form });
 		} catch (error) {
 			console.error(error);
 		}
-	},	
+	},
 
 	removeFile: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, removeVisitFileSchema, { id: 'remove-file' });
+		const form = await superValidate(request, zod(removeVisitFileSchema), { id: 'remove-file' });
 
 		try {
 			if (!form.valid) {

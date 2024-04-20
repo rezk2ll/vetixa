@@ -8,15 +8,16 @@ import {
 	updateAnimalSchema,
 	updateClientSchema
 } from '$lib/schemas';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;
 
 	const isNew = url.searchParams.get('new') === 'true';
-	const form = await superValidate(updateClientSchema, { id: 'update-client' });
-	const addForm = superValidate(addAnimalSchema, { id: 'add-animal' });
-	const updateForm = superValidate(updateAnimalSchema, { id: 'update-animal' });
-	const removeForm = superValidate(removeSchema, { id: 'remove-animal' });
+	const form = await superValidate(zod(updateClientSchema), { id: 'update-client' });
+	const addForm = await superValidate(zod(addAnimalSchema), { id: 'add-animal' });
+	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
+	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
 
 	const client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
 
@@ -43,7 +44,7 @@ export const actions: Actions = {
 	addAnimal: async ({ request, params, locals: { pb } }) => {
 		const { id } = params;
 
-		const form = await superValidate(request, addAnimalSchema, { id: 'add-animal' });
+		const form = await superValidate(request, zod(addAnimalSchema), { id: 'add-animal' });
 
 		try {
 			if (!form.valid) {
@@ -78,7 +79,7 @@ export const actions: Actions = {
 	},
 
 	removeAnimal: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, removeSchema, { id: 'remove-animal' });
+		const form = await superValidate(request, zod(removeSchema), { id: 'remove-animal' });
 		try {
 			if (!form.valid) {
 				return message(form, 'Failed to delete animal');
@@ -94,7 +95,7 @@ export const actions: Actions = {
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, updateAnimalSchema, { id: 'update-animal' });
+		const form = await superValidate(request, zod(updateAnimalSchema), { id: 'update-animal' });
 
 		try {
 			if (!form.valid) {
@@ -111,7 +112,7 @@ export const actions: Actions = {
 	},
 
 	updateClient: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, updateClientSchema, { id: 'update-client' });
+		const form = await superValidate(request, zod(updateClientSchema), { id: 'update-client' });
 
 		try {
 			if (!form.valid) {

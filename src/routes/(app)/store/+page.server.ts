@@ -15,12 +15,13 @@ import type {
 } from '$types';
 import type { RecordModel } from 'pocketbase';
 import { fail } from '@sveltejs/kit';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {
-	const addForm = await superValidate(addInventoryItemSchema, { id: 'addForm' });
-	const sellForm = await superValidate(sellInventoryItemSchema, { id: 'sellForm' });
-	const updateForm = await superValidate(updateInventoryItemSchema, { id: 'updateForm' });
-	const deleteForm = await superValidate(removeSchema, { id: 'deleteForm' });
+	const addForm = await superValidate(zod(addInventoryItemSchema), { id: 'addForm' });
+	const sellForm = await superValidate(zod(sellInventoryItemSchema), { id: 'sellForm' });
+	const updateForm = await superValidate(zod(updateInventoryItemSchema), { id: 'updateForm' });
+	const deleteForm = await superValidate(zod(removeSchema), { id: 'deleteForm' });
 
 	const items = await pb.collection('inventory_item').getFullList<InventoryItemResponse>();
 	const monthlySales = await pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
@@ -76,7 +77,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 
 export const actions: Actions = {
 	add: async ({ locals: { pb }, request }) => {
-		const addForm = await superValidate(request, addInventoryItemSchema);
+		const addForm = await superValidate(request, zod(addInventoryItemSchema));
 
 		try {
 			if (!addForm.valid) {
@@ -99,7 +100,7 @@ export const actions: Actions = {
 		}
 	},
 	sell: async ({ locals: { pb, user }, request }) => {
-		const form = await superValidate(request, sellInventoryItemSchema);
+		const form = await superValidate(request, zod(sellInventoryItemSchema));
 
 		try {
 			if (!form.valid) {
@@ -151,7 +152,7 @@ export const actions: Actions = {
 		}
 	},
 	delete: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, removeSchema);
+		const form = await superValidate(request, zod(removeSchema));
 
 		try {
 			if (!form.valid) {
@@ -165,7 +166,7 @@ export const actions: Actions = {
 		}
 	},
 	update: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, updateInventoryItemSchema);
+		const form = await superValidate(request, zod(updateInventoryItemSchema));
 		try {
 			if (!form.valid) {
 				return message(form, 'Invalid data');

@@ -5,10 +5,11 @@ import { fail } from '@sveltejs/kit';
 import { isValid, parse } from 'date-fns';
 import { getPreviousDays, getPreviousDaysLabels } from '$lib/utils/date';
 import { FundsService } from '$lib/services/funds';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
-	const addFundsForm = superValidate(addFundsSchema, { id: 'addFunds' });
-	const addExpenses = superValidate(addFundsSchema, { id: 'addExpenses' });
+	const addFundsForm = superValidate(zod(addFundsSchema), { id: 'addFunds' });
+	const addExpenses = superValidate(zod(addFundsSchema), { id: 'addExpenses' });
 	const fundsService = new FundsService(pb);
 
 	let startDate = '@todayStart';
@@ -40,7 +41,7 @@ export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 
 export const actions: Actions = {
 	addFunds: async ({ request, locals: { pb, user } }) => {
-		const form = await superValidate(request, addFundsSchema, { id: 'addFunds' });
+		const form = await superValidate(request, zod(addFundsSchema), { id: 'addFunds' });
 
 		try {
 			if (!form.valid) {
@@ -59,7 +60,7 @@ export const actions: Actions = {
 	},
 
 	addExpenses: async ({ request, locals: { pb, user } }) => {
-		const form = await superValidate(request, addFundsSchema, { id: 'addExpenses' });
+		const form = await superValidate(request, zod(addFundsSchema), { id: 'addExpenses' });
 
 		try {
 			if (!form.valid) {

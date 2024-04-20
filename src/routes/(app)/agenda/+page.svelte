@@ -13,11 +13,13 @@
 	import UpdateEventForm from '$components/forms/agenda/UpdateEventForm.svelte';
 	import DisplayEventForm from '$components/forms/agenda/DisplayEventForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { removeEventFormStore } from '$store/agenda';
+	import { addEventFormStore, updateEventFormStore } from '$store/agenda';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 
 	export let data: PageData;
 	$: ({ events } = data);
+	$: addEventFormStore.set(data.addForm);
+	$: updateEventFormStore.set(data.updateForm);
 
 	let calendarRef: HTMLElement;
 	let openAddModal = false;
@@ -83,7 +85,7 @@
 		openDisplayModal = false;
 	};
 
-	const { form: deleteForm, enhance } = superForm($removeEventFormStore, {
+	const { form: deleteForm, enhance } = superForm(data.removeForm, {
 		dataType: 'json',
 		taintedMessage: null
 	});

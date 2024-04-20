@@ -1,12 +1,19 @@
 import { message, superValidate } from 'sveltekit-superforms/server';
-import type { AnimalsResponse, BillsResponse, ClientsResponse, QueueResponse, VisitsResponse } from '$types';
+import type {
+	AnimalsResponse,
+	BillsResponse,
+	ClientsResponse,
+	QueueResponse,
+	VisitsResponse
+} from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import { updateQueueSchema } from '$lib/schemas';
 import type { RecordModel } from 'pocketbase';
 import { redirect, type Redirect } from '@sveltejs/kit';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async ({ locals: { pb } }) => {
-	const form = await superValidate(updateQueueSchema);
+	const form = await superValidate(zod(updateQueueSchema));
 
 	const queueList = await pb.collection('queue').getFullList<QueueResponse>({
 		filter: 'created >= @todayStart && created <= @todayEnd',
@@ -44,7 +51,7 @@ export const load = (async ({ locals: { pb } }) => {
 
 export const actions: Actions = {
 	default: async ({ request, locals: { pb } }) => {
-		const form = await superValidate(request, updateQueueSchema);
+		const form = await superValidate(request, zod(updateQueueSchema));
 
 		try {
 			if (!form.valid) {
