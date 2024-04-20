@@ -85,9 +85,11 @@
 	});
 </script>
 
-<Modal bind:open={openAddAnimalModal} size="medium">
-	<AddAnimalForm bind:open={openAddAnimalModal} />
-</Modal>
+{#if canAdd}
+	<Modal bind:open={openAddAnimalModal} size="medium">
+		<AddAnimalForm bind:open={openAddAnimalModal} />
+	</Modal>
+{/if}
 <Modal bind:open={openUpdateAnimalModal} size="medium">
 	{#if selectedUpdateItem}
 		<UpdateAnimalForm bind:open={openUpdateAnimalModal} bind:item={selectedUpdateItem} />

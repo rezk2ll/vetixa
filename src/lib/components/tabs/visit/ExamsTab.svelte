@@ -72,7 +72,7 @@
 	</div>
 </ConfirmationDialog>
 
-<section class="container px-4 mx-auto py-5">
+<section class="container px-4 mx-auto">
 	<div class="sm:flex sm:items-center sm:justify-between">
 		<div />
 		<div class="flex items-center mt-4 gap-x-3">
