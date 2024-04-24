@@ -49,3 +49,27 @@ export interface FileInfo {
 	mime: string;
 	size: number;
 }
+
+export interface visitListItem extends Omit<VisitsResponse, 'animal'> {
+	animal: AnimalsResponse;
+	bill: BillsResponse;
+	total: number;
+	client: ClientsResponse;
+}
+
+export interface visitPageInfo {
+	items: visitListItem[];
+	page: number;
+	totalPages: number;
+	totalItems: number;
+	perPage: number;
+	query: string;
+	count: visitCount;
+	filter: VisitStatusFilter;
+}
+
+export interface visitCount {
+	pending: number;
+	paid: number;
+	partial: number;
+}
