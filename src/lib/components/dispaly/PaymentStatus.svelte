@@ -2,19 +2,23 @@
 	import type { BillsResponse } from '$types';
 
 	export let bill: BillsResponse;
+	export let type: 'large' | 'small' = 'large';
 
 	$: ({ paid, total, total_paid } = bill);
 	$: partiallyPaid = total_paid > 0 && total_paid < total;
 	$: pendingPayment = total_paid === 0 && total > 0;
 	$: done = paid && total > 0;
+	$: processing = bill.total == 0;
 </script>
 
-<div class="flex items-center gap-x-4 w-full">
+<div class="flex items-center gap-x-4 {type === 'large' ? 'w-full' : 'w-1/2'}">
 	<span
 		class="flex font-semibold items-center justify-center text-white w-full p-1 {done
 			? 'bg-emerald-500/80'
 			: pendingPayment
 			? 'bg-red-500/80'
+			: processing
+			? 'bg-gray-500/80'
 			: partiallyPaid
 			? 'bg-orange-500/80'
 			: ''} rounded shrink-0"
@@ -31,7 +35,7 @@
 					/>
 				</svg>
 
-				<h2 class="text-lg font-normal">Payé</h2>
+				<h2 class="font-normal">Payé</h2>
 			</div>
 		{:else if partiallyPaid}
 			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
@@ -47,6 +51,78 @@
 
 				<h2 class="font-normal">Arriaré</h2>
 			</div>
+		{:else if processing}
+			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+				<svg
+					class="w-4 h-4"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="currentColor"
+					><style>
+						.spinner_Wezc {
+							transform-origin: center;
+							animation: spinner_Oiah 0.75s step-end infinite;
+						}
+						@keyframes spinner_Oiah {
+							8.3% {
+								transform: rotate(30deg);
+							}
+							16.6% {
+								transform: rotate(60deg);
+							}
+							25% {
+								transform: rotate(90deg);
+							}
+							33.3% {
+								transform: rotate(120deg);
+							}
+							41.6% {
+								transform: rotate(150deg);
+							}
+							50% {
+								transform: rotate(180deg);
+							}
+							58.3% {
+								transform: rotate(210deg);
+							}
+							66.6% {
+								transform: rotate(240deg);
+							}
+							75% {
+								transform: rotate(270deg);
+							}
+							83.3% {
+								transform: rotate(300deg);
+							}
+							91.6% {
+								transform: rotate(330deg);
+							}
+							100% {
+								transform: rotate(360deg);
+							}
+						}
+					</style><g class="spinner_Wezc"
+						><circle cx="12" cy="2.5" r="1.5" opacity=".14" /><circle
+							cx="16.75"
+							cy="3.77"
+							r="1.5"
+							opacity=".29"
+						/><circle cx="20.23" cy="7.25" r="1.5" opacity=".43" /><circle
+							cx="21.50"
+							cy="12.00"
+							r="1.5"
+							opacity=".57"
+						/><circle cx="20.23" cy="16.75" r="1.5" opacity=".71" /><circle
+							cx="16.75"
+							cy="20.23"
+							r="1.5"
+							opacity=".86"
+						/><circle cx="12" cy="21.5" r="1.5" /></g
+					></svg
+				>
+
+				<h2 class="font-normal">En attente</h2>
+			</div>
 		{:else}
 			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
 				<svg class="w-4 h-4" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +135,7 @@
 					/>
 				</svg>
 
-				<h2 class="text-lg font-normal">Impayé</h2>
+				<h2 class="font-normal">Impayé</h2>
 			</div>
 		{/if}
 	</span>
