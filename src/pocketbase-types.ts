@@ -19,6 +19,9 @@ export enum Collections {
 	SurgicalActs = "surgical_acts",
 	Users = "users",
 	Visits = "visits",
+	VisitsPaidView = "visits_paid_view",
+	VisitsPartialPaidView = "visits_partial_paid_view",
+	VisitsPendingView = "visits_pending_view",
 }
 
 // Alias types for improved usability
@@ -176,6 +179,18 @@ export type VisitsRecord = {
 	surgical_acts?: RecordIdString[]
 }
 
+export type VisitsPaidViewRecord = {
+	total?: number
+}
+
+export type VisitsPartialPaidViewRecord = {
+	total?: number
+}
+
+export type VisitsPendingViewRecord = {
+	total?: number
+}
+
 // Response types include system fields and match responses from the PocketBase API
 export type AgendaResponse<Texpand = unknown> = Required<AgendaRecord> & BaseSystemFields<Texpand>
 export type AnimalsResponse<Texpand = unknown> = Required<AnimalsRecord> & BaseSystemFields<Texpand>
@@ -190,6 +205,9 @@ export type QueueResponse<Texpand = unknown> = Required<QueueRecord> & BaseSyste
 export type SurgicalActsResponse<Texpand = unknown> = Required<SurgicalActsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 export type VisitsResponse<Texpand = unknown> = Required<VisitsRecord> & BaseSystemFields<Texpand>
+export type VisitsPaidViewResponse<Texpand = unknown> = Required<VisitsPaidViewRecord> & BaseSystemFields<Texpand>
+export type VisitsPartialPaidViewResponse<Texpand = unknown> = Required<VisitsPartialPaidViewRecord> & BaseSystemFields<Texpand>
+export type VisitsPendingViewResponse<Texpand = unknown> = Required<VisitsPendingViewRecord> & BaseSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
@@ -207,6 +225,9 @@ export type CollectionRecords = {
 	surgical_acts: SurgicalActsRecord
 	users: UsersRecord
 	visits: VisitsRecord
+	visits_paid_view: VisitsPaidViewRecord
+	visits_partial_paid_view: VisitsPartialPaidViewRecord
+	visits_pending_view: VisitsPendingViewRecord
 }
 
 export type CollectionResponses = {
@@ -223,6 +244,9 @@ export type CollectionResponses = {
 	surgical_acts: SurgicalActsResponse
 	users: UsersResponse
 	visits: VisitsResponse
+	visits_paid_view: VisitsPaidViewResponse
+	visits_partial_paid_view: VisitsPartialPaidViewResponse
+	visits_pending_view: VisitsPendingViewResponse
 }
 
 // Type for usage with type asserted PocketBase instance
@@ -242,4 +266,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'surgical_acts'): RecordService<SurgicalActsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 	collection(idOrName: 'visits'): RecordService<VisitsResponse>
+	collection(idOrName: 'visits_paid_view'): RecordService<VisitsPaidViewResponse>
+	collection(idOrName: 'visits_partial_paid_view'): RecordService<VisitsPartialPaidViewResponse>
+	collection(idOrName: 'visits_pending_view'): RecordService<VisitsPendingViewResponse>
 }
