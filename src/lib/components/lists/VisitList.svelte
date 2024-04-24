@@ -55,6 +55,8 @@
 		return true;
 	});
 
+  $: pageItems = items.slice(page * 10, page * 10 + 10);
+
 	$: paidCount = $visitItems.filter(({ bill }) => bill && bill.paid).length;
 	$: partialCount = $visitItems.filter(
 		({ bill }) => bill && bill.total_paid > 0 && bill.total_paid < bill.total
@@ -260,7 +262,7 @@
 							<tbody
 								class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
 							>
-								{#each items as visit}
+								{#each pageItems as visit}
 									<tr>
 										<td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
 											<div class="inline-flex items-center gap-x-3">
