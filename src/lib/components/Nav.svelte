@@ -80,8 +80,8 @@
 		</a>
 
 		<a
-			title="Recap globale"
-			href="/"
+			title="Visites"
+			href="/visit"
 			class="p-1.5 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
 		>
 			<svg
