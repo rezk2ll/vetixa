@@ -47,6 +47,7 @@
 		"@fullcalendar/interaction": "^6.1.9",
 		"@fullcalendar/list": "^6.1.9",
 		"@fullcalendar/timegrid": "^6.1.9",
+		"@tinymce/tinymce-svelte": "^2.0.2",
 		"chart.js": "4.4.1",
 		"date-fns": "^2.30.0",
 		"mimeit": "^1.0.4",
@@ -54,6 +55,7 @@
 		"photoswipe": "^5.4.3",
 		"pocketbase": "^0.19.0",
 		"remove": "^0.1.5",
-		"svelte-select": "^5.7.0"
+		"svelte-select": "^5.7.0",
+		"tinymce": "^7.0.1"
 	}
 }
