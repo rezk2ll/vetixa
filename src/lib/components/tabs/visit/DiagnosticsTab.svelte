@@ -7,7 +7,7 @@
 
 	const { form, enhance, submitting } = superForm($updateVisitDiagnosticFormStore, {
 		id: 'update-diagnostic',
-		taintedMessage: 'êtes-vous sûr de vouloir annuler vos modifications ?',
+		taintedMessage: null,
 		dataType: 'json',
 		resetForm: false
 	});
