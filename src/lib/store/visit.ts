@@ -7,7 +7,8 @@ import type {
 	payVisitSchema,
 	removeVisitFileSchema,
 	removeVisitItemSchema,
-	updateVisitSchema
+	updateVisitSchema,
+	updateVisitDiagnosticSchema
 } from '$lib/schemas/visit';
 import type { removeSchema } from '$lib/schemas';
 import type { Visit, VisitTabsType } from '$types';
@@ -25,6 +26,8 @@ export const removeVisitItemFormStore =
 export const addVisitFileFormStore = writable<SuperValidated<Infer<typeof addVisitFileSchema>>>();
 export const removeVisitFileFormStore =
 	writable<SuperValidated<Infer<typeof removeVisitFileSchema>>>();
+export const updateVisitDiagnosticFormStore =
+	writable<SuperValidated<Infer<typeof updateVisitDiagnosticSchema>>>();
 
 export const activeVisitTab = writable<VisitTabsType>('exams');
 export const currentVisit = writable<Visit>();
