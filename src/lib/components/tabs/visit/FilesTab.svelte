@@ -92,7 +92,7 @@
 <section class="container px-4 mx-auto">
 	<div class="sm:flex sm:items-center sm:justify-between">
 		<h2 class="text-lg font-medium text-gray-800 dark:text-white">
-			{$currentVisit.files.length} fichier{$currentVisit.files.length > 1 ? 's' : ''}
+			{$currentVisit.files.length} fichier{$currentVisit.files.length !== 1 ? 's' : ''}
 		</h2>
 		<div class="flex items-center mt-4 gap-x-4">
 			<form
