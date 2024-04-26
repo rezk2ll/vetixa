@@ -44,3 +44,8 @@ export const removeVisitFileSchema = z.object({
 	id: z.string().min(1),
 	file: z.string().min(1)
 });
+
+export const updateVisitDiagnosticSchema = z.object({
+	id: z.string().min(1),
+	observations: z.string().min(1)
+});
