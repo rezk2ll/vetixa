@@ -13,6 +13,7 @@ import {
 	payVisitSchema,
 	removeVisitFileSchema,
 	removeVisitItemSchema,
+	updateVisitDiagnosticSchema,
 	updateVisitSchema
 } from '$lib/schemas/visit';
 import type { RecordModel } from 'pocketbase';
@@ -30,6 +31,9 @@ export const load = (async ({ params, locals: { pb } }) => {
 		const payVisitForm = await superValidate(zod(payVisitSchema), { id: 'pay-visit' });
 		const addFileForm = await superValidate(zod(addVisitFileSchema), { id: 'add-file' });
 		const removeFileForm = await superValidate(zod(removeVisitFileSchema), { id: 'remove-file' });
+		const updateDiagnosticForm = await superValidate(zod(updateVisitDiagnosticSchema), {
+			id: 'update-diagnostic'
+		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
 			expand: 'medical_acts, clinical_exams, surgical_acts, animal'
@@ -69,7 +73,8 @@ export const load = (async ({ params, locals: { pb } }) => {
 			removeExamForm,
 			payVisitForm,
 			addFileForm,
-			removeFileForm
+			removeFileForm,
+			updateDiagnosticForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -233,6 +238,33 @@ export const actions = {
 			await pb.collection('visits').update(id, {
 				...visit,
 				'files-': file
+			});
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	updateDiagnostic: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(updateVisitDiagnosticSchema), {
+			id: 'update-diagnostic'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, observations } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				observations
 			});
 
 			return { form };

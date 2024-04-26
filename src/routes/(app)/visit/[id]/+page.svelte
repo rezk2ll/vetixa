@@ -7,7 +7,8 @@
 		currentVisit,
 		payVisitFormStore,
 		removeVisitFileFormStore,
-		removeVisitItemFormStore
+		removeVisitItemFormStore,
+		updateVisitDiagnosticFormStore
 	} from '$store/visit';
 	import {
 		clinicalExams as clinicalExamsStore,
@@ -29,7 +30,8 @@
 		removeExamForm,
 		addFileForm,
 		removeFileForm,
-		payVisitForm
+		payVisitForm,
+		updateDiagnosticForm
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -41,6 +43,7 @@
 	$: payVisitFormStore.set(payVisitForm);
 	$: addVisitFileFormStore.set(addFileForm);
 	$: removeVisitFileFormStore.set(removeFileForm);
+	$: updateVisitDiagnosticFormStore.set(updateDiagnosticForm);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">

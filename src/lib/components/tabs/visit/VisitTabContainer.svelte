@@ -3,6 +3,7 @@
 	import { activeVisitTab } from '$store/visit';
 	import ExamsTab from '$components/tabs/visit/ExamsTab.svelte';
 	import FilesTab from '$components/tabs/visit/FilesTab.svelte';
+	import DiagnosticsTab from './DiagnosticsTab.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
@@ -115,6 +116,8 @@
 			<ExamsTab />
 		{:else if $activeVisitTab === 'files'}
 			<FilesTab />
+    {:else if $activeVisitTab === 'diagnostics'}
+      <DiagnosticsTab />
 		{/if}
 	</div>
 </div>
