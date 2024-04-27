@@ -5,7 +5,9 @@ import type {
 	AnimalsResponse,
 	ClientsResponse,
 	BillsResponse,
-	ClinicalExamsResponse
+	ClinicalExamsResponse,
+	MedicalActsResponse,
+	SurgicalActsResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -25,10 +27,13 @@ export interface QueueItem extends Omit<QueueResponse, 'visit'> {
 	visit: Visit;
 }
 
-export interface Visit extends Omit<VisitsResponse, 'animal' | 'clinical_exams'> {
+export interface Visit
+	extends Omit<VisitsResponse, 'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts'> {
 	animal: expandedAnimal;
 	bill: BillsResponse;
 	clinical_exams: ClinicalExamsResponse[];
+	medical_acts: MedicalActsResponse[];
+	surgical_acts: SurgicalActsResponse[];
 }
 
 export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
@@ -44,7 +49,17 @@ export interface IClient extends Omit<ClientsResponse, 'animals'> {
 }
 
 export type PaymentMethodType = 'cash' | 'tpe' | 'cheque';
-export type VisitTabsType = 'exams' | 'diagnostics' | 'files' | 'hospit' | 'shop';
+export type VisitTabsType =
+	| 'info'
+	| 'exams'
+	| 'diagnostics'
+	| 'files'
+	| 'hospit'
+	| 'shop'
+	| 'actions'
+	| 'medical_acts'
+	| 'surgical_acts';
+
 export interface FileInfo {
 	mime: string;
 	size: number;
