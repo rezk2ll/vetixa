@@ -13,7 +13,7 @@
 	import LoadingDots from '$components/dispaly/LoadingDots.svelte';
 	import FileItemPreview from '$components/dispaly/FileItemPreview.svelte';
 	import PhotoSwipeLightbox from 'photoswipe/lightbox';
-	import { onMount } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
 	import 'photoswipe/style.css';
 	import EmptyTable from '$components/dispaly/EmptyTable.svelte';
 
@@ -56,13 +56,26 @@
 	};
 
 	onMount(() => {
-		let lightbox = new PhotoSwipeLightbox({
+		const lightbox = new PhotoSwipeLightbox({
 			gallery: '.files-gallery',
 			children: 'a',
 			showHideAnimationType: 'zoom',
 			initialZoomLevel: 'fill',
 			pswpModule: () => import('photoswipe')
 		});
+
+		lightbox.init();
+	});
+
+	afterUpdate(() => {
+		const lightbox = new PhotoSwipeLightbox({
+			gallery: '.files-gallery',
+			children: 'a',
+			showHideAnimationType: 'zoom',
+			initialZoomLevel: 'fill',
+			pswpModule: () => import('photoswipe')
+		});
+
 		lightbox.init();
 	});
 </script>
