@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="mt-4 flex flex-col space-y-10 w-full">
-		<div class="pt-10 h-44">
+		<div class="pt-10 h-60 max-h-60">
 			<Select
 				on:change={handleChane}
 				bind:items={data}
@@ -43,6 +43,11 @@
 				showChevron
 				listOffset={10}
 				placeholder="veuillez sélectionner"
+				class="text-left"
+				listOpen={true}
+				floatingConfig={{
+					placement: 'bottom'
+				}}
 			/>
 		</div>
 
@@ -65,3 +70,10 @@
 		</div>
 	</div>
 </div>
+
+<style lang="css">
+	:global(.svelte-select-list) {
+		overflow-y: scroll;
+		@apply pb-5;
+	}
+</style>
