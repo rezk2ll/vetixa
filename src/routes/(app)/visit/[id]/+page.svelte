@@ -4,46 +4,69 @@
 	import {
 		addVisitExamFormStore,
 		addVisitFileFormStore,
+		addVisitMedicalActsFormStore,
+		addVisitStoreItemFormStore,
+		addVisitSurgicalActsFormStore,
 		currentVisit,
 		payVisitFormStore,
 		removeVisitFileFormStore,
 		removeVisitItemFormStore,
-		updateVisitDiagnosticFormStore
+		removeVisitMedicalActFormStore,
+		removeVisitStoreItemFormStore,
+		removeVisitSurgicalActFormStore,
+		updateVisitActionsFormStore,
+		updateVisitDiagnosticFormStore,
+		updateVisitFormStore
 	} from '$store/visit';
 	import {
 		clinicalExams as clinicalExamsStore,
 		medicalActs as medicalActsStore,
-		surgivalActs as surgivalActsStore
+		surgicalActs as surgicalActsStore
 	} from '$store/acts';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	$: ({
+		form,
 		visit,
 		clinicalExams,
 		medicalActs,
 		surgicalActs,
-		form,
 		bill,
 		addExamForm,
 		removeExamForm,
 		addFileForm,
 		removeFileForm,
 		payVisitForm,
-		updateDiagnosticForm
+		updateDiagnosticForm,
+		updateActionsForm,
+		addVisitStoreItemForm,
+		removeVisitStoreItemForm,
+		addMedicalActsForm,
+		removeMedicalActForm,
+		addSurgicaActsForm,
+		removeSurgicalActForm
 	} = data);
 
 	$: currentVisit.set(visit);
+	$: updateVisitFormStore.set(form);
 	$: addVisitExamFormStore.set(addExamForm);
 	$: removeVisitItemFormStore.set(removeExamForm);
 	$: medicalActsStore.set(medicalActs);
 	$: clinicalExamsStore.set(clinicalExams);
-	$: surgivalActsStore.set(surgicalActs);
+	$: surgicalActsStore.set(surgicalActs);
 	$: payVisitFormStore.set(payVisitForm);
 	$: addVisitFileFormStore.set(addFileForm);
 	$: removeVisitFileFormStore.set(removeFileForm);
 	$: updateVisitDiagnosticFormStore.set(updateDiagnosticForm);
+	$: updateVisitActionsFormStore.set(updateActionsForm);
+	$: addVisitStoreItemFormStore.set(addVisitStoreItemForm);
+	$: removeVisitStoreItemFormStore.set(removeVisitStoreItemForm);
+	$: addVisitMedicalActsFormStore.set(addMedicalActsForm);
+	$: removeVisitMedicalActFormStore.set(removeMedicalActForm);
+	$: addVisitSurgicalActsFormStore.set(addSurgicaActsForm);
+	$: removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">

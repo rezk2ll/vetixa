@@ -13,6 +13,7 @@ import {
 	payVisitSchema,
 	removeVisitFileSchema,
 	removeVisitItemSchema,
+	updateVisitActionsSchema,
 	updateVisitDiagnosticSchema,
 	updateVisitSchema
 } from '$lib/schemas/visit';
@@ -34,9 +35,30 @@ export const load = (async ({ params, locals: { pb } }) => {
 		const updateDiagnosticForm = await superValidate(zod(updateVisitDiagnosticSchema), {
 			id: 'update-diagnostic'
 		});
+		const updateActionsForm = await superValidate(zod(updateVisitActionsSchema), {
+			id: 'update-actions'
+		});
+		const addVisitStoreItemForm = await superValidate(zod(addVisitItemsSchema), {
+			id: 'add-visit-store-item'
+		});
+		const removeVisitStoreItemForm = await superValidate(zod(removeVisitItemSchema), {
+			id: 'remove-visit-store-item'
+		});
+		const addMedicalActsForm = await superValidate(zod(addVisitItemsSchema), {
+			id: 'add-medical-acts'
+		});
+		const removeMedicalActForm = await superValidate(zod(removeVisitItemSchema), {
+			id: 'remove-medical-act'
+		});
+		const addSurgicaActsForm = await superValidate(zod(addVisitItemsSchema), {
+			id: 'add-surgical-acts'
+		});
+		const removeSurgicalActForm = await superValidate(zod(removeVisitItemSchema), {
+			id: 'remove-surgical-act'
+		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
-			expand: 'medical_acts, clinical_exams, surgical_acts, animal'
+			expand: 'medical_acts, clinical_exams, surgical_acts, animal, animal.client'
 		});
 
 		if (!visitRecord) {
@@ -48,7 +70,10 @@ export const load = (async ({ params, locals: { pb } }) => {
 
 		const visit = {
 			...visitRecord,
-			animal: (visitRecord.expand as RecordModel)?.animal || {},
+			animal: {
+				...((visitRecord.expand as RecordModel)?.animal || {}),
+				client: (visitRecord.expand as RecordModel)?.animal.expand.client || {}
+			},
 			medical_acts: (visitRecord.expand as RecordModel)?.medical_acts || [],
 			clinical_exams: (visitRecord.expand as RecordModel)?.clinical_exams || [],
 			surgical_acts: (visitRecord.expand as RecordModel)?.surgical_acts || [],
@@ -74,7 +99,14 @@ export const load = (async ({ params, locals: { pb } }) => {
 			payVisitForm,
 			addFileForm,
 			removeFileForm,
-			updateDiagnosticForm
+			updateDiagnosticForm,
+			updateActionsForm,
+			addVisitStoreItemForm,
+			removeVisitStoreItemForm,
+			addMedicalActsForm,
+			removeMedicalActForm,
+			addSurgicaActsForm,
+			removeSurgicalActForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -245,6 +277,7 @@ export const actions = {
 			console.error(error);
 		}
 	},
+
 	updateDiagnostic: async ({ locals: { pb }, request }) => {
 		const form = await superValidate(request, zod(updateVisitDiagnosticSchema), {
 			id: 'update-diagnostic'
@@ -266,6 +299,224 @@ export const actions = {
 				...visit,
 				observations
 			});
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	updateActions: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(updateVisitActionsSchema), {
+			id: 'update-actions'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, actions } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				actions
+			});
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	addVisitStoreItem: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(addVisitItemsSchema), {
+			id: 'add-visit-store-item'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, items } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'medical_acts+': items
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+
+			return message(form, 'Failed to add visit exam');
+		}
+	},
+
+	removeVisitStoreItem: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(removeVisitItemSchema), {
+			id: 'remove-visit-store-item'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, item } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'medical_acts-': item
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	addMedicalActs: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(addVisitItemsSchema), { id: 'add-medical-acts' });
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, items } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'medical_acts+': items
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+
+			return message(form, 'Failed to add medical act');
+		}
+	},
+
+	removeMedicalAct: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(removeVisitItemSchema), {
+			id: 'remove-medical-act'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, item } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'medical_acts-': item
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	addSurgicalActs: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(addVisitItemsSchema), {
+			id: 'add-surgical-acts'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, items } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'surgical_acts+': items
+			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+
+			return message(form, 'Failed to add surgical act');
+		}
+	},
+
+	removeSurgicalAct: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(removeVisitItemSchema), {
+			id: 'remove-surgical-act'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, item } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				'surgical_acts-': item
+			});
+
+			await billService.update();
 
 			return { form };
 		} catch (error) {
