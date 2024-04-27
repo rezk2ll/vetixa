@@ -15,6 +15,7 @@
 	import PhotoSwipeLightbox from 'photoswipe/lightbox';
 	import { onMount } from 'svelte';
 	import 'photoswipe/style.css';
+	import EmptyTable from '$components/dispaly/EmptyTable.svelte';
 
 	let uploadFileFormRef: HTMLFormElement;
 	let removeFileFormRef: HTMLFormElement;
@@ -167,7 +168,7 @@
 						<tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
 							{#if $submitting}
 								<LoadingSpinner />
-							{:else}
+							{:else if $currentVisit.files.length}
 								{#each $currentVisit.files as item}
 									<tr>
 										<td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -255,6 +256,8 @@
 										</td>
 									</tr>
 								{/each}
+							{:else}
+								<EmptyTable />
 							{/if}
 						</tbody>
 					</table>
