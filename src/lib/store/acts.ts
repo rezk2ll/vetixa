@@ -6,5 +6,5 @@ import type {
 } from '$types';
 
 export const medicalActs = writable<MedicalActsResponse[]>();
-export const surgivalActs = writable<SurgicalActsResponse[]>();
+export const surgicalActs = writable<SurgicalActsResponse[]>();
 export const clinicalExams = writable<ClinicalExamsResponse[]>();
