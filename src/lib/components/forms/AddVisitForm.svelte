@@ -7,7 +7,7 @@
 	import Syringe from '../icons/Syringe.svelte';
 	import FileField from '$lib/components/inputs/FileField.svelte';
 	import CollapsibleFormSection from '../CollapsibleFormSection.svelte';
-	import { clinicalExams, medicalActs, surgivalActs } from '$lib/store/acts';
+	import { clinicalExams, medicalActs, surgicalActs } from '$lib/store/acts';
 
 	export let open = false;
 </script>
@@ -60,7 +60,7 @@
 			name="surgical_acts"
 			title="Actes chirurgicaux"
 			description="Les interventions chirurgicales ou opérations pratiquées sur l'animal."
-			items={$surgivalActs}
+			items={$surgicalActs}
 		>
 			<Nurse />
 		</ActSelect>

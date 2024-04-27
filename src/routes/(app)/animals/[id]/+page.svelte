@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clinicalExams, medicalActs, surgivalActs } from '$lib/store/acts';
+	import { clinicalExams, medicalActs, surgicalActs } from '$lib/store/acts';
 	import VisitList from '$lib/components/lists/VisitList.svelte';
 	import CollapsibleSection from '$lib/components/CollapsibleSection.svelte';
 	import Details from '$lib/components/Details.svelte';
@@ -30,13 +30,13 @@
 		{ name: 'Espèce', value: animal.type },
 		{ name: 'Sexe', value: animal.sex },
 		{ name: 'Age', value: animal.birthday, isAge: true },
-		{ name: 'Poids', value: animal.weight },
+		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
 		{ name: 'Couleur', value: animal.color },
 		{ name: 'Race', value: animal.breed }
 	];
 
 	$: clinicalExams.set(data.clinicalExams);
-	$: surgivalActs.set(data.surgicalActs);
+	$: surgicalActs.set(data.surgicalActs);
 	$: medicalActs.set(data.medicalActs);
 	$: updateAnimalFormStore.set(data.form);
 	$: addVisitFormStore.set(data.addForm);
