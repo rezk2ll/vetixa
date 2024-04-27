@@ -49,3 +49,8 @@ export const updateVisitDiagnosticSchema = z.object({
 	id: z.string().min(1),
 	observations: z.string().min(1)
 });
+
+export const updateVisitActionsSchema = z.object({
+	id: z.string().min(1),
+	actions: z.string().min(1)
+});

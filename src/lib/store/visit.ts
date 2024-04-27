@@ -8,13 +8,17 @@ import type {
 	removeVisitFileSchema,
 	removeVisitItemSchema,
 	updateVisitSchema,
-	updateVisitDiagnosticSchema
+	updateVisitDiagnosticSchema,
+	updateVisitActionsSchema
 } from '$lib/schemas/visit';
 import type { removeSchema } from '$lib/schemas';
 import type { Visit, VisitTabsType } from '$types';
 import type { Infer } from 'sveltekit-superforms';
 
 export const visitItems = writable<Visit[]>([]);
+
+export const activeVisitTab = writable<VisitTabsType>('info');
+export const currentVisit = writable<Visit>();
 
 export const addVisitFormStore = writable<SuperValidated<Infer<typeof addVisitSchema>>>();
 export const updateVisitFormStore = writable<SuperValidated<Infer<typeof updateVisitSchema>>>();
@@ -28,6 +32,17 @@ export const removeVisitFileFormStore =
 	writable<SuperValidated<Infer<typeof removeVisitFileSchema>>>();
 export const updateVisitDiagnosticFormStore =
 	writable<SuperValidated<Infer<typeof updateVisitDiagnosticSchema>>>();
-
-export const activeVisitTab = writable<VisitTabsType>('exams');
-export const currentVisit = writable<Visit>();
+export const updateVisitActionsFormStore =
+	writable<SuperValidated<Infer<typeof updateVisitActionsSchema>>>();
+export const addVisitStoreItemFormStore =
+	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
+export const removeVisitStoreItemFormStore =
+	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
+export const addVisitMedicalActsFormStore =
+	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
+export const removeVisitMedicalActFormStore =
+	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
+export const addVisitSurgicalActsFormStore =
+	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
+export const removeVisitSurgicalActFormStore =
+	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
