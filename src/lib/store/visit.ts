@@ -9,7 +9,8 @@ import type {
 	removeVisitItemSchema,
 	updateVisitSchema,
 	updateVisitDiagnosticSchema,
-	updateVisitActionsSchema
+	updateVisitActionsSchema,
+  updateVisitHospitalisationSchema
 } from '$lib/schemas/visit';
 import type { removeSchema } from '$lib/schemas';
 import type { Visit, VisitTabsType } from '$types';
@@ -46,3 +47,5 @@ export const addVisitSurgicalActsFormStore =
 	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
 export const removeVisitSurgicalActFormStore =
 	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
+export const updateVisitHospitalisationFormStore =
+	writable<SuperValidated<Infer<typeof updateVisitHospitalisationSchema>>>();
