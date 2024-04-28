@@ -8,11 +8,12 @@
 	import InfoTab from '$components/tabs/visit/InfoTab.svelte';
 	import MedicalActsTab from './MedicalActsTab.svelte';
 	import SurgicalActsTab from './SurgicalActsTab.svelte';
+	import HospitTab from './HospitTab.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
 
-<div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:pt-10">
+<div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:pt-10 pb-5">
 	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded-md">
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="flex overflow-x-auto whitespace-nowrap w-full">
@@ -205,6 +206,8 @@
 			<MedicalActsTab />
 		{:else if $activeVisitTab === 'surgical_acts'}
 			<SurgicalActsTab />
+		{:else if $activeVisitTab === 'hospit'}
+			<HospitTab />
 		{:else}
 			<InfoTab />
 		{/if}
