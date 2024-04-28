@@ -54,3 +54,12 @@ export const updateVisitActionsSchema = z.object({
 	id: z.string().min(1),
 	actions: z.string().min(1)
 });
+
+export const updateVisitHospitalisationSchema = z.object({
+	id: z.string().min(1),
+	note: z.string().optional(),
+	start: z.date(),
+	end: z.date(),
+	treatment: z.string().optional(),
+	cage: z.string().min(1)
+});
