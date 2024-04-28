@@ -313,7 +313,7 @@
 												</button>
 
 												<a
-													href="#"
+													href="/visits/{visit.id}"
 													title="Modifier la visite"
 													class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
 												>
