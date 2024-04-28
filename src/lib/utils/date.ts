@@ -1,4 +1,4 @@
-import { format, addDays } from 'date-fns';
+import { format, addDays, setHours, setMinutes, differenceInDays } from 'date-fns';
 import locale from 'date-fns/locale/fr/index';
 
 /**
@@ -20,6 +20,17 @@ export const formatDateString = (timestamp: string): string =>
  */
 export const formatDate = (date: Date): string =>
 	format(date, 'E dd/LL/yyyy  HH:mm', {
+		locale
+	});
+
+/**
+ * format a date object to a string
+ *
+ * @param {Date} date - the date to format
+ * @returns {string} the formatted date string
+ */
+export const formatDateShort = (date: Date): string =>
+	format(date, 'E dd/LL/yyyy', {
 		locale
 	});
 
@@ -102,13 +113,29 @@ export const calculateDiff = (begin: string, end: number): string => {
 
 	return displayTime;
 };
+
 /**
  * format a date to display the time
  *
  * @param {string} date - the input date
  * @returns {string} the formatted string
  */
-export const formatDateTime = (date: string) =>
+export const formatDateTime = (date: string): string =>
 	format(new Date(date), 'E HH:mm', {
 		locale
 	});
+
+/**
+ * calculates the number of days between two dates (without factoring hours)
+ *
+ * @param {string} start - the start date
+ * @param {string} end - the end date
+ * @returns {number} the number of days between the two dates
+ */
+export const getDaysBetween = (start: string, end: string): number => {
+  console.log({ start, end })
+	const startDate = setHours(setMinutes(new Date(start), 0), 0);
+	const endDate = setHours(setMinutes(new Date(end), 0), 24);
+
+	return differenceInDays(endDate, startDate);
+};
