@@ -9,9 +9,11 @@ export enum Collections {
 	Agenda = "agenda",
 	Animals = "animals",
 	Bills = "bills",
+	Cages = "cages",
 	Clients = "clients",
 	ClinicalExams = "clinical_exams",
 	FundTransactions = "fund_transactions",
+	Hospitalisation = "hospitalisation",
 	InventoryItem = "inventory_item",
 	InventorySale = "inventory_sale",
 	MedicalActs = "medical_acts",
@@ -19,8 +21,11 @@ export enum Collections {
 	SurgicalActs = "surgical_acts",
 	Users = "users",
 	Visits = "visits",
+	VisitsPaidList = "visits_paid_list",
 	VisitsPaidView = "visits_paid_view",
-	VisitsPartialPaidView = "visits_partial_paid_view",
+	VisitsPartialList = "visits_partial_list",
+	VisitsPartialView = "visits_partial_view",
+	VisitsPendingList = "visits_pending_list",
 	VisitsPendingView = "visits_pending_view",
 }
 
@@ -90,6 +95,10 @@ export type BillsRecord = {
 	visit?: RecordIdString
 }
 
+export type CagesRecord = {
+	code?: string
+}
+
 export type ClientsRecord = {
 	address?: string
 	email?: string
@@ -117,6 +126,15 @@ export type FundTransactionsRecord = {
 	method?: FundTransactionsMethodOptions
 	outcash?: number
 	user?: RecordIdString
+}
+
+export type HospitalisationRecord<Ttreatment = unknown> = {
+	cage?: RecordIdString
+	end?: IsoDateString
+	note?: string
+	start: IsoDateString
+	treatment?: null | Ttreatment
+	visit?: RecordIdString
 }
 
 export type InventoryItemRecord = {
@@ -173,18 +191,34 @@ export type VisitsRecord = {
 	clinical_exams?: RecordIdString[]
 	date?: IsoDateString
 	files?: string[]
+	hospit?: RecordIdString
 	medical_acts?: RecordIdString[]
 	motif?: string
 	observations?: HTMLString
 	surgical_acts?: RecordIdString[]
 }
 
+export type VisitsPaidListRecord = {
+	animal?: RecordIdString
+	motif?: string
+}
+
 export type VisitsPaidViewRecord = {
 	total?: number
 }
 
-export type VisitsPartialPaidViewRecord = {
+export type VisitsPartialListRecord = {
+	animal?: RecordIdString
+	motif?: string
+}
+
+export type VisitsPartialViewRecord = {
 	total?: number
+}
+
+export type VisitsPendingListRecord = {
+	animal?: RecordIdString
+	motif?: string
 }
 
 export type VisitsPendingViewRecord = {
@@ -195,9 +229,11 @@ export type VisitsPendingViewRecord = {
 export type AgendaResponse<Texpand = unknown> = Required<AgendaRecord> & BaseSystemFields<Texpand>
 export type AnimalsResponse<Texpand = unknown> = Required<AnimalsRecord> & BaseSystemFields<Texpand>
 export type BillsResponse<Texpand = unknown> = Required<BillsRecord> & BaseSystemFields<Texpand>
+export type CagesResponse<Texpand = unknown> = Required<CagesRecord> & BaseSystemFields<Texpand>
 export type ClientsResponse<Texpand = unknown> = Required<ClientsRecord> & BaseSystemFields<Texpand>
 export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRecord> & BaseSystemFields<Texpand>
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> & BaseSystemFields<Texpand>
+export type HospitalisationResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitalisationRecord<Ttreatment>> & BaseSystemFields<Texpand>
 export type InventoryItemResponse<Texpand = unknown> = Required<InventoryItemRecord> & BaseSystemFields<Texpand>
 export type InventorySaleResponse<Texpand = unknown> = Required<InventorySaleRecord> & BaseSystemFields<Texpand>
 export type MedicalActsResponse<Texpand = unknown> = Required<MedicalActsRecord> & BaseSystemFields<Texpand>
@@ -205,8 +241,11 @@ export type QueueResponse<Texpand = unknown> = Required<QueueRecord> & BaseSyste
 export type SurgicalActsResponse<Texpand = unknown> = Required<SurgicalActsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 export type VisitsResponse<Texpand = unknown> = Required<VisitsRecord> & BaseSystemFields<Texpand>
+export type VisitsPaidListResponse<Texpand = unknown> = Required<VisitsPaidListRecord> & BaseSystemFields<Texpand>
 export type VisitsPaidViewResponse<Texpand = unknown> = Required<VisitsPaidViewRecord> & BaseSystemFields<Texpand>
-export type VisitsPartialPaidViewResponse<Texpand = unknown> = Required<VisitsPartialPaidViewRecord> & BaseSystemFields<Texpand>
+export type VisitsPartialListResponse<Texpand = unknown> = Required<VisitsPartialListRecord> & BaseSystemFields<Texpand>
+export type VisitsPartialViewResponse<Texpand = unknown> = Required<VisitsPartialViewRecord> & BaseSystemFields<Texpand>
+export type VisitsPendingListResponse<Texpand = unknown> = Required<VisitsPendingListRecord> & BaseSystemFields<Texpand>
 export type VisitsPendingViewResponse<Texpand = unknown> = Required<VisitsPendingViewRecord> & BaseSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -215,9 +254,11 @@ export type CollectionRecords = {
 	agenda: AgendaRecord
 	animals: AnimalsRecord
 	bills: BillsRecord
+	cages: CagesRecord
 	clients: ClientsRecord
 	clinical_exams: ClinicalExamsRecord
 	fund_transactions: FundTransactionsRecord
+	hospitalisation: HospitalisationRecord
 	inventory_item: InventoryItemRecord
 	inventory_sale: InventorySaleRecord
 	medical_acts: MedicalActsRecord
@@ -225,8 +266,11 @@ export type CollectionRecords = {
 	surgical_acts: SurgicalActsRecord
 	users: UsersRecord
 	visits: VisitsRecord
+	visits_paid_list: VisitsPaidListRecord
 	visits_paid_view: VisitsPaidViewRecord
-	visits_partial_paid_view: VisitsPartialPaidViewRecord
+	visits_partial_list: VisitsPartialListRecord
+	visits_partial_view: VisitsPartialViewRecord
+	visits_pending_list: VisitsPendingListRecord
 	visits_pending_view: VisitsPendingViewRecord
 }
 
@@ -234,9 +278,11 @@ export type CollectionResponses = {
 	agenda: AgendaResponse
 	animals: AnimalsResponse
 	bills: BillsResponse
+	cages: CagesResponse
 	clients: ClientsResponse
 	clinical_exams: ClinicalExamsResponse
 	fund_transactions: FundTransactionsResponse
+	hospitalisation: HospitalisationResponse
 	inventory_item: InventoryItemResponse
 	inventory_sale: InventorySaleResponse
 	medical_acts: MedicalActsResponse
@@ -244,8 +290,11 @@ export type CollectionResponses = {
 	surgical_acts: SurgicalActsResponse
 	users: UsersResponse
 	visits: VisitsResponse
+	visits_paid_list: VisitsPaidListResponse
 	visits_paid_view: VisitsPaidViewResponse
-	visits_partial_paid_view: VisitsPartialPaidViewResponse
+	visits_partial_list: VisitsPartialListResponse
+	visits_partial_view: VisitsPartialViewResponse
+	visits_pending_list: VisitsPendingListResponse
 	visits_pending_view: VisitsPendingViewResponse
 }
 
@@ -256,9 +305,11 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'agenda'): RecordService<AgendaResponse>
 	collection(idOrName: 'animals'): RecordService<AnimalsResponse>
 	collection(idOrName: 'bills'): RecordService<BillsResponse>
+	collection(idOrName: 'cages'): RecordService<CagesResponse>
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>
+	collection(idOrName: 'hospitalisation'): RecordService<HospitalisationResponse>
 	collection(idOrName: 'inventory_item'): RecordService<InventoryItemResponse>
 	collection(idOrName: 'inventory_sale'): RecordService<InventorySaleResponse>
 	collection(idOrName: 'medical_acts'): RecordService<MedicalActsResponse>
@@ -266,7 +317,10 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'surgical_acts'): RecordService<SurgicalActsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 	collection(idOrName: 'visits'): RecordService<VisitsResponse>
+	collection(idOrName: 'visits_paid_list'): RecordService<VisitsPaidListResponse>
 	collection(idOrName: 'visits_paid_view'): RecordService<VisitsPaidViewResponse>
-	collection(idOrName: 'visits_partial_paid_view'): RecordService<VisitsPartialPaidViewResponse>
+	collection(idOrName: 'visits_partial_list'): RecordService<VisitsPartialListResponse>
+	collection(idOrName: 'visits_partial_view'): RecordService<VisitsPartialViewResponse>
+	collection(idOrName: 'visits_pending_list'): RecordService<VisitsPendingListResponse>
 	collection(idOrName: 'visits_pending_view'): RecordService<VisitsPendingViewResponse>
 }
