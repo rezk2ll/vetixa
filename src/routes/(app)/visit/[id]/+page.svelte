@@ -16,13 +16,15 @@
 		removeVisitSurgicalActFormStore,
 		updateVisitActionsFormStore,
 		updateVisitDiagnosticFormStore,
-		updateVisitFormStore
+		updateVisitFormStore,
+		updateVisitHospitalisationFormStore
 	} from '$store/visit';
 	import {
 		clinicalExams as clinicalExamsStore,
 		medicalActs as medicalActsStore,
 		surgicalActs as surgicalActsStore
 	} from '$store/acts';
+	import { cagesList } from '$store/hospit';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -33,6 +35,7 @@
 		clinicalExams,
 		medicalActs,
 		surgicalActs,
+		cages,
 		bill,
 		addExamForm,
 		removeExamForm,
@@ -46,7 +49,8 @@
 		addMedicalActsForm,
 		removeMedicalActForm,
 		addSurgicaActsForm,
-		removeSurgicalActForm
+		removeSurgicalActForm,
+		updateVisitHospitForm
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -67,6 +71,8 @@
 	$: removeVisitMedicalActFormStore.set(removeMedicalActForm);
 	$: addVisitSurgicalActsFormStore.set(addSurgicaActsForm);
 	$: removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
+	$: updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
+	$: cagesList.set(cages);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">

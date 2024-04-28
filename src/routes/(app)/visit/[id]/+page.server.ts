@@ -5,7 +5,8 @@ import type {
 	MedicalActsResponse,
 	SurgicalActsResponse,
 	BillsMethodOptions,
-	VisitsResponse
+	VisitsResponse,
+	CagesResponse
 } from '$types';
 import {
 	addVisitFileSchema,
@@ -15,6 +16,7 @@ import {
 	removeVisitItemSchema,
 	updateVisitActionsSchema,
 	updateVisitDiagnosticSchema,
+	updateVisitHospitalisationSchema,
 	updateVisitSchema
 } from '$lib/schemas/visit';
 import type { RecordModel } from 'pocketbase';
@@ -56,9 +58,12 @@ export const load = (async ({ params, locals: { pb } }) => {
 		const removeSurgicalActForm = await superValidate(zod(removeVisitItemSchema), {
 			id: 'remove-surgical-act'
 		});
+		const updateVisitHospitForm = await superValidate(zod(updateVisitHospitalisationSchema), {
+			id: 'update-hospit'
+		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
-			expand: 'medical_acts, clinical_exams, surgical_acts, animal, animal.client'
+			expand: 'medical_acts, clinical_exams, surgical_acts, animal, animal.client, hospit'
 		});
 
 		if (!visitRecord) {
@@ -77,6 +82,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 			medical_acts: (visitRecord.expand as RecordModel)?.medical_acts || [],
 			clinical_exams: (visitRecord.expand as RecordModel)?.clinical_exams || [],
 			surgical_acts: (visitRecord.expand as RecordModel)?.surgical_acts || [],
+			hospit: (visitRecord.expand as RecordModel)?.hospit || {},
 			bill,
 			files: (visitRecord.files || []).map((file) => pb.files.getUrl(visitRecord, file))
 		};
@@ -86,6 +92,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 			.collection('clinical_exams')
 			.getFullList<ClinicalExamsResponse>();
 		const surgicalActs = await pb.collection('surgical_acts').getFullList<SurgicalActsResponse>();
+		const cages = await pb.collection('cages').getFullList<CagesResponse>();
 
 		return {
 			visit,
@@ -93,6 +100,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 			medicalActs,
 			clinicalExams,
 			surgicalActs,
+			cages,
 			form,
 			addExamForm,
 			removeExamForm,
@@ -106,7 +114,8 @@ export const load = (async ({ params, locals: { pb } }) => {
 			addMedicalActsForm,
 			removeMedicalActForm,
 			addSurgicaActsForm,
-			removeSurgicalActForm
+			removeSurgicalActForm,
+			updateVisitHospitForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -515,6 +524,56 @@ export const actions = {
 				...visit,
 				'surgical_acts-': item
 			});
+
+			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	updateHospit: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(updateVisitHospitalisationSchema), {
+			id: 'update-hospit'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, cage, end, start, note, treatment } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			if (visit.hospit) {
+				await pb.collection('hospitalisation').update(visit.hospit, {
+					cage,
+					end,
+					start,
+					note,
+					treatment
+				});
+			} else {
+				const hospit = await pb.collection('hospitalisation').create({
+					cage,
+					end,
+					start,
+					note,
+					treatment,
+					visit: visit.id
+				});
+
+				await pb.collection('visits').update(id, {
+					...visit,
+					hospit: hospit.id
+				});
+			}
 
 			await billService.update();
 
