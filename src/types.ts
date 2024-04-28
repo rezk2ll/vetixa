@@ -7,7 +7,8 @@ import type {
 	BillsResponse,
 	ClinicalExamsResponse,
 	MedicalActsResponse,
-	SurgicalActsResponse
+	SurgicalActsResponse,
+	HospitalisationResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -28,12 +29,16 @@ export interface QueueItem extends Omit<QueueResponse, 'visit'> {
 }
 
 export interface Visit
-	extends Omit<VisitsResponse, 'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts'> {
+	extends Omit<
+		VisitsResponse,
+		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit'
+	> {
 	animal: expandedAnimal;
 	bill: BillsResponse;
 	clinical_exams: ClinicalExamsResponse[];
 	medical_acts: MedicalActsResponse[];
 	surgical_acts: SurgicalActsResponse[];
+	hospit: HospitalisationResponse<Treatment[]>;
 }
 
 export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
@@ -88,3 +93,35 @@ export interface visitCount {
 	paid: number;
 	partial: number;
 }
+
+export interface Treatment {
+	date: string;
+	alimentation?: boolean;
+	abreuvement?: boolean;
+	urines?: UrinesType;
+	matiere_fecale?: MatiereFecale;
+	vaumissement?: boolean;
+	temperature?: string;
+	traitement?: string;
+	state?: AnimalState;
+	responsible?: string;
+}
+
+export type MatiereFecale =
+	| 'Normale'
+	| 'Diarrhée jaune'
+	| 'diarrhée verte'
+	| 'Diarrhée noire'
+	| 'Diarrhée décolorée';
+
+export type AnimalState =
+	| 'Détériorisé'
+	| 'Moyen'
+	| 'Etat de choc'
+	| 'Bon'
+	| 'Amélioré'
+	| 'Moyen +/-'
+	| 'Mauvais'
+	| 'Stable';
+
+export type UrinesType = 'Normale' | 'Hemorragique' | 'Foncée' | "Pas d'urine";
