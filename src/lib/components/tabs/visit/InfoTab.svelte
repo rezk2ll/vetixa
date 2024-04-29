@@ -54,7 +54,7 @@
 	</form>
 
 	<div class="flex flex-row space-x-5 w-full">
-		<div class="flex flex-col space-y-5 w-full border-r border-gray-100">
+		<div class="flex flex-col space-y-5 w-full">
 			<div
 				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
 			>
