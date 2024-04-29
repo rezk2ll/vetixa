@@ -9,6 +9,7 @@
 	import MedicalActsTab from './MedicalActsTab.svelte';
 	import SurgicalActsTab from './SurgicalActsTab.svelte';
 	import HospitTab from './HospitTab.svelte';
+	import StoreTab from './StoreTab.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
@@ -208,6 +209,8 @@
 			<SurgicalActsTab />
 		{:else if $activeVisitTab === 'hospit'}
 			<HospitTab />
+		{:else if $activeVisitTab === 'shop'}
+			<StoreTab />
 		{:else}
 			<InfoTab />
 		{/if}
