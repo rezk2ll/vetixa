@@ -26,6 +26,7 @@
 	} from '$store/acts';
 	import { cagesList } from '$store/hospit';
 	import type { PageData } from './$types';
+	import { inventoryItems } from '$lib/store/inventory';
 
 	export let data: PageData;
 
@@ -36,6 +37,7 @@
 		medicalActs,
 		surgicalActs,
 		cages,
+		storeItems,
 		bill,
 		addExamForm,
 		removeExamForm,
@@ -73,6 +75,7 @@
 	$: removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
 	$: updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
 	$: cagesList.set(cages);
+	$: inventoryItems.set(storeItems);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">
