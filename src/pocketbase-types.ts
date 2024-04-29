@@ -195,6 +195,7 @@ export type VisitsRecord = {
 	medical_acts?: RecordIdString[]
 	motif?: string
 	observations?: HTMLString
+	store_items?: RecordIdString[]
 	surgical_acts?: RecordIdString[]
 }
 
