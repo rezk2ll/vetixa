@@ -8,7 +8,8 @@ import type {
 	ClinicalExamsResponse,
 	MedicalActsResponse,
 	SurgicalActsResponse,
-	HospitalisationResponse
+	HospitalisationResponse,
+	InventoryItemResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -31,7 +32,7 @@ export interface QueueItem extends Omit<QueueResponse, 'visit'> {
 export interface Visit
 	extends Omit<
 		VisitsResponse,
-		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit'
+		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items'
 	> {
 	animal: expandedAnimal;
 	bill: BillsResponse;
@@ -39,6 +40,7 @@ export interface Visit
 	medical_acts: MedicalActsResponse[];
 	surgical_acts: SurgicalActsResponse[];
 	hospit: HospitalisationResponse<Treatment[]>;
+	store_items: InventoryItemResponse[];
 }
 
 export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
