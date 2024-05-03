@@ -8,17 +8,8 @@ export const clientSchema = z.object({
 	address: z.string().optional()
 });
 
-export const addClientSchema = clientSchema.transform((client) => ({
-	...client,
-	name: `${client.firstname} ${client.lastname}`
-}));
+export const addClientSchema = clientSchema;
 
-export const updateClientSchema = clientSchema
-	.extend({
-		id: z.string().min(1)
-	})
-	.transform((client) => ({
-		...client,
-		name: `${client.firstname} ${client.lastname}`
-	}));
-
+export const updateClientSchema = clientSchema.extend({
+	id: z.string().min(1)
+});

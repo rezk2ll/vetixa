@@ -8,7 +8,6 @@ export const addAnimalSchema = z.object({
 	weight: z
 		.number()
 		.default(0)
-		.or(z.string().regex(/\d+/).transform(Number))
 		.refine((n) => n > 0),
 	color: z.string().optional(),
 	breed: z.string().optional(),
