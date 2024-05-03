@@ -49,6 +49,7 @@
 		"@fullcalendar/timegrid": "^6.1.9",
 		"@tinymce/tinymce-svelte": "^2.0.2",
 		"chart.js": "4.4.1",
+		"currency.js": "^2.0.4",
 		"date-fns": "^2.30.0",
 		"mimeit": "^1.0.4",
 		"moment": "^2.29.4",
