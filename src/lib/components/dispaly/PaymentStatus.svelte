@@ -52,7 +52,7 @@
 				<h2 class="font-normal">Arriaré</h2>
 			</div>
 		{:else if processing}
-			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+			<div class="inline-flex items-center px-5 py-1 rounded-full gap-x-2">
 				<svg
 					class="w-4 h-4"
 					viewBox="0 0 24 24"
