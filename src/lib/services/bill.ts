@@ -5,6 +5,7 @@ import type {
 	ClinicalExamsResponse,
 	FundTransactionsMethodOptions,
 	FundTransactionsRecord,
+	InventoryItemResponse,
 	MedicalActsResponse,
 	SurgicalActsResponse,
 	TypedPocketBase,
@@ -60,7 +61,7 @@ class BillService {
 	 */
 	getExpandedVisit = async (): Promise<VisitsResponse> => {
 		return await this.pb.collection('visits').getOne<VisitsResponse>(this.visit.id, {
-			expand: 'animal, medical_acts, clinical_exams, surgical_acts, animal'
+			expand: 'animal, medical_acts, clinical_exams, surgical_acts, animal, hospit, store_items'
 		});
 	};
 
@@ -131,16 +132,19 @@ class BillService {
 
 		const medicalActs: MedicalActsResponse[] =
 			(visitRecord.expand as RecordModel)?.medical_acts || [];
-		const clinical_exams: ClinicalExamsResponse[] =
+		const clinicalExams: ClinicalExamsResponse[] =
 			(visitRecord.expand as RecordModel)?.clinical_exams || [];
-		const surgical_acts: SurgicalActsResponse[] =
+		const surgicalActs: SurgicalActsResponse[] =
 			(visitRecord.expand as RecordModel)?.surgical_acts || [];
+		const inventoryItems: InventoryItemResponse[] =
+			(visitRecord.expand as RecordModel)?.store_items || [];
 
-		const examsPrice = clinical_exams.reduce((acc, exam) => acc + exam.price, 0);
+		const examsPrice = clinicalExams.reduce((acc, exam) => acc + exam.price, 0);
 		const medicalActsPrice = medicalActs.reduce((acc, act) => acc + act.price, 0);
-		const surgicalActsPrice = surgical_acts.reduce((acc, act) => acc + act.price, 0);
+		const surgicalActsPrice = surgicalActs.reduce((acc, act) => acc + act.price, 0);
+		const inventoryItemsPrice = inventoryItems.reduce((acc, item) => acc + item.price, 0);
 
-		return examsPrice + medicalActsPrice + surgicalActsPrice;
+		return examsPrice + medicalActsPrice + surgicalActsPrice + inventoryItemsPrice;
 	};
 }
 
