@@ -33,7 +33,12 @@ export const actions: Actions = {
 				return message(form, 'Invalid data', { status: 400 });
 			}
 
-			const client = await pb.collection('clients').create(form.data);
+			const { firstname, lastname } = form.data;
+
+			const client = await pb.collection('clients').create({
+				...form.data,
+				name: `${firstname} ${lastname}`
+			});
 
 			throw redirect(303, `/clients/${client.id}/?new=true`);
 		} catch (error) {
@@ -79,7 +84,12 @@ export const actions: Actions = {
 				return message(form, 'Failed to update client');
 			}
 
-			await pb.collection('clients').update(form.data.id, form.data);
+			const { firstname, lastname } = form.data;
+
+			await pb.collection('clients').update(form.data.id, {
+				...form.data,
+				name: `${firstname} ${lastname}`
+			});
 		} catch (error) {
 			console.error(error);
 
