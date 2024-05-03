@@ -1,54 +1,63 @@
 <script lang="ts">
-	import { superForm } from 'sveltekit-superforms/client';
+	import { defaults, superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import type { InventoryItemResponse } from '$types';
-	import { updateInventoryFormStore } from '$store/inventory';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import currency from 'currency.js';
+	import SuperDebug from 'sveltekit-superforms';
+	import { zod, zodClient } from 'sveltekit-superforms/adapters';
+	import { updateInventoryItemSchema } from '$lib/schemas';
+	import { updatedInventoryItem } from '$lib/store/inventory';
 
 	export let open = false;
 	export let item: InventoryItemResponse;
 
-	const { form, message, submitting, enhance } = superForm($updateInventoryFormStore, {
-		clearOnSubmit: 'errors-and-message',
-		dataType: 'json',
-		onResult: ({ result }) => {
-			if (result.type === 'success') {
-				open = false;
+	const { form, message, submitting, enhance, validateForm } = superForm(
+		defaults($updatedInventoryItem, zodClient(updateInventoryItemSchema)).data,
+		{
+			dataType: 'json',
+			onResult: ({ result }) => {
+				if (result.type === 'success') {
+					open = false;
+				}
 			}
-		},
-		taintedMessage: null
+		}
+	);
+
+	let htPrice = 0;
+
+	updatedInventoryItem.subscribe((value) => {
+		$form.alert = value.alert;
+		$form.code = value.code;
+		$form.cost = value.cost;
+		$form.id = value.id;
+		$form.name = value.name;
+		$form.price = value.price;
+		$form.quantity = value.quantity;
+		$form.tva = value.tva;
+		$form.description = value.description;
+		htPrice = currency($form.price).divide(1 + $form.tva / 100).value;
 	});
 
-	$form.id = item.id;
-	$form.name = item.name;
-	$form.quantity = item.quantity;
-	$form.price = +item.price.toFixed(2);
-	$form.cost = item.cost;
-	$form.description = item.description;
-	$form.code = item.code;
-	$form.tva = item.tva;
-	$form.alert = item.alert;
-
-	$: totalCost = ($form.quantity * $form.cost).toFixed(2);
+	$: totalCost = currency($form.cost).multiply($form.quantity).value;
 
 	const handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
 		if ($form.quantity) {
-			$form.cost = +(value / $form.quantity).toFixed(2);
+			$form.cost = currency(value).divide($form.quantity).value;
 		}
 	};
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		htPrice = +(value / (1 + $form.tva / 100)).toFixed(2);
+		htPrice = currency(value).divide(1 + $form.tva / 100).value;
 	};
 
-	let htPrice = +($form.price / (1 + $form.tva / 100)).toFixed(2);
-	$: $form.price = +(htPrice * (1 + $form.tva / 100)).toFixed(2);
+	$: $form.price = currency(htPrice).multiply(1 + $form.tva / 100).value;
 </script>
 
 <div>
@@ -77,7 +86,6 @@
 		{/if}
 	</div>
 </div>
-
 <form use:enhance action="?/update" class="mt-4 w-full" method="POST">
 	<div class="flex flex-row space-x-5">
 		<TextField name="code" label="Code" bind:value={$form.code} isInValid={false} />

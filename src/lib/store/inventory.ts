@@ -9,6 +9,8 @@ import type {
 } from '$lib/schemas';
 import type { Infer } from 'sveltekit-superforms';
 
+export const updatedInventoryItem = writable<InventoryItemResponse>();
+
 export const inventoryItems = writable<InventoryItemResponse[]>([]);
 export const addInventoryFormStore =
 	writable<SuperValidated<Infer<typeof addInventoryItemSchema>>>();

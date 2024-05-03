@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Modal from '$lib/components/Modal.svelte';
 	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
-	import { inventoryItems, removeInventoryFormStore } from '$lib/store/inventory';
+	import {
+		inventoryItems,
+		removeInventoryFormStore,
+		updatedInventoryItem
+	} from '$lib/store/inventory';
 	import type { storeStatusFilter as StatusFilter } from '$types';
 	import SellInventoryItemForm from '$lib/components/forms/inventory/SellInventoryItemForm.svelte';
 	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
@@ -47,7 +51,9 @@
 	$: pageItems = items.slice(page * 10, page * 10 + 10);
 
 	$: availableCount = $inventoryItems.filter((item) => item.quantity > item.alert).length;
-	$: alertCount = $inventoryItems.filter((item) => item.quantity <= item.alert && item.quantity > 0).length;
+	$: alertCount = $inventoryItems.filter(
+		(item) => item.quantity <= item.alert && item.quantity > 0
+	).length;
 	$: unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
 
 	$: handler = () => {
@@ -64,6 +70,8 @@
 
 	$: update = (item: InventoryItemResponse) => {
 		selectedUpdateItem = item;
+
+		updatedInventoryItem.set(item);
 		openUpdateInventoryItemModal = true;
 	};
 
@@ -305,6 +313,12 @@
 										<th
 											scope="col"
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>TVA</th
+										>
+
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Prix de vente</th
 										>
 
@@ -355,6 +369,7 @@
 												{/if}
 											</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.quantity} </td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.tva} %</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.price} </td>
 
 											<td class="px-4 py-4 text-sm whitespace-nowrap">

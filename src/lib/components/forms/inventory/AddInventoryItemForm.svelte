@@ -5,6 +5,7 @@
 	import TextField from '$lib/components/inputs/TextField.svelte';
 	import { addInventoryFormStore } from '$store/inventory';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import currency from 'currency.js';
 
 	export let open = false;
 
@@ -20,24 +21,25 @@
 
 	$form.quantity = 1;
 
-	$: totalCost = ($form.quantity * $form.cost).toFixed(2);
+	$: totalCost = currency($form.cost).multiply($form.quantity).value;
 
 	$: handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
 		if ($form.quantity) {
-			$form.cost = +(value / $form.quantity).toFixed(2);
+			$form.cost = currency(value).divide($form.quantity).value;
 		}
 	};
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
+		const divider = currency($form.tva).divide(100).add(1);
 
-		htPrice = +(value / (1 + $form.tva / 100)).toFixed(2);
+		htPrice = currency(value).divide(divider).value;
 	};
 
 	let htPrice = 0;
-	$: $form.price = +(htPrice * (1 + $form.tva / 100)).toFixed(2);
+	$: $form.price = currency(htPrice).multiply(1 + $form.tva / 100).value;
 </script>
 
 <div>
@@ -90,32 +92,34 @@
 	</div>
 	<div class="flex flex-row space-x-5">
 		<NumberField
-			label="Prix d'achat total"
+			label="Prix d'achat total en DT"
 			placeholder="1"
 			value={totalCost}
 			name="total"
 			isInValid={false}
+			isNumber
 			onChange={handleCostChange}
 		/>
 		<NumberField
-			label="Prix d'achat unitaire"
+			label="Prix d'achat unitaire en DT"
 			placeholder="1"
 			bind:value={$form.cost}
 			name="cost"
+			isNumber
 			isInValid={false}
 		/>
 	</div>
 	<div class="flex flex-row space-x-5 pb-6">
-		<NumberField label="TVA" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
+		<NumberField label="TVA %" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
-			label="prix de vente unitaire HT"
+			label="prix de vente unitaire HT en DT"
 			placeholder="1"
 			bind:value={htPrice}
 			name="price_ht"
 			isInValid={false}
 		/>
 		<NumberField
-			label="prix de vente unitaire TTC"
+			label="prix de vente unitaire TTC en DT"
 			placeholder="1"
 			onChange={handleHTCChange}
 			value={$form.price}
