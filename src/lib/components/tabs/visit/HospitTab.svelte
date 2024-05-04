@@ -10,40 +10,23 @@
 	import { cagesList } from '$store/hospit';
 	import type { Treatment } from '$types';
 	import CollapsibleFormSection from '$components/CollapsibleFormSection.svelte';
-	import TextField from '$components/inputs/TextField.svelte';
+	import ObservationForm from '$components/forms/hospit/ObservationForm.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
 
-	const booleanValue = [
-		{ label: 'oui', value: true },
-		{ label: 'non', value: false }
-	];
-
-	const urinesList = ['Normale', 'Hemorragique', 'Foncée', "Pas d'urine"];
-	const animalStates = [
-		'Détériorisé',
-		'Moyen',
-		'Etat de choc',
-		'Bon',
-		'Amélioré',
-		'Moyen +/-',
-		'Mauvais',
-		'Stable'
-	];
-	const matiereFecaleList = [
-		'Normale',
-		'Diarrhée jaune',
-		'diarrhée verte',
-		'Diarrhée noire',
-		'Diarrhée décolorée'
-	];
-
 	const { form, enhance, submitting } = superForm($updateVisitHospitalisationFormStore, {
 		taintedMessage: null,
 		dataType: 'json',
-		resetForm: false
+		resetForm: false,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				invalidated = true;
+			}
+		}
 	});
+
+	let invalidated: boolean = false;
 
 	$: disabled = !$form.cage || !$form.start || !$form.end;
 	$: $form.id = $currentVisit.id;
@@ -60,7 +43,7 @@
 			? getDaysBetween($currentVisit.hospit?.start, $currentVisit.hospit.end)
 			: 0;
 	$: {
-		if (treatments.length !== daysCount) {
+		if (treatments.length !== daysCount || invalidated) {
 			treatments = getPreviousDays(new Date($currentVisit.hospit.end), daysCount).map((day) => {
 				if ($currentVisit.hospit.treatment) {
 					const existingDay = $currentVisit.hospit.treatment.find(
@@ -68,12 +51,18 @@
 					);
 
 					if (existingDay) {
-						return existingDay;
+						return {
+							...existingDay,
+							observations: [{}, ...(existingDay.observations || []).filter((obs) => obs.time)]
+						};
 					}
 				}
 
+				invalidated = false;
+
 				return {
-					date: formatDateShort(day)
+					date: formatDateShort(day),
+					observations: [{}]
 				} satisfies Treatment;
 			});
 		}
@@ -82,7 +71,7 @@
 	$: $form.treatment = JSON.stringify(treatments);
 </script>
 
-<section class="container px-4 mx-auto mt-5 pb-5">
+<div class="container px-4 mt-5 pb-5">
 	<div class="flex flex-col space-y-5">
 		<div class="sm:flex sm:items-center sm:justify-between">
 			<h2 class="text-lg font-medium text-gray-800 dark:text-white">
@@ -163,7 +152,7 @@
 				</div>
 			</div>
 		</form>
-		<div class="flex flex-col gap-2 w-full">
+		<div class="flex flex-col gap-2">
 			{#each treatments as _, index}
 				<CollapsibleFormSection
 					color="info"
@@ -171,21 +160,7 @@
 					size="full"
 					show={index === 0}
 				>
-					<div class="flex flex-col gap-3">
-						<div class="flex flex-row justify-between gap-5">
-							<TextField
-								name="responsible"
-								bind:value={treatments[index].responsible}
-								label="Responsable"
-								isInValid={false}
-							/>
-							<TextField
-								name="temperature"
-								bind:value={treatments[index].temperature}
-								label="T° / Heure"
-								isInValid={false}
-							/>
-						</div>
+					<div class="flex flex-col gap-1 pt-3">
 						<TextAreaField
 							placeholder=""
 							label="Traitement"
@@ -193,94 +168,17 @@
 							bind:value={treatments[index].traitement}
 							isInValid={false}
 						/>
-						<div class="flex flex-row gap-5 justify-between">
-							<div class="shrink min-w-96">
-								<label class="text-gray-700 dark:text-gray-200 pl-2" for="alimentation-{index}"
-									>Alimentation</label
-								>
-								<Select
-									id="alimentation-{index}"
-									items={booleanValue}
-									listOffset={10}
-									placeholder="veuillez sélectionner"
-									bind:value={treatments[index].alimentation}
-									class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
-								/>
-							</div>
-							<div class="shrink min-w-96">
-								<label class="text-gray-700 dark:text-gray-200 pl-2" for="abreuvement-{index}"
-									>Abreuvement</label
-								>
-								<Select
-									items={booleanValue}
-									id="abreuvement-{index}"
-									listOffset={10}
-									placeholder="veuillez sélectionner"
-									bind:value={treatments[index].abreuvement}
-									class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
-								/>
-							</div>
-							<div class="shrink min-w-96">
-								<label class="text-gray-700 dark:text-gray-200 pl-2" for="vaumissement-{index}"
-									>Vaumissement</label
-								>
-								<Select
-									id="vaumissement-{index}"
-									items={booleanValue}
-									listOffset={10}
-									placeholder="veuillez sélectionner"
-									bind:value={treatments[index].vaumissement}
-									class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
-								/>
-							</div>
-						</div>
-						<div class="flex flex-row gap-3 justify-between">
-							<div class="shrink min-w-96">
-								<label class="text-gray-700 dark:text-gray-200 pl-2" for="fecale-{index}"
-									>Matière fécale</label
-								>
-								<Select
-									id="fecale-{index}"
-									items={matiereFecaleList}
-									listOffset={10}
-									placeholder="veuillez sélectionner"
-									value={treatments[index].matiere_fecale}
-									bind:justValue={treatments[index].matiere_fecale}
-									class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
-								/>
-							</div>
-							<div class="shrink min-w-96">
-								<label class="text-gray-700 dark:text-gray-200 pl-2" for="urines-{index}"
-									>Urines</label
-								>
-								<Select
-									id="urines-{index}"
-									items={urinesList}
-									listOffset={10}
-									placeholder="veuillez sélectionner"
-									value={treatments[index].urines}
-									bind:justValue={treatments[index].urines}
-									class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
-								/>
-							</div>
-							<div class="shrink min-w-96">
-								<label class="text-gray-700 dark:text-gray-200 pl-2" for="state-{index}"
-									>Etat physiologique</label
-								>
-								<Select
-									id="state-{index}"
-									items={animalStates}
-									listOffset={10}
-									placeholder="veuillez sélectionner"
-									value={treatments[index].state}
-									bind:justValue={treatments[index].state}
-									class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
-								/>
-							</div>
-						</div>
+
+						{#each treatments[index].observations as _, observationIndex}
+							<ObservationForm
+								title={treatments[index].observations[observationIndex].time}
+								bind:entity={treatments[index].observations[observationIndex]}
+								index={observationIndex}
+							/>
+						{/each}
 					</div>
 				</CollapsibleFormSection>
 			{/each}
 		</div>
 	</div>
-</section>
+</div>
