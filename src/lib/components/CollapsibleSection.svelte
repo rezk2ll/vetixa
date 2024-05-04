@@ -17,7 +17,7 @@
 		? 'border border-teal-400'
 		: shadow
 		? 'shadow-2xl'
-		: ''} border-gray-200 xl:rounded-lg h-fit mb-5"
+		: ''} border-gray-200 xl:rounded-lg h-fit mb-2"
 >
 	<div class="flex flex-row space-x-5">
 		<div
