@@ -98,15 +98,20 @@ export interface visitCount {
 
 export interface Treatment {
 	date: string;
+	observations: Observation[];  
+	traitement?: string;
+}
+
+export interface Observation {
+	time?: string;
+	state?: AnimalState;
+	responsible?: string;
 	alimentation?: boolean;
 	abreuvement?: boolean;
 	urines?: UrinesType;
 	matiere_fecale?: MatiereFecale;
 	vaumissement?: boolean;
 	temperature?: string;
-	traitement?: string;
-	state?: AnimalState;
-	responsible?: string;
 }
 
 export type MatiereFecale =
