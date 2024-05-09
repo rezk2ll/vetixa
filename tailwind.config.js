@@ -13,6 +13,10 @@ export default {
           700: 'rgba(51, 65, 85, 1)',
           800: 'rgba(30, 41, 59, 1)',
         }
+      },
+      screens: {
+        print: { raw: 'print' },
+        screen: { raw: 'screen' },
       }
     },
   },
