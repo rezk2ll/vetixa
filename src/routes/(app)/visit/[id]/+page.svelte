@@ -29,6 +29,7 @@
 	import type { PageData } from './$types';
 	import { inventoryItems } from '$lib/store/inventory';
 	import SuperDebug from 'sveltekit-superforms';
+	import PrintBill from '$components/dispaly/bill/PrintBill.svelte';
 
 	export let data: PageData;
 
@@ -83,9 +84,11 @@
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">
-  <TabContainer />
+	<TabContainer />
 	<div class="w-full lg:w-5/12 flex flex-col lg:px-10 gap-3 pt-10">
-    <SuperDebug data={$visitBill} />
-		<PaymentTab {bill} visitId={visit.id} />
+		<div class="flex flex-col gap-6">
+			<PrintBill bill={generatedBill} />
+			<PaymentTab {bill} visitId={visit.id} />
+		</div>
 	</div>
 </div>
