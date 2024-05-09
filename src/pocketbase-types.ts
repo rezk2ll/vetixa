@@ -12,6 +12,7 @@ export enum Collections {
 	Cages = "cages",
 	Clients = "clients",
 	ClinicalExams = "clinical_exams",
+	Config = "config",
 	FundTransactions = "fund_transactions",
 	Hospitalisation = "hospitalisation",
 	InventoryItem = "inventory_item",
@@ -112,6 +113,11 @@ export type ClinicalExamsRecord = {
 	code?: string
 	name?: string
 	price?: number
+}
+
+export type ConfigRecord = {
+	code?: string
+	value?: number
 }
 
 export enum FundTransactionsMethodOptions {
@@ -233,6 +239,7 @@ export type BillsResponse<Texpand = unknown> = Required<BillsRecord> & BaseSyste
 export type CagesResponse<Texpand = unknown> = Required<CagesRecord> & BaseSystemFields<Texpand>
 export type ClientsResponse<Texpand = unknown> = Required<ClientsRecord> & BaseSystemFields<Texpand>
 export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRecord> & BaseSystemFields<Texpand>
+export type ConfigResponse<Texpand = unknown> = Required<ConfigRecord> & BaseSystemFields<Texpand>
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> & BaseSystemFields<Texpand>
 export type HospitalisationResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitalisationRecord<Ttreatment>> & BaseSystemFields<Texpand>
 export type InventoryItemResponse<Texpand = unknown> = Required<InventoryItemRecord> & BaseSystemFields<Texpand>
@@ -258,6 +265,7 @@ export type CollectionRecords = {
 	cages: CagesRecord
 	clients: ClientsRecord
 	clinical_exams: ClinicalExamsRecord
+	config: ConfigRecord
 	fund_transactions: FundTransactionsRecord
 	hospitalisation: HospitalisationRecord
 	inventory_item: InventoryItemRecord
@@ -282,6 +290,7 @@ export type CollectionResponses = {
 	cages: CagesResponse
 	clients: ClientsResponse
 	clinical_exams: ClinicalExamsResponse
+	config: ConfigResponse
 	fund_transactions: FundTransactionsResponse
 	hospitalisation: HospitalisationResponse
 	inventory_item: InventoryItemResponse
@@ -309,6 +318,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'cages'): RecordService<CagesResponse>
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>
+	collection(idOrName: 'config'): RecordService<ConfigResponse>
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>
 	collection(idOrName: 'hospitalisation'): RecordService<HospitalisationResponse>
 	collection(idOrName: 'inventory_item'): RecordService<InventoryItemResponse>
