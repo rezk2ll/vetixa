@@ -35,6 +35,14 @@ export const formatDateShort = (date: Date): string =>
 	});
 
 /**
+ * format a date object to a string
+ *
+ * @param {Date} date - the date to format
+ * @returns {string} the formatted date string
+ */
+export const formatDateSimple = (date: Date): string => format(date, 'dd/LL/yyyy', { locale });
+
+/**
  * format a date object to a string to be used in pocketbase filters.
  *
  * @param {Date} date - the date to format
@@ -133,7 +141,7 @@ export const formatDateTime = (date: string): string =>
  * @returns {number} the number of days between the two dates
  */
 export const getDaysBetween = (start: string, end: string): number => {
-  console.log({ start, end })
+	console.log({ start, end });
 	const startDate = setHours(setMinutes(new Date(start), 0), 0);
 	const endDate = setHours(setMinutes(new Date(end), 0), 24);
 
