@@ -17,7 +17,8 @@
 		updateVisitActionsFormStore,
 		updateVisitDiagnosticFormStore,
 		updateVisitFormStore,
-		updateVisitHospitalisationFormStore
+		updateVisitHospitalisationFormStore,
+		visitBill
 	} from '$store/visit';
 	import {
 		clinicalExams as clinicalExamsStore,
@@ -27,6 +28,7 @@
 	import { cagesList } from '$store/hospit';
 	import type { PageData } from './$types';
 	import { inventoryItems } from '$lib/store/inventory';
+	import SuperDebug from 'sveltekit-superforms';
 
 	export let data: PageData;
 
@@ -52,7 +54,8 @@
 		removeMedicalActForm,
 		addSurgicaActsForm,
 		removeSurgicalActForm,
-		updateVisitHospitForm
+		updateVisitHospitForm,
+		generatedBill
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -76,11 +79,13 @@
 	$: updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
 	$: cagesList.set(cages);
 	$: inventoryItems.set(storeItems);
+	$: generatedBill && visitBill.set(generatedBill);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">
-	<TabContainer />
+  <TabContainer />
 	<div class="w-full lg:w-5/12 flex flex-col lg:px-10 gap-3 pt-10">
+    <SuperDebug data={$visitBill} />
 		<PaymentTab {bill} visitId={visit.id} />
 	</div>
 </div>

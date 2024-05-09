@@ -99,6 +99,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 		const storeItems = await pb.collection('inventory_item').getFullList<InventoryItemResponse>({
 			filter: 'quantity > 0'
 		});
+		const generatedBill = await billService.generateBill();
 
 		return {
 			visit,
@@ -122,7 +123,8 @@ export const load = (async ({ params, locals: { pb } }) => {
 			removeMedicalActForm,
 			addSurgicaActsForm,
 			removeSurgicalActForm,
-			updateVisitHospitForm
+			updateVisitHospitForm,
+			generatedBill
 		};
 	} catch (err) {
 		console.error(err);
