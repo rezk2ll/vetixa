@@ -98,7 +98,7 @@ export interface visitCount {
 
 export interface Treatment {
 	date: string;
-	observations: Observation[];  
+	observations: Observation[];
 	traitement?: string;
 }
 
@@ -132,3 +132,16 @@ export type AnimalState =
 	| 'Stable';
 
 export type UrinesType = 'Normale' | 'Hemorragique' | 'Foncée' | "Pas d'urine";
+
+export interface BillInformation {
+	client: string;
+	animal: string;
+	items: BillItem[];
+}
+
+export interface BillItem {
+	name: string;
+	price: number;
+	quantity: number;
+  code?: string;
+}
