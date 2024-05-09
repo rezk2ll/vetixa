@@ -54,9 +54,9 @@
 	};
 </script>
 
-<div class="flex flex-col items-center justify-start w-full">
+<div class="flex flex-col items-center justify-start xl:pl-14 w-full">
 	<div
-		class="w-full xl:w-11/12 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded px-2 mb-5"
+		class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded"
 	>
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
