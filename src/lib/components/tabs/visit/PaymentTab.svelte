@@ -40,7 +40,18 @@
 	<div class="w-full p-1 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 xl:rounded px-2">
 		<div class="flex flex-col w-full space-y-2">
 			<div class="flex flex-col w-full">
-				<h2 class="text-xl font-semibold text-gray-800">Paiement</h2>
+				<div class="flex flex-row space-x-5 items-center justify-start">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 576 512"
+						class="w-6 h-6"
+						fill="currentColor"
+						><path
+							d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z"
+						/></svg
+					>
+					<h2 class="text-xl font-semibold text-gray-800">Paiement</h2>
+				</div>
 				<span class="text-slate-800 font-normal">Saisissez les détails du paiement.</span>
 				<div class="py-2 flex flex-col gap-1">
 					<PaymentStatus {bill} />
