@@ -267,6 +267,7 @@ class BillService {
 			}
 
 			return {
+				id: visit.bill.id,
 				animal: visit.animal.name,
 				client: visit.animal.client.name,
 				items: await this.getBillItems(visit)
@@ -290,6 +291,7 @@ class BillService {
 						price,
 						code,
 						name,
+						total: price,
 						quantity: 1
 					} satisfies BillItem)
 			),
@@ -299,6 +301,7 @@ class BillService {
 						price,
 						code,
 						name,
+						total: price,
 						quantity: 1
 					} satisfies BillItem)
 			),
@@ -308,6 +311,7 @@ class BillService {
 						price,
 						code,
 						name,
+						total: price,
 						quantity: 1
 					} satisfies BillItem)
 			),
@@ -317,6 +321,7 @@ class BillService {
 						price,
 						code,
 						name,
+						total: price,
 						quantity: 1
 					} satisfies BillItem)
 			)
@@ -325,11 +330,20 @@ class BillService {
 		if (visit.hospit) {
 			const { start, end } = visit.hospit;
 			const hospitQuantity = getDaysBetween(start, end);
-			const price = await this.getHospitalisationCost(visit as unknown as VisitsResponse);
+			const total = await this.getHospitalisationCost(visit as unknown as VisitsResponse);
+			const hospitConfig = (await this.pb
+				.collection('config')
+				.getFirstListItem<ConfigResponse>('code = "hospit_price"')) || { value: 0 };
 
 			items = [
 				...items,
-				{ name: 'Hospitalisation', price, quantity: hospitQuantity, code: 'hospit' }
+				{
+					name: 'Hospitalisation',
+					price: hospitConfig.value,
+					quantity: hospitQuantity,
+					code: 'hospit',
+					total
+				}
 			];
 		}
 
