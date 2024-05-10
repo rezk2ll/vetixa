@@ -86,7 +86,7 @@
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">
 	<TabContainer />
 	<div class="w-full lg:w-5/12 flex flex-col lg:px-10 gap-3 pt-10">
-		<div class="flex flex-col gap-6">
+		<div class="flex flex-col gap-5">
 			<PrintBill bill={generatedBill} />
 			<PaymentTab {bill} visitId={visit.id} />
 		</div>
