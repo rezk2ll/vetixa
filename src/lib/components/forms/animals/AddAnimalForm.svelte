@@ -6,6 +6,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addAnimalFormStore } from '$lib/store/animals';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import { animalTypeList } from '$utils/animal';
 
 	export let open = false;
 
@@ -57,7 +58,7 @@
 <form use:enhance action="?/addAnimal" class="mt-4" method="POST">
 	<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 	<SelectField
-		options={['chat', 'chien']}
+		options={animalTypeList}
 		label="Espèce"
 		name="type"
 		bind:value={$form.type}

@@ -1,13 +1,14 @@
 <script lang="ts">
-	import DateField from '$lib/components/inputs/DateField.svelte';
-	import NumberField from '$lib/components/inputs/NumberField.svelte';
-	import SelectField from '$lib/components/inputs/SelectField.svelte';
-	import TextField from '$lib/components/inputs/TextField.svelte';
+	import DateField from '$components/inputs/DateField.svelte';
+	import NumberField from '$components/inputs/NumberField.svelte';
+	import SelectField from '$components/inputs/SelectField.svelte';
+	import TextField from '$components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { updateAnimalFormStore } from '$lib/store/animals';
+	import { updateAnimalFormStore } from '$store/animals';
 	import type { AnimalsResponse } from '$types';
 	import { format } from 'date-fns';
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import { animalTypeList } from '$utils/animal';
 
 	export let open = false;
 	export let item: AnimalsResponse;
@@ -70,7 +71,7 @@
 <form use:enhance action="?/updateAnimal" class="mt-4" method="POST">
 	<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 	<SelectField
-		options={['chat', 'chien']}
+		options={animalTypeList}
 		label="Espèce"
 		name="type"
 		bind:value={$form.type}
