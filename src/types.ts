@@ -134,7 +134,7 @@ export type AnimalState =
 export type UrinesType = 'Normale' | 'Hemorragique' | 'Foncée' | "Pas d'urine";
 
 export interface BillInformation {
-  id: string;
+	id: string;
 	client: string;
 	animal: string;
 	items: BillItem[];
@@ -144,6 +144,6 @@ export interface BillItem {
 	name: string;
 	price: number;
 	quantity: number;
-  total: number;
-  code?: string;
+	total: number;
+	code?: string;
 }
