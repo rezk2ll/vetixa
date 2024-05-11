@@ -41,11 +41,11 @@
 		if (statusFilter === 'chien') {
 			return item.type === 'chien';
 		}
-  
+
 		if (statusFilter === 'male') {
 			return item.sex === 'male';
 		}
-  
+
 		if (statusFilter === 'female') {
 			return item.sex === 'female';
 		}
@@ -304,6 +304,10 @@
 										<th
 											scope="col"
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										/>
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Sexe</th
 										>
 										<th
@@ -368,8 +372,12 @@
 													? 'text-blue-500 '
 													: 'text-pink-500 '} dark:text-gray-300 whitespace-nowrap"
 											>
-                        <AnimalIcon type={animal.type} />
+												<AnimalIcon type={animal.type} />
 											</td>
+											<td
+												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												>{animal.type}</td
+											>
 											<td
 												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 												>{animal.sex}</td
