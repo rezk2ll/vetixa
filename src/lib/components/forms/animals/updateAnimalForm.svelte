@@ -19,6 +19,7 @@
 				open = false;
 			}
 		},
+		resetForm: false,
 		dataType: 'json',
 		taintedMessage: null
 	});
