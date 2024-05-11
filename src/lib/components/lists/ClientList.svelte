@@ -237,7 +237,7 @@
 											>
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
 												<div class="flex items-center gap-x-2">
-													{#each item.animals as animal}
+													{#each item.animals.slice(0,8) as animal}
 														<p
 															class="px-3 py-1 text-xs {animal.sex === 'male'
 																? 'text-blue-500 bg-blue-100/60'
