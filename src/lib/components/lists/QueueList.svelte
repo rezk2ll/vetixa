@@ -5,6 +5,7 @@
 	import Cat from '../icons/Cat.svelte';
 	import Dog from '../icons/Dog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
+	import AnimalIcon from '$components/dispaly/animal/AnimalIcon.svelte';
 
 	let statusFilter: StatusFilter = 'pending';
 	let search: string;
@@ -229,11 +230,7 @@
 														? 'text-blue-500 '
 														: 'text-pink-500 '} dark:text-gray-300 whitespace-nowrap"
 												>
-													{#if item.visit.animal.type === 'chien'}
-														<Dog />
-													{:else}
-														<Cat />
-													{/if}
+													<AnimalIcon type={item.visit.animal.type} />
 												</span>
 											</td>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">

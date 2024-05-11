@@ -10,6 +10,7 @@
 	import Dog from '../icons/Dog.svelte';
 	import AddAnimalForm from '../forms/animals/AddAnimalForm.svelte';
 	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
+	import AnimalIcon from '$components/dispaly/animal/AnimalIcon.svelte';
 
 	export let canAdd: boolean = true;
 	export let isNew: boolean = false;
@@ -40,9 +41,11 @@
 		if (statusFilter === 'chien') {
 			return item.type === 'chien';
 		}
+  
 		if (statusFilter === 'male') {
 			return item.sex === 'male';
 		}
+  
 		if (statusFilter === 'female') {
 			return item.sex === 'female';
 		}
@@ -365,11 +368,7 @@
 													? 'text-blue-500 '
 													: 'text-pink-500 '} dark:text-gray-300 whitespace-nowrap"
 											>
-												{#if animal.type === 'chien'}
-													<Dog />
-												{:else}
-													<Cat />
-												{/if}
+                        <AnimalIcon type={animal.type} />
 											</td>
 											<td
 												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
