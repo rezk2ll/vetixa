@@ -84,10 +84,10 @@
 <ConfirmationDialog bind:show={showConfirmation} {handler}>
 	<div>
 		<div class="mt-2 text-center">
-			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+			<h3 class="text-lg font-medium leading-6 text-gray-800" id="modal-title">
 				Supprimer {selectedItem?.name}
 			</h3>
-			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+			<p class="mt-2 text-sm text-gray-500">
 				Êtes-vous sûr de vouloir supprimer cet animal ? Toutes vos données seront définitivement
 				supprimé. Cette action ne peut pas être annulée.
 			</p>
@@ -101,14 +101,13 @@
 			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
 				<div>
 					<div class="flex items-center gap-x-3">
-						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Clients</h2>
-						<span
-							class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
+						<h2 class="text-lg font-medium text-gray-800">Clients</h2>
+						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
 							>{$clients.length}</span
 						>
 					</div>
 
-					<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">La liste des clients</p>
+					<p class="mt-1 text-sm text-gray-500">La liste des clients</p>
 				</div>
 				<div class="flex items-center mt-4 gap-x-2">
 					<button
@@ -145,7 +144,7 @@
 							viewBox="0 0 24 24"
 							stroke-width="1.5"
 							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
+							class="w-5 h-5 mx-3 text-gray-400"
 						>
 							<path
 								stroke-linecap="round"
@@ -159,20 +158,20 @@
 						bind:value={search}
 						type="text"
 						placeholder="Chercher par nom, email, téléphone, animal..."
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-4/12 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-4/12 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
 					/>
 				</div>
 			</div>
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-								<thead class="bg-gray-50 dark:bg-gray-800">
+						<div class="overflow-hidden border border-gray-200 md:rounded-lg">
+							<table class="min-w-full divide-y divide-gray-200">
+								<thead class="bg-gray-50">
 									<tr>
 										<th
 											scope="col"
-											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"
 										>
 											<div class="flex items-center gap-x-3">
 												<span>Nom</span>
@@ -181,22 +180,22 @@
 
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 											>Email</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 											>Numéro de téléphone</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 											>Adresse</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 										>
 											Animaux
 										</th>
@@ -206,53 +205,48 @@
 										</th>
 									</tr>
 								</thead>
-								<tbody
-									class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
-								>
+								<tbody class="bg-white divide-y divide-gray-200">
 									{#each pageItems as item}
 										<tr>
-											<td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+											<td class="px-4 py-3 text-sm font-medium text-gray-700 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
 													<a href="/clients/{item.id}" class="flex items-center gap-x-2">
 														<Avatar name={item.name} />
 														<div>
-															<h2 class="font-medium text-gray-800 dark:text-white hover:underline">
+															<h2 class="font-medium text-gray-800 hover:underline">
 																{item.name}
 															</h2>
 														</div>
 													</a>
 												</div>
 											</td>
-											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap"
 												>{item.email ?? '-'}</td
 											>
-											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap"
 												>{item.tel ?? '-'}</td
 											>
-											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap"
 												>{item.address ?? '-'}</td
 											>
-											<td class="px-4 py-4 text-sm whitespace-nowrap">
+											<td class="px-4 py-3 text-sm whitespace-nowrap">
 												<div class="flex items-center gap-x-2">
-													{#each item.animals.slice(0,8) as animal}
+													{#each item.animals.slice(0, 8) as animal}
 														<p
 															class="px-3 py-1 text-xs {animal.sex === 'male'
 																? 'text-blue-500 bg-blue-100/60'
-																: 'text-pink-500 bg-pink-100/60'} rounded-full dark:bg-gray-800"
+																: 'text-pink-500 bg-pink-100/60'} rounded-full"
 														>
 															{animal.name}
 														</p>
 													{/each}
 												</div>
 											</td>
-											<td class="px-4 py-4 text-sm whitespace-nowrap">
+											<td class="px-4 py-3 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<button
 														on:click={() => remove(item)}
-														class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none"
+														class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -273,7 +267,7 @@
 													<button
 														on:click={() => update(item)}
 														title="Modifier le client"
-														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
+														class="text-gray-500 transition-colors duration-200 hover:text-yellow-500 focus:outline-none"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -302,10 +296,8 @@
 			</div>
 
 			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
-				<div class="text-sm text-gray-500 dark:text-gray-400">
-					Page <span class="font-medium text-gray-700 dark:text-gray-100"
-						>{page + 1} sur {totalPages}</span
-					>
+				<div class="text-sm text-gray-500">
+					Page <span class="font-medium text-gray-700">{page + 1} sur {totalPages}</span>
 				</div>
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
@@ -317,7 +309,7 @@
 							? 'bg-slate-200'
 							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
 							? 'hover:bg-slate-200'
-							: 'hover:bg-gray-100'}  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+							: 'hover:bg-gray-100'}"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -345,7 +337,7 @@
 							? 'bg-slate-200'
 							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
 							? 'hover:bg-slate-200'
-							: 'hover:bg-gray-100'} dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+							: 'hover:bg-gray-100'}"
 					>
 						<span> Suivant </span>
 
