@@ -190,7 +190,7 @@ class BillService {
 	 * @returns {number} - the exams total cost
 	 */
 	getExamsCost = (visit: VisitsResponse): number => {
-		const exams: ClinicalExamsResponse[] = (visit.expand as RecordModel)?.medical_acts || [];
+		const exams: ClinicalExamsResponse[] = (visit.expand as RecordModel)?.clinical_exams || [];
 
 		return exams.reduce((acc, exam) => acc + exam.price, 0);
 	};
