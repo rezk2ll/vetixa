@@ -70,6 +70,23 @@ export enum AnimalsSexOptions {
 export enum AnimalsTypeOptions {
 	"chien" = "chien",
 	"chat" = "chat",
+	"oiseau" = "oiseau",
+	"vache" = "vache",
+	"cheval" = "cheval",
+	"chèvre" = "chèvre",
+	"mouton" = "mouton",
+	"lapin" = "lapin",
+	"singe" = "singe",
+	"rongeur" = "rongeur",
+	"poisson" = "poisson",
+	"amphibien" = "amphibien",
+	"petit mammifère" = "petit mammifère",
+	"animal de ferme" = "animal de ferme",
+	"animal de compagnie exotique" = "animal de compagnie exotique",
+	"animal sauvage" = "animal sauvage",
+	"reptile" = "reptile",
+	"insecte" = "insecte",
+	"autre" = "autre",
 }
 export type AnimalsRecord = {
 	birthday?: IsoDateString
