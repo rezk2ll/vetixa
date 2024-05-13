@@ -1,21 +1,27 @@
 <script lang="ts">
 	import NumberField from '$components/inputs/NumberField.svelte';
-	import { payVisitFormStore } from '$lib/store/visit';
+	import { currentVisit, payVisitFormStore } from '$lib/store/visit';
 	import { paymentMethods } from '$lib/utils/payment';
 	import Select from 'svelte-select';
 	import { superForm } from 'sveltekit-superforms/client';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
-	import type { BillsResponse } from '$types';
 	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
+	import type { BillsResponse } from '$types';
 
 	export let bill: BillsResponse;
-	export let visitId: string;
 
 	const { form, enhance, submitting } = superForm($payVisitFormStore, {
 		taintedMessage: null,
+		resetForm: false,
 		dataType: 'json',
-		resetForm: true
+		onUpdated: () => {
+			$form.id = $currentVisit.id;
+			$form.amount = 0;
+			$form.method = 'cash';
+			$form.incash = 0;
+			$form.outcash = 0;
+		}
 	});
 
 	const handleMethodChange = (e: any) => {
@@ -25,7 +31,7 @@
 		}
 	};
 
-	$: $form.id = visitId;
+	$: $form.id = $currentVisit.id;
 	$: disabled =
 		$form.amount <= 0 ||
 		($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount) ||
@@ -81,13 +87,14 @@
 				class="mt-2 flex flex-col space-y-4 w-full"
 				method="POST"
 			>
+				<input type="hidden" name="id" value={$currentVisit.id} />
 				<NumberField label="Montant" placeholder="" bind:value={$form.amount} name="amount" />
 				<div class="w-full">
 					<Select
 						items={paymentMethods}
 						disabled={disabledSelect}
 						listOffset={10}
-						value="cash"
+						value={$form.method}
 						placeholder="veuillez sélectionner"
 						bind:justValue={$form.method}
 						on:change={handleMethodChange}
