@@ -18,8 +18,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
 	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 
-	console.log('returning', removeForm, updateForm)
-
 	return { animals, removeForm, updateForm };
 };
 

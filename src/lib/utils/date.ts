@@ -141,7 +141,6 @@ export const formatDateTime = (date: string): string =>
  * @returns {number} the number of days between the two dates
  */
 export const getDaysBetween = (start: string, end: string): number => {
-	console.log({ start, end });
 	const startDate = setHours(setMinutes(new Date(start), 0), 0);
 	const endDate = setHours(setMinutes(new Date(end), 0), 24);
 
