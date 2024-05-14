@@ -208,7 +208,7 @@
 								<tbody class="bg-white divide-y divide-gray-200">
 									{#each pageItems as item}
 										<tr>
-											<td class="px-4 py-3 text-sm font-medium text-gray-700 whitespace-nowrap">
+											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
 													<a href="/clients/{item.id}" class="flex items-center gap-x-2">
 														<Avatar name={item.name} />
@@ -220,16 +220,16 @@
 													</a>
 												</div>
 											</td>
-											<td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{item.email ?? '-'}</td
 											>
-											<td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{item.tel ?? '-'}</td
 											>
-											<td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{item.address ?? '-'}</td
 											>
-											<td class="px-4 py-3 text-sm whitespace-nowrap">
+											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-center gap-x-2">
 													{#each item.animals.slice(0, 8) as animal}
 														<p
@@ -242,7 +242,7 @@
 													{/each}
 												</div>
 											</td>
-											<td class="px-4 py-3 text-sm whitespace-nowrap">
+											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<button
 														on:click={() => remove(item)}
