@@ -4,18 +4,32 @@
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import { addExpenseFormStore } from '$lib/store/funds';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import Select from 'svelte-select';
+	import type { PaymentMethodType } from '$types';
 
 	export let open = false;
 
+	const methods: PaymentMethodType[] = ['cash', 'tpe', 'cheque'];
 	const { enhance, submitting, form } = superForm($addExpenseFormStore, {
-		clearOnSubmit: 'errors-and-message',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
-				location.reload();
+				open = false;
 			}
 		},
+    dataType: 'json',
 		taintedMessage: null
 	});
+
+	const handleMethodChange = (e: any) => {
+		if (e.detail.value !== 'cash') {
+			$form.incash = 0;
+			$form.outcash = 0;
+		}
+	};
+
+	$: disabled =
+		$form.amount < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount);
+	$: invalidCash = $form.amount > 1 && $form.incash - $form.outcash !== $form.amount;
 </script>
 
 <div>
@@ -51,8 +65,48 @@
 </div>
 
 <form use:enhance action="?/addExpenses" class="mt-4" method="POST">
-	<TextAreaField name="description" label="Description" bind:value={$form.description} placeholder="" isInValid={false} />
-	<NumberField label="Montant" placeholder="montant" bind:value={$form.amount} name="amount" isInValid={false} />
+	<TextAreaField
+		name="description"
+		label="Description"
+		bind:value={$form.description}
+		placeholder=""
+		isInValid={false}
+	/>
+	<NumberField
+		label="Montant"
+		placeholder="montant"
+		bind:value={$form.amount}
+		name="amount"
+		isInValid={false}
+	/>
+	<div class="flex flex-col gap-2 pt-2">
+		<Select
+			items={methods}
+			disabled={$form.amount < 1}
+			listOffset={10}
+			value="cash"
+			bind:justValue={$form.method}
+			on:change={handleMethodChange}
+		/>
+		{#if $form.method === 'cash'}
+			<div class="flex flex-row space-x-2">
+				<NumberField
+					bind:value={$form.incash}
+					name="incash"
+					label="Entré"
+					placeholder=""
+					isInValid={invalidCash}
+				/>
+				<NumberField
+					bind:value={$form.outcash}
+					name="outcash"
+					label="Sortie"
+					placeholder=""
+					isInValid={invalidCash}
+				/>
+			</div>
+		{/if}
+	</div>
 
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
@@ -63,6 +117,6 @@
 			Annuler
 		</button>
 
-		<SubmitButton loading={$submitting} />
+		<SubmitButton loading={$submitting} {disabled} />
 	</div>
 </form>
