@@ -283,7 +283,7 @@
 									<tr>
 										<th
 											scope="col"
-											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="py-2.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>
 											<div class="flex items-center gap-x-3">
 												<span>Nom</span>
@@ -292,43 +292,43 @@
 										{#if canAdd === false}
 											<th
 												scope="col"
-												class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+												class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 												>Propriétaire</th
 											>
 										{/if}
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Espèce</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										/>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Sexe</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>
 											Poids
 										</th>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Age</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Couleur</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Race</th
 										>
 										<th scope="col" class="relative py-3.5 px-4">
@@ -341,7 +341,7 @@
 								>
 									{#each pageItems as animal}
 										<tr class="">
-											<td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
 													<div class="flex items-center gap-x-2">
 														<a
@@ -368,40 +368,40 @@
 												</td>
 											{/if}
 											<td
-												class="px-4 py-4 text-sm {animal.sex === 'male'
+												class="px-4 py-2.5 text-sm {animal.sex === 'male'
 													? 'text-blue-500 '
 													: 'text-pink-500 '} dark:text-gray-300 whitespace-nowrap"
 											>
 												<AnimalIcon type={animal.type} />
 											</td>
 											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 												>{animal.type}</td
 											>
 											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 												>{animal.sex}</td
 											>
 											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 												>{animal.weight}</td
 											>
 											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 											>
 												<AgeDisplay date={animal.birthday} />
 											</td>
 											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 												>{animal.color}</td
 											>
 
 											<td
-												class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 												>{animal.breed}</td
 											>
 
-											<td class="px-4 py-4 text-sm whitespace-nowrap">
+											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<button
 														on:click={() => remove(animal)}
