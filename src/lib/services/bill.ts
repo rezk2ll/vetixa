@@ -327,7 +327,7 @@ class BillService {
 			)
 		];
 
-		if (visit.hospit) {
+		if (visit.hospit.start) {
 			const { start, end } = visit.hospit;
 			const hospitQuantity = getDaysBetween(start, end);
 			const total = await this.getHospitalisationCost(visit as unknown as VisitsResponse);
