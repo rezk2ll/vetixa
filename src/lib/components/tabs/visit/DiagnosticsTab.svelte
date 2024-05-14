@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Editor from '@tinymce/tinymce-svelte';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { currentVisit, updateVisitDiagnosticFormStore } from '$store/visit';
 	import { formatDateString } from '$utils/date';
+	import { defaultEditorOptions } from '$utils/editor';
 
 	const { form, enhance, submitting } = superForm($updateVisitDiagnosticFormStore, {
 		id: 'update-diagnostic',
@@ -28,7 +29,7 @@
 							bind:value={$form.observations}
 							scriptSrc="/tinymce/tinymce.min.js"
 							apiKey="no-api-key"
-							conf={{ promotion: false, menubar: false, branding: false }}
+							conf={defaultEditorOptions}
 							cssClass="border-none"
 						/>
 						<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-200">

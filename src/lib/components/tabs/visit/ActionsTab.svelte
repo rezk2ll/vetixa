@@ -4,6 +4,7 @@
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { currentVisit, updateVisitActionsFormStore } from '$store/visit';
 	import { formatDateString } from '$utils/date';
+	import { defaultEditorOptions } from '$utils/editor';
 
 	const { form, enhance, submitting } = superForm($updateVisitActionsFormStore, {
 		id: 'update-actions',
@@ -28,7 +29,7 @@
 							bind:value={$form.actions}
 							scriptSrc="/tinymce/tinymce.min.js"
 							apiKey="no-api-key"
-							conf={{ promotion: false, menubar: false, branding: false }}
+							conf={defaultEditorOptions}
 							cssClass="border-none"
 						/>
 						<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-200">
