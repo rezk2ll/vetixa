@@ -1,9 +1,9 @@
 <script lang="ts">
-	import AddExpenseForm from './../forms/funds/AddExpenseForm.svelte';
-	import AddFundsForm from './../forms/funds/AddFundsForm.svelte';
-	import { formatDateString } from './../../utils/date';
-	import Modal from '../Modal.svelte';
-	import { fundItems } from '$lib/store/funds';
+	import AddExpenseForm from '$components/forms/funds/AddExpenseForm.svelte';
+	import AddFundsForm from '$components/forms/funds/AddFundsForm.svelte';
+	import { formatDateString } from '$utils/date';
+	import Modal from '$components/Modal.svelte';
+	import { fundItems } from '$store/funds';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import { fr } from 'date-fns/locale';
 	import type { fundsStatusFilter as StatusFilter } from '$types';
@@ -382,13 +382,11 @@
 												{/if}
 											</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
-												{#if item.method === 'cash'}
-													<div class="flex flex-col">
-														<p
-															class="text-sm font-normal text-gray-600 dark:text-gray-400 uppercase"
-														>
-															{item.method}
-														</p>
+												<div class="flex flex-col">
+													<p class="text-sm font-normal text-gray-600 dark:text-gray-400 uppercase">
+														{item.method}
+													</p>
+													{#if item.method === 'cash'}
 														<div class="flex flex-row gap-1">
 															<kbd
 																class="inline-flex items-center px-1 py-1 font-sans text-xs text-gray-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
@@ -401,8 +399,8 @@
 																sortant: {item.outcash} DT
 															</kbd>
 														</div>
-													</div>
-												{/if}
+													{/if}
+												</div>
 											</td>
 										</tr>
 									{/each}
