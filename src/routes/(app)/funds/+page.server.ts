@@ -1,7 +1,7 @@
 import { superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
 import { addFundsSchema } from '$lib/schemas';
-import { fail } from '@sveltejs/kit';
+import { fail, json } from '@sveltejs/kit';
 import { isValid, parse } from 'date-fns';
 import { getPreviousDays, getPreviousDaysLabels } from '$lib/utils/date';
 import { FundsService } from '$lib/services/funds';
@@ -67,12 +67,15 @@ export const actions: Actions = {
 				return fail(400, { form });
 			}
 
+			const { amount } = form.data;
+
 			await pb.collection('fund_transactions').create({
 				...form.data,
-				amount: -form.data.amount,
+				amount: -amount,
 				user: user?.id
 			});
 		} catch (error) {
+      console.error(json(error))
 			return fail(500, { form });
 		}
 
