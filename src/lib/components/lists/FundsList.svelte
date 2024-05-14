@@ -327,6 +327,12 @@
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Montant</th
 										>
+
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>Mode de paiement</th
+										>
 									</tr>
 								</thead>
 								<tbody
@@ -372,6 +378,29 @@
 														class="inline px-3 py-1 text-sm font-normal rounded-full text-red-500 gap-x-2 bg-red-100/60 dark:bg-gray-800"
 													>
 														{item.amount} dt
+													</div>
+												{/if}
+											</td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap">
+												{#if item.method === 'cash'}
+													<div class="flex flex-col">
+														<p
+															class="text-sm font-normal text-gray-600 dark:text-gray-400 uppercase"
+														>
+															{item.method}
+														</p>
+														<div class="flex flex-row gap-1">
+															<kbd
+																class="inline-flex items-center px-1 py-1 font-sans text-xs text-gray-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
+															>
+																entrant: {item.incash} DT
+															</kbd>
+															<kbd
+																class="inline-flex items-center px-1 py-1 font-sans text-xs text-gray-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
+															>
+																sortant: {item.outcash} DT
+															</kbd>
+														</div>
 													</div>
 												{/if}
 											</td>
