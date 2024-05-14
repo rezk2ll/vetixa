@@ -3,12 +3,34 @@
 	import UserAvatar from './UserAvatar.svelte';
 	import { enhance } from '$app/forms';
 	import { currentUser } from '$lib/store/user';
+	import { onMount } from 'svelte';
+	import { searchOpen } from '$lib/store/search';
+	import Modal from '$components/Modal.svelte';
+	import SearchForm from '$components/forms/search/searchForm.svelte';
 
 	let open = false;
 
 	$: avatarUrl = $currentUser && pb.files.getUrl($currentUser, $currentUser?.avatar);
+
+	onMount(() => {
+		window.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+				openSearch();
+			} else if (event.key === 'Escape') {
+				searchOpen.set(false);
+			}
+		});
+	});
+
+	const openSearch = () => {
+		searchOpen.set(true);
+	};
 </script>
 
+<Modal open={$searchOpen} size="bigmedium">
+	<SearchForm />
+</Modal>
 <aside
 	class="flex z-10 flex-col fixed items-center w-16 h-screen bg-transparent py-8 overflow-y-auto {open
 		? 'hidden'
@@ -204,7 +226,12 @@
 			href="/queue"
 			class="p-2 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
 		>
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 384 512">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="w-5 h-5"
+				fill="currentColor"
+				viewBox="0 0 384 512"
+			>
 				<path
 					d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64V75c0 42.4 16.9 83.1 46.9 113.1L146.7 256 78.9 323.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32H64 320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V437c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H320 64 32zM288 437v11H96V437c0-25.5 10.1-49.9 28.1-67.9L192 301.3l67.9 67.9c18 18 28.1 42.4 28.1 67.9z"
 				/></svg
@@ -309,7 +336,7 @@
 			class="flex w-full flex-col items-center space-y-2 lg:flex-row lg:justify-center lg:space-y-0"
 		>
 			<li class="lg:mr-12">
-				<div class="relative flex items-center">
+				<button type="button" class="relative flex items-center" on:click={openSearch}>
 					<span class="absolute text-gray-400 left-3"
 						><svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -327,9 +354,16 @@
 					><input
 						type="text"
 						placeholder="Rechercher..."
-						class="block py-4 pl-10 pr-16 text-blue-950 placeholder-gray-400/70 focus:outline-none"
+						class="block py-4 pl-14 pr-16 text-blue-950 placeholder-gray-400/70 focus:outline-none"
 					/>
-				</div>
+					<div class="absolute inset-y-0 flex items-center right-3">
+						<kbd
+							class="inline-flex items-center px-1 py-1 font-sans text-xs text-gray-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
+						>
+							Ctrl K
+						</kbd>
+					</div>
+				</button>
 			</li>
 		</ul>
 		<hr class="mt-4 w-full lg:hidden" />
