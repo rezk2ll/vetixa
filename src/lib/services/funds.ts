@@ -1,5 +1,10 @@
 import type { RecordModel } from 'pocketbase';
-import type { FundTransactionsResponse, TypedPocketBase, UsersResponse } from '$types';
+import type {
+	FundPaymentMethodsStats,
+	FundTransactionsResponse,
+	TypedPocketBase,
+	UsersResponse
+} from '$types';
 import { setHours } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
 import type { Fund } from '$types';
@@ -92,5 +97,30 @@ export class FundsService {
 		});
 
 		return expandedTransactions.sort((a, b) => sortDates(a.created, b.created));
+	};
+
+  /**
+   * calculates the payment method stats for a given list of transactions
+   *
+   * @param {Fund[]} transactions - the list of transactions
+   * @returns {Promise<FundPaymentMethodsStats>} the payment method stats
+   */
+	paymentMethodStats = async (transactions: Fund[]): Promise<FundPaymentMethodsStats> => {
+		const stats: FundPaymentMethodsStats = {};
+
+		for (const transaction of transactions) {
+			const { method } = transaction;
+
+			if (method.length && transaction.amount > 0) {
+				if (stats[method]) {
+					stats[method].count++;
+					stats[method].total += transaction.amount;
+				} else {
+					stats[method] = { count: 1, total: transaction.amount };
+				}
+			}
+		}
+
+		return stats;
 	};
 }
