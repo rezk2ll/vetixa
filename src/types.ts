@@ -147,3 +147,11 @@ export interface BillItem {
 	total: number;
 	code?: string;
 }
+
+export type FundPaymentMethodsStats = Record<
+	string,
+	{
+		count: number;
+		total: number;
+	}
+>;
