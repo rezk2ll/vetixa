@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AddExpenseForm from '$components/forms/funds/AddExpenseForm.svelte';
 	import AddFundsForm from '$components/forms/funds/AddFundsForm.svelte';
-	import { formatDateString } from '$utils/date';
+	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
 	import Modal from '$components/Modal.svelte';
 	import { fundItems } from '$store/funds';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
@@ -299,9 +299,14 @@
 											scope="col"
 											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>
-											<span>Date</span>
+											Date
 										</th>
-
+										<th
+											scope="col"
+											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>
+											Heure
+										</th>
 										<th
 											scope="col"
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -342,7 +347,12 @@
 										<tr>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
 												<h2 class="font-medium text-gray-800 dark:text-white capitalize">
-													{formatDateString(item.created)}
+													{formatDateStringShort(item.created)}
+												</h2>
+											</td>
+											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+												<h2 class="font-medium text-gray-600 dark:text-white capitalize">
+													{formatDateStringToTime(item.created)}
 												</h2>
 											</td>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
