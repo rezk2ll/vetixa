@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { VisitStatusFilter as StatusFilter } from '$types';
-	import { formatDateString } from '$lib/utils/date';
+	import { formatDateStringShort, formatDateStringToTime } from '$lib/utils/date';
 	import { activityPage } from '$store/activity';
 	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
 	import { goto } from '$app/navigation';
@@ -55,9 +55,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div
-		class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded"
-	>
+	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Visites</h2>
@@ -169,7 +167,13 @@
 										scope="col"
 										class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 									>
-										<span>Date</span>
+										Date
+									</th>
+									<th
+										scope="col"
+										class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									>
+										Heure
 									</th>
 									<th
 										scope="col"
@@ -226,12 +230,16 @@
 														<h2
 															class="capitalize font-medium text-gray-800 dark:text-white hover:underline"
 														>
-															{formatDateString(visit.created)}
+															{formatDateStringShort(visit.created)}
 														</h2>
 													</div>
 												</a>
 											</div>
 										</td>
+										<td
+											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+											>{formatDateStringToTime(visit.created)}</td
+										>
 										<td
 											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>{visit.client.name}</td
