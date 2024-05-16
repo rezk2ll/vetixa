@@ -35,8 +35,9 @@ export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 	}
 
 	const transactions = await fundsService.transactions(startDate, endDate);
+  const stats = await fundsService.paymentMethodStats(transactions);
 
-	return { addFundsForm, addExpenses, transactions, labels, balanceData };
+	return { addFundsForm, addExpenses, transactions, labels, balanceData, stats };
 };
 
 export const actions: Actions = {
