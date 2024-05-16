@@ -13,6 +13,27 @@ export const formatDateString = (timestamp: string): string =>
 	});
 
 /**
+ * format a timestamp string to a date string
+ *
+ * @param {string} timestamp - the timestamp to format
+ * @returns {string} the formatted date string
+ */
+export const formatDateStringShort = (timestamp: string): string =>
+	format(new Date(timestamp), 'E dd/LL/yyyy', {
+		locale
+	});
+
+/**
+ * format a timestamp string to a time string
+ *
+ * @param {string} timestamp - the timestamp to format
+ * @returns {string} the formatted date string
+ */
+export const formatDateStringToTime = (timestamp: string): string =>
+	format(new Date(timestamp), 'HH:mm', {
+		locale
+	});
+/**
  * format a date object to a string
  *
  * @param {Date} date - the date to format
