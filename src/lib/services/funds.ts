@@ -8,6 +8,7 @@ import type {
 import { setHours } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
 import type { Fund } from '$types';
+import currency from 'currency.js';
 
 type BalanceData = {
 	income: number;
@@ -35,12 +36,15 @@ export class FundsService {
 		);
 
 		return {
-			income: transactions.reduce((acc, curr) => acc + (curr.amount > 0 ? curr.amount : 0), 0),
-			expense: transactions.reduce(
-				(acc, curr) => acc + (curr.amount < 0 ? Math.abs(curr.amount) : 0),
+			income: transactions.reduce(
+				(acc, curr) => currency(acc).add(curr.amount > 0 ? curr.amount : 0).value,
 				0
 			),
-			balance: transactions.reduce((acc, curr) => acc + curr.amount, 0)
+			expense: transactions.reduce(
+				(acc, curr) => currency(acc).add(curr.amount < 0 ? Math.abs(curr.amount) : 0).value,
+				0
+			),
+			balance: transactions.reduce((acc, curr) => currency(acc).add(curr.amount).value, 0)
 		};
 	};
 
@@ -99,12 +103,12 @@ export class FundsService {
 		return expandedTransactions.sort((a, b) => sortDates(a.created, b.created));
 	};
 
-  /**
-   * calculates the payment method stats for a given list of transactions
-   *
-   * @param {Fund[]} transactions - the list of transactions
-   * @returns {Promise<FundPaymentMethodsStats>} the payment method stats
-   */
+	/**
+	 * calculates the payment method stats for a given list of transactions
+	 *
+	 * @param {Fund[]} transactions - the list of transactions
+	 * @returns {Promise<FundPaymentMethodsStats>} the payment method stats
+	 */
 	paymentMethodStats = async (transactions: Fund[]): Promise<FundPaymentMethodsStats> => {
 		const stats: FundPaymentMethodsStats = {};
 
@@ -114,7 +118,7 @@ export class FundsService {
 			if (method.length && transaction.amount > 0) {
 				if (stats[method]) {
 					stats[method].count++;
-					stats[method].total += transaction.amount;
+					stats[method].total = currency(stats[method].total).add(transaction.amount).value;
 				} else {
 					stats[method] = { count: 1, total: transaction.amount };
 				}
