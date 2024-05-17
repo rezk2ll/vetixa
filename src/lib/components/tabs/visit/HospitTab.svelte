@@ -11,6 +11,7 @@
 	import type { Treatment } from '$types';
 	import CollapsibleFormSection from '$components/CollapsibleFormSection.svelte';
 	import ObservationForm from '$components/forms/hospit/ObservationForm.svelte';
+	import NumberField from '$components/inputs/NumberField.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
@@ -34,6 +35,7 @@
 	$: $form.end = $currentVisit.hospit.end ? new Date($currentVisit.hospit?.end) : new Date();
 	$: $form.cage = $currentVisit.hospit.cage;
 	$: $form.note = $currentVisit.hospit.note;
+	$: $form.price = $currentVisit.hospit.price;
 	$: cages = $cagesList.map((cage) => ({
 		label: cage.code,
 		value: cage.id
@@ -81,8 +83,8 @@
 		<form method="post" action="?/updateHospit" use:enhance class="flex flex-col gap-5">
 			<input type="hidden" name="id" value={$form.id} />
 			<TextAreaField name="note" label="Note" bind:value={$form.note} placeholder="" />
-			<div class="flex flex-row gap-5 justify-between">
-				<div class="">
+			<div class="flex flex-row gap-5 justify-end items-end">
+				<div class="pt-10 hospit">
 					<label class="text-gray-700 dark:text-gray-200 pl-2" for="startdate"
 						>Date d'admission</label
 					>
@@ -114,7 +116,7 @@
 						/>
 					</svg>
 				</div>
-				<div class="p-1">
+				<div class="pt-10 hospit">
 					<label class="text-gray-700 dark:text-gray-200 pl-2" for="enddate"
 						>Date de sortie prévue</label
 					>
@@ -128,17 +130,25 @@
 						{locale}
 					/>
 				</div>
-				<div class="shrink min-w-96">
-					<label class="text-gray-700 dark:text-gray-200 pl-2" for="cage">Cage</label>
+				<div class="min-w-96 h-full shrink">
 					<Select
 						id="cage"
 						name="cage"
 						items={cages}
 						value={$form.cage}
 						listOffset={10}
-						placeholder="veuillez sélectionner"
+						placeholder="veuillez sélectionner un cage"
 						bind:justValue={$form.cage}
-						class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
+						class="h-[57px] relative rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
+					/>
+				</div>
+				<div class="shrink min-w-96">
+					<NumberField
+						label="Prix"
+						placeholder="montant"
+						bind:value={$form.price}
+						name="price"
+						isInValid={false}
 					/>
 				</div>
 			</div>
@@ -182,3 +192,9 @@
 		</div>
 	</div>
 </div>
+
+<style lang="css">
+	:global(.hospit .date-time-field input[type='text']) {
+		height: 50px;
+	}
+</style>
