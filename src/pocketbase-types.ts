@@ -157,6 +157,7 @@ export type HospitalisationRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString
 	end?: IsoDateString
 	note?: string
+	price?: number
 	start: IsoDateString
 	treatment?: null | Ttreatment
 	visit?: RecordIdString
@@ -217,7 +218,6 @@ export type VisitsRecord = {
 	date?: IsoDateString
 	files?: string[]
 	hospit?: RecordIdString
-	hospit_price?: number
 	medical_acts?: RecordIdString[]
 	motif?: string
 	observations?: HTMLString
