@@ -1,27 +1,26 @@
 <script lang="ts">
 	import { clinicalExams, medicalActs, surgicalActs } from '$lib/store/acts';
-	import VisitList from '$lib/components/lists/VisitList.svelte';
-	import CollapsibleSection from '$lib/components/CollapsibleSection.svelte';
-	import Details from '$lib/components/Details.svelte';
+	import VisitList from '$components/lists/VisitList.svelte';
+	import CollapsibleSection from '$components/CollapsibleSection.svelte';
+	import Details from '$components/Details.svelte';
 	import type { PageData } from './$types';
-	import Modal from '$lib/components/Modal.svelte';
-	import UpdateAnimalForm from '$lib/components/forms/animals/updateAnimalForm.svelte';
-	import { updateAnimalFormStore } from '$lib/store/animals';
+	import Modal from '$components/Modal.svelte';
+	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
+	import { updateAnimalFormStore } from '$store/animals';
 	import {
 		addVisitFormStore,
 		deleteVisitFormStore,
 		updateVisitFormStore,
-
 		visitItems
-
 	} from '$store/visit';
+	import { formatDateString } from '$utils/date';
+	import type { entityDetailsList } from '$types';
 
 	export let data: PageData;
 
 	let openUpdateModal = false;
 
 	$: ({ animal, isNew } = data);
-
 	$: ({ visits } = animal);
 
 	$: animalDetails = [
@@ -32,8 +31,9 @@
 		{ name: 'Age', value: animal.birthday, isAge: true },
 		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
 		{ name: 'Couleur', value: animal.color },
-		{ name: 'Race', value: animal.breed }
-	];
+		{ name: 'Race', value: animal.breed },
+		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
+	] satisfies entityDetailsList;
 
 	$: clinicalExams.set(data.clinicalExams);
 	$: surgicalActs.set(data.surgicalActs);

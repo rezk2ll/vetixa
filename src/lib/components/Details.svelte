@@ -1,7 +1,8 @@
 <script lang="ts">
-	import AgeDisplay from './dispaly/AgeDisplay.svelte';
+	import type { entityDetailsList } from '$types';
+	import AgeDisplay from '$components/dispaly/AgeDisplay.svelte';
 
-	export let details: { name: string; value: string | number; isAge?: boolean; prefix?: string }[];
+	export let details: entityDetailsList;
 </script>
 
 <div class="border-t border-gray-100">
@@ -11,7 +12,7 @@
 				<dt class="text-sm font-medium leading-6 text-gray-900">{detail.name}</dt>
 				<dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
 					{#if detail.isAge === true}
-						<AgeDisplay date={detail.value.toString()} />
+						<AgeDisplay date={detail.value.toString()} death={detail.death} />
 					{:else}
 						{detail.value}
 					{/if}

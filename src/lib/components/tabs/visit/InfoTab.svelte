@@ -1,9 +1,9 @@
 <script lang="ts">
-	import CollapsibleSection from '$components/CollapsibleSection.svelte';
 	import Details from '$components/Details.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { currentVisit, updateVisitFormStore } from '$lib/store/visit';
+	import type { entityDetailsList } from '$types';
 	import { formatDateString } from '$utils/date';
 	import { superForm } from 'sveltekit-superforms/client';
 
@@ -21,8 +21,9 @@
 		{ name: 'Age', value: animal.birthday, isAge: true },
 		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
 		{ name: 'Couleur', value: animal.color },
-		{ name: 'Race', value: animal.breed }
-	];
+		{ name: 'Race', value: animal.breed },
+		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
+	] satisfies entityDetailsList;
 
 	$: clientDetails = [
 		{ name: 'Prénom', value: animal.client.firstname },
