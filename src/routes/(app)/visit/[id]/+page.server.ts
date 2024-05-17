@@ -144,7 +144,16 @@ export const actions = {
 
 			const { id } = params;
 
-			await pb.collection('visits').update(id, form.data);
+			const item = await pb.collection('visits').getOne<VisitsResponse>(id);
+
+			if (!item) {
+				throw Error('visit not found');
+			}
+
+			const updated = await pb.collection('visits').update<VisitsResponse>(id, form.data);
+
+			const billService = new BillService(pb, updated);
+			await billService.update();
 
 			return { form };
 		} catch (error) {
