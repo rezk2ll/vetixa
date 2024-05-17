@@ -278,6 +278,17 @@ class BillService {
 	 */
 	getBillItems = async (visit: Visit): Promise<BillItem[]> => {
 		let items: BillItem[] = [
+			...(visit.visit_price
+				? [
+						{
+							price: visit.visit_price,
+							code: '-',
+							name: 'Consultation',
+							total: visit.visit_price,
+							quantity: 1
+						}
+				  ]
+				: []),
 			...visit.clinical_exams.map(
 				({ price, name, code }) =>
 					({
