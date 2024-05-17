@@ -210,6 +210,7 @@ export type VisitsRecord = {
 	animal?: RecordIdString
 	clinical_exams?: RecordIdString[]
 	date?: IsoDateString
+	doctor?: string
 	files?: string[]
 	hospit?: RecordIdString
 	medical_acts?: RecordIdString[]
