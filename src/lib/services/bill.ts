@@ -173,13 +173,14 @@ class BillService {
 		const visitRecord = await this.getExpandedVisit();
 		const hostpitCost = await this.getHospitalisationCost(visitRecord);
 
-		return (
-			hostpitCost +
-			this.getExamsCost(visitRecord) +
-			this.getInventoryItemsCost(visitRecord) +
-			this.getMedicalActsCost(visitRecord) +
-			this.getSurgicalActsCost(visitRecord)
-		);
+		const total = currency(visitRecord.visit_price)
+			.add(hostpitCost)
+			.add(this.getExamsCost(visitRecord))
+			.add(this.getInventoryItemsCost(visitRecord))
+			.add(this.getMedicalActsCost(visitRecord))
+			.add(this.getSurgicalActsCost(visitRecord));
+
+		return total.value;
 	};
 
 	/**
