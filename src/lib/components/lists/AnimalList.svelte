@@ -6,8 +6,6 @@
 	import type { AnimalsResponse } from '$types';
 	import { superForm } from 'sveltekit-superforms/client';
 	import AgeDisplay from '../dispaly/AgeDisplay.svelte';
-	import Cat from '../icons/Cat.svelte';
-	import Dog from '../icons/Dog.svelte';
 	import AddAnimalForm from '../forms/animals/AddAnimalForm.svelte';
 	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
 	import AnimalIcon from '$components/dispaly/animal/AnimalIcon.svelte';
@@ -126,13 +124,12 @@
 				<div>
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Animaux</h2>
-						<span
-							class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
+						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
 							>{$animals.length}</span
 						>
 					</div>
 
-					<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">La liste des animeaux</p>
+					<p class="mt-1 text-sm text-gray-500">La liste des animeaux</p>
 				</div>
 				{#if canAdd}
 					<div class="flex items-center mt-4 gap-x-2">
@@ -164,7 +161,7 @@
 				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
 			>
 				<div
-					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse"
 				>
 					<button
 						on:click={() => {
@@ -174,7 +171,7 @@
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'all'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+							: ''} sm:text-sm"
 					>
 						Tout
 					</button>
@@ -186,7 +183,7 @@
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'chat'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Chat
 						<span
@@ -203,7 +200,7 @@
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'chien'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Chien
 						<span
@@ -220,7 +217,7 @@
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'male'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Male
 						<span
@@ -237,7 +234,7 @@
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'female'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Female
 						<span
@@ -256,7 +253,7 @@
 							viewBox="0 0 24 24"
 							stroke-width="1.5"
 							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
+							class="w-5 h-5 mx-3 text-gray-400"
 						>
 							<path
 								stroke-linecap="round"
@@ -270,16 +267,16 @@
 						bind:value={search}
 						type="text"
 						placeholder="Rechercher"
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
 					/>
 				</div>
 			</div>
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-fixed">
-								<thead class="bg-slate-50 dark:bg-gray-800">
+						<div class="overflow-hidden border border-gray-200 md:rounded-lg">
+							<table class="min-w-full divide-y divide-gray-200 table-fixed">
+								<thead class="bg-slate-50">
 									<tr>
 										<th
 											scope="col"
@@ -336,11 +333,9 @@
 										</th>
 									</tr>
 								</thead>
-								<tbody
-									class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
-								>
+								<tbody class="bg-white divide-y divide-gray-200">
 									{#each pageItems as animal}
-										<tr class="">
+										<tr class={animal.deceased ? 'bg-red-100/80' : ''}>
 											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
 													<div class="flex items-center gap-x-2">
@@ -354,13 +349,11 @@
 												</div>
 											</td>
 											{#if canAdd === false}
-												<td
-													class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-												>
+												<td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
 													<div class="flex items-center gap-x-2">
 														<p
 															class="px-3 py-1 text-xs
-																 'text-blue-500 bg-blue-100/60 rounded-full dark:bg-gray-800"
+																 'text-blue-500 bg-blue-100/60 rounded-full"
 														>
 															{animal.client}
 														</p>
@@ -370,34 +363,27 @@
 											<td
 												class="px-4 py-2.5 text-sm {animal.sex === 'male'
 													? 'text-blue-500 '
-													: 'text-pink-500 '} dark:text-gray-300 whitespace-nowrap"
+													: 'text-pink-500 '}  whitespace-nowrap"
 											>
 												<AnimalIcon type={animal.type} />
 											</td>
-											<td
-												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.type}</td
 											>
-											<td
-												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.sex}</td
 											>
-											<td
-												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.weight}</td
 											>
-											<td
-												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>
-												<AgeDisplay date={animal.birthday} />
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap">
+												<AgeDisplay date={animal.birthday} death={animal.deathdate} />
 											</td>
-											<td
-												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.color}</td
 											>
 
-											<td
-												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.breed}</td
 											>
 
@@ -405,7 +391,7 @@
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<button
 														on:click={() => remove(animal)}
-														class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none"
+														class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -427,7 +413,7 @@
 														type="button"
 														on:click={() => update(animal)}
 														title="Modifier le client"
-														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
+														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 hover:text-yellow-500 focus:outline-none"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -471,7 +457,7 @@
 							? 'bg-slate-200'
 							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
 							? 'hover:bg-slate-200'
-							: 'hover:bg-gray-100'}  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+							: 'hover:bg-gray-100'}   dark:text-gray-200 dark:hover:bg-gray-800"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -499,7 +485,7 @@
 							? 'bg-slate-200'
 							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
 							? 'hover:bg-slate-200'
-							: 'hover:bg-gray-100'} dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+							: 'hover:bg-gray-100'}  dark:text-gray-200 dark:hover:bg-gray-800"
 					>
 						<span> Suivant </span>
 
