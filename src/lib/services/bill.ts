@@ -256,7 +256,7 @@ class BillService {
 			const visit = await this.getClientExpandedVisit();
 
 			if (visit.bill.total === 0) {
-				throw Error('empty bill');
+				return;
 			}
 
 			return {
@@ -266,7 +266,7 @@ class BillService {
 				items: await this.getBillItems(visit)
 			};
 		} catch (error) {
-			console.error('failed to generate bill', error);
+			console.error('failed to generate bill', { error });
 		}
 	};
 

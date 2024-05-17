@@ -83,7 +83,7 @@
 		<form method="post" action="?/updateHospit" use:enhance class="flex flex-col gap-5">
 			<input type="hidden" name="id" value={$form.id} />
 			<TextAreaField name="note" label="Note" bind:value={$form.note} placeholder="" />
-			<div class="flex flex-row gap-5 justify-end items-end">
+			<div class="flex flex-row gap-5 justify-start items-end">
 				<div class="pt-10 hospit">
 					<label class="text-gray-700 dark:text-gray-200 pl-2" for="startdate"
 						>Date d'admission</label
@@ -130,7 +130,7 @@
 						{locale}
 					/>
 				</div>
-				<div class="min-w-96 h-full shrink">
+				<div class="min-w-60 shrink">
 					<Select
 						id="cage"
 						name="cage"
