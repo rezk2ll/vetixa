@@ -5,7 +5,8 @@ export const addVisitSchema = z.object({
 });
 
 export const updateVisitSchema = addVisitSchema.extend({
-	id: z.string().min(1)
+	id: z.string().min(1),
+	visit_price: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0)
 });
 
 export const payVisitSchema = z.object({
@@ -61,5 +62,6 @@ export const updateVisitHospitalisationSchema = z.object({
 	start: z.date(),
 	end: z.date(),
 	treatment: z.string().optional(),
-	cage: z.string().min(1)
+	cage: z.string().min(1),
+	price: z.number().min(0).default(0)
 });
