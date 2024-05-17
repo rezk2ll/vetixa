@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Details from '$components/Details.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
+	import TextField from '$components/inputs/TextField.svelte';
 	import { currentVisit, updateVisitFormStore } from '$lib/store/visit';
 	import type { entityDetailsList } from '$types';
 	import { formatDateString } from '$utils/date';
@@ -9,7 +11,8 @@
 
 	const { enhance, form, submitting } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
-		resetForm: false
+		resetForm: false,
+    dataType: "json"
 	});
 
 	$: ({ animal } = $currentVisit);
@@ -34,17 +37,39 @@
 	];
 
 	$: $form.motif = $currentVisit.motif;
+  $: $form.id = $currentVisit.id;
+  $: $form.doctor = $currentVisit.doctor;
+  $: $form.visit_price = $currentVisit.visit_price;
 </script>
 
 <div class="flex flex-col gap-2">
 	<form use:enhance action="?/updateVisit" class="mt-4 flex flex-col w-full" method="POST">
-		<input type="hidden" value={$currentVisit.id} name="id" />
-		<TextAreaField
-			label="Motif de la visite"
-			name="motif"
-			bind:value={$form.motif}
-			placeholder="motif"
-		/>
+		<input type="hidden" bind:value={$currentVisit.id} name="id" />
+		<div class="flex flex-col pb-1">
+			<TextAreaField
+				label="Motif de la visite"
+				name="motif"
+				bind:value={$form.motif}
+				placeholder="motif"
+			/>
+			<div class="flex gap-5 h-full justify-center">
+				<TextField
+					name="doctor"
+					label="Docteur"
+					bind:value={$form.doctor}
+					isInValid={false}
+					required={false}
+				/>
+
+				<NumberField
+					label="Prix du consultation"
+					name="visit_price"
+					bind:value={$form.visit_price}
+					placeholder=""
+					isInValid={false}
+				/>
+			</div>
+		</div>
 
 		<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-100">
 			<SubmitButton small loading={$submitting} />
