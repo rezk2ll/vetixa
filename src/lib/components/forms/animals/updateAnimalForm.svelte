@@ -25,6 +25,8 @@
 	});
 
 	let birthday = format(new Date(item.birthday), 'yyyy-MM-dd');
+	let deathdate = format(item.deathdate ? new Date(item.deathdate) : new Date(), 'yyyy-MM-dd');
+	let deceased = item.deceased;
 
 	$: {
 		$form.id = item.id;
@@ -35,6 +37,8 @@
 		$form.weight = item.weight;
 		$form.color = item.color;
 		$form.breed = item.breed;
+		$form.deceased = deceased;
+		$form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
 	}
 </script>
 
@@ -68,7 +72,6 @@
 		</p>
 	</div>
 </div>
-
 <form use:enhance action="?/updateAnimal" class="mt-4" method="POST">
 	<TextField name="name" label="Nom" bind:value={$form.name} isInValid={false} />
 	<SelectField
@@ -113,6 +116,34 @@
 		isInValid={false}
 		required={false}
 	/>
+	<div class="mt-4 w-full">
+		<input
+			type="checkbox"
+			id="deceased"
+			bind:value={deceased}
+			bind:checked={deceased}
+			class="hidden peer"
+		/>
+		<label
+			for="deceased"
+			class="inline-flex items-center justify-between p-5 w-full text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-red-600 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50"
+		>
+			<div class="w-full">
+				{#if $form.deceased}
+					<div class="w-full text-red-500 text-left">L'animal est décédé</div>
+					<DateField
+						label="Date de décès"
+						placeholder=""
+						bind:value={deathdate}
+						name="deathdate"
+						isInValid={false}
+					/>
+				{:else}
+					<div class="w-full text-green-500 text-left">L'animal est vivant</div>
+				{/if}
+			</div>
+		</label>
+	</div>
 
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
