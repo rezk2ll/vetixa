@@ -93,6 +93,8 @@ export type AnimalsRecord = {
 	breed?: string
 	client?: RecordIdString
 	color?: string
+	deathdate?: IsoDateString
+	deceased?: boolean
 	identifier?: string
 	name?: string
 	sex?: AnimalsSexOptions
