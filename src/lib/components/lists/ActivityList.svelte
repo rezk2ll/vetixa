@@ -5,6 +5,7 @@
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import currency from 'currency.js';
 
 	let statusFilter: StatusFilter = $activityPage.filter;
 	let search: string = $activityPage.query;
@@ -206,7 +207,12 @@
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>Reste</th
 									>
-
+									<th
+										scope="col"
+										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									>
+										Docteur
+									</th>
 									<th
 										scope="col"
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -258,15 +264,19 @@
 											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>{visit.motif}</td
 										>
-										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{visit.bill.total} Dt</td
+										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+											>{visit.bill.total} DT</td
+										>
+										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+											>{currency(visit.bill.total).subtract(visit.bill.total_paid).value} DT</td
 										>
 										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{visit.bill.total - visit.bill.total_paid} Dt</td
+											>{visit.doctor ?? ''}</td
 										>
 										<td class="px-4 py-2 text-sm whitespace-nowrap">
 											<PaymentStatus bill={visit.bill} type="small" />
 										</td>
+
 										<td class="px-4 py-2 text-sm whitespace-nowrap">
 											<div class="flex items-end justify-end gap-x-6 w-full">
 												<a
