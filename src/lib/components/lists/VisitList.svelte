@@ -4,7 +4,7 @@
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import AddVisitForm from '$components/forms/visit/AddVisitForm.svelte';
 	import type { VisitStatusFilter as StatusFilter, Visit } from '$types';
-	import { formatDateString } from '$lib/utils/date';
+	import { formatDateString } from '$utils/date';
 	import { visitItems } from '$store/visit';
 	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
 
