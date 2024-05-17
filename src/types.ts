@@ -155,3 +155,13 @@ export type FundPaymentMethodsStats = Record<
 		total: number;
 	}
 >;
+
+export interface entityDetails {
+	name: string;
+	value: string | number;
+	isAge?: boolean;
+  death?: string;
+	prefix?: string;
+}
+
+export type entityDetailsList = entityDetails[];
