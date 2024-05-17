@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let date: string;
 	import moment from 'moment';
 
-	const calculateAge = (date: string) => {
-		const now = moment();
+	export let date: string;
+	export let death: string | undefined;
+
+	const calculateAge = (date: string, deathDate?: string) => {
+		const now = deathDate ? moment(deathDate) : moment();
 		const birthday = moment(date);
 
 		const years = now.diff(birthday, 'years');
@@ -13,7 +15,7 @@
 		return { years, months, days };
 	};
 
-	$: ({ years, months, days } = calculateAge(date));
+	$: ({ years, months, days } = calculateAge(date, death));
 </script>
 
 <div
