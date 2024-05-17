@@ -1,13 +1,13 @@
 <script lang="ts">
 	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
 	import { enhance } from '$app/forms';
-	import ActSelect from '../dispaly/ActSelect.svelte';
-	import Flask from '../icons/Flask.svelte';
-	import Nurse from '../icons/Nurse.svelte';
-	import Syringe from '../icons/Syringe.svelte';
+	import ActSelect from '$components/display/ActSelect.svelte';
+	import Flask from '$components/icons/Flask.svelte';
+	import Nurse from '$components/icons/Nurse.svelte';
+	import Syringe from '$components/icons/Syringe.svelte';
 	import FileField from '$lib/components/inputs/FileField.svelte';
-	import CollapsibleFormSection from '../CollapsibleFormSection.svelte';
-	import { clinicalExams, medicalActs, surgicalActs } from '$lib/store/acts';
+	import CollapsibleFormSection from '$components/CollapsibleFormSection.svelte';
+	import { clinicalExams, medicalActs, surgicalActs } from '$store/acts';
 
 	export let open = false;
 </script>

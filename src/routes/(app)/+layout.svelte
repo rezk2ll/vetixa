@@ -4,7 +4,7 @@
 	import { currentUser } from '$lib/store/user';
 	import type { PageData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
-	import LoadingSpinner from '$components/dispaly/LoadingSpinner.svelte';
+	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import { globalLoading } from '$store/loading';
 
 	export let data: PageData;

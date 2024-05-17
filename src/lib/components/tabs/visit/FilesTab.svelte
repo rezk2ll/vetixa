@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
-	import LoadingSpinner from '$components/dispaly/LoadingSpinner.svelte';
+	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import {
 		getFileNameFromUrl,
 		getImageDimensions,
@@ -10,12 +10,12 @@
 	import { addVisitFileFormStore, currentVisit, removeVisitFileFormStore } from '$store/visit';
 	import { superForm, filesProxy } from 'sveltekit-superforms';
 	import { fetchFileInfo } from '$lib/utils/mime';
-	import LoadingDots from '$components/dispaly/LoadingDots.svelte';
-	import FileItemPreview from '$components/dispaly/FileItemPreview.svelte';
+	import LoadingDots from '$components/display/LoadingDots.svelte';
+	import FileItemPreview from '$components/display/FileItemPreview.svelte';
 	import PhotoSwipeLightbox from 'photoswipe/lightbox';
 	import { afterUpdate, onMount } from 'svelte';
 	import 'photoswipe/style.css';
-	import EmptyTable from '$components/dispaly/EmptyTable.svelte';
+	import EmptyTable from '$components/display/EmptyTable.svelte';
 
 	let uploadFileFormRef: HTMLFormElement;
 	let removeFileFormRef: HTMLFormElement;

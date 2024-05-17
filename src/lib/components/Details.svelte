@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { entityDetailsList } from '$types';
-	import AgeDisplay from '$components/dispaly/AgeDisplay.svelte';
+	import AgeDisplay from '$components/display/AgeDisplay.svelte';
 
 	export let details: entityDetailsList;
 </script>

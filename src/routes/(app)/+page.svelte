@@ -1,5 +1,5 @@
 <script lang="ts">
-	import QuickAccess from '$lib/components/dispaly/QuickAccess.svelte';
+	import QuickAccess from '$components/display/QuickAccess.svelte';
 	import Calendar from '$lib/components/icons/Calendar.svelte';
 	import Store from '$lib/components/icons/Store.svelte';
 	import User from '$lib/components/icons/User.svelte';

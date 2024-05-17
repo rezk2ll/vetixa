@@ -6,7 +6,7 @@
 	import type { VisitStatusFilter as StatusFilter, Visit } from '$types';
 	import { formatDateString } from '$utils/date';
 	import { visitItems } from '$store/visit';
-	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
+	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 
 	export let isNew: boolean = false;
 

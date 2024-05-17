@@ -6,7 +6,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
-	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
+	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import type { BillsResponse } from '$types';
 
 	export let bill: BillsResponse;

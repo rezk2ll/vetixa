@@ -2,7 +2,7 @@
 	import type { VisitStatusFilter as StatusFilter } from '$types';
 	import { formatDateStringShort, formatDateStringToTime } from '$lib/utils/date';
 	import { activityPage } from '$store/activity';
-	import PaymentStatus from '$components/dispaly/PaymentStatus.svelte';
+	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 

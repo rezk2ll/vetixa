@@ -5,10 +5,10 @@
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import type { AnimalsResponse } from '$types';
 	import { superForm } from 'sveltekit-superforms/client';
-	import AgeDisplay from '../dispaly/AgeDisplay.svelte';
+	import AgeDisplay from '../display/AgeDisplay.svelte';
 	import AddAnimalForm from '../forms/animals/AddAnimalForm.svelte';
 	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
-	import AnimalIcon from '$components/dispaly/animal/AnimalIcon.svelte';
+	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 
 	export let canAdd: boolean = true;
 	export let isNew: boolean = false;

@@ -11,7 +11,7 @@
 	import SelectActForm from '$components/forms/SelectActForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
-	import EmptyTable from '$components/dispaly/EmptyTable.svelte';
+	import EmptyTable from '$components/display/EmptyTable.svelte';
 
 	let open = false;
 	let showConfirmation = false;

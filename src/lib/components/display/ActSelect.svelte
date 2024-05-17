@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SelectActForm from './../forms/SelectActForm.svelte';
+	import SelectActForm from '../forms/SelectActForm.svelte';
 	import Modal from '../Modal.svelte';
 	import type { ClinicalExamsResponse, MedicalActsResponse, SurgicalActsResponse } from '$types';
 

@@ -26,7 +26,12 @@ export interface Fund extends FundTransactionsResponse {
 }
 
 export interface QueueItem extends Omit<QueueResponse, 'visit'> {
-	visit: Visit;
+	visit: QueueVisit;
+}
+
+export interface QueueVisit extends Omit<VisitsResponse, 'animal'> {
+	animal: expandedAnimal;
+	bill: BillsResponse;
 }
 
 export interface Visit
@@ -160,7 +165,7 @@ export interface entityDetails {
 	name: string;
 	value: string | number;
 	isAge?: boolean;
-  death?: string;
+	death?: string;
 	prefix?: string;
 }
 

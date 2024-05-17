@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LastVisit from '$lib/components/dispaly/LastVisit.svelte';
+	import LastVisit from '$components/display/LastVisit.svelte';
 	import QueueList from '$lib/components/lists/QueueList.svelte';
 	import { queue, updateQueueFormStore } from '$lib/store/queue';
 	import { sortDates } from '$lib/utils/date';

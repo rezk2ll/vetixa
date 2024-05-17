@@ -5,7 +5,7 @@
 	import Cat from '../icons/Cat.svelte';
 	import Dog from '../icons/Dog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import AnimalIcon from '$components/dispaly/animal/AnimalIcon.svelte';
+	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 
 	let statusFilter: StatusFilter = 'pending';
 	let search: string;
