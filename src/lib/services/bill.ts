@@ -8,7 +8,6 @@ import type {
 	BillsResponse,
 	ClientsResponse,
 	ClinicalExamsResponse,
-	ConfigResponse,
 	FundTransactionsMethodOptions,
 	FundTransactionsRecord,
 	HospitalisationResponse,
@@ -243,16 +242,10 @@ class BillService {
 
 		if (!hospitalisation) return 0;
 
-		const { start, end } = hospitalisation;
-
-		const hospitConfig = await this.pb
-			.collection('config')
-			.getFirstListItem<ConfigResponse>('code = "hospit_price"');
-
-		const price = currency(hospitConfig.value ?? 0);
+		const { start, end, price = 0 } = hospitalisation;
 		const days = Math.abs(getDaysBetween(start, end));
 
-		return price.multiply(days).value;
+		return currency(price).multiply(days).value;
 	};
 
 	/**
@@ -328,18 +321,15 @@ class BillService {
 		];
 
 		if (visit.hospit.start) {
-			const { start, end } = visit.hospit;
+			const { start, end, price = 0 } = visit.hospit;
 			const hospitQuantity = getDaysBetween(start, end);
-			const total = await this.getHospitalisationCost(visit as unknown as VisitsResponse);
-			const hospitConfig = (await this.pb
-				.collection('config')
-				.getFirstListItem<ConfigResponse>('code = "hospit_price"')) || { value: 0 };
+			const total = currency(price).multiply(hospitQuantity).value;
 
 			items = [
 				...items,
 				{
 					name: 'Hospitalisation',
-					price: hospitConfig.value,
+					price: price,
 					quantity: hospitQuantity,
 					code: 'hospit',
 					total

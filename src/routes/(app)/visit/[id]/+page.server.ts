@@ -552,7 +552,7 @@ export const actions = {
 				throw Error('invalid data');
 			}
 
-			const { id, cage, end, start, note, treatment } = form.data;
+			const { id, cage, end, start, note, treatment, price } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 			const billService = new BillService(pb, visit);
 
@@ -566,7 +566,8 @@ export const actions = {
 					end,
 					start,
 					note,
-					treatment
+					treatment,
+					price
 				});
 			} else {
 				const hospit = await pb.collection('hospitalisation').create({
@@ -575,7 +576,8 @@ export const actions = {
 					start,
 					note,
 					treatment,
-					visit: visit.id
+					visit: visit.id,
+					price
 				});
 
 				await pb.collection('visits').update(id, {

@@ -63,5 +63,5 @@ export const updateVisitHospitalisationSchema = z.object({
 	end: z.date(),
 	treatment: z.string().optional(),
 	cage: z.string().min(1),
-	price: z.number().min(0).default(0)
+	price: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0)
 });
