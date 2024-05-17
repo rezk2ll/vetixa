@@ -6,7 +6,13 @@ export const addVisitSchema = z.object({
 
 export const updateVisitSchema = addVisitSchema.extend({
 	id: z.string().min(1),
-	visit_price: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0)
+	visit_price: z
+		.number()
+		.min(0)
+		.default(0)
+		.or(z.string().regex(/\d+/).transform(Number))
+		.default(0),
+	doctor: z.string().min(1).optional()
 });
 
 export const payVisitSchema = z.object({
