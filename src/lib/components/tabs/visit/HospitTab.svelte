@@ -1,20 +1,29 @@
 <script lang="ts">
-	import TextAreaField from '$components/inputs/TextAreaField.svelte';
-	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
-	import { fr } from 'date-fns/locale';
-	import SubmitButton from '$components/buttons/SubmitButton.svelte';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
-	import { currentVisit, updateVisitHospitalisationFormStore } from '$store/visit';
 	import Select from 'svelte-select';
+	import { fr } from 'date-fns/locale';
+	import { superForm } from 'sveltekit-superforms';
+	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
+	import TextAreaField from '$components/inputs/TextAreaField.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import { currentVisit } from '$store/visit';
+	import {
+		removeVisitHospitalisationFormStore,
+		updateVisitHospitalisationFormStore
+	} from '$store/hospit';
 	import { formatDateShort, formatDateString, getDaysBetween, getPreviousDays } from '$utils/date';
 	import { cagesList } from '$store/hospit';
 	import type { Treatment } from '$types';
 	import CollapsibleFormSection from '$components/CollapsibleFormSection.svelte';
 	import ObservationForm from '$components/forms/hospit/ObservationForm.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
+	import RemoveButton from '$components/buttons/removeButton.svelte';
+	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
+	let removeFormRef: HTMLFormElement;
+	let invalidated: boolean = false;
+	let showConfirmation = false;
 
 	const { form, enhance, submitting } = superForm($updateVisitHospitalisationFormStore, {
 		taintedMessage: null,
@@ -24,15 +33,39 @@
 			if (result.type === 'success') {
 				invalidated = true;
 			}
-		}
+		},
+		id: 'update-hospit'
 	});
 
-	let invalidated: boolean = false;
+	const { enhance: removeEnhance, submitting: removeSubmitting } = superForm(
+		$removeVisitHospitalisationFormStore,
+		{
+			taintedMessage: null,
+			resetForm: false,
+			onResult: async ({ result }) => {
+				if (result.type === 'success') {
+					window.location.reload();
+				}
+			},
+			id: 'remove-hospit'
+		}
+	);
+
+	const handleRemoveHospit = () => {
+		removeFormRef.requestSubmit();
+		showConfirmation = false;
+	};
+
+	const handleShowConfirmation = () => {
+		showConfirmation = true;
+	};
 
 	$: disabled = !$form.cage || !$form.start || !$form.end;
 	$: $form.id = $currentVisit.id;
-	$: $form.start = $currentVisit.hospit.start ? new Date($currentVisit.hospit?.start) : new Date();
-	$: $form.end = $currentVisit.hospit.end ? new Date($currentVisit.hospit?.end) : new Date();
+	$: $form.start = $currentVisit.hospit.start?.length
+		? new Date($currentVisit.hospit.start)
+		: new Date();
+	$: $form.end = $currentVisit.hospit.end?.length ? new Date($currentVisit.hospit.end) : new Date();
 	$: $form.cage = $currentVisit.hospit.cage;
 	$: $form.note = $currentVisit.hospit.note;
 	$: $form.price = $currentVisit.hospit.price;
@@ -72,6 +105,30 @@
 
 	$: $form.treatment = JSON.stringify(treatments);
 </script>
+
+<form
+	action="?/removeHospit"
+	method="post"
+	class="hidden"
+	use:removeEnhance
+	bind:this={removeFormRef}
+>
+	<input type="hidden" name="id" bind:value={$currentVisit.id} />
+</form>
+
+<ConfirmationDialog bind:show={showConfirmation} handler={handleRemoveHospit}>
+	<div>
+		<div class="mt-2 text-center">
+			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+				Annuler la hospitalisation?
+			</h3>
+			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+				Êtes-vous sûr de vouloir annuler la hospitalisation? ? Toutes vos données seront
+				définitivement supprimé. Cette action ne peut pas être annulée.
+			</p>
+		</div>
+	</div>
+</ConfirmationDialog>
 
 <div class="container px-4 mt-5 pb-5">
 	<div class="flex flex-col space-y-5">
@@ -154,7 +211,15 @@
 			</div>
 
 			<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-100">
-				<SubmitButton small {disabled} loading={$submitting}>Payer</SubmitButton>
+				<div class="flex flex-row space-x-5 w-2/3">
+					<SubmitButton small {disabled} loading={$submitting}>Payer</SubmitButton>
+					<RemoveButton
+						small
+						loading={$removeSubmitting}
+						disabled={daysCount === 0}
+						handler={handleShowConfirmation}>Annuler l'hospitalisation</RemoveButton
+					>
+				</div>
 				<div class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
 					{#if $currentVisit.hospit.updated}
 						Dernière mise à jour: {formatDateString($currentVisit.hospit.updated)}
