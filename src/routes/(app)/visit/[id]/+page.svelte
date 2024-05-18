@@ -32,7 +32,7 @@
 	} from '$store/hospit';
 	import type { PageData } from './$types';
 	import { inventoryItems } from '$lib/store/inventory';
-	import PrintBill from '$components/display/bill/PrintBill.svelte';
+	import VisitPrintables from '$components/display/VisitPrintables.svelte';
 
 	export let data: PageData;
 
@@ -94,7 +94,12 @@
 	<TabContainer />
 	<div class="w-full lg:w-5/12 flex flex-col lg:pl-5 lg:pr-3 gap-3 pt-10">
 		<div class="flex flex-col gap-5">
-			<PrintBill bill={generatedBill} />
+			<VisitPrintables
+				bill={generatedBill}
+				doctor={visit.doctor}
+				treatment={visit.treatment}
+				animal={visit.animal}
+			/>
 			<PaymentTab {bill} />
 		</div>
 	</div>
