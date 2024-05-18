@@ -218,6 +218,7 @@ export type VisitsRecord = {
 	observations?: HTMLString
 	store_items?: RecordIdString[]
 	surgical_acts?: RecordIdString[]
+	treatment?: HTMLString
 	visit_price?: number
 }
 
