@@ -71,3 +71,8 @@ export const updateVisitHospitalisationSchema = z.object({
 	cage: z.string().min(1),
 	price: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0)
 });
+
+export const updateVisitTreatmentSchema = z.object({
+	id: z.string().min(1),
+	treatment: z.string().min(1)
+});
