@@ -6,3 +6,4 @@ export * from './animal'
 export * from './queue'
 export * from './agenda'
 export * from './common'
+export * from './visit';
