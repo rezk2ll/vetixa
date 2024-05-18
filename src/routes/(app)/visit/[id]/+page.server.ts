@@ -18,7 +18,8 @@ import {
 	updateVisitActionsSchema,
 	updateVisitDiagnosticSchema,
 	updateVisitHospitalisationSchema,
-	updateVisitSchema
+	updateVisitSchema,
+	updateVisitTreatmentSchema
 } from '$lib/schemas/visit';
 import type { RecordModel } from 'pocketbase';
 import { message, superValidate, withFiles } from 'sveltekit-superforms/server';
@@ -65,6 +66,9 @@ export const load = (async ({ params, locals: { pb } }) => {
 		});
 		const removeVisitHospitForm = await superValidate(zod(removeSchema), {
 			id: 'remove-hospit'
+		});
+		const updateVisitTreatmentForm = await superValidate(zod(updateVisitTreatmentSchema), {
+			id: 'update-treatment'
 		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
@@ -129,7 +133,8 @@ export const load = (async ({ params, locals: { pb } }) => {
 			removeSurgicalActForm,
 			updateVisitHospitForm,
 			generatedBill,
-			removeVisitHospitForm
+			removeVisitHospitForm,
+			updateVisitTreatmentForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -625,6 +630,34 @@ export const actions = {
 				await pb.collection('visits').update<VisitsResponse>(id, { ...visit, hospit: null });
 				await billService.update();
 			}
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	updateTreatment: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(updateVisitTreatmentSchema), {
+			id: 'update-treatment'
+		});
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id, treatment } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+
+			if (!visit) {
+				throw Error('visit not found');
+			}
+
+			await pb.collection('visits').update(id, {
+				...visit,
+				treatment
+			});
 
 			return { form };
 		} catch (error) {
