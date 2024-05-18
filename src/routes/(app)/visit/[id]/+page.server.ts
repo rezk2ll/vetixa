@@ -24,6 +24,7 @@ import type { RecordModel } from 'pocketbase';
 import { message, superValidate, withFiles } from 'sveltekit-superforms/server';
 import BillService from '$lib/services/bill';
 import { zod } from 'sveltekit-superforms/adapters';
+import { removeSchema } from '$lib/schemas';
 
 export const load = (async ({ params, locals: { pb } }) => {
 	const { id } = params;
@@ -61,6 +62,9 @@ export const load = (async ({ params, locals: { pb } }) => {
 		});
 		const updateVisitHospitForm = await superValidate(zod(updateVisitHospitalisationSchema), {
 			id: 'update-hospit'
+		});
+		const removeVisitHospitForm = await superValidate(zod(removeSchema), {
+			id: 'remove-hospit'
 		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
@@ -124,7 +128,8 @@ export const load = (async ({ params, locals: { pb } }) => {
 			addSurgicaActsForm,
 			removeSurgicalActForm,
 			updateVisitHospitForm,
-			generatedBill
+			generatedBill,
+			removeVisitHospitForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -596,6 +601,30 @@ export const actions = {
 			}
 
 			await billService.update();
+
+			return { form };
+		} catch (error) {
+			console.error(error);
+		}
+	},
+
+	removeHospit: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(removeSchema), { id: 'remove-hospit' });
+
+		try {
+			if (!form.valid) {
+				throw Error('invalid data');
+			}
+
+			const { id } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
+			const billService = new BillService(pb, visit);
+
+			if (visit.hospit) {
+				await pb.collection('hospitalisation').delete(visit.hospit);
+				await pb.collection('visits').update<VisitsResponse>(id, { ...visit, hospit: null });
+				await billService.update();
+			}
 
 			return { form };
 		} catch (error) {
