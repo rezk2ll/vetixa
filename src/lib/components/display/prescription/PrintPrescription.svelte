@@ -4,7 +4,7 @@
 	export let treatment: string | undefined;
 	export let handler: () => void = () => {};
 
-	$: disabled = treatment === undefined;
+	$: disabled = treatment === undefined || treatment.length === 0;
 </script>
 
 <div class="flex flex-col gap-6">
