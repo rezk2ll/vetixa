@@ -33,8 +33,8 @@
 	});
 </script>
 
-<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded px-2">
-	<div class="flex flex-col px-5 gap-6">
+<div class="w-full p-1 pt-10 lg:p-8 bg-white shadow-2xl border-gray-200 xl:rounded px-2">
+	<div class="flex flex-col gap-6">
 		<div class="flex flex-row items-center justify-start space-x-5">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
