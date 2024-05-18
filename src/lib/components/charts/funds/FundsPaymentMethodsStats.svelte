@@ -4,11 +4,13 @@
 
 	export let stats: FundPaymentMethodsStats;
 
-	$: items = Object.entries(stats).map(([method, { count, total }]) => ({
-		method,
-		count,
-		total
-	}));
+	$: items = Object.entries(stats)
+		.map(([method, { count, total }]) => ({
+			method,
+			count,
+			total
+		}))
+		.sort((a, b) => b.count - a.count);
 
 	$: total = items.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
 </script>
