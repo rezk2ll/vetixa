@@ -30,7 +30,7 @@
 </svelte:head>
 
 <Nav />
-<div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col pt-10 xl:pt-20">
+<div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col pt-10 xl:pt-16">
 	{#if $globalLoading}
 		<LoadingSpinner />
 	{:else}
