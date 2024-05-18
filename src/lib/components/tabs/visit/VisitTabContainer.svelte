@@ -6,17 +6,18 @@
 	import DiagnosticsTab from '$components/tabs/visit/DiagnosticsTab.svelte';
 	import ActionsTab from '$components/tabs/visit/ActionsTab.svelte';
 	import InfoTab from '$components/tabs/visit/InfoTab.svelte';
-	import MedicalActsTab from './MedicalActsTab.svelte';
-	import SurgicalActsTab from './SurgicalActsTab.svelte';
-	import HospitTab from './HospitTab.svelte';
-	import StoreTab from './StoreTab.svelte';
+	import MedicalActsTab from '$components/tabs/visit/MedicalActsTab.svelte';
+	import SurgicalActsTab from '$components/tabs/visit/SurgicalActsTab.svelte';
+	import HospitTab from '$components/tabs/visit/HospitTab.svelte';
+	import StoreTab from '$components/tabs/visit/StoreTab.svelte';
+	import TreatmentTab from '$components/tabs/visit/TreatmentTab.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:pt-10 pb-5">
 	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded-md">
-		<div class="flex items-center gap-x-3 w-full">
+		<div class="flex flex-col items-center gap-x-3 w-full">
 			<div class="flex overflow-x-auto whitespace-nowrap w-full">
 				<button
 					type="button"
@@ -114,7 +115,26 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Actions </span>
+					<span class="mx-1 text-sm"> Conduites à faire </span>
+				</button>
+				<button
+					type="button"
+					on:click={() => activeVisitTab.set('treatments')}
+					class="px-4 {isActive('treatments')
+						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
+						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 576 512"
+						class="w-4 h-4"
+						fill="currentColor"
+						><path
+							d="M112 96c-26.5 0-48 21.5-48 48V256h96V144c0-26.5-21.5-48-48-48zM0 144C0 82.1 50.1 32 112 32s112 50.1 112 112V368c0 61.9-50.1 112-112 112S0 429.9 0 368V144zM554.9 399.4c-7.1 12.3-23.7 13.1-33.8 3.1L333.5 214.9c-10-10-9.3-26.7 3.1-33.8C360 167.7 387.1 160 416 160c88.4 0 160 71.6 160 160c0 28.9-7.7 56-21.1 79.4zm-59.5 59.5C472 472.3 444.9 480 416 480c-88.4 0-160-71.6-160-160c0-28.9 7.7-56 21.1-79.4c7.1-12.3 23.7-13.1 33.8-3.1L498.5 425.1c10 10 9.3 26.7-3.1 33.8z"
+						/></svg
+					>
+
+					<span class="mx-1 text-sm"> Traitement </span>
 				</button>
 				<button
 					type="button"
@@ -211,6 +231,8 @@
 			<HospitTab />
 		{:else if $activeVisitTab === 'shop'}
 			<StoreTab />
+		{:else if $activeVisitTab === 'treatments'}
+			<TreatmentTab />
 		{:else}
 			<InfoTab />
 		{/if}
