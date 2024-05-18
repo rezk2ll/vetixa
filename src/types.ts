@@ -70,7 +70,8 @@ export type VisitTabsType =
 	| 'shop'
 	| 'actions'
 	| 'medical_acts'
-	| 'surgical_acts';
+	| 'surgical_acts'
+  | 'treatments';
 
 export interface FileInfo {
 	mime: string;
