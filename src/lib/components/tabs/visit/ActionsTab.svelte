@@ -24,7 +24,7 @@
 				<div class="overflow-hidden border border-gray-200 md:rounded-lg">
 					<form method="post" action="?/updateActions" use:enhance>
 						<input type="hidden" name="id" value={$form.id} />
-						<textarea class="hidden" name="observations" value={$form.actions} />
+						<textarea class="hidden" name="actions" value={$form.actions} />
 						<Editor
 							bind:value={$form.actions}
 							scriptSrc="/tinymce/tinymce.min.js"
