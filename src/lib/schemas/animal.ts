@@ -10,7 +10,8 @@ export const addAnimalSchema = z.object({
 		.default(0)
 		.refine((n) => n > 0),
 	color: z.string().optional(),
-	breed: z.string().optional()
+	breed: z.string().optional(),
+	identifier: z.string().optional()
 });
 
 export const updateAnimalSchema = addAnimalSchema.extend({
