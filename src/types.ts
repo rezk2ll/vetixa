@@ -71,7 +71,7 @@ export type VisitTabsType =
 	| 'actions'
 	| 'medical_acts'
 	| 'surgical_acts'
-  | 'treatments';
+	| 'treatments';
 
 export interface FileInfo {
 	mime: string;
@@ -167,6 +167,7 @@ export interface entityDetails {
 	value: string | number;
 	isAge?: boolean;
 	death?: string;
+	dead?: boolean;
 	prefix?: string;
 }
 
