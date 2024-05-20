@@ -116,6 +116,13 @@
 		isInValid={false}
 		required={false}
 	/>
+	<TextField
+		name="identifier"
+		label="Identifiant unique"
+		bind:value={$form.identifier}
+		isInValid={false}
+		required={false}
+	/>
 	<div class="mt-4 w-full">
 		<input
 			type="checkbox"
