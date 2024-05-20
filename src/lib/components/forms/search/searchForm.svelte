@@ -10,7 +10,7 @@
 	let value: string = '';
 	let searchOptions: 'animal' | 'client' = 'client';
 	let clientPlaceholder = 'Rechercher par nom, email, téléphone, addresse...';
-	let animalPlaceholder = 'Rechercher par nom, race, espèce...';
+	let animalPlaceholder = 'Rechercher par nom, identifiant unique, race, espèce...';
 
 	onMount(async () => {
 		inputRef && inputRef.focus();

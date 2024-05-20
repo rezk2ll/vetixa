@@ -3,9 +3,10 @@
 
 	export let date: string;
 	export let death: string | undefined;
+	export let dead: boolean = false;
 
 	const calculateAge = (date: string, deathDate?: string) => {
-		const now = deathDate ? moment(deathDate) : moment();
+		const now = deathDate && dead ? moment(deathDate) : moment();
 		const birthday = moment(date);
 
 		const years = now.diff(birthday, 'years');

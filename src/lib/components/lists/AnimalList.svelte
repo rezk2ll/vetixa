@@ -377,7 +377,11 @@
 												>{animal.weight}</td
 											>
 											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap">
-												<AgeDisplay date={animal.birthday} death={animal.deathdate} />
+												<AgeDisplay
+													date={animal.birthday}
+													death={animal.deathdate}
+													dead={animal.deceased}
+												/>
 											</td>
 											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.color}</td
