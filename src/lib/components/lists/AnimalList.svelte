@@ -328,6 +328,11 @@
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Race</th
 										>
+										<th
+											scope="col"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>Identifiant</th
+										>
 										<th scope="col" class="relative py-3.5 px-4">
 											<span class="sr-only">Modifier</span>
 										</th>
@@ -389,6 +394,9 @@
 
 											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.breed}</td
+											>
+											<td class="px-4 py-2.5 text-sm text-right text-gray-500 whitespace-nowrap"
+												>{animal.identifier}</td
 											>
 
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
