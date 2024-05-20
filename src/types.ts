@@ -172,3 +172,15 @@ export interface entityDetails {
 }
 
 export type entityDetailsList = entityDetails[];
+
+export type SearchEntityType = 'client' | 'animal';
+
+export interface SearchResultInfo {
+	items: (AnimalsResponse | ClientsResponse)[];
+	page: number;
+	totalPages: number;
+	totalItems: number;
+	perPage: number;
+	query: string;
+	target: SearchEntityType;
+}
