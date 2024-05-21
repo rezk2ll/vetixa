@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { searchOpen } from '$store/search';
 	import type { SearchEntityType } from '$types';
 	import { browser } from '$app/environment';
@@ -18,8 +17,12 @@
 	let clientPlaceholder = 'Rechercher par nom, email, téléphone, addresse...';
 	let animalPlaceholder = 'Rechercher par nom, identifiant unique, race, espèce...';
 
-	onMount(async () => {
-		inputRef && inputRef.focus();
+	searchOpen.subscribe((value) => {
+		setTimeout(() => {
+			if (value && inputRef) {
+				inputRef.focus();
+			}
+		}, 250);
 	});
 
 	const search = () => {
@@ -38,7 +41,10 @@
 <div class="flex flex-col gap-6">
 	<form on:submit|preventDefault={search}>
 		<button type="button" class="relative flex items-center w-full">
-			<span class="absolute text-gray-400 left-3"
+			<button
+				class="absolute text-gray-400 -left-1 p-3 rounded-full hover:bg-blue-400/10"
+				type="button"
+				on:click={search}
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -51,7 +57,7 @@
 						stroke-linejoin="round"
 						d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
 					/></svg
-				></span
+				></button
 			><input
 				bind:this={inputRef}
 				type="text"
@@ -72,7 +78,7 @@
 			</button>
 		</button>
 	</form>
-	<div class="w-full px-3">
+	<div class="w-full pr-2">
 		<div class="flex w-full gap-2 rounded-3xl bg-gray-200">
 			<div class="w-full">
 				<input
@@ -107,9 +113,5 @@
 				>
 			</div>
 		</div>
-	</div>
-	<div class="flex gap-1 p-1">
-		<PrimaryButton handler={search}>Rechercher</PrimaryButton>
-		<RemoveButton handler={closeSearch}>Annuler</RemoveButton>
 	</div>
 </div>
