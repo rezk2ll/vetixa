@@ -13,6 +13,10 @@ export enum Collections {
 	Clients = "clients",
 	ClinicalExams = "clinical_exams",
 	FundTransactions = "fund_transactions",
+	HospitCompletedList = "hospit_completed_list",
+	HospitCompletedView = "hospit_completed_view",
+	HospitPendingList = "hospit_pending_list",
+	HospitPendingView = "hospit_pending_view",
 	Hospitalisation = "hospitalisation",
 	InventoryItem = "inventory_item",
 	InventorySale = "inventory_sale",
@@ -147,6 +151,32 @@ export type FundTransactionsRecord = {
 	user?: RecordIdString
 }
 
+export type HospitCompletedListRecord<Ttreatment = unknown> = {
+	cage?: RecordIdString
+	end?: IsoDateString
+	note?: string
+	start: IsoDateString
+	treatment?: null | Ttreatment
+	visit?: RecordIdString
+}
+
+export type HospitCompletedViewRecord = {
+	total?: number
+}
+
+export type HospitPendingListRecord<Ttreatment = unknown> = {
+	cage?: RecordIdString
+	end?: IsoDateString
+	note?: string
+	start: IsoDateString
+	treatment?: null | Ttreatment
+	visit?: RecordIdString
+}
+
+export type HospitPendingViewRecord = {
+	total?: number
+}
+
 export type HospitalisationRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString
 	end?: IsoDateString
@@ -257,6 +287,10 @@ export type CagesResponse<Texpand = unknown> = Required<CagesRecord> & BaseSyste
 export type ClientsResponse<Texpand = unknown> = Required<ClientsRecord> & BaseSystemFields<Texpand>
 export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRecord> & BaseSystemFields<Texpand>
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> & BaseSystemFields<Texpand>
+export type HospitCompletedListResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitCompletedListRecord<Ttreatment>> & BaseSystemFields<Texpand>
+export type HospitCompletedViewResponse<Texpand = unknown> = Required<HospitCompletedViewRecord> & BaseSystemFields<Texpand>
+export type HospitPendingListResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitPendingListRecord<Ttreatment>> & BaseSystemFields<Texpand>
+export type HospitPendingViewResponse<Texpand = unknown> = Required<HospitPendingViewRecord> & BaseSystemFields<Texpand>
 export type HospitalisationResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitalisationRecord<Ttreatment>> & BaseSystemFields<Texpand>
 export type InventoryItemResponse<Texpand = unknown> = Required<InventoryItemRecord> & BaseSystemFields<Texpand>
 export type InventorySaleResponse<Texpand = unknown> = Required<InventorySaleRecord> & BaseSystemFields<Texpand>
@@ -282,6 +316,10 @@ export type CollectionRecords = {
 	clients: ClientsRecord
 	clinical_exams: ClinicalExamsRecord
 	fund_transactions: FundTransactionsRecord
+	hospit_completed_list: HospitCompletedListRecord
+	hospit_completed_view: HospitCompletedViewRecord
+	hospit_pending_list: HospitPendingListRecord
+	hospit_pending_view: HospitPendingViewRecord
 	hospitalisation: HospitalisationRecord
 	inventory_item: InventoryItemRecord
 	inventory_sale: InventorySaleRecord
@@ -306,6 +344,10 @@ export type CollectionResponses = {
 	clients: ClientsResponse
 	clinical_exams: ClinicalExamsResponse
 	fund_transactions: FundTransactionsResponse
+	hospit_completed_list: HospitCompletedListResponse
+	hospit_completed_view: HospitCompletedViewResponse
+	hospit_pending_list: HospitPendingListResponse
+	hospit_pending_view: HospitPendingViewResponse
 	hospitalisation: HospitalisationResponse
 	inventory_item: InventoryItemResponse
 	inventory_sale: InventorySaleResponse
@@ -333,6 +375,10 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>
+	collection(idOrName: 'hospit_completed_list'): RecordService<HospitCompletedListResponse>
+	collection(idOrName: 'hospit_completed_view'): RecordService<HospitCompletedViewResponse>
+	collection(idOrName: 'hospit_pending_list'): RecordService<HospitPendingListResponse>
+	collection(idOrName: 'hospit_pending_view'): RecordService<HospitPendingViewResponse>
 	collection(idOrName: 'hospitalisation'): RecordService<HospitalisationResponse>
 	collection(idOrName: 'inventory_item'): RecordService<InventoryItemResponse>
 	collection(idOrName: 'inventory_sale'): RecordService<InventorySaleResponse>
