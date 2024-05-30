@@ -3,8 +3,6 @@
 	import type { SearchEntityType } from '$types';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import PrimaryButton from '$components/buttons/PrimaryButton.svelte';
-	import RemoveButton from '$components/buttons/removeButton.svelte';
 
 	const closeSearch = () => {
 		value = '';
