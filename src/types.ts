@@ -9,7 +9,8 @@ import type {
 	MedicalActsResponse,
 	SurgicalActsResponse,
 	HospitalisationResponse,
-	InventoryItemResponse
+	InventoryItemResponse,
+	CagesResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -94,6 +95,25 @@ export interface visitPageInfo {
 	query: string;
 	count: visitCount;
 	filter: VisitStatusFilter;
+}
+
+export interface HospitPageInfo {
+	items: Hospit[];
+	page: number;
+	totalPages: number;
+	totalItems: number;
+	perPage: number;
+	query: string;
+}
+
+export interface Hospit extends Omit<HospitalisationResponse<Treatment[]>, 'visit' | 'cage'> {
+	visit: HospitVisitItem;
+	cage: CagesResponse;
+}
+
+export interface HospitVisitItem extends Omit<VisitsResponse, 'animal'> {
+	animal: AnimalsResponse;
+	client: ClientsResponse;
 }
 
 export interface visitCount {
