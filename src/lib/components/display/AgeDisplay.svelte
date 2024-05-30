@@ -20,11 +20,11 @@
 </script>
 
 <div
-	class="flex overflow-hidden max-w-xs w-fit bg-white border divide-x rounded-lg rtl:flex-row-reverse dark:bg-gray-900 dark:border-gray-700 dark:divide-gray-700"
+	class="flex overflow-hidden max-w-xs w-fit bg-white border divide-x rounded rtl:flex-row-reverse"
 >
 	{#if years > 0}
 		<span
-			class="flex px-1 items-center py-1 text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 dark:hover:bg-gray-800 dark:text-gray-300 gap-x-1 hover:bg-gray-100"
+			class="flex px-1 items-center py-1 text-gray-600 transition-colors duration-200 sm:text-base sm:px-2 gap-x-1"
 		>
 			{years}
 
@@ -33,22 +33,22 @@
 	{/if}
 
 	{#if months > 0}
-		<button
-			class="flex items-center px-1 py-1 text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 dark:hover:bg-gray-800 dark:text-gray-300 gap-x-1 hover:bg-gray-100"
+		<span
+			class="flex items-center px-1 py-1 text-gray-600 transition-colors duration-200 sm:text-base sm:px-2 gap-x-1"
 		>
 			{months}
 
 			<span>moi{months > 1 ? 's' : ''}</span>
-		</button>
+		</span>
 	{/if}
 
 	{#if days > 0}
-		<button
-			class="flex items-center px-1 py-1 text-gray-600 transition-colors duration-200 sm:text-base sm:px-6 dark:hover:bg-gray-800 dark:text-gray-300 gap-x-1 hover:bg-gray-100"
+		<span
+			class="flex items-center px-1 py-1 text-gray-600 transition-colors duration-200 sm:text-base sm:px-2 gap-x-1"
 		>
 			{days}
 
 			<span>jour{days > 1 ? 's' : ''}</span>
-		</button>
+		</span>
 	{/if}
 </div>
