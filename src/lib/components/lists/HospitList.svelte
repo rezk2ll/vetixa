@@ -5,9 +5,11 @@
 	import { browser } from '$app/environment';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 	import AgeDisplay from '$components/display/AgeDisplay.svelte';
+	import type { HospitStatusFilter as StatusFilter } from '$types';
 
 	let search: string = $hospitPageInfo.query;
 	let page = $hospitPageInfo.page;
+	let statusFilter: StatusFilter = $hospitPageInfo.filter;
 
 	$: currentUrl = browser ? document.location.href : '';
 
@@ -37,6 +39,18 @@
 		searchUrl.searchParams.delete('page');
 		goto(searchUrl);
 	};
+
+	$: changeTab = (filter: StatusFilter) => {
+		const filterUrl = new URL(currentUrl);
+
+		if (filter === 'all') {
+			filterUrl.searchParams.delete('filter');
+		} else {
+			filterUrl.searchParams.set('filter', filter);
+		}
+
+		goto(filterUrl);
+	};
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
@@ -53,7 +67,52 @@
 		<div
 			class="flex px-1 py-2 pb-4 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
 		>
-			<div />
+			<div class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg">
+				<button
+					on:click={() => {
+						changeTab('all');
+					}}
+					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'all'
+						? 'bg-gray-100'
+						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+				>
+					Tout
+				</button>
+				<button
+					on:click={() => {
+						changeTab('pending');
+					}}
+					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'pending'
+						? 'bg-gray-100'
+						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+				>
+					En cours
+					<span
+						class="inline-flex items-center justify-center w-auto min-w-5 px-1 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+					>
+						{$hospitPageInfo.count.pending}
+					</span>
+				</button>
+
+				<button
+					on:click={() => {
+						changeTab('complete');
+					}}
+					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'complete'
+						? 'bg-gray-100'
+						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+				>
+					Terminé
+					<span
+						class="inline-flex items-center justify-center w-auto min-w-5 px-1 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+					>
+						{$hospitPageInfo.count.completed}
+					</span>
+				</button>
+			</div>
 			<form on:submit|preventDefault={dispatchSearch}>
 				<div class="flex items-center mt-0 h-6 relative w-full">
 					<button class="absolute right-0 focus:outline-none">
@@ -209,8 +268,8 @@
 										<td class="px-4 py-3 text-sm whitespace-nowrap">
 											<div class="flex items-end justify-end gap-x-6 w-full">
 												<a
-													href="/visit/{item.visit.id}"
-													title="Modifier la visite"
+													href="/visit/{item.visit.id}/?tab=hospit"
+													title="Modifier l'hospitalisation"
 													class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
 												>
 													<svg
