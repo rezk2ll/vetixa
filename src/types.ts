@@ -20,6 +20,7 @@ export type fundsStatusFilter = 'all' | 'income' | 'expense';
 export type QueueStatusFilter = 'pending' | 'completed';
 export type AnimalStatusFilter = 'all' | 'chat' | 'chien' | 'male' | 'female';
 export type VisitStatusFilter = 'all' | 'pending' | 'partial' | 'completed';
+export type HospitStatusFilter = 'all' | 'pending' | 'complete';
 
 export interface Fund extends FundTransactionsResponse {
 	category: string;
@@ -104,6 +105,13 @@ export interface HospitPageInfo {
 	totalItems: number;
 	perPage: number;
 	query: string;
+	filter: HospitStatusFilter;
+  count: HospitCount;
+}
+
+export interface HospitCount {
+  completed: number;
+  pending: number;
 }
 
 export interface Hospit extends Omit<HospitalisationResponse<Treatment[]>, 'visit' | 'cage'> {
