@@ -2,6 +2,7 @@
 	import PaymentTab from '$components/tabs/visit/PaymentTab.svelte';
 	import TabContainer from '$components/tabs/visit/VisitTabContainer.svelte';
 	import {
+	activeVisitTab,
 		addVisitExamFormStore,
 		addVisitFileFormStore,
 		addVisitMedicalActsFormStore,
@@ -33,6 +34,7 @@
 	import type { PageData } from './$types';
 	import { inventoryItems } from '$lib/store/inventory';
 	import VisitPrintables from '$components/display/VisitPrintables.svelte';
+	import type { VisitTabsType } from '$types';
 
 	export let data: PageData;
 
@@ -61,7 +63,8 @@
 		updateVisitHospitForm,
 		generatedBill,
 		removeVisitHospitForm,
-		updateVisitTreatmentForm
+		updateVisitTreatmentForm,
+    tab
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -88,6 +91,7 @@
 	$: generatedBill && visitBill.set(generatedBill);
 	$: removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
 	$: updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
+  $: activeVisitTab.set(tab as VisitTabsType);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-5 w-full">

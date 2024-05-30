@@ -27,8 +27,9 @@ import BillService from '$lib/services/bill';
 import { zod } from 'sveltekit-superforms/adapters';
 import { removeSchema } from '$lib/schemas';
 
-export const load = (async ({ params, locals: { pb } }) => {
+export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
+  const tab = searchParams.get('tab') || 'info';
 
 	try {
 		const form = await superValidate(zod(updateVisitSchema), { id: 'update-visit' });
@@ -110,6 +111,7 @@ export const load = (async ({ params, locals: { pb } }) => {
 		const generatedBill = await billService.generateBill();
 
 		return {
+      tab,
 			visit,
 			bill,
 			medicalActs,
