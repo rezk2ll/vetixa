@@ -1,11 +1,10 @@
 import type {
-  HospitCompletedViewResponse,
-  HospitPendingViewResponse,
-  CagesResponse,
-  Hospit,
-  HospitStatusFilter,
-  HospitalisationResponse,
-  Treatment
+	HospitCompletedViewResponse,
+	HospitPendingViewResponse,
+	Hospit,
+	HospitStatusFilter,
+	HospitalisationResponse,
+	Treatment
 } from '$types';
 import type { RecordModel } from 'pocketbase';
 import type { PageServerLoad } from './$types';
@@ -22,7 +21,6 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 			? 'hospit_completed_list'
 			: 'hospitalisation';
 
-	const cages = await pb.collection('cages').getFullList<CagesResponse>();
 	const hospit = await pb.collection(collection).getList<HospitalisationResponse>(page, 10, {
 		sort: '-updated',
 		filter: `note ~ "${query}" || cage.code ~ "${query}" || visit.animal.name ~ "${query}" || visit.animal.identifier ~ "${query}" || visit.animal.client.name ~ "${query}" || visit.animal.client.tel ~ "${query}"`,
@@ -53,7 +51,6 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 		.getOne<HospitCompletedViewResponse>('completed');
 
 	return {
-		cages,
 		pageInfo: {
 			...hospit,
 			items,
