@@ -55,7 +55,7 @@
 		return true;
 	});
 
-  $: pageItems = items.slice(page * 10, page * 10 + 10);
+	$: pageItems = items.slice(page * 10, page * 10 + 10);
 
 	$: paidCount = $visitItems.filter(({ bill }) => bill && bill.paid).length;
 	$: partialCount = $visitItems.filter(

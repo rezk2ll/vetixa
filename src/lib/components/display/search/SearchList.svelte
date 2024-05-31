@@ -13,7 +13,7 @@
 	$: currentUrl = browser ? document.location.href : '';
 
 	$: nextPage = () => {
-		if ($searchPage.page + 1 === $searchPage.totalPages) return;
+		if ($searchPage.page === $searchPage.totalPages) return;
 
 		const nextUrl = new URL(currentUrl);
 

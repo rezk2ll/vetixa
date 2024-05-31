@@ -14,7 +14,7 @@
 	$: currentUrl = browser ? document.location.href : '';
 
 	$: nextPage = () => {
-		if ($activityPage.page + 1 === $activityPage.totalPages) return;
+		if ($activityPage.page === $activityPage.totalPages) return;
 
 		const nextUrl = new URL(currentUrl);
 
@@ -264,10 +264,12 @@
 											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>{visit.motif}</td
 										>
-										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+										<td
+											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
 											>{visit.bill.total} DT</td
 										>
-										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+										<td
+											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
 											>{currency(visit.bill.total).subtract(visit.bill.total_paid).value} DT</td
 										>
 										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"

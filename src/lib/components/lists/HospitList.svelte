@@ -14,7 +14,7 @@
 	$: currentUrl = browser ? document.location.href : '';
 
 	$: nextPage = () => {
-		if ($hospitPageInfo.page + 1 === $hospitPageInfo.totalPages) return;
+		if ($hospitPageInfo.page === $hospitPageInfo.totalPages) return;
 
 		const nextUrl = new URL(currentUrl);
 
