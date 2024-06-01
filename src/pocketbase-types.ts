@@ -155,6 +155,7 @@ export type HospitCompletedListRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString
 	end?: IsoDateString
 	note?: string
+	price?: number
 	start: IsoDateString
 	treatment?: null | Ttreatment
 	visit?: RecordIdString
@@ -168,6 +169,7 @@ export type HospitPendingListRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString
 	end?: IsoDateString
 	note?: string
+	price?: number
 	start: IsoDateString
 	treatment?: null | Ttreatment
 	visit?: RecordIdString
