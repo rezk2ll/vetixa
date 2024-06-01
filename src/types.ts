@@ -106,12 +106,12 @@ export interface HospitPageInfo {
 	perPage: number;
 	query: string;
 	filter: HospitStatusFilter;
-  count: HospitCount;
+	count: HospitCount;
 }
 
 export interface HospitCount {
-  completed: number;
-  pending: number;
+	completed: number;
+	pending: number;
 }
 
 export interface Hospit extends Omit<HospitalisationResponse<Treatment[]>, 'visit' | 'cage'> {
@@ -211,4 +211,8 @@ export interface SearchResultInfo {
 	perPage: number;
 	query: string;
 	target: SearchEntityType;
+}
+
+export interface CageItem extends CagesResponse {
+	hospit?: Hospit;
 }
