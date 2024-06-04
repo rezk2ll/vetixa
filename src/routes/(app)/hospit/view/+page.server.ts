@@ -10,29 +10,31 @@ export const load = (async ({ locals: { pb } }) => {
 			expand: 'visit, visit.animal, visit.animal.client, cage'
 		});
 
-	const cageList: CageItem[] = cages.map((cage) => {
-		const matchingHospit = hospitList.find((item) => item.cage === cage.id);
+	const cageList: CageItem[] = cages
+		.map((cage) => {
+			const matchingHospit = hospitList.find((item) => item.cage === cage.id);
 
-		if (!matchingHospit) {
-			return cage;
-		}
-
-		return {
-			...cage,
-			hospit: {
-				...matchingHospit,
-				cage,
-				treatment: (matchingHospit.treatment as Treatment[]) || [],
-				visit: {
-					...((matchingHospit.expand as RecordModel)?.visit || {}),
-					animal: {
-						...((matchingHospit.expand as RecordModel)?.visit.expand.animal || {})
-					},
-					client: (matchingHospit.expand as RecordModel)?.visit.expand.animal.expand.client || {}
-				}
+			if (!matchingHospit) {
+				return cage;
 			}
-		} satisfies CageItem;
-	});
+
+			return {
+				...cage,
+				hospit: {
+					...matchingHospit,
+					cage,
+					treatment: (matchingHospit.treatment as Treatment[]) || [],
+					visit: {
+						...((matchingHospit.expand as RecordModel)?.visit || {}),
+						animal: {
+							...((matchingHospit.expand as RecordModel)?.visit.expand.animal || {})
+						},
+						client: (matchingHospit.expand as RecordModel)?.visit.expand.animal.expand.client || {}
+					}
+				}
+			} satisfies CageItem;
+		})
+		.sort((a, b) => a.code.localeCompare(b.code));
 	return {
 		cageList
 	};
