@@ -7,7 +7,8 @@ import type {
 	BillsMethodOptions,
 	VisitsResponse,
 	CagesResponse,
-	InventoryItemResponse
+	InventoryItemResponse,
+	Visit
 } from '$types';
 import {
 	addVisitFileSchema,
@@ -29,7 +30,8 @@ import { removeSchema } from '$lib/schemas';
 
 export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
-  const tab = searchParams.get('tab') || 'info';
+	const tab = searchParams.get('tab') || 'info';
+	let currentCage: CagesResponse | null = null;
 
 	try {
 		const form = await superValidate(zod(updateVisitSchema), { id: 'update-visit' });
@@ -97,21 +99,30 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			store_items: (visitRecord.expand as RecordModel)?.store_items || [],
 			bill,
 			files: (visitRecord.files || []).map((file) => pb.files.getUrl(visitRecord, file))
-		};
+		} as Visit;
 
 		const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
 		const clinicalExams = await pb
 			.collection('clinical_exams')
 			.getFullList<ClinicalExamsResponse>();
 		const surgicalActs = await pb.collection('surgical_acts').getFullList<SurgicalActsResponse>();
-		const cages = await pb.collection('cages').getFullList<CagesResponse>();
 		const storeItems = await pb.collection('inventory_item').getFullList<InventoryItemResponse>({
 			filter: 'quantity > 0'
 		});
+
+		let cages = await pb.collection('available_cages').getFullList<CagesResponse>();
+
+		if (visit.hospit && visit.hospit.cage) {
+			currentCage = await pb.collection('cages').getOne<CagesResponse>(visit.hospit.cage);
+			if (currentCage) {
+				cages = [...cages, currentCage];
+			}
+		}
+
 		const generatedBill = await billService.generateBill();
 
 		return {
-      tab,
+			tab,
 			visit,
 			bill,
 			medicalActs,

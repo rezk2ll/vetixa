@@ -2,7 +2,7 @@
 	import PaymentTab from '$components/tabs/visit/PaymentTab.svelte';
 	import TabContainer from '$components/tabs/visit/VisitTabContainer.svelte';
 	import {
-	activeVisitTab,
+		activeVisitTab,
 		addVisitExamFormStore,
 		addVisitFileFormStore,
 		addVisitMedicalActsFormStore,
@@ -32,7 +32,7 @@
 		updateVisitHospitalisationFormStore
 	} from '$store/hospit';
 	import type { PageData } from './$types';
-	import { inventoryItems } from '$lib/store/inventory';
+	import { inventoryItems } from '$store/inventory';
 	import VisitPrintables from '$components/display/VisitPrintables.svelte';
 	import type { VisitTabsType } from '$types';
 
