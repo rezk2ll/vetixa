@@ -124,7 +124,7 @@
 		</a>
 		<a
 			title="Hospit"
-			href="/hospit"
+			href="/hospit/view"
 			class="p-1.5 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
 		>
 			<svg stroke="none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
