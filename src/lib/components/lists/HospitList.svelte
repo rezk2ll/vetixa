@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { daysDiff, formatDateStringShort, formatFilterDate } from '$lib/utils/date';
+	import type { HospitStatusFilter as StatusFilter } from '$types';
 	import { hospitPageInfo } from '$store/hospit';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 	import AgeDisplay from '$components/display/AgeDisplay.svelte';
-	import type { HospitStatusFilter as StatusFilter } from '$types';
+	import Grid from '$components/icons/Grid.svelte';
+	import List from '$components/icons/List.svelte';
 
 	let search: string = $hospitPageInfo.query;
 	let page = $hospitPageInfo.page;
@@ -53,8 +55,28 @@
 	};
 </script>
 
-<div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+<div class="flex flex-col items-start justify-start xl:pl-14 w-full">
+	<div class="flex items-start justify-start">
+		<div class="bg-slate-100/50 flex gap-2 h-10 w-96">
+			<div
+				class="w-full p-1 text-center font-bold flex flex-row gap-5 items-center justify-center text-slate-800"
+			>
+				<div>Liste</div>
+
+				<List />
+			</div>
+
+			<a
+				href="/hospit/view"
+				class="flex flex-row gap-5 items-center justify-center w-full cursor-pointer select-none p-1 text-center bg-blue-600 font-bold text-white transition-colors duration-200 ease-in-out"
+			>
+				<div>Vue de l'hospit</div>
+
+				<Grid />
+			</a>
+		</div>
+	</div>
+	<div class="w-full px-5 pt-10 lg:p-5 lg:pb-3 bg-white shadow-2xl border-gray-200">
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Hospitalisations</h2>
@@ -112,63 +134,6 @@
 						{$hospitPageInfo.count.completed}
 					</span>
 				</button>
-			</div>
-			<div class="flex items-start justify-start">
-				<div class="flex gap-2 h-10 w-80 md:w-96">
-					<div
-						class="w-full p-1 text-center font-bold flex flex-row gap-5 items-center justify-center text-slate-800"
-					>
-						<div>Liste</div>
-
-						<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path
-								d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-					</div>
-
-					<a
-						href="/hospit/view"
-						class="flex flex-row gap-5 items-center justify-center w-full cursor-pointer select-none p-1 text-center bg-blue-600 font-bold text-white transition-colors duration-200 ease-in-out"
-					>
-						<div>Vue de l'hospit</div>
-
-						<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path
-								d="M3.5 3.5H10.5V10.5H3.5V3.5Z"
-								stroke="currentColor"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M3.5 13.5H10.5V20.5H3.5V13.5Z"
-								stroke="currentColor"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M13.5 3.5H20.5V10.5H13.5V3.5Z"
-								stroke="currentColor"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M13.5 13.5H20.5V20.5H13.5V13.5Z"
-								stroke="currentColor"
-								stroke-width="1.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-					</a>
-				</div>
 			</div>
 			<form on:submit|preventDefault={dispatchSearch}>
 				<div class="flex items-center mt-0 h-6 relative w-full">
@@ -361,7 +326,7 @@
 			</div>
 		</div>
 
-		<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between">
+		<div class="mt-6 lg:pb-0 sm:flex sm:items-center sm:justify-between">
 			<div class="text-sm text-gray-500 dark:text-gray-400">
 				Page <span class="font-medium text-gray-700 dark:text-gray-100"
 					>{$hospitPageInfo.page} sur {$hospitPageInfo.totalPages}</span
