@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatDateStringShort } from '$lib/utils/date';
+	import { daysDiff, formatDateStringShort, formatFilterDate } from '$lib/utils/date';
 	import { hospitPageInfo } from '$store/hospit';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -132,7 +132,7 @@
 					</div>
 
 					<a
-            href="/hospit/view"
+						href="/hospit/view"
 						class="flex flex-row gap-5 items-center justify-center w-full cursor-pointer select-none p-1 text-center bg-blue-600 font-bold text-white transition-colors duration-200 ease-in-out"
 					>
 						<div>Vue de l'hospit</div>
@@ -266,7 +266,13 @@
 								class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
 							>
 								{#each $hospitPageInfo.items as item}
-									<tr class={item.visit.animal.deceased ? 'bg-red-100/80' : ''}>
+									<tr
+										class={item.visit.animal.deceased
+											? 'bg-red-100/80'
+											: daysDiff(item.start, formatFilterDate(new Date())) === 0
+											? 'bg-emerald-100/90'
+											: 'bg-white'}
+									>
 										<td
 											class="px-4 py-3 text-sm font-semibold text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
 											>{item.cage.code}</td
