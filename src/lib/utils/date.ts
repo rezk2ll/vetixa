@@ -167,3 +167,17 @@ export const getDaysBetween = (start: string, end: string): number => {
 
 	return differenceInDays(endDate, startDate);
 };
+
+/**
+ * calculates the number of days between two dates (with factoring hours)
+ *
+ * @param {string} start - the start date
+ * @param {string} end - the end date
+ * @returns {number} the number of days between the two dates
+ */
+export const daysDiff = (start: string, end: string): number => {
+	const startDate = setHours(setMinutes(new Date(start), 0), 0);
+	const endDate = setHours(setMinutes(new Date(end), 0), 0);
+
+	return differenceInDays(endDate, startDate);
+};
