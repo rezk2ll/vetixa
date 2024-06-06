@@ -1,9 +1,13 @@
 import type { RecordModel } from 'pocketbase';
 import type {
+	BillsResponse,
 	FundPaymentMethodsStats,
 	FundTransactionsResponse,
+	FundsPageInfo,
+	FundsTotal,
 	TypedPocketBase,
-	UsersResponse
+	UsersResponse,
+	fundsStatusFilter
 } from '$types';
 import { setHours } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
@@ -83,24 +87,52 @@ export class FundsService {
 				expand: 'user'
 			});
 
-		const expandedTransactions = transactionslist.map((transaction) => {
-			if (!transaction.expand) {
-				return {
-					...transaction,
-					category: transaction.amount > 0 ? 'revenu' : 'frais'
-				};
-			}
+		return this.expandTranscations(transactionslist);
+	};
 
-			const user = (transaction.expand as RecordModel).user as unknown as UsersResponse;
+	/**
+	 * Fetches a given page of transactions
+	 *
+	 * @param {string} startDate - the start date
+	 * @param {string} endDate - the end date
+	 * @param {number} page - the page number
+	 * @param {fundsStatusFilter} filter - the filter to apply
+	 * @param {string} query - the query to search for
+	 * @returns {Promise<Fund[]>} the transactions list
+	 */
+	transactionPage = async (
+		startDate: string,
+		endDate: string,
+		page: number = 1,
+		filter: fundsStatusFilter = 'all',
+		query: string = ''
+	): Promise<FundsPageInfo> => {
+		const start = startDate.startsWith('@') ? startDate : `"${startDate}"`;
+		const end = endDate.startsWith('@') ? endDate : `"${endDate}"`;
 
-			return {
-				...transaction,
-				user: user.name,
-				category: transaction.amount > 0 ? 'revenu' : 'frais'
-			} as Fund;
-		});
+		const collection =
+			filter === 'income'
+				? 'funds_income_list'
+				: filter === 'expense'
+				? 'funds_expense_list'
+				: 'fund_transactions';
 
-		return expandedTransactions.sort((a, b) => sortDates(a.created, b.created));
+		const transactionslist = await this.pb
+			.collection(collection)
+			.getList<FundTransactionsResponse>(page, 10, {
+				filter: `created >= ${start} && created <= ${end} && description ~ "${query}"`,
+				expand: 'user'
+			});
+		const items = this.expandTranscations(transactionslist.items);
+		const total = await this.transactionsTotals(items, start, end);
+
+		return {
+			...transactionslist,
+			items,
+			query,
+			filter,
+			total
+		};
 	};
 
 	/**
@@ -126,5 +158,66 @@ export class FundsService {
 		}
 
 		return stats;
+	};
+
+	/**
+	 * Expand a transaction list and return a formatted fund list
+	 *
+	 * @param {FundTransactionsResponse[]} transactions - the list of transactions
+	 * @returns {Fund[]} the expanded fund list
+	 */
+	private expandTranscations = (transactions: FundTransactionsResponse[]): Fund[] =>
+		transactions
+			.map((transaction) => {
+				if (!transaction.expand) {
+					return {
+						...transaction,
+						category: transaction.amount > 0 ? 'revenu' : 'frais'
+					};
+				}
+
+				const user = (transaction.expand as RecordModel).user as unknown as UsersResponse;
+
+				return {
+					...transaction,
+					user: user.name,
+					category: transaction.amount > 0 ? 'revenu' : 'frais'
+				} as Fund;
+			})
+			.sort((a, b) => sortDates(a.created, b.created));
+
+	/**
+	 * Fetches the totals stats of a transactions list
+	 */
+	private transactionsTotals = async (
+		transactions: FundTransactionsResponse[],
+		startDate: string,
+		endDate: string
+	): Promise<FundsTotal> => {
+		const income = transactions.reduce(
+			(acc, curr) => currency(acc).add(curr.amount > 0 ? curr.amount : 0).value,
+			0
+		);
+		const expense = transactions.reduce(
+			(acc, curr) => currency(acc).add(curr.amount < 0 ? Math.abs(curr.amount) : 0).value,
+			0
+		);
+		const balance = income + expense;
+
+		const unpaidBills = await this.pb.collection('bills').getFullList<BillsResponse>({
+			filter: `total_paid < total && created >= ${startDate} && created <= ${endDate}`
+		});
+
+		const remaining = unpaidBills.reduce(
+			(acc, curr) => currency(acc).add(curr.total).subtract(curr.total_paid).value,
+			0
+		);
+
+		return {
+			balance,
+			expense,
+			income,
+			remaining
+		};
 	};
 }
