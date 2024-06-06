@@ -14,7 +14,7 @@
 	$: currentUrl = browser ? document.location.href : '';
 
 	$: nextPage = () => {
-		if ($activityPage.page === $activityPage.totalPages) return;
+		if ($activityPage.page >= $activityPage.totalPages) return;
 
 		const nextUrl = new URL(currentUrl);
 
@@ -24,7 +24,7 @@
 	};
 
 	$: previousPage = () => {
-		if ($activityPage.page === 1) return;
+		if ($activityPage.page <= 1) return;
 
 		const prevUrl = new URL(currentUrl);
 
