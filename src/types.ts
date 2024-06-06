@@ -109,6 +109,24 @@ export interface HospitPageInfo {
 	count: HospitCount;
 }
 
+export interface FundsPageInfo {
+	items: Fund[];
+	page: number;
+	totalPages: number;
+	totalItems: number;
+	perPage: number;
+	query: string;
+	filter: fundsStatusFilter;
+	total: FundsTotal;
+}
+
+export interface FundsTotal {
+	income: number;
+	expense: number;
+	balance: number;
+	remaining: number;
+}
+
 export interface HospitCount {
 	completed: number;
 	pending: number;
