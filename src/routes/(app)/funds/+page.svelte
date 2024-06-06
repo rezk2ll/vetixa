@@ -3,15 +3,16 @@
 	import FundsPaymentMethodsStats from '$components/charts/funds/FundsPaymentMethodsStats.svelte';
 	import IncomeEvolution from '$components/charts/funds/IncomeEvolution.svelte';
 	import FundsList from '$components/lists/FundsList.svelte';
-	import { addExpenseFormStore, addFundsFormStore, fundItems } from '$store/funds';
+	import { addExpenseFormStore, addFundsFormStore, fundsPageInfo } from '$store/funds';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	$: addFundsFormStore.set(data.addFundsForm);
-	$: addExpenseFormStore.set(data.addExpenses);
-	$: fundItems.set(data.transactions);
-	$: ({ labels, balanceData, stats } = data);
+	$: ({ labels, balanceData, stats, pageInfo, addExpenses, addFundsForm } = data);
+
+	$: addFundsFormStore.set(addFundsForm);
+	$: addExpenseFormStore.set(addExpenses);
+	$: fundsPageInfo.set(pageInfo);
 
 	$: balance = balanceData.map(({ balance }) => balance);
 	$: income = balanceData.map(({ income }) => income);

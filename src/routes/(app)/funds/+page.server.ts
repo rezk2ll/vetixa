@@ -6,8 +6,9 @@ import { isValid, parse } from 'date-fns';
 import { getPreviousDays, getPreviousDaysLabels } from '$lib/utils/date';
 import { FundsService } from '$lib/services/funds';
 import { zod } from 'sveltekit-superforms/adapters';
+import type { fundsStatusFilter } from '$types';
 
-export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
+export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
 	const addFundsForm = superValidate(zod(addFundsSchema), { id: 'addFunds' });
 	const addExpenses = superValidate(zod(addFundsSchema), { id: 'addExpenses' });
 	const fundsService = new FundsService(pb);
@@ -15,8 +16,11 @@ export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 	let startDate = '@todayStart';
 	let endDate = '@todayEnd';
 
-	const urlStartDate = url.searchParams.get('startDate');
-	const urlEndDate = url.searchParams.get('endDate');
+	const urlStartDate = searchParams.get('startDate');
+	const urlEndDate = searchParams.get('endDate');
+	const page = parseInt(searchParams.get('page') || '1');
+	const filter = (searchParams.get('filter') as fundsStatusFilter) || 'all';
+	const query = searchParams.get('query') || '';
 
 	const currentDate = new Date();
 
@@ -34,10 +38,17 @@ export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
 		}
 	}
 
-	const transactions = await fundsService.transactions(startDate, endDate);
-  const stats = await fundsService.paymentMethodStats(transactions);
+	const pageTransactions = await fundsService.transactionPage(startDate, endDate, page, filter, query);
+	const stats = await fundsService.paymentMethodStats(pageTransactions.items);
 
-	return { addFundsForm, addExpenses, transactions, labels, balanceData, stats };
+	return {
+		addFundsForm,
+		addExpenses,
+		pageInfo: pageTransactions,
+		labels,
+		balanceData,
+		stats
+	};
 };
 
 export const actions: Actions = {
@@ -76,7 +87,7 @@ export const actions: Actions = {
 				user: user?.id
 			});
 		} catch (error) {
-      console.error(json(error))
+			console.error(json(error));
 			return fail(500, { form });
 		}
 
