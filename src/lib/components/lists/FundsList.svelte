@@ -3,74 +3,75 @@
 	import AddFundsForm from '$components/forms/funds/AddFundsForm.svelte';
 	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
 	import Modal from '$components/Modal.svelte';
-	import { fundItems } from '$store/funds';
+	import { fundsPageInfo } from '$store/funds';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import { fr } from 'date-fns/locale';
 	import type { fundsStatusFilter as StatusFilter } from '$types';
 	import { format, setHours, setMinutes } from 'date-fns';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 
 	let locale = localeFromDateFnsLocale(fr);
 
 	let openAddFundsForm = false;
 	let openAddExpensesForm = false;
-	let statusFilter: StatusFilter = 'all';
 	let search: string;
-	let page = 0;
-
 	let startDate: Date = setMinutes(setHours(new Date(), 0), 0);
 	let endDate: Date = setMinutes(setHours(new Date(), 23), 0);
 
-	$: totalPages = Math.max(Math.ceil($fundItems.length / 10), 1);
+	$: currentUrl = browser ? document.location.href : '';
 
-	$: items = $fundItems.filter((item) => {
-		if (search && search.length) {
-			if (!item.description.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
-				return false;
-			}
-		}
+	$: previousPage = () => {
+		if ($fundsPageInfo.page <= 1) return;
 
-		if (statusFilter === 'expense') {
-			return item.amount < 0;
-		}
+		const prevUrl = new URL(currentUrl);
 
-		if (statusFilter === 'income') {
-			return item.amount > 0;
-		}
+		prevUrl.searchParams.set('page', `${$fundsPageInfo.page - 1}`);
+		goto(prevUrl);
+	};
 
-		return true;
-	});
+	$: nextPage = () => {
+		if ($fundsPageInfo.page >= $fundsPageInfo.totalPages) return;
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+		const nextUrl = new URL(currentUrl);
 
-	$: incomeCount = $fundItems.filter((item) => item.amount > 0).length;
-	$: expenseCount = $fundItems.filter((item) => item.amount < 10).length;
+		nextUrl.searchParams.set('page', `${$fundsPageInfo.page + 1}`);
 
-	$: income = $fundItems.reduce((acc, curr) => {
-		if (curr.amount > 0) {
-			acc += curr.amount;
-		}
+		goto(nextUrl);
+	};
 
-		return acc;
-	}, 0);
-	$: expenses = $fundItems.reduce((acc, curr) => {
-		if (curr.amount < 0) {
-			acc += Math.abs(curr.amount);
-		}
-
-		return acc;
-	}, 0);
-
-	const changeDuration = () => {
+	$: changeDuration = () => {
 		const start = format(startDate, 'yyyy-MM-dd HH:mm');
 		const end = format(endDate, 'yyyy-MM-dd HH:mm');
 
-		const targetUrl = new URL(window.location.href);
+		const targetUrl = new URL(currentUrl);
 
 		targetUrl.searchParams.set('startDate', start);
 		targetUrl.searchParams.set('endDate', end);
 
 		goto(targetUrl.toString());
+	};
+
+	$: changeTab = (filter: StatusFilter) => {
+		const filterUrl = new URL(currentUrl);
+
+		filterUrl.searchParams.delete('page');
+
+		if (filter === 'all') {
+			filterUrl.searchParams.delete('filter');
+		} else {
+			filterUrl.searchParams.set('filter', filter);
+		}
+
+		goto(filterUrl);
+	};
+
+	$: dispatchSearch = () => {
+		const searchUrl = new URL(currentUrl);
+
+		searchUrl.searchParams.set('query', search);
+		searchUrl.searchParams.delete('page');
+		goto(searchUrl);
 	};
 </script>
 
@@ -93,19 +94,23 @@
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Caisse</h2>
 						<span
 							class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
-							>{$fundItems.length} transactions</span
+							>{$fundsPageInfo.totalItems} transactions</span
 						>
 						<span
 							class="px-3 py-1 text-xs text-emerald-600 bg-emerald-100 rounded-full dark:bg-gray-800 dark:text-emerald-400"
-							>Revenu: {income} dt</span
+							>Revenu: {$fundsPageInfo.total.income} dt</span
 						>
 						<span
 							class="px-3 py-1 text-xs text-red-600 bg-red-100 rounded-full dark:bg-gray-800 dark:text-red-400"
-							>Dépenses: {expenses} dt</span
+							>Dépenses: {$fundsPageInfo.total.expense} dt</span
 						>
 						<span
 							class="px-3 py-1 text-xs text-slate-600 bg-slate-200 rounded-full dark:bg-gray-800 dark:text-orange-400"
-							>Recette: {income - expenses} dt</span
+							>Recette: {$fundsPageInfo.total.balance} dt</span
+						>
+						<span
+							class="px-3 py-1 text-xs text-orange-800 bg-orange-200 rounded-full dark:bg-gray-800 dark:text-orange-400"
+							>Arriarés: {$fundsPageInfo.total.remaining} dt</span
 						>
 					</div>
 
@@ -156,11 +161,9 @@
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
 				>
 					<button
-						on:click={() => {
-							statusFilter = 'all';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						type="button"
+						on:click={() => changeTab('all')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'all'
 							? 'bg-gray-100'
 							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
@@ -168,38 +171,24 @@
 						Tout
 					</button>
 					<button
-						on:click={() => {
-							statusFilter = 'income';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						type="button"
+						on:click={() => changeTab('income')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'income'
 							? 'bg-gray-100'
 							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
 					>
 						Revenu
-						<span
-							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
-						>
-							{incomeCount}
-						</span>
 					</button>
 					<button
-						on:click={() => {
-							statusFilter = 'expense';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						type="button"
+						on:click={() => changeTab('expense')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'expense'
 							? 'bg-gray-100'
 							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
 					>
 						Dépenses
-						<span
-							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
-						>
-							{expenseCount}
-						</span>
 					</button>
 				</div>
 
@@ -262,31 +251,32 @@
 						</svg>
 					</button>
 				</div>
-				<div class="flex items-center mt-0 h-6">
-					<span class="absolute">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/>
-						</svg>
-					</span>
-
-					<input
-						bind:value={search}
-						type="text"
-						placeholder="Rechercher"
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-60 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-					/>
-				</div>
+				<form on:submit|preventDefault={dispatchSearch}>
+					<div class="flex items-center mt-0 h-6">
+						<button class="absolute right-0 focus:outline-none">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+								/>
+							</svg>
+						</button>
+						<input
+							bind:value={search}
+							type="text"
+							placeholder="Rechercher"
+							class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-60 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						/>
+					</div>
+				</form>
 			</div>
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -343,7 +333,7 @@
 								<tbody
 									class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
 								>
-									{#each pageItems as item}
+									{#each $fundsPageInfo.items as item}
 										<tr>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
 												<h2 class="font-medium text-gray-800 dark:text-white capitalize">
@@ -424,18 +414,18 @@
 			<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between">
 				<div class="text-sm text-gray-500 dark:text-gray-400">
 					Page <span class="font-medium text-gray-700 dark:text-gray-100"
-						>{page + 1} sur {totalPages}</span
+						>{$fundsPageInfo.page} sur {$fundsPageInfo.totalPages}</span
 					>
 				</div>
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
-						disabled={page <= 0}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
-						0
+						on:click={previousPage}
+						disabled={$fundsPageInfo.page <= 1}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$fundsPageInfo.page <=
+						1
 							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$fundsPageInfo.page <= 1
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
 					>
@@ -458,12 +448,13 @@
 					</button>
 
 					<button
-						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
-						totalPages - 1
+						disabled={$fundsPageInfo.page >= $fundsPageInfo.totalPages}
+						on:click={nextPage}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$fundsPageInfo.page >=
+						$fundsPageInfo.totalPages
 							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$fundsPageInfo.page >=
+						$fundsPageInfo.totalPages
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'} dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
 					>
