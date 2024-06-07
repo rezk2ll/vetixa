@@ -80,6 +80,15 @@ export interface FileInfo {
 	size: number;
 }
 
+export interface PageInfo<T> {
+	items: T[];
+	page: number;
+	totalPages: number;
+	totalItems: number;
+	perPage: number;
+	query: string;
+}
+
 export interface visitListItem extends Omit<VisitsResponse, 'animal'> {
 	animal: AnimalsResponse;
 	bill: BillsResponse;
@@ -87,47 +96,23 @@ export interface visitListItem extends Omit<VisitsResponse, 'animal'> {
 	client: ClientsResponse;
 }
 
-export interface visitPageInfo {
-	items: visitListItem[];
-	page: number;
-	totalPages: number;
-	totalItems: number;
-	perPage: number;
-	query: string;
+export interface visitPageInfo extends PageInfo<visitListItem> {
 	count: visitCount;
 	filter: VisitStatusFilter;
 }
 
-export interface HospitPageInfo {
-	items: Hospit[];
-	page: number;
-	totalPages: number;
-	totalItems: number;
-	perPage: number;
-	query: string;
+export interface HospitPageInfo extends PageInfo<Hospit> {
 	filter: HospitStatusFilter;
 	count: HospitCount;
 }
 
-export interface FundsPageInfo {
-	items: Fund[];
-	page: number;
-	totalPages: number;
-	totalItems: number;
-	perPage: number;
-	query: string;
+export interface FundsPageInfo extends PageInfo<Fund> {
 	filter: fundsStatusFilter;
 	total: FundsTotal;
 }
 
-export interface ClientsPageInfo {
-	items: IClient[];
-	page: number;
-	totalPages: number;
-	totalItems: number;
-	perPage: number;
-	query: string;
-}
+export interface ClientsPageInfo extends PageInfo<IClient> {}
+
 
 export interface FundsTotal {
 	income: number;
