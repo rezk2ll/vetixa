@@ -113,7 +113,17 @@ export interface FundsPageInfo extends PageInfo<Fund> {
 
 export interface ClientsPageInfo extends PageInfo<IClient> {}
 
-export interface AnimalsPageInfo extends PageInfo<AnimalsResponse> {}
+export interface AnimalsPageInfo extends PageInfo<AnimalsResponse> {
+	filter: AnimalStatusFilter;
+	count: AnimalsCount;
+}
+
+export interface AnimalsCount {
+	dogs: number;
+	cats: number;
+	male: number;
+	female: number;
+}
 
 export interface FundsTotal {
 	income: number;
