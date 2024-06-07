@@ -8,11 +8,22 @@ import type { RecordService } from 'pocketbase'
 export enum Collections {
 	Agenda = "agenda",
 	Animals = "animals",
+	AnimalsCatsList = "animals_cats_list",
+	AnimalsCatsView = "animals_cats_view",
+	AnimalsDogsList = "animals_dogs_list",
+	AnimalsDogsView = "animals_dogs_view",
+	AnimalsFemaleList = "animals_female_list",
+	AnimalsFemaleView = "animals_female_view",
+	AnimalsMaleList = "animals_male_list",
+	AnimalsMaleView = "animals_male_view",
+	AvailableCages = "available_cages",
 	Bills = "bills",
 	Cages = "cages",
 	Clients = "clients",
 	ClinicalExams = "clinical_exams",
 	FundTransactions = "fund_transactions",
+	FundsExpenseList = "funds_expense_list",
+	FundsIncomeList = "funds_income_list",
 	HospitCompletedList = "hospit_completed_list",
 	HospitCompletedView = "hospit_completed_view",
 	HospitPendingList = "hospit_pending_list",
@@ -105,6 +116,186 @@ export type AnimalsRecord = {
 	weight?: number
 }
 
+export enum AnimalsCatsListSexOptions {
+	"male" = "male",
+	"female" = "female",
+}
+
+export enum AnimalsCatsListTypeOptions {
+	"chien" = "chien",
+	"chat" = "chat",
+	"oiseau" = "oiseau",
+	"vache" = "vache",
+	"cheval" = "cheval",
+	"chèvre" = "chèvre",
+	"mouton" = "mouton",
+	"lapin" = "lapin",
+	"singe" = "singe",
+	"rongeur" = "rongeur",
+	"poisson" = "poisson",
+	"amphibien" = "amphibien",
+	"petit mammifère" = "petit mammifère",
+	"animal de ferme" = "animal de ferme",
+	"animal de compagnie exotique" = "animal de compagnie exotique",
+	"animal sauvage" = "animal sauvage",
+	"reptile" = "reptile",
+	"insecte" = "insecte",
+	"autre" = "autre",
+}
+export type AnimalsCatsListRecord = {
+	birthday?: IsoDateString
+	breed?: string
+	client?: RecordIdString
+	color?: string
+	deathdate?: IsoDateString
+	deceased?: boolean
+	identifier?: string
+	name?: string
+	sex?: AnimalsCatsListSexOptions
+	type?: AnimalsCatsListTypeOptions
+	weight?: number
+}
+
+export type AnimalsCatsViewRecord = {
+	total?: number
+}
+
+export enum AnimalsDogsListSexOptions {
+	"male" = "male",
+	"female" = "female",
+}
+
+export enum AnimalsDogsListTypeOptions {
+	"chien" = "chien",
+	"chat" = "chat",
+	"oiseau" = "oiseau",
+	"vache" = "vache",
+	"cheval" = "cheval",
+	"chèvre" = "chèvre",
+	"mouton" = "mouton",
+	"lapin" = "lapin",
+	"singe" = "singe",
+	"rongeur" = "rongeur",
+	"poisson" = "poisson",
+	"amphibien" = "amphibien",
+	"petit mammifère" = "petit mammifère",
+	"animal de ferme" = "animal de ferme",
+	"animal de compagnie exotique" = "animal de compagnie exotique",
+	"animal sauvage" = "animal sauvage",
+	"reptile" = "reptile",
+	"insecte" = "insecte",
+	"autre" = "autre",
+}
+export type AnimalsDogsListRecord = {
+	birthday?: IsoDateString
+	breed?: string
+	client?: RecordIdString
+	color?: string
+	deathdate?: IsoDateString
+	deceased?: boolean
+	identifier?: string
+	name?: string
+	sex?: AnimalsDogsListSexOptions
+	type?: AnimalsDogsListTypeOptions
+	weight?: number
+}
+
+export type AnimalsDogsViewRecord = {
+	total?: number
+}
+
+export enum AnimalsFemaleListSexOptions {
+	"male" = "male",
+	"female" = "female",
+}
+
+export enum AnimalsFemaleListTypeOptions {
+	"chien" = "chien",
+	"chat" = "chat",
+	"oiseau" = "oiseau",
+	"vache" = "vache",
+	"cheval" = "cheval",
+	"chèvre" = "chèvre",
+	"mouton" = "mouton",
+	"lapin" = "lapin",
+	"singe" = "singe",
+	"rongeur" = "rongeur",
+	"poisson" = "poisson",
+	"amphibien" = "amphibien",
+	"petit mammifère" = "petit mammifère",
+	"animal de ferme" = "animal de ferme",
+	"animal de compagnie exotique" = "animal de compagnie exotique",
+	"animal sauvage" = "animal sauvage",
+	"reptile" = "reptile",
+	"insecte" = "insecte",
+	"autre" = "autre",
+}
+export type AnimalsFemaleListRecord = {
+	birthday?: IsoDateString
+	breed?: string
+	client?: RecordIdString
+	color?: string
+	deathdate?: IsoDateString
+	deceased?: boolean
+	identifier?: string
+	name?: string
+	sex?: AnimalsFemaleListSexOptions
+	type?: AnimalsFemaleListTypeOptions
+	weight?: number
+}
+
+export type AnimalsFemaleViewRecord = {
+	total?: number
+}
+
+export enum AnimalsMaleListSexOptions {
+	"male" = "male",
+	"female" = "female",
+}
+
+export enum AnimalsMaleListTypeOptions {
+	"chien" = "chien",
+	"chat" = "chat",
+	"oiseau" = "oiseau",
+	"vache" = "vache",
+	"cheval" = "cheval",
+	"chèvre" = "chèvre",
+	"mouton" = "mouton",
+	"lapin" = "lapin",
+	"singe" = "singe",
+	"rongeur" = "rongeur",
+	"poisson" = "poisson",
+	"amphibien" = "amphibien",
+	"petit mammifère" = "petit mammifère",
+	"animal de ferme" = "animal de ferme",
+	"animal de compagnie exotique" = "animal de compagnie exotique",
+	"animal sauvage" = "animal sauvage",
+	"reptile" = "reptile",
+	"insecte" = "insecte",
+	"autre" = "autre",
+}
+export type AnimalsMaleListRecord = {
+	birthday?: IsoDateString
+	breed?: string
+	client?: RecordIdString
+	color?: string
+	deathdate?: IsoDateString
+	deceased?: boolean
+	identifier?: string
+	name?: string
+	sex?: AnimalsMaleListSexOptions
+	type?: AnimalsMaleListTypeOptions
+	weight?: number
+}
+
+export type AnimalsMaleViewRecord = {
+	total?: number
+}
+
+export type AvailableCagesRecord = {
+	code?: string
+}
+
 export enum BillsMethodOptions {
 	"cash" = "cash",
 	"tpe" = "tpe",
@@ -147,6 +338,34 @@ export type FundTransactionsRecord = {
 	description?: string
 	incash?: number
 	method?: FundTransactionsMethodOptions
+	outcash?: number
+	user?: RecordIdString
+}
+
+export enum FundsExpenseListMethodOptions {
+	"cash" = "cash",
+	"tpe" = "tpe",
+	"cheque" = "cheque",
+}
+export type FundsExpenseListRecord = {
+	amount?: number
+	description?: string
+	incash?: number
+	method?: FundsExpenseListMethodOptions
+	outcash?: number
+	user?: RecordIdString
+}
+
+export enum FundsIncomeListMethodOptions {
+	"cash" = "cash",
+	"tpe" = "tpe",
+	"cheque" = "cheque",
+}
+export type FundsIncomeListRecord = {
+	amount?: number
+	description?: string
+	incash?: number
+	method?: FundsIncomeListMethodOptions
 	outcash?: number
 	user?: RecordIdString
 }
@@ -284,11 +503,22 @@ export type VisitsPendingViewRecord = {
 // Response types include system fields and match responses from the PocketBase API
 export type AgendaResponse<Texpand = unknown> = Required<AgendaRecord> & BaseSystemFields<Texpand>
 export type AnimalsResponse<Texpand = unknown> = Required<AnimalsRecord> & BaseSystemFields<Texpand>
+export type AnimalsCatsListResponse<Texpand = unknown> = Required<AnimalsCatsListRecord> & BaseSystemFields<Texpand>
+export type AnimalsCatsViewResponse<Texpand = unknown> = Required<AnimalsCatsViewRecord> & BaseSystemFields<Texpand>
+export type AnimalsDogsListResponse<Texpand = unknown> = Required<AnimalsDogsListRecord> & BaseSystemFields<Texpand>
+export type AnimalsDogsViewResponse<Texpand = unknown> = Required<AnimalsDogsViewRecord> & BaseSystemFields<Texpand>
+export type AnimalsFemaleListResponse<Texpand = unknown> = Required<AnimalsFemaleListRecord> & BaseSystemFields<Texpand>
+export type AnimalsFemaleViewResponse<Texpand = unknown> = Required<AnimalsFemaleViewRecord> & BaseSystemFields<Texpand>
+export type AnimalsMaleListResponse<Texpand = unknown> = Required<AnimalsMaleListRecord> & BaseSystemFields<Texpand>
+export type AnimalsMaleViewResponse<Texpand = unknown> = Required<AnimalsMaleViewRecord> & BaseSystemFields<Texpand>
+export type AvailableCagesResponse<Texpand = unknown> = Required<AvailableCagesRecord> & BaseSystemFields<Texpand>
 export type BillsResponse<Texpand = unknown> = Required<BillsRecord> & BaseSystemFields<Texpand>
 export type CagesResponse<Texpand = unknown> = Required<CagesRecord> & BaseSystemFields<Texpand>
 export type ClientsResponse<Texpand = unknown> = Required<ClientsRecord> & BaseSystemFields<Texpand>
 export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRecord> & BaseSystemFields<Texpand>
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> & BaseSystemFields<Texpand>
+export type FundsExpenseListResponse<Texpand = unknown> = Required<FundsExpenseListRecord> & BaseSystemFields<Texpand>
+export type FundsIncomeListResponse<Texpand = unknown> = Required<FundsIncomeListRecord> & BaseSystemFields<Texpand>
 export type HospitCompletedListResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitCompletedListRecord<Ttreatment>> & BaseSystemFields<Texpand>
 export type HospitCompletedViewResponse<Texpand = unknown> = Required<HospitCompletedViewRecord> & BaseSystemFields<Texpand>
 export type HospitPendingListResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitPendingListRecord<Ttreatment>> & BaseSystemFields<Texpand>
@@ -313,11 +543,22 @@ export type VisitsPendingViewResponse<Texpand = unknown> = Required<VisitsPendin
 export type CollectionRecords = {
 	agenda: AgendaRecord
 	animals: AnimalsRecord
+	animals_cats_list: AnimalsCatsListRecord
+	animals_cats_view: AnimalsCatsViewRecord
+	animals_dogs_list: AnimalsDogsListRecord
+	animals_dogs_view: AnimalsDogsViewRecord
+	animals_female_list: AnimalsFemaleListRecord
+	animals_female_view: AnimalsFemaleViewRecord
+	animals_male_list: AnimalsMaleListRecord
+	animals_male_view: AnimalsMaleViewRecord
+	available_cages: AvailableCagesRecord
 	bills: BillsRecord
 	cages: CagesRecord
 	clients: ClientsRecord
 	clinical_exams: ClinicalExamsRecord
 	fund_transactions: FundTransactionsRecord
+	funds_expense_list: FundsExpenseListRecord
+	funds_income_list: FundsIncomeListRecord
 	hospit_completed_list: HospitCompletedListRecord
 	hospit_completed_view: HospitCompletedViewRecord
 	hospit_pending_list: HospitPendingListRecord
@@ -341,11 +582,22 @@ export type CollectionRecords = {
 export type CollectionResponses = {
 	agenda: AgendaResponse
 	animals: AnimalsResponse
+	animals_cats_list: AnimalsCatsListResponse
+	animals_cats_view: AnimalsCatsViewResponse
+	animals_dogs_list: AnimalsDogsListResponse
+	animals_dogs_view: AnimalsDogsViewResponse
+	animals_female_list: AnimalsFemaleListResponse
+	animals_female_view: AnimalsFemaleViewResponse
+	animals_male_list: AnimalsMaleListResponse
+	animals_male_view: AnimalsMaleViewResponse
+	available_cages: AvailableCagesResponse
 	bills: BillsResponse
 	cages: CagesResponse
 	clients: ClientsResponse
 	clinical_exams: ClinicalExamsResponse
 	fund_transactions: FundTransactionsResponse
+	funds_expense_list: FundsExpenseListResponse
+	funds_income_list: FundsIncomeListResponse
 	hospit_completed_list: HospitCompletedListResponse
 	hospit_completed_view: HospitCompletedViewResponse
 	hospit_pending_list: HospitPendingListResponse
@@ -372,11 +624,22 @@ export type CollectionResponses = {
 export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'agenda'): RecordService<AgendaResponse>
 	collection(idOrName: 'animals'): RecordService<AnimalsResponse>
+	collection(idOrName: 'animals_cats_list'): RecordService<AnimalsCatsListResponse>
+	collection(idOrName: 'animals_cats_view'): RecordService<AnimalsCatsViewResponse>
+	collection(idOrName: 'animals_dogs_list'): RecordService<AnimalsDogsListResponse>
+	collection(idOrName: 'animals_dogs_view'): RecordService<AnimalsDogsViewResponse>
+	collection(idOrName: 'animals_female_list'): RecordService<AnimalsFemaleListResponse>
+	collection(idOrName: 'animals_female_view'): RecordService<AnimalsFemaleViewResponse>
+	collection(idOrName: 'animals_male_list'): RecordService<AnimalsMaleListResponse>
+	collection(idOrName: 'animals_male_view'): RecordService<AnimalsMaleViewResponse>
+	collection(idOrName: 'available_cages'): RecordService<AvailableCagesResponse>
 	collection(idOrName: 'bills'): RecordService<BillsResponse>
 	collection(idOrName: 'cages'): RecordService<CagesResponse>
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>
+	collection(idOrName: 'funds_expense_list'): RecordService<FundsExpenseListResponse>
+	collection(idOrName: 'funds_income_list'): RecordService<FundsIncomeListResponse>
 	collection(idOrName: 'hospit_completed_list'): RecordService<HospitCompletedListResponse>
 	collection(idOrName: 'hospit_completed_view'): RecordService<HospitCompletedViewResponse>
 	collection(idOrName: 'hospit_pending_list'): RecordService<HospitPendingListResponse>
