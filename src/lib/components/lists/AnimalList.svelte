@@ -1,71 +1,38 @@
 <script lang="ts">
-	import Modal from '../Modal.svelte';
-	import { animals, deleteAnimalFormStore } from '$lib/store/animals';
+	import Modal from '$components/Modal.svelte';
+	import { animalsPageInfo, deleteAnimalFormStore } from '$store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
-	import ConfirmationDialog from '../ConfirmationDialog.svelte';
+	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import type { AnimalsResponse } from '$types';
 	import { superForm } from 'sveltekit-superforms/client';
-	import AgeDisplay from '../display/AgeDisplay.svelte';
-	import AddAnimalForm from '../forms/animals/AddAnimalForm.svelte';
-	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
+	import AgeDisplay from '$components/display/AgeDisplay.svelte';
+	import AddAnimalForm from '$components/forms/animals/AddAnimalForm.svelte';
+	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	export let canAdd: boolean = true;
 	export let isNew: boolean = false;
 
 	let openAddAnimalModal = isNew;
 	let openUpdateAnimalModal = false;
-	let statusFilter: StatusFilter = 'all';
-	let search: string;
-	let page = 0;
+	let search: string = $animalsPageInfo.query;
 	let showConfirmation = false;
 	let selectedItem: AnimalsResponse | null;
 	let deleteFormRef: HTMLFormElement;
 	let selectedUpdateItem: AnimalsResponse | null;
 
-	const totalPages = Math.ceil($animals.length / 10);
+	$: currentUrl = browser ? document.location.href : '';
 
-	$: items = $animals.filter((item) => {
-		if (search && search.length) {
-			if (!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
-				return false;
-			}
-		}
-
-		if (statusFilter === 'chat') {
-			return item.type === 'chat';
-		}
-
-		if (statusFilter === 'chien') {
-			return item.type === 'chien';
-		}
-
-		if (statusFilter === 'male') {
-			return item.sex === 'male';
-		}
-
-		if (statusFilter === 'female') {
-			return item.sex === 'female';
-		}
-
-		return true;
-	});
-
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
-
-	$: catCount = $animals.filter((item) => item.type === 'chat').length;
-	$: dogCount = $animals.filter((item) => item.type === 'chien').length;
-	$: maleCount = $animals.filter((item) => item.sex === 'male').length;
-	$: femaleCOunt = $animals.filter((item) => item.sex === 'female').length;
-
-	$: handler = () => {
+	$: removeHandler = () => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;
 	};
 
-	const remove = (item: AnimalsResponse) => {
+	$: remove = (item: AnimalsResponse) => {
 		$deleteForm.id = item.id;
 		selectedItem = item;
 		showConfirmation = true;
@@ -74,6 +41,46 @@
 	$: update = (item: AnimalsResponse) => {
 		selectedUpdateItem = item;
 		openUpdateAnimalModal = true;
+	};
+
+	$: nextPage = () => {
+		if ($animalsPageInfo.page >= $animalsPageInfo.totalPages) return;
+
+		const nextUrl = new URL(currentUrl);
+
+		nextUrl.searchParams.set('page', `${$animalsPageInfo.page + 1}`);
+		goto(nextUrl);
+	};
+
+	$: previousPage = () => {
+		if ($animalsPageInfo.page <= 1) return;
+
+		const previousUrl = new URL(currentUrl);
+
+		previousUrl.searchParams.set('page', `${$animalsPageInfo.page - 1}`);
+		goto(previousUrl);
+	};
+
+	$: dispatchSearch = () => {
+		const searchUrl = new URL(currentUrl);
+
+		searchUrl.searchParams.set('query', search);
+		searchUrl.searchParams.delete('page');
+		goto(searchUrl);
+	};
+
+	$: changeTab = (tab: StatusFilter) => {
+		const filterUrl = new URL(currentUrl);
+
+		filterUrl.searchParams.delete('page');
+
+		if (tab === 'all') {
+			filterUrl.searchParams.delete('filter');
+		} else {
+			filterUrl.searchParams.set('filter', tab);
+		}
+
+		goto(filterUrl);
 	};
 
 	const { enhance, form: deleteForm } = superForm($deleteAnimalFormStore, {
@@ -103,7 +110,7 @@
 	{/if}
 </form>
 
-<ConfirmationDialog bind:show={showConfirmation} {handler}>
+<ConfirmationDialog bind:show={showConfirmation} handler={removeHandler}>
 	<div>
 		<div class="mt-2 text-center">
 			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
@@ -125,7 +132,7 @@
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Animaux</h2>
 						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
-							>{$animals.length}</span
+							>{$animalsPageInfo.totalItems}</span
 						>
 					</div>
 
@@ -164,11 +171,8 @@
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse"
 				>
 					<button
-						on:click={() => {
-							statusFilter = 'all';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						on:click={() => changeTab('all')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'all'
 							? 'bg-gray-100'
 							: ''} sm:text-sm"
@@ -176,11 +180,8 @@
 						Tout
 					</button>
 					<button
-						on:click={() => {
-							statusFilter = 'chat';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						on:click={() => changeTab('chat')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'chat'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -189,15 +190,12 @@
 						<span
 							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 						>
-							{catCount}
+							{$animalsPageInfo.count.cats}
 						</span>
 					</button>
 					<button
-						on:click={() => {
-							statusFilter = 'chien';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						on:click={() => changeTab('chien')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'chien'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -206,15 +204,12 @@
 						<span
 							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 						>
-							{dogCount}
+							{$animalsPageInfo.count.dogs}
 						</span>
 					</button>
 					<button
-						on:click={() => {
-							statusFilter = 'male';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						on:click={() => changeTab('male')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'male'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -223,15 +218,12 @@
 						<span
 							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 						>
-							{maleCount}
+							{$animalsPageInfo.count.male}
 						</span>
 					</button>
 					<button
-						on:click={() => {
-							statusFilter = 'female';
-							page = 0;
-						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						on:click={() => changeTab('female')}
+						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'female'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -240,36 +232,37 @@
 						<span
 							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 						>
-							{femaleCOunt}
+							{$animalsPageInfo.count.female}
 						</span>
 					</button>
 				</div>
+				<form on:submit|preventDefault={dispatchSearch} class="w-1/3">
+					<div class="flex items-center mt-0 h-6">
+						<button class="absolute">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-5 h-5 mx-3 text-gray-400"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+								/>
+							</svg>
+						</button>
 
-				<div class="flex items-center mt-0 h-6">
-					<span class="absolute">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/>
-						</svg>
-					</span>
-
-					<input
-						bind:value={search}
-						type="text"
-						placeholder="Rechercher"
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-					/>
-				</div>
+						<input
+							bind:value={search}
+							type="text"
+							placeholder="Rechercher par nom, espèce, race, propriétaire, identifiant..."
+							class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						/>
+					</div>
+				</form>
 			</div>
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -339,7 +332,7 @@
 									</tr>
 								</thead>
 								<tbody class="bg-white divide-y divide-gray-200">
-									{#each pageItems as animal}
+									{#each $animalsPageInfo.items as animal}
 										<tr class={animal.deceased ? 'bg-red-100/80' : ''}>
 											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
@@ -456,18 +449,18 @@
 			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
 				<div class="text-sm text-gray-500 dark:text-gray-400">
 					Page <span class="font-medium text-gray-700 dark:text-gray-100"
-						>{page + 1} sur {totalPages}</span
+						>{$animalsPageInfo.page} sur {$animalsPageInfo.totalPages}</span
 					>
 				</div>
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
-						disabled={page <= 0}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
-						0
+						on:click={() => previousPage()}
+						disabled={$animalsPageInfo.page <= 1}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$animalsPageInfo.page <=
+						1
 							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$animalsPageInfo.page <= 1
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}   dark:text-gray-200 dark:hover:bg-gray-800"
 					>
@@ -490,12 +483,13 @@
 					</button>
 
 					<button
-						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
-						totalPages - 1
+						disabled={$animalsPageInfo.page >= $animalsPageInfo.totalPages}
+						on:click={() => nextPage()}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$animalsPageInfo.page >=
+						$animalsPageInfo.totalPages
 							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$animalsPageInfo.page >=
+						$animalsPageInfo.totalPages
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}  dark:text-gray-200 dark:hover:bg-gray-800"
 					>
