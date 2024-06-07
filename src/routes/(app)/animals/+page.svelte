@@ -1,13 +1,18 @@
 <script lang="ts">
-	import AnimalList from '$lib/components/lists/AnimalList.svelte';
-	import { animals, deleteAnimalFormStore, updateAnimalFormStore } from '$lib/store/animals';
+	import AnimalList from '$components/lists/AnimalList.svelte';
+	import {
+		animalsPageInfo,
+		deleteAnimalFormStore,
+		updateAnimalFormStore
+	} from '$store/animals';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	$: animals.set(data.animals);
-	$: deleteAnimalFormStore.set(data.removeForm);
-	$: updateAnimalFormStore.set(data.updateForm);
+	$: ({ pageInfo, removeForm, updateForm } = data);
+	$: deleteAnimalFormStore.set(removeForm);
+	$: updateAnimalFormStore.set(updateForm);
+	$: animalsPageInfo.set(pageInfo);
 </script>
 
 <div
