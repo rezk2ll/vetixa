@@ -1,9 +1,9 @@
 <script lang="ts">
+	import ClientAnimalsList from '$components/lists/ClientAnimalsList.svelte';
 	import CollapsibleSection from '$lib/components/CollapsibleSection.svelte';
 	import Details from '$lib/components/Details.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import UpdateClientForm from '$lib/components/forms/clients/UpdateClientForm.svelte';
-	import AnimalList from '$lib/components/lists/AnimalList.svelte';
 	import {
 		addAnimalFormStore,
 		animals,
@@ -53,6 +53,6 @@
 			<Details details={clientDetails} />
 		</CollapsibleSection>
 
-		<AnimalList {isNew} />
+		<ClientAnimalsList {isNew} />
 	</div>
 </div>
