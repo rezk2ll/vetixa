@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Modal from '../Modal.svelte';
+	import Modal from '$components/Modal.svelte';
 	import { animals, deleteAnimalFormStore } from '$lib/store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
-	import ConfirmationDialog from '../ConfirmationDialog.svelte';
+	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import type { AnimalsResponse } from '$types';
 	import { superForm } from 'sveltekit-superforms/client';
-	import AgeDisplay from '../display/AgeDisplay.svelte';
-	import AddAnimalForm from '../forms/animals/AddAnimalForm.svelte';
-	import UpdateAnimalForm from '../forms/animals/updateAnimalForm.svelte';
+	import AgeDisplay from '$components/display/AgeDisplay.svelte';
+	import AddAnimalForm from '$components/forms/animals/AddAnimalForm.svelte';
+	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 
 	export let canAdd: boolean = true;
