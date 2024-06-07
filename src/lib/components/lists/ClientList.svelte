@@ -3,42 +3,53 @@
 	import type { IClient } from '$types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { clients, removeClientFormStore } from '$lib/store/clients';
+	import { clientsPageInfo, removeClientFormStore } from '$lib/store/clients';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import AddClientForm from '../forms/clients/AddClientForm.svelte';
 	import UpdateClientForm from '../forms/clients/UpdateClientForm.svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	export let open: boolean = false;
 
 	let openAddModal = open;
 	let openUpdateModal = false;
-	let search: string;
-	let page = 0;
+	let search: string = $clientsPageInfo.query;
 	let showConfirmation = false;
 	let selectedItem: IClient | null;
 	let deleteFormRef: HTMLFormElement;
 	let selectedUpdateItem: IClient | null;
 
-	const totalPages = Math.ceil($clients.length / 10);
+	$: currentUrl = browser ? document.location.href : '';
 
-	$: items = $clients.filter((item) => {
-		if (search && search.length) {
-			return (
-				item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-				item.tel.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-				item.email.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-				item.animals.find((animal) =>
-					animal.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-				)
-			);
-		}
+	$: nextPage = () => {
+		if ($clientsPageInfo.page >= $clientsPageInfo.totalPages) return;
 
-		return true;
-	});
+		const nextUrl = new URL(currentUrl);
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+		nextUrl.searchParams.set('page', `${$clientsPageInfo.page + 1}`);
 
-	const handler = () => {
+		goto(nextUrl);
+	};
+
+	$: previousPage = () => {
+		if ($clientsPageInfo.page <= 1) return;
+
+		const prevUrl = new URL(currentUrl);
+
+		prevUrl.searchParams.set('page', `${$clientsPageInfo.page - 1}`);
+		goto(prevUrl);
+	};
+
+	$: dispatchSearch = () => {
+		const searchUrl = new URL(currentUrl);
+
+		searchUrl.searchParams.set('query', search);
+		searchUrl.searchParams.delete('page');
+		goto(searchUrl);
+	};
+
+	const deleteHandler = () => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
@@ -81,7 +92,7 @@
 	{/if}
 </form>
 
-<ConfirmationDialog bind:show={showConfirmation} {handler}>
+<ConfirmationDialog bind:show={showConfirmation} handler={deleteHandler}>
 	<div>
 		<div class="mt-2 text-center">
 			<h3 class="text-lg font-medium leading-6 text-gray-800" id="modal-title">
@@ -103,7 +114,7 @@
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800">Clients</h2>
 						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
-							>{$clients.length}</span
+							>{$clientsPageInfo.totalItems}</span
 						>
 					</div>
 
@@ -136,31 +147,33 @@
 			<div
 				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
 			>
-				<div class="flex items-center mt-0 h-6 w-full">
-					<span class="absolute">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/>
-						</svg>
-					</span>
+				<form on:submit|preventDefault={dispatchSearch} class="w-full">
+					<div class="flex items-center mt-0 h-6 relative w-full">
+						<button class="absolute focus:outline-none">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-5 h-5 mx-3 text-blue-500"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+								/>
+							</svg>
+						</button>
 
-					<input
-						bind:value={search}
-						type="text"
-						placeholder="Chercher par nom, email, téléphone, animal..."
-						class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-4/12 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-					/>
-				</div>
+						<input
+							bind:value={search}
+							type="text"
+							placeholder="Chercher par nom, email, téléphone, animal..."
+							class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-4/12 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						/>
+					</div>
+				</form>
 			</div>
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -206,7 +219,7 @@
 									</tr>
 								</thead>
 								<tbody class="bg-white divide-y divide-gray-200">
-									{#each pageItems as item}
+									{#each $clientsPageInfo.items as item}
 										<tr>
 											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
@@ -297,17 +310,19 @@
 
 			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
 				<div class="text-sm text-gray-500">
-					Page <span class="font-medium text-gray-700">{page + 1} sur {totalPages}</span>
+					Page <span class="font-medium text-gray-700"
+						>{$clientsPageInfo.page} sur {$clientsPageInfo.totalPages}</span
+					>
 				</div>
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
-						disabled={page <= 0}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
-						0
+						on:click={() => previousPage()}
+						disabled={$clientsPageInfo.page <= 1}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$clientsPageInfo.page <=
+						1
 							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page <= 1
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}"
 					>
@@ -330,12 +345,13 @@
 					</button>
 
 					<button
-						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
-						totalPages - 1
+						disabled={$clientsPageInfo.page >= $clientsPageInfo.totalPages}
+						on:click={() => nextPage()}
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$clientsPageInfo.page >=
+						$clientsPageInfo.totalPages
 							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page >= totalPages - 1
+							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page >=
+						$clientsPageInfo.totalPages
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}"
 					>
