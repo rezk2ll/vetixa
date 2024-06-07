@@ -1,28 +1,42 @@
 import type { Actions, PageServerLoad } from './$types';
-import type { ClientsResponse } from '$types';
+import type { ClientsPageInfo, ClientsResponse } from '$types';
 import type { RecordModel } from 'pocketbase';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
 import { redirect, type Redirect } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 
-export const load: PageServerLoad = async ({ locals: { pb }, url }) => {
+export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
+	const shortCut = !!searchParams.get('shortcut');
+	const page = parseInt(searchParams.get('page') || '1');
+	const query = searchParams.get('query') || '';
+
 	const addForm = await superValidate(zod(addClientSchema), { id: 'add-client' });
 	const updateForm = await superValidate(zod(updateClientSchema), { id: 'update-client' });
 	const deleteForm = await superValidate(zod(removeSchema), { id: 'delete-client' });
 
-	const shortCut = !!url.searchParams.get('shortcut');
+	const clientsPage = await pb.collection('clients').getList<ClientsResponse>(page, 10, {
+		expand: 'animals(client)',
+		filter: `name ~ "${query}" || tel ~ "${query}" || address ~ "${query}" || email ~ "${query}" || animals_via_client.name ?~ "${query}"`,
+		sort: '-created'
+	});
 
-	const clientsList = await pb
-		.collection('clients')
-		.getFullList<ClientsResponse>({ expand: 'animals(client)', sort: '-created' });
-
-	const clients = clientsList.map((client) => ({
+	const items = clientsPage.items.map((client) => ({
 		...client,
 		animals: (client.expand as RecordModel['expand'])?.['animals(client)'] || []
 	}));
 
-	return { clients, addForm, updateForm, deleteForm, shortCut };
+	return {
+		addForm,
+		updateForm,
+		deleteForm,
+		shortCut,
+		pageInfo: {
+			...clientsPage,
+			items,
+			query
+		} satisfies ClientsPageInfo
+	};
 };
 
 export const actions: Actions = {

@@ -1,20 +1,20 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import ClientList from '$lib/components/lists/ClientList.svelte';
+	import ClientList from '$components/lists/ClientList.svelte';
 	import {
 		addClientFormStore,
-		clients,
+		clientsPageInfo,
 		removeClientFormStore,
 		updateClientFormStore
-	} from '$lib/store/clients';
+	} from '$store/clients';
 
 	export let data: PageData;
 
-	$: clients.set(data.clients);
-	$: addClientFormStore.set(data.addForm);
-	$: updateClientFormStore.set(data.updateForm);
-	$: removeClientFormStore.set(data.deleteForm);
-	$: ({ shortCut } = data)
+	$: ({ shortCut, pageInfo, addForm, updateForm, deleteForm } = data);
+	$: clientsPageInfo.set(pageInfo);
+	$: addClientFormStore.set(addForm);
+	$: updateClientFormStore.set(updateForm);
+	$: removeClientFormStore.set(deleteForm);
 </script>
 
 <div
