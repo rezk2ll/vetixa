@@ -120,6 +120,15 @@ export interface FundsPageInfo {
 	total: FundsTotal;
 }
 
+export interface ClientsPageInfo {
+	items: IClient[];
+	page: number;
+	totalPages: number;
+	totalItems: number;
+	perPage: number;
+	query: string;
+}
+
 export interface FundsTotal {
 	income: number;
 	expense: number;
