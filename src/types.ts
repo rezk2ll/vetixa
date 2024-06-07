@@ -113,6 +113,7 @@ export interface FundsPageInfo extends PageInfo<Fund> {
 
 export interface ClientsPageInfo extends PageInfo<IClient> {}
 
+export interface AnimalsPageInfo extends PageInfo<AnimalsResponse> {}
 
 export interface FundsTotal {
 	income: number;
