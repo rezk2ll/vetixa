@@ -9,13 +9,9 @@ export enum Collections {
 	Agenda = "agenda",
 	Animals = "animals",
 	AnimalsCatsList = "animals_cats_list",
-	AnimalsCatsView = "animals_cats_view",
 	AnimalsDogsList = "animals_dogs_list",
-	AnimalsDogsView = "animals_dogs_view",
 	AnimalsFemaleList = "animals_female_list",
-	AnimalsFemaleView = "animals_female_view",
 	AnimalsMaleList = "animals_male_list",
-	AnimalsMaleView = "animals_male_view",
 	AvailableCages = "available_cages",
 	Bills = "bills",
 	Cages = "cages",
@@ -25,9 +21,7 @@ export enum Collections {
 	FundsExpenseList = "funds_expense_list",
 	FundsIncomeList = "funds_income_list",
 	HospitCompletedList = "hospit_completed_list",
-	HospitCompletedView = "hospit_completed_view",
 	HospitPendingList = "hospit_pending_list",
-	HospitPendingView = "hospit_pending_view",
 	Hospitalisation = "hospitalisation",
 	InventoryItem = "inventory_item",
 	InventorySale = "inventory_sale",
@@ -156,10 +150,6 @@ export type AnimalsCatsListRecord = {
 	weight?: number
 }
 
-export type AnimalsCatsViewRecord = {
-	total?: number
-}
-
 export enum AnimalsDogsListSexOptions {
 	"male" = "male",
 	"female" = "female",
@@ -198,10 +188,6 @@ export type AnimalsDogsListRecord = {
 	sex?: AnimalsDogsListSexOptions
 	type?: AnimalsDogsListTypeOptions
 	weight?: number
-}
-
-export type AnimalsDogsViewRecord = {
-	total?: number
 }
 
 export enum AnimalsFemaleListSexOptions {
@@ -244,10 +230,6 @@ export type AnimalsFemaleListRecord = {
 	weight?: number
 }
 
-export type AnimalsFemaleViewRecord = {
-	total?: number
-}
-
 export enum AnimalsMaleListSexOptions {
 	"male" = "male",
 	"female" = "female",
@@ -286,10 +268,6 @@ export type AnimalsMaleListRecord = {
 	sex?: AnimalsMaleListSexOptions
 	type?: AnimalsMaleListTypeOptions
 	weight?: number
-}
-
-export type AnimalsMaleViewRecord = {
-	total?: number
 }
 
 export type AvailableCagesRecord = {
@@ -380,10 +358,6 @@ export type HospitCompletedListRecord<Ttreatment = unknown> = {
 	visit?: RecordIdString
 }
 
-export type HospitCompletedViewRecord = {
-	total?: number
-}
-
 export type HospitPendingListRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString
 	end?: IsoDateString
@@ -392,10 +366,6 @@ export type HospitPendingListRecord<Ttreatment = unknown> = {
 	start: IsoDateString
 	treatment?: null | Ttreatment
 	visit?: RecordIdString
-}
-
-export type HospitPendingViewRecord = {
-	total?: number
 }
 
 export type HospitalisationRecord<Ttreatment = unknown> = {
@@ -504,13 +474,9 @@ export type VisitsPendingViewRecord = {
 export type AgendaResponse<Texpand = unknown> = Required<AgendaRecord> & BaseSystemFields<Texpand>
 export type AnimalsResponse<Texpand = unknown> = Required<AnimalsRecord> & BaseSystemFields<Texpand>
 export type AnimalsCatsListResponse<Texpand = unknown> = Required<AnimalsCatsListRecord> & BaseSystemFields<Texpand>
-export type AnimalsCatsViewResponse<Texpand = unknown> = Required<AnimalsCatsViewRecord> & BaseSystemFields<Texpand>
 export type AnimalsDogsListResponse<Texpand = unknown> = Required<AnimalsDogsListRecord> & BaseSystemFields<Texpand>
-export type AnimalsDogsViewResponse<Texpand = unknown> = Required<AnimalsDogsViewRecord> & BaseSystemFields<Texpand>
 export type AnimalsFemaleListResponse<Texpand = unknown> = Required<AnimalsFemaleListRecord> & BaseSystemFields<Texpand>
-export type AnimalsFemaleViewResponse<Texpand = unknown> = Required<AnimalsFemaleViewRecord> & BaseSystemFields<Texpand>
 export type AnimalsMaleListResponse<Texpand = unknown> = Required<AnimalsMaleListRecord> & BaseSystemFields<Texpand>
-export type AnimalsMaleViewResponse<Texpand = unknown> = Required<AnimalsMaleViewRecord> & BaseSystemFields<Texpand>
 export type AvailableCagesResponse<Texpand = unknown> = Required<AvailableCagesRecord> & BaseSystemFields<Texpand>
 export type BillsResponse<Texpand = unknown> = Required<BillsRecord> & BaseSystemFields<Texpand>
 export type CagesResponse<Texpand = unknown> = Required<CagesRecord> & BaseSystemFields<Texpand>
@@ -520,9 +486,7 @@ export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransacti
 export type FundsExpenseListResponse<Texpand = unknown> = Required<FundsExpenseListRecord> & BaseSystemFields<Texpand>
 export type FundsIncomeListResponse<Texpand = unknown> = Required<FundsIncomeListRecord> & BaseSystemFields<Texpand>
 export type HospitCompletedListResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitCompletedListRecord<Ttreatment>> & BaseSystemFields<Texpand>
-export type HospitCompletedViewResponse<Texpand = unknown> = Required<HospitCompletedViewRecord> & BaseSystemFields<Texpand>
 export type HospitPendingListResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitPendingListRecord<Ttreatment>> & BaseSystemFields<Texpand>
-export type HospitPendingViewResponse<Texpand = unknown> = Required<HospitPendingViewRecord> & BaseSystemFields<Texpand>
 export type HospitalisationResponse<Ttreatment = unknown, Texpand = unknown> = Required<HospitalisationRecord<Ttreatment>> & BaseSystemFields<Texpand>
 export type InventoryItemResponse<Texpand = unknown> = Required<InventoryItemRecord> & BaseSystemFields<Texpand>
 export type InventorySaleResponse<Texpand = unknown> = Required<InventorySaleRecord> & BaseSystemFields<Texpand>
@@ -544,13 +508,9 @@ export type CollectionRecords = {
 	agenda: AgendaRecord
 	animals: AnimalsRecord
 	animals_cats_list: AnimalsCatsListRecord
-	animals_cats_view: AnimalsCatsViewRecord
 	animals_dogs_list: AnimalsDogsListRecord
-	animals_dogs_view: AnimalsDogsViewRecord
 	animals_female_list: AnimalsFemaleListRecord
-	animals_female_view: AnimalsFemaleViewRecord
 	animals_male_list: AnimalsMaleListRecord
-	animals_male_view: AnimalsMaleViewRecord
 	available_cages: AvailableCagesRecord
 	bills: BillsRecord
 	cages: CagesRecord
@@ -560,9 +520,7 @@ export type CollectionRecords = {
 	funds_expense_list: FundsExpenseListRecord
 	funds_income_list: FundsIncomeListRecord
 	hospit_completed_list: HospitCompletedListRecord
-	hospit_completed_view: HospitCompletedViewRecord
 	hospit_pending_list: HospitPendingListRecord
-	hospit_pending_view: HospitPendingViewRecord
 	hospitalisation: HospitalisationRecord
 	inventory_item: InventoryItemRecord
 	inventory_sale: InventorySaleRecord
@@ -583,13 +541,9 @@ export type CollectionResponses = {
 	agenda: AgendaResponse
 	animals: AnimalsResponse
 	animals_cats_list: AnimalsCatsListResponse
-	animals_cats_view: AnimalsCatsViewResponse
 	animals_dogs_list: AnimalsDogsListResponse
-	animals_dogs_view: AnimalsDogsViewResponse
 	animals_female_list: AnimalsFemaleListResponse
-	animals_female_view: AnimalsFemaleViewResponse
 	animals_male_list: AnimalsMaleListResponse
-	animals_male_view: AnimalsMaleViewResponse
 	available_cages: AvailableCagesResponse
 	bills: BillsResponse
 	cages: CagesResponse
@@ -599,9 +553,7 @@ export type CollectionResponses = {
 	funds_expense_list: FundsExpenseListResponse
 	funds_income_list: FundsIncomeListResponse
 	hospit_completed_list: HospitCompletedListResponse
-	hospit_completed_view: HospitCompletedViewResponse
 	hospit_pending_list: HospitPendingListResponse
-	hospit_pending_view: HospitPendingViewResponse
 	hospitalisation: HospitalisationResponse
 	inventory_item: InventoryItemResponse
 	inventory_sale: InventorySaleResponse
@@ -625,13 +577,9 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'agenda'): RecordService<AgendaResponse>
 	collection(idOrName: 'animals'): RecordService<AnimalsResponse>
 	collection(idOrName: 'animals_cats_list'): RecordService<AnimalsCatsListResponse>
-	collection(idOrName: 'animals_cats_view'): RecordService<AnimalsCatsViewResponse>
 	collection(idOrName: 'animals_dogs_list'): RecordService<AnimalsDogsListResponse>
-	collection(idOrName: 'animals_dogs_view'): RecordService<AnimalsDogsViewResponse>
 	collection(idOrName: 'animals_female_list'): RecordService<AnimalsFemaleListResponse>
-	collection(idOrName: 'animals_female_view'): RecordService<AnimalsFemaleViewResponse>
 	collection(idOrName: 'animals_male_list'): RecordService<AnimalsMaleListResponse>
-	collection(idOrName: 'animals_male_view'): RecordService<AnimalsMaleViewResponse>
 	collection(idOrName: 'available_cages'): RecordService<AvailableCagesResponse>
 	collection(idOrName: 'bills'): RecordService<BillsResponse>
 	collection(idOrName: 'cages'): RecordService<CagesResponse>
@@ -641,9 +589,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'funds_expense_list'): RecordService<FundsExpenseListResponse>
 	collection(idOrName: 'funds_income_list'): RecordService<FundsIncomeListResponse>
 	collection(idOrName: 'hospit_completed_list'): RecordService<HospitCompletedListResponse>
-	collection(idOrName: 'hospit_completed_view'): RecordService<HospitCompletedViewResponse>
 	collection(idOrName: 'hospit_pending_list'): RecordService<HospitPendingListResponse>
-	collection(idOrName: 'hospit_pending_view'): RecordService<HospitPendingViewResponse>
 	collection(idOrName: 'hospitalisation'): RecordService<HospitalisationResponse>
 	collection(idOrName: 'inventory_item'): RecordService<InventoryItemResponse>
 	collection(idOrName: 'inventory_sale'): RecordService<InventorySaleResponse>
