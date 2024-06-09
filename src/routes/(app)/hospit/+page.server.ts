@@ -1,10 +1,9 @@
 import type {
-	HospitCompletedViewResponse,
-	HospitPendingViewResponse,
 	Hospit,
 	HospitStatusFilter,
 	HospitalisationResponse,
-	Treatment
+	Treatment,
+	HospitPageInfo
 } from '$types';
 import type { RecordModel } from 'pocketbase';
 import type { PageServerLoad } from './$types';
@@ -20,10 +19,11 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 			: filter === 'complete'
 			? 'hospit_completed_list'
 			: 'hospitalisation';
+	const queryFilter = `note ~ "${query}" || cage.code ~ "${query}" || visit.animal.name ~ "${query}" || visit.animal.identifier ~ "${query}" || visit.animal.client.name ~ "${query}" || visit.animal.client.tel ~ "${query}"`;
 
 	const hospit = await pb.collection(collection).getList<HospitalisationResponse>(page, 10, {
 		sort: '-updated',
-		filter: `note ~ "${query}" || cage.code ~ "${query}" || visit.animal.name ~ "${query}" || visit.animal.identifier ~ "${query}" || visit.animal.client.name ~ "${query}" || visit.animal.client.tel ~ "${query}"`,
+		filter: queryFilter,
 		expand: 'visit, visit.animal, visit.animal.client, cage'
 	});
 
@@ -42,13 +42,14 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 		} satisfies Hospit;
 	});
 
-	const pendingCount = await pb
-		.collection('hospit_pending_view')
-		.getOne<HospitPendingViewResponse>('pending');
+	const pendingCount = await pb.collection('hospitalisation').getList(1, 1, {
+		filter: `(${queryFilter}) && end > @todayEnd`
+	});
 
-	const completedCount = await pb
-		.collection('hospit_completed_view')
-		.getOne<HospitCompletedViewResponse>('completed');
+	const completedCount = await pb.collection('hospitalisation').getList(1, 1, {
+		filter: `(${queryFilter}) && end < @todayEnd`
+	});
+	const allCount = await pb.collection('hospitalisation').getList(1, 1);
 
 	return {
 		pageInfo: {
@@ -57,9 +58,10 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 			query,
 			filter,
 			count: {
-				pending: pendingCount.total ?? 0,
-				completed: completedCount.total ?? 0
+				all: allCount.totalItems ?? 0,
+				pending: pendingCount.totalItems ?? 0,
+				completed: completedCount.totalItems ?? 0
 			}
-		}
+		} satisfies HospitPageInfo
 	};
 }) satisfies PageServerLoad;

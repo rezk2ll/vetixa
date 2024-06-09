@@ -1,15 +1,6 @@
 import { removeSchema, updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/server';
-import type {
-	AnimalStatusFilter,
-	AnimalsCatsViewResponse,
-	AnimalsDogsViewResponse,
-	AnimalsFemaleViewResponse,
-	AnimalsMaleViewResponse,
-	AnimalsPageInfo,
-	AnimalsResponse,
-	ClientsResponse
-} from '$types';
+import type { AnimalStatusFilter, AnimalsPageInfo, AnimalsResponse, ClientsResponse } from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import type { RecordModel } from 'pocketbase';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -29,11 +20,12 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 			: filter === 'female'
 			? 'animals_female_list'
 			: 'animals';
+	const queryFilter = `name ~ "${query}" || type ~ "${query}" ||  breed ~ "${query}" || client.name ~ "${query}" || identifier ~ "${query}"`;
 
 	const animalsPage = await pb.collection(collection).getList<AnimalsResponse>(page, 10, {
 		sort: '-created',
 		expand: 'client',
-		filter: `name ~ "${query}" || type ~ "${query}" ||  breed ~ "${query}" || client.name ~ "${query}" || identifier ~ "${query}"`
+		filter: queryFilter
 	});
 
 	const items = animalsPage.items.map((animal) => ({
@@ -45,17 +37,18 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 
 	const dogsCount = await pb
-		.collection('animals_dogs_view')
-		.getOne<AnimalsDogsViewResponse>('dogs');
+		.collection('animals')
+		.getList(1, 1, { filter: `(${queryFilter}) && type = "chien"` });
 	const catsCount = await pb
-		.collection('animals_cats_view')
-		.getOne<AnimalsCatsViewResponse>('cats');
+		.collection('animals')
+		.getList(1, 1, { filter: `(${queryFilter}) && type = "chat"` });
 	const maleCount = await pb
-		.collection('animals_male_view')
-		.getOne<AnimalsMaleViewResponse>('male');
+		.collection('animals')
+		.getList(1, 1, { filter: `(${queryFilter}) && sex = "male"` });
 	const femaleCount = await pb
-		.collection('animals_female_view')
-		.getOne<AnimalsFemaleViewResponse>('female');
+		.collection('animals')
+		.getList(1, 1, { filter: `(${queryFilter}) && sex = "female"` });
+	const allCount = await pb.collection('animals').getList(1, 1);
 
 	return {
 		removeForm,
@@ -66,10 +59,11 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 			query,
 			filter,
 			count: {
-				cats: catsCount.total ?? 0,
-				dogs: dogsCount.total ?? 0,
-				male: maleCount.total ?? 0,
-				female: femaleCount.total ?? 0
+				all: allCount.totalItems ?? 0,
+				cats: catsCount.totalItems ?? 0,
+				dogs: dogsCount.totalItems ?? 0,
+				male: maleCount.totalItems ?? 0,
+				female: femaleCount.totalItems ?? 0
 			}
 		} satisfies AnimalsPageInfo
 	};
