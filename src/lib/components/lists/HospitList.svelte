@@ -82,7 +82,7 @@
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Hospitalisations</h2>
 
 				<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
-					>{$hospitPageInfo.totalItems}</span
+					>{$hospitPageInfo.count.all}</span
 				>
 			</div>
 		</div>
