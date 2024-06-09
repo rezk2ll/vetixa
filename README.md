@@ -1,39 +1,34 @@
-# create-svelte
+<p align="center">
+  <img src="static/favicon.png" width="200" alt="logo" />
+</p>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Veterinary Clinic Management System
 
-## Creating a project
+- The Veterinary Clinic Management System is designed to streamline the operations of veterinary clinics, offering a comprehensive suite of features to enhance efficiency and improve patient care.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Built using:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- [Sveltekit](https://kit.svelte.dev/)
+- [Pocketbase](https://pocketbase.io/)
+- [TailWindCSS](https://tailwindcss.com/)
+- [SuperForms](https://superforms.rocks/) + [Zod](https://zod.dev/) ( forms validation )
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Features
 
-## Developing
+- **Client Management**: Efficiently handle client information and interactions.
+- **Animal Management**: Maintain detailed records for all animals in care.
+- **Billing and Prescriptions**: Streamline the creation and management of bills, invoices, and prescriptions.
+- **Hospitalization Management**: Monitor and manage hospitalized animals.
+- **Visit and Activity Management**: Schedule and oversee daily activities and patient visits.
+- **Agenda Management**: Organize and maintain the clinic’s schedule.
+- **Financial Management**: Track financial transactions with high precision.
+- **Inventory Management**: Oversee inventory, manage sales, restocking, and generate reports.
+- **Waiting List Management**: Effectively manage waiting lists to ensure timely patient care.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Contributing
 
-```bash
-npm run dev
+Contributions are welcome! Please fork the repository, create a new branch, commit your changes, and open a pull request.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## License
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-# hospit-manager
+This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. You may not use, distribute, or modify this project for commercial purposes without explicit permission from the project owner. For more information, visit [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
