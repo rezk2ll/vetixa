@@ -12,7 +12,6 @@
 	import { browser } from '$app/environment';
 
 	let locale = localeFromDateFnsLocale(fr);
-
 	let openAddFundsForm = false;
 	let openAddExpensesForm = false;
 	let search: string;
