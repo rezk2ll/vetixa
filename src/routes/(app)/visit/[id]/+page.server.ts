@@ -19,6 +19,7 @@ import {
 	updateVisitActionsSchema,
 	updateVisitDiagnosticSchema,
 	updateVisitHospitalisationSchema,
+	updateVisitItemDiscountSchema,
 	updateVisitSchema,
 	updateVisitTreatmentSchema
 } from '$lib/schemas/visit';
@@ -73,6 +74,9 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		const updateVisitTreatmentForm = await superValidate(zod(updateVisitTreatmentSchema), {
 			id: 'update-treatment'
 		});
+    const updateVisitItemDiscountForm = await superValidate(zod(updateVisitItemDiscountSchema), {
+      id: 'update-item-discount'
+    })
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
 			expand:
@@ -147,7 +151,8 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			updateVisitHospitForm,
 			generatedBill,
 			removeVisitHospitForm,
-			updateVisitTreatmentForm
+			updateVisitTreatmentForm,
+			updateVisitItemDiscountForm
 		};
 	} catch (err) {
 		console.error(err);
