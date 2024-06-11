@@ -309,48 +309,53 @@ class BillService {
 							code: '-',
 							name: 'Consultation',
 							total: visit.visit_price,
-							quantity: 1
+							quantity: 1,
+							discount: 0
 						}
 				  ]
 				: []),
 			...visit.clinical_exams.map(
-				({ price, name, code }) =>
+				({ price, name, code, id }) =>
 					({
 						price,
 						code,
 						name,
 						total: price,
-						quantity: 1
+						quantity: 1,
+						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
 					} satisfies BillItem)
 			),
 			...visit.medical_acts.map(
-				({ price, name, code }) =>
+				({ price, name, code, id }) =>
 					({
 						price,
 						code,
 						name,
 						total: price,
-						quantity: 1
+						quantity: 1,
+						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
 					} satisfies BillItem)
 			),
 			...visit.surgical_acts.map(
-				({ price, name, code }) =>
+				({ price, name, code, id }) =>
 					({
 						price,
 						code,
 						name,
 						total: price,
-						quantity: 1
+						quantity: 1,
+						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
 					} satisfies BillItem)
 			),
 			...visit.store_items.map(
-				({ price, name, code }) =>
+				({ price, name, code, id }) =>
 					({
 						price,
 						code,
 						name,
 						total: price,
-						quantity: 1
+						quantity: 1,
+						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
 					} satisfies BillItem)
 			)
 		];
@@ -367,7 +372,8 @@ class BillService {
 					price: price,
 					quantity: hospitQuantity,
 					code: 'hospit',
-					total
+					total,
+					discount: 0
 				}
 			];
 		}
