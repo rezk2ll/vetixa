@@ -38,7 +38,7 @@ export interface QueueVisit extends Omit<VisitsResponse, 'animal'> {
 
 export interface Visit
 	extends Omit<
-		VisitsResponse,
+		VisitsResponse<Discount[]>,
 		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items'
 	> {
 	animal: expandedAnimal;
