@@ -10,7 +10,8 @@ import type {
 	updateVisitSchema,
 	updateVisitDiagnosticSchema,
 	updateVisitActionsSchema,
-	updateVisitTreatmentSchema
+	updateVisitTreatmentSchema,
+  updateVisitItemDiscountSchema
 } from '$lib/schemas/visit';
 import type { BillInformation, Visit, VisitTabsType } from '$types';
 import type { Infer } from 'sveltekit-superforms';
@@ -50,3 +51,5 @@ export const removeVisitSurgicalActFormStore =
 	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
 export const updateVisitTreatmentFormStore =
 	writable<SuperValidated<Infer<typeof updateVisitTreatmentSchema>>>();
+export const updateVisitItemDiscountFormStore =
+  writable<SuperValidated<Infer<typeof updateVisitItemDiscountSchema>>>();

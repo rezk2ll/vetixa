@@ -7,11 +7,12 @@
 	export let isNumber: boolean = false;
 	export let onChange: (e: any) => void = () => {};
 	export let disabled: boolean = false;
+	export let size: 'small' | 'normal' = 'normal';
 
 	$: props = { ...(isNumber ? {} : { step: 'any' }) };
 </script>
 
-<div class="relative mt-6 w-full">
+<div class="relative {size === 'small' ? 'mt-0' : 'mt-6'} w-full">
 	<input
 		required
 		id={name}
@@ -23,14 +24,17 @@
 		{...props}
 		on:change={onChange}
 		type="number"
-		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
+		class="{size === 'small'
+			? 'h-7 text-sm ring-1'
+			: 'h-14 text-[17px] font-medium  ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
 			: 'ring-gray-300 focus:ring-blue-500'}"
 	/>
 	<label
 		for={name}
-		class="absolute left-0 bg-white px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs font-medium leading-4 {isInValid
-			? 'text-red-500'
-			: ''}">{label}</label
+		class="absolute left-0 bg-white px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs {size ===
+		'small'
+			? ''
+			: 'font-medium'}  leading-4 {isInValid ? 'text-red-500' : ''}">{label}</label
 	>
 </div>

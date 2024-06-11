@@ -5,6 +5,7 @@
 	import PrintPdf, { Page } from 'svelte-printpdf';
 	import PrintBill from './bill/PrintBill.svelte';
 	import PrintPrescription from './prescription/PrintPrescription.svelte';
+	import currency from 'currency.js';
 
 	export let bill: BillInformation | undefined;
 	export let doctor: string | undefined;
@@ -32,7 +33,13 @@
 		}, 250);
 	};
 
-	$: total = bill ? bill.items.reduce((acc, curr) => acc + curr.total, 0) : 0;
+	$: total = bill
+		? bill.items.reduce((acc, curr) => {
+				const price = currency(curr.total).multiply(1 - curr.discount / 100);
+
+				return currency(acc).add(price).value;
+		  }, 0)
+		: 0;
 </script>
 
 <div
@@ -58,8 +65,8 @@
 	<PrintPdf bind:print>
 		<Page>
 			{#if showBill}
-				<div class="sm:w-11/12 lg:w-full">
-					<div class="flex flex-col p-4 bg-white rounded-xl h-full">
+				<div class="w-full">
+					<div class="flex flex-col p-2 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
 							<div>
 								<img src="/logo.svg" alt="logo" height="52" width="52" />
@@ -107,12 +114,13 @@
 						</div>
 						<div class="mt-6">
 							<div class="border border-gray-200 p-4 px-1 rounded-lg space-y-4">
-								<div class="hidden sm:grid sm:grid-cols-4">
-									<div class="sm:col-span-1 text-xs font-medium text-gray-500 uppercase">
+								<div class="hidden sm:grid sm:grid-cols-6">
+									<div class="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
 										Article
 									</div>
 									<div class="text-center text-xs font-medium text-gray-500 uppercase">PU</div>
 									<div class="text-center text-xs font-medium text-gray-500 uppercase">Qte</div>
+									<div class="text-center text-xs font-medium text-gray-500 uppercase">Rem</div>
 									<div class="text-end text-xs font-medium text-gray-500 uppercase">
 										Montant TTC
 									</div>
@@ -120,8 +128,8 @@
 								{#if bill}
 									<div class="hidden sm:block border-b border-gray-200" />
 									{#each bill.items as item}
-										<div class="grid grid-cols-4 sm:grid-cols-4 gap-2">
-											<div class="col-span-full sm:col-span-1">
+										<div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+											<div class="col-span-full sm:col-span-2">
 												<p class="font-medium text-gray-800">{item.name}</p>
 											</div>
 											<div>
@@ -131,7 +139,14 @@
 												<p class="text-gray-800 text-center">{item.quantity}</p>
 											</div>
 											<div>
-												<p class="sm:text-end text-gray-800">{item.total} DT</p>
+												<p class="text-gray-800 text-center">
+													{item.discount > 0 ? `${item.discount}%` : ''}
+												</p>
+											</div>
+											<div>
+												<p class="sm:text-end text-gray-800">
+													{currency(item.total).multiply(1 - item.discount / 100).value} DT
+												</p>
 											</div>
 										</div>
 
