@@ -206,6 +206,7 @@ export interface BillItem {
 	quantity: number;
 	total: number;
 	code?: string;
+	discount: number;
 }
 
 export type FundPaymentMethodsStats = Record<
