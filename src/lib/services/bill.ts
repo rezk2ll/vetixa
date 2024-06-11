@@ -8,6 +8,7 @@ import type {
 	BillsResponse,
 	ClientsResponse,
 	ClinicalExamsResponse,
+	Discount,
 	FundTransactionsMethodOptions,
 	FundTransactionsRecord,
 	HospitalisationResponse,
@@ -68,8 +69,8 @@ class BillService {
 	 *
 	 * @returns {Promise<VisitsResponse>} - the expanded visit object
 	 */
-	getExpandedVisit = async (): Promise<VisitsResponse> => {
-		return await this.pb.collection('visits').getOne<VisitsResponse>(this.visit.id, {
+	getExpandedVisit = async (): Promise<VisitsResponse<Discount[]>> => {
+		return await this.pb.collection('visits').getOne<VisitsResponse<Discount[]>>(this.visit.id, {
 			expand: 'medical_acts, clinical_exams, surgical_acts, hospit, store_items'
 		});
 	};
@@ -80,10 +81,12 @@ class BillService {
 	 * @returns {Promise<Visit>}
 	 */
 	getClientExpandedVisit = async (): Promise<Visit> => {
-		const visitRecord = await this.pb.collection('visits').getOne<VisitsResponse>(this.visit.id, {
-			expand:
-				'medical_acts, clinical_exams, surgical_acts, animal, animal.client, hospit, store_items'
-		});
+		const visitRecord = await this.pb
+			.collection('visits')
+			.getOne<VisitsResponse<Discount[]>>(this.visit.id, {
+				expand:
+					'medical_acts, clinical_exams, surgical_acts, animal, animal.client, hospit, store_items'
+			});
 
 		const visit = {
 			...visitRecord,
@@ -189,10 +192,15 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the exams total cost
 	 */
-	getExamsCost = (visit: VisitsResponse): number => {
+	getExamsCost = (visit: VisitsResponse<Discount[]>): number => {
 		const exams: ClinicalExamsResponse[] = (visit.expand as RecordModel)?.clinical_exams || [];
 
-		return exams.reduce((acc, exam) => acc + exam.price, 0);
+		return exams.reduce((acc, exam) => {
+			const discount = (visit.discounts || []).find(({ item }) => item === exam.id)?.discount ?? 0;
+			const price = currency(exam.price).multiply(1 - discount / 100).value;
+
+			return currency(acc).add(price).value;
+		}, 0);
 	};
 
 	/**
@@ -201,10 +209,15 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the medical acts total cost
 	 */
-	getMedicalActsCost = (visit: VisitsResponse): number => {
+	getMedicalActsCost = (visit: VisitsResponse<Discount[]>): number => {
 		const medicalActs: MedicalActsResponse[] = (visit.expand as RecordModel)?.medical_acts || [];
 
-		return medicalActs.reduce((acc, act) => acc + act.price, 0);
+		return medicalActs.reduce((acc, act) => {
+			const discount = (visit.discounts || []).find(({ item }) => item === act.id)?.discount ?? 0;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
+
+			return currency(acc).add(price).value;
+		}, 0);
 	};
 
 	/**
@@ -213,10 +226,15 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the surgical acts total cost
 	 */
-	getSurgicalActsCost = (visit: VisitsResponse): number => {
+	getSurgicalActsCost = (visit: VisitsResponse<Discount[]>): number => {
 		const surgicalActs: SurgicalActsResponse[] = (visit.expand as RecordModel)?.surgical_acts || [];
 
-		return surgicalActs.reduce((acc, act) => acc + act.price, 0);
+		return surgicalActs.reduce((acc, act) => {
+			const discount = (visit.discounts || []).find(({ item }) => item === act.id)?.discount ?? 0;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
+
+			return currency(acc).add(price).value;
+		}, 0);
 	};
 
 	/**
@@ -225,11 +243,16 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the inventory items total cost
 	 */
-	getInventoryItemsCost = (visit: VisitsResponse): number => {
+	getInventoryItemsCost = (visit: VisitsResponse<Discount[]>): number => {
 		const inventoryItems: InventoryItemResponse[] =
 			(visit.expand as RecordModel)?.store_items || [];
 
-		return inventoryItems.reduce((acc, item) => acc + item.price, 0);
+		return inventoryItems.reduce((acc, act) => {
+			const discount = (visit.discounts || []).find(({ item }) => item === act.id)?.discount ?? 0;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
+
+			return currency(acc).add(price).value;
+		}, 0);
 	};
 
 	/**
