@@ -1,16 +1,24 @@
 <script lang="ts">
-	import { addVisitExamFormStore, currentVisit, removeVisitItemFormStore } from '$store/visit';
+	import {
+		addVisitExamFormStore,
+		currentVisit,
+		removeVisitItemFormStore,
+		updateVisitItemDiscountFormStore
+	} from '$store/visit';
 	import { clinicalExams } from '$store/acts';
 	import Modal from '$components/Modal.svelte';
 	import SelectActForm from '$components/forms/SelectActForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import EmptyTable from '$components/display/EmptyTable.svelte';
+	import NumberField from '$components/inputs/NumberField.svelte';
 
 	let open = false;
 	let showConfirmation = false;
 	let addExamFormRef: HTMLFormElement;
 	let removeExamFormRef: HTMLFormElement;
+	let updateDiscountFormRef: HTMLFormElement;
+	let DiscountData: Record<string, number> = {};
 
 	const { form: addForm, enhance } = superForm($addVisitExamFormStore, {
 		id: 'add-exam',
@@ -26,7 +34,17 @@
 		resetForm: true
 	});
 
-	$: ({ clinical_exams, id } = $currentVisit);
+	const { form: discountForm, enhance: discountFormEnhance } = superForm(
+		$updateVisitItemDiscountFormStore,
+		{
+			taintedMessage: null,
+			id: 'update-discount',
+			dataType: 'json',
+			resetForm: true
+		}
+	);
+
+	$: ({ clinical_exams, id, discounts } = $currentVisit);
 
 	const handler = () => {
 		$addForm.id = id;
@@ -42,6 +60,23 @@
 	const promptItemRemoval = (itemId: string) => {
 		showConfirmation = true;
 		$removeForm.item = itemId;
+	};
+
+	const updateDiscount = (itemId: string) => {
+		$discountForm.item = itemId;
+		$discountForm.id = id;
+		$discountForm.discount = DiscountData[itemId] ?? 0;
+		updateDiscountFormRef.requestSubmit();
+	};
+
+	const setDiscount = (e: Event, itemId: string) => {
+		const value = (e.target as HTMLInputElement).valueAsNumber;
+
+		DiscountData[itemId] = value;
+	};
+
+	const getDiscount = (itemId: string) => {
+		return (discounts || []).find(({ item }) => item === itemId)?.discount ?? 0;
 	};
 </script>
 
@@ -59,6 +94,18 @@
 >
 	<input type="hidden" name="id" bind:value={$removeForm.id} />
 	<input type="hidden" name="item" bind:value={$removeForm.item} />
+</form>
+
+<form
+	class="hidden"
+	use:discountFormEnhance
+	action="?/updateItemDiscount"
+	method="POST"
+	bind:this={updateDiscountFormRef}
+>
+	<input type="hidden" name="item" />
+	<input type="hidden" name="id" bind:value={$discountForm.id} />
+	<input type="hidden" name="discount" value="" />
 </form>
 
 <ConfirmationDialog bind:show={showConfirmation} handler={removeHandler}>
@@ -145,6 +192,13 @@
 									Prix
 								</th>
 
+								<th
+									scope="col"
+									class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+								>
+									<span class="sr-only">Remise</span>
+								</th>
+
 								<th scope="col" class="relative py-3.5 px-4">
 									<span class="sr-only">Edit</span>
 								</th>
@@ -186,12 +240,24 @@
 											>{exam.price} DT</td
 										>
 										<td
-											class="px-4 py-4 text-sm whitespace-nowrap flex items-center justify-center"
+											class="px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
+										>
+											<NumberField
+												label="Remise %"
+												name="discount"
+												placeholder=""
+												onChange={(e) => setDiscount(e, exam.id)}
+												value={getDiscount(exam.id)}
+												size="small"
+											/>
+										</td>
+										<td
+											class="px-4 py-5 text-sm whitespace-nowrap flex items-center justify-center space-x-5"
 										>
 											<button
 												type="button"
 												on:click={() => promptItemRemoval(exam.id)}
-												class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none"
+												class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none flex items-center justify-center"
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
@@ -205,6 +271,33 @@
 														stroke-linecap="round"
 														stroke-linejoin="round"
 														d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+													/>
+												</svg>
+											</button>
+											<button
+												type="button"
+												on:click={() => updateDiscount(exam.id)}
+												class="text-gray-500 transition-colors duration-200 hover:text-emerald-500 focus:outline-none flex items-center justify-center"
+											>
+												<svg
+													stroke="currentColor"
+													class="w-5 h-5"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke-width="1.5"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"
+														stroke="currentColor"
+														stroke-width="1.5"
+													/>
+													<path
+														d="M8.5 12.5L10.5 14.5L15.5 9.5"
+														stroke="currentColor"
+														stroke-width="1.5"
+														stroke-linecap="round"
+														stroke-linejoin="round"
 													/>
 												</svg>
 											</button>

@@ -38,7 +38,7 @@ export interface QueueVisit extends Omit<VisitsResponse, 'animal'> {
 
 export interface Visit
 	extends Omit<
-		VisitsResponse,
+		VisitsResponse<Discount[]>,
 		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items'
 	> {
 	animal: expandedAnimal;
@@ -119,7 +119,7 @@ export interface AnimalsPageInfo extends PageInfo<AnimalsResponse> {
 }
 
 export interface AnimalsCount {
-  all: number;
+	all: number;
 	dogs: number;
 	cats: number;
 	male: number;
@@ -134,7 +134,7 @@ export interface FundsTotal {
 }
 
 export interface HospitCount {
-  all: number;
+	all: number;
 	completed: number;
 	pending: number;
 }
@@ -150,7 +150,7 @@ export interface HospitVisitItem extends Omit<VisitsResponse, 'animal'> {
 }
 
 export interface visitCount {
-  total: number;
+	total: number;
 	pending: number;
 	paid: number;
 	partial: number;
@@ -206,6 +206,7 @@ export interface BillItem {
 	quantity: number;
 	total: number;
 	code?: string;
+	discount: number;
 }
 
 export type FundPaymentMethodsStats = Record<
@@ -241,4 +242,9 @@ export interface SearchResultInfo {
 
 export interface CageItem extends CagesResponse {
 	hospit?: Hospit;
+}
+
+export interface Discount {
+	item: string;
+	discount: number;
 }
