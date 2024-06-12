@@ -81,5 +81,6 @@ export const updateVisitItemSchema = z.object({
 	id: z.string().min(1),
   item: z.string().min(1),
 	discount: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0),
-  quantity: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0)
+  quantity: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(1),
+  type: z.string().optional()
 });
