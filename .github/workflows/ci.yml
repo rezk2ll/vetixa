@@ -5,8 +5,8 @@ on:
     branches:
       - main
 
-  jobs:
-    build:
-      name: built and test
-      uses: .github/workflows/unit-tests.yml
-      secrets: inherit
+jobs:
+  build:
+    name: built and test
+    uses: .github/workflows/unit-tests.yml
+    secrets: inherit
