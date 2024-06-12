@@ -35,7 +35,6 @@ jobs:
           npm run build --if-present
       - name: lint
         runs-on: ubuntu-latest
-        steps:
-          - run: npm run lint
+        run: npm run lint
       - name: test
         run: npm test
