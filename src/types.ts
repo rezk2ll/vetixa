@@ -38,7 +38,7 @@ export interface QueueVisit extends Omit<VisitsResponse, 'animal'> {
 
 export interface Visit
 	extends Omit<
-		VisitsResponse<Discount[]>,
+		VisitsResponse<ItemMetadata[]>,
 		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items'
 	> {
 	animal: expandedAnimal;
@@ -244,7 +244,8 @@ export interface CageItem extends CagesResponse {
 	hospit?: Hospit;
 }
 
-export interface Discount {
+export interface ItemMetadata {
 	item: string;
+	quantity: number;
 	discount: number;
 }

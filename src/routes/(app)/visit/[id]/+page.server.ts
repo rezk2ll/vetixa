@@ -9,7 +9,7 @@ import type {
 	CagesResponse,
 	InventoryItemResponse,
 	Visit,
-	Discount
+	ItemMetadata
 } from '$types';
 import {
 	addVisitFileSchema,
@@ -20,7 +20,7 @@ import {
 	updateVisitActionsSchema,
 	updateVisitDiagnosticSchema,
 	updateVisitHospitalisationSchema,
-	updateVisitItemDiscountSchema,
+	updateVisitItemSchema,
 	updateVisitSchema,
 	updateVisitTreatmentSchema
 } from '$lib/schemas/visit';
@@ -75,8 +75,8 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		const updateVisitTreatmentForm = await superValidate(zod(updateVisitTreatmentSchema), {
 			id: 'update-treatment'
 		});
-		const updateVisitItemDiscountForm = await superValidate(zod(updateVisitItemDiscountSchema), {
-			id: 'update-item-discount'
+		const updateVisitItemForm = await superValidate(zod(updateVisitItemSchema), {
+			id: 'update-visit-item'
 		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
@@ -153,7 +153,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			generatedBill,
 			removeVisitHospitForm,
 			updateVisitTreatmentForm,
-			updateVisitItemDiscountForm
+			updateVisitItemForm
 		};
 	} catch (err) {
 		console.error(err);
@@ -684,9 +684,9 @@ export const actions = {
 		}
 	},
 
-	updateItemDiscount: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, zod(updateVisitItemDiscountSchema), {
-			id: 'update-item-discount'
+	updateVisitItem: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(updateVisitItemSchema), {
+			id: 'update-visit-item'
 		});
 
 		try {
@@ -694,25 +694,26 @@ export const actions = {
 				throw Error('invalid data');
 			}
 
-			const { id, discount, item } = form.data;
-			const visit = await pb.collection('visits').getOne<VisitsResponse<Discount[]>>(id);
+			const { id, discount, quantity, item } = form.data;
+			const visit = await pb.collection('visits').getOne<VisitsResponse<ItemMetadata[]>>(id);
 
 			if (!visit) {
 				throw Error('visit not found');
 			}
 			const billService = new BillService(pb, visit);
-			const discountedItems: Discount[] = visit.discounts || [];
-			const existingIndex = discountedItems.findIndex((discount) => discount.item === item);
+			const items: ItemMetadata[] = visit.item_metadata || [];
+			const existingIndex = items.findIndex((metadata) => metadata.item === item);
 
 			if (existingIndex !== -1) {
-				discountedItems[existingIndex].discount = discount;
+				items[existingIndex].quantity = quantity;
+				items[existingIndex].discount = discount;
 			} else {
-				discountedItems.push({ item, discount });
+				items.push({ item, discount, quantity });
 			}
 
 			await pb.collection('visits').update(id, {
 				...visit,
-				discounts: JSON.stringify(discountedItems)
+				item_metadata: JSON.stringify(items)
 			});
 
 			await billService.update();

@@ -8,11 +8,11 @@ import type {
 	BillsResponse,
 	ClientsResponse,
 	ClinicalExamsResponse,
-	Discount,
 	FundTransactionsMethodOptions,
 	FundTransactionsRecord,
 	HospitalisationResponse,
 	InventoryItemResponse,
+	ItemMetadata,
 	MedicalActsResponse,
 	SurgicalActsResponse,
 	Treatment,
@@ -69,10 +69,12 @@ class BillService {
 	 *
 	 * @returns {Promise<VisitsResponse>} - the expanded visit object
 	 */
-	getExpandedVisit = async (): Promise<VisitsResponse<Discount[]>> => {
-		return await this.pb.collection('visits').getOne<VisitsResponse<Discount[]>>(this.visit.id, {
-			expand: 'medical_acts, clinical_exams, surgical_acts, hospit, store_items'
-		});
+	getExpandedVisit = async (): Promise<VisitsResponse<ItemMetadata[]>> => {
+		return await this.pb
+			.collection('visits')
+			.getOne<VisitsResponse<ItemMetadata[]>>(this.visit.id, {
+				expand: 'medical_acts, clinical_exams, surgical_acts, hospit, store_items'
+			});
 	};
 
 	/**
@@ -83,7 +85,7 @@ class BillService {
 	getClientExpandedVisit = async (): Promise<Visit> => {
 		const visitRecord = await this.pb
 			.collection('visits')
-			.getOne<VisitsResponse<Discount[]>>(this.visit.id, {
+			.getOne<VisitsResponse<ItemMetadata[]>>(this.visit.id, {
 				expand:
 					'medical_acts, clinical_exams, surgical_acts, animal, animal.client, hospit, store_items'
 			});
@@ -192,14 +194,19 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the exams total cost
 	 */
-	getExamsCost = (visit: VisitsResponse<Discount[]>): number => {
+	getExamsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const exams: ClinicalExamsResponse[] = (visit.expand as RecordModel)?.clinical_exams || [];
 
 		return exams.reduce((acc, exam) => {
-			const discount = (visit.discounts || []).find(({ item }) => item === exam.id)?.discount ?? 0;
-			const price = currency(exam.price).multiply(1 - discount / 100).value;
+			const discount =
+				(visit.item_metadata || []).find(({ item }) => item === exam.id)?.discount ?? 0;
+			const quantity =
+				(visit.item_metadata || []).find(({ item }) => item === exam.id)?.quantity ?? 1;
 
-			return currency(acc).add(price).value;
+			const price = currency(exam.price).multiply(1 - discount / 100).value;
+			const total = currency(price).multiply(quantity).value;
+
+			return currency(acc).add(total).value;
 		}, 0);
 	};
 
@@ -209,14 +216,19 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the medical acts total cost
 	 */
-	getMedicalActsCost = (visit: VisitsResponse<Discount[]>): number => {
+	getMedicalActsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const medicalActs: MedicalActsResponse[] = (visit.expand as RecordModel)?.medical_acts || [];
 
 		return medicalActs.reduce((acc, act) => {
-			const discount = (visit.discounts || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const price = currency(act.price).multiply(1 - discount / 100).value;
+			const discount =
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
+			const quantity =
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
 
-			return currency(acc).add(price).value;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
+			const total = currency(price).multiply(quantity).value;
+
+			return currency(acc).add(total).value;
 		}, 0);
 	};
 
@@ -226,14 +238,19 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the surgical acts total cost
 	 */
-	getSurgicalActsCost = (visit: VisitsResponse<Discount[]>): number => {
+	getSurgicalActsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const surgicalActs: SurgicalActsResponse[] = (visit.expand as RecordModel)?.surgical_acts || [];
 
 		return surgicalActs.reduce((acc, act) => {
-			const discount = (visit.discounts || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const price = currency(act.price).multiply(1 - discount / 100).value;
+			const discount =
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
+			const quantity =
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
 
-			return currency(acc).add(price).value;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
+			const total = currency(price).multiply(quantity).value;
+
+			return currency(acc).add(total).value;
 		}, 0);
 	};
 
@@ -243,15 +260,20 @@ class BillService {
 	 * @param {VisitsResponse} visit - the expanded visit
 	 * @returns {number} - the inventory items total cost
 	 */
-	getInventoryItemsCost = (visit: VisitsResponse<Discount[]>): number => {
+	getInventoryItemsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const inventoryItems: InventoryItemResponse[] =
 			(visit.expand as RecordModel)?.store_items || [];
 
 		return inventoryItems.reduce((acc, act) => {
-			const discount = (visit.discounts || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const price = currency(act.price).multiply(1 - discount / 100).value;
+			const discount =
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
+			const quantity =
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
 
-			return currency(acc).add(price).value;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
+			const total = currency(price).multiply(quantity).value;
+
+			return currency(acc).add(total).value;
 		}, 0);
 	};
 
@@ -314,50 +336,58 @@ class BillService {
 						}
 				  ]
 				: []),
-			...visit.clinical_exams.map(
-				({ price, name, code, id }) =>
-					({
-						price,
-						code,
-						name,
-						total: price,
-						quantity: 1,
-						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
-					} satisfies BillItem)
-			),
-			...visit.medical_acts.map(
-				({ price, name, code, id }) =>
-					({
-						price,
-						code,
-						name,
-						total: price,
-						quantity: 1,
-						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
-					} satisfies BillItem)
-			),
-			...visit.surgical_acts.map(
-				({ price, name, code, id }) =>
-					({
-						price,
-						code,
-						name,
-						total: price,
-						quantity: 1,
-						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
-					} satisfies BillItem)
-			),
-			...visit.store_items.map(
-				({ price, name, code, id }) =>
-					({
-						price,
-						code,
-						name,
-						total: price,
-						quantity: 1,
-						discount: visit.discounts?.find(({ item }) => item === id)?.discount ?? 0
-					} satisfies BillItem)
-			)
+			...visit.clinical_exams.map(({ price, name, code, id }) => {
+				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const quantity = metadata?.quantity ?? 1;
+
+				return {
+					price,
+					code,
+					name,
+					total: currency(price).multiply(quantity).value,
+					quantity: metadata?.quantity ?? 1,
+					discount: metadata?.discount ?? 0
+				} satisfies BillItem;
+			}),
+			...visit.medical_acts.map(({ price, name, code, id }) => {
+				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const quantity = metadata?.quantity ?? 1;
+
+				return {
+					price,
+					code,
+					name,
+					total: currency(price).multiply(quantity).value,
+					quantity: metadata?.quantity ?? 1,
+					discount: metadata?.discount ?? 0
+				} satisfies BillItem;
+			}),
+			...visit.surgical_acts.map(({ price, name, code, id }) => {
+				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const quantity = metadata?.quantity ?? 1;
+
+				return {
+					price,
+					code,
+					name,
+					total: currency(price).multiply(quantity).value,
+					quantity,
+					discount: metadata?.discount ?? 0
+				} satisfies BillItem;
+			}),
+			...visit.store_items.map(({ price, name, code, id }) => {
+				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const quantity = metadata?.quantity ?? 1;
+
+				return {
+					price,
+					code,
+					name,
+					total: currency(price).multiply(quantity).value,
+					quantity,
+					discount: metadata?.discount ?? 0
+				} satisfies BillItem;
+			})
 		];
 
 		if (visit.hospit.start) {

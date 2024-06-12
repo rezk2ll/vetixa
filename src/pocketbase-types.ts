@@ -426,15 +426,15 @@ export type UsersRecord = {
 	name?: string
 }
 
-export type VisitsRecord<Tdiscounts = unknown> = {
+export type VisitsRecord<Titem_metadata = unknown> = {
 	actions?: HTMLString
 	animal?: RecordIdString
 	clinical_exams?: RecordIdString[]
 	date?: IsoDateString
-	discounts?: null | Tdiscounts
 	doctor?: string
 	files?: string[]
 	hospit?: RecordIdString
+	item_metadata?: null | Titem_metadata
 	medical_acts?: RecordIdString[]
 	motif?: string
 	observations?: HTMLString
@@ -495,7 +495,7 @@ export type MedicalActsResponse<Texpand = unknown> = Required<MedicalActsRecord>
 export type QueueResponse<Texpand = unknown> = Required<QueueRecord> & BaseSystemFields<Texpand>
 export type SurgicalActsResponse<Texpand = unknown> = Required<SurgicalActsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
-export type VisitsResponse<Tdiscounts = unknown, Texpand = unknown> = Required<VisitsRecord<Tdiscounts>> & BaseSystemFields<Texpand>
+export type VisitsResponse<Titem_metadata = unknown, Texpand = unknown> = Required<VisitsRecord<Titem_metadata>> & BaseSystemFields<Texpand>
 export type VisitsPaidListResponse<Texpand = unknown> = Required<VisitsPaidListRecord> & BaseSystemFields<Texpand>
 export type VisitsPaidViewResponse<Texpand = unknown> = Required<VisitsPaidViewRecord> & BaseSystemFields<Texpand>
 export type VisitsPartialListResponse<Texpand = unknown> = Required<VisitsPartialListRecord> & BaseSystemFields<Texpand>
