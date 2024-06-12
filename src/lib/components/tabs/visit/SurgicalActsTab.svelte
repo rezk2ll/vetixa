@@ -3,7 +3,7 @@
 		addVisitSurgicalActsFormStore,
 		currentVisit,
 		removeVisitSurgicalActFormStore,
-		updateVisitItemDiscountFormStore
+		updateVisitItemFormStore
 	} from '$store/visit';
 	import { surgicalActs } from '$store/acts';
 	import Modal from '$components/Modal.svelte';
@@ -12,13 +12,14 @@
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import EmptyTable from '$components/display/EmptyTable.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
+	import type { ItemMetadata } from '$types';
 
 	let open = false;
 	let showConfirmation = false;
 	let addActsFormRef: HTMLFormElement;
 	let removeActsFormRef: HTMLFormElement;
-	let updateDiscountFormRef: HTMLFormElement;
-	let DiscountData: Record<string, number> = {};
+	let updateFormRef: HTMLFormElement;
+	let metadata: Record<string, Partial<ItemMetadata>> = {};
 
 	const { form: addForm, enhance } = superForm($addVisitSurgicalActsFormStore, {
 		id: 'add-medical-acts',
@@ -34,16 +35,14 @@
 		resetForm: true
 	});
 
-	const { form: discountForm, enhance: discountFormEnhance } = superForm(
-		$updateVisitItemDiscountFormStore,
-		{
-			taintedMessage: null,
-			id: 'update-discount',
-			dataType: 'json',
-			resetForm: true
-		}
-	);
-	$: ({ surgical_acts, id, discounts } = $currentVisit);
+	const { form: updateForm, enhance: updateEnhance } = superForm($updateVisitItemFormStore, {
+		taintedMessage: null,
+		id: 'update-visit-item',
+		dataType: 'json',
+		resetForm: true
+	});
+
+	$: ({ surgical_acts, id, item_metadata } = $currentVisit);
 
 	const handler = () => {
 		$addForm.id = id;
@@ -61,21 +60,44 @@
 		$removeForm.item = itemId;
 	};
 
-	const updateDiscount = (itemId: string) => {
-		$discountForm.item = itemId;
-		$discountForm.id = id;
-		$discountForm.discount = DiscountData[itemId] ?? 0;
-		updateDiscountFormRef.requestSubmit();
+	const updateItem = (itemId: string) => {
+		$updateForm.item = itemId;
+		$updateForm.id = id;
+		$updateForm.discount = metadata[itemId].discount ?? 0;
+		$updateForm.quantity = metadata[itemId].quantity ?? 1;
+		updateFormRef.requestSubmit();
 	};
 
 	const setDiscount = (e: Event, itemId: string) => {
 		const value = (e.target as HTMLInputElement).valueAsNumber;
 
-		DiscountData[itemId] = value;
+		if (metadata[itemId]) {
+			metadata[itemId].discount = value;
+		} else {
+			metadata[itemId] = {
+				discount: value
+			};
+		}
 	};
 
 	const getDiscount = (itemId: string) => {
-		return (discounts || []).find(({ item }) => item === itemId)?.discount ?? 0;
+		return (item_metadata || []).find(({ item }) => item === itemId)?.discount ?? 0;
+	};
+
+	const setQuantity = (e: Event, itemId: string) => {
+		const value = (e.target as HTMLInputElement).valueAsNumber;
+
+		if (metadata[itemId]) {
+			metadata[itemId].quantity = value > 1 ? value : 1;
+		} else {
+			metadata[itemId] = {
+				quantity: value
+			};
+		}
+	};
+
+	const getQuantity = (itemId: string) => {
+		return (item_metadata || []).find(({ item }) => item === itemId)?.quantity ?? 1;
 	};
 </script>
 
@@ -103,14 +125,15 @@
 
 <form
 	class="hidden"
-	use:discountFormEnhance
-	action="?/updateItemDiscount"
+	use:updateEnhance
+	action="?/updateVisitItem"
 	method="POST"
-	bind:this={updateDiscountFormRef}
+	bind:this={updateFormRef}
 >
-	<input type="hidden" name="item" />
-	<input type="hidden" name="id" bind:value={$discountForm.id} />
-	<input type="hidden" name="discount" value="" />
+	<input type="hidden" name="item" bind:value={$updateForm.item} />
+	<input type="hidden" name="id" bind:value={$updateForm.id} />
+	<input type="hidden" name="discount" bind:value={$updateForm.discount} />
+	<input type="hidden" name="quantity" bind:value={$updateForm.quantity} />
 </form>
 
 <ConfirmationDialog bind:show={showConfirmation} handler={removeHandler}>
@@ -198,6 +221,12 @@
 									scope="col"
 									class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 								>
+									<span class="sr-only">quantity</span>
+								</th>
+								<th
+									scope="col"
+									class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+								>
 									<span class="sr-only">Remise</span>
 								</th>
 
@@ -245,6 +274,18 @@
 											class="px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
 										>
 											<NumberField
+												label="Quantité"
+												name="quantity"
+												placeholder=""
+												onChange={(e) => setQuantity(e, act.id)}
+												value={getQuantity(act.id)}
+												size="small"
+											/>
+										</td>
+										<td
+											class="px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
+										>
+											<NumberField
 												label="Remise %"
 												name="discount"
 												placeholder=""
@@ -278,7 +319,7 @@
 											</button>
 											<button
 												type="button"
-												on:click={() => updateDiscount(act.id)}
+												on:click={() => updateItem(act.id)}
 												class="text-gray-500 transition-colors duration-200 hover:text-emerald-500 focus:outline-none flex items-center justify-center"
 											>
 												<svg
