@@ -18,7 +18,7 @@
 		updateVisitActionsFormStore,
 		updateVisitDiagnosticFormStore,
 		updateVisitFormStore,
-		updateVisitItemDiscountFormStore,
+		updateVisitItemFormStore,
 		updateVisitTreatmentFormStore,
 		visitBill
 	} from '$store/visit';
@@ -65,7 +65,7 @@
 		generatedBill,
 		removeVisitHospitForm,
 		updateVisitTreatmentForm,
-    updateVisitItemDiscountForm,
+    updateVisitItemForm,
     tab
 	} = data);
 
@@ -94,7 +94,7 @@
 	$: removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
 	$: updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
   $: activeVisitTab.set(tab as VisitTabsType);
-  $: updateVisitItemDiscountFormStore.set(updateVisitItemDiscountForm);
+  $: updateVisitItemFormStore.set(updateVisitItemForm);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-5 w-full">
