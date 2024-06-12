@@ -1,0 +1,12 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  jobs:
+    build:
+      name: built and test
+      uses: .github/workflows/unit-tests.yml
+      secrets: inherit
