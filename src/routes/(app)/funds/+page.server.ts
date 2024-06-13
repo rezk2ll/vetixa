@@ -9,8 +9,8 @@ import { zod } from 'sveltekit-superforms/adapters';
 import type { fundsStatusFilter } from '$types';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
-	const addFundsForm = superValidate(zod(addFundsSchema), { id: 'addFunds' });
-	const addExpenses = superValidate(zod(addFundsSchema), { id: 'addExpenses' });
+	const addFundsForm = await superValidate(zod(addFundsSchema), { id: 'addFunds' });
+	const addExpenses = await superValidate(zod(addFundsSchema), { id: 'addExpenses' });
 	const fundsService = new FundsService(pb);
 
 	let startDate = '@todayStart';
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 
 	const previousDates = getPreviousDays(currentDate);
 	const labels = getPreviousDaysLabels(currentDate);
-	const balanceData = fundsService.getDatesBalance(previousDates);
+	const balanceData = await fundsService.getDatesBalance(previousDates);
 
 	if (urlStartDate && urlEndDate) {
 		const parsedStartDate = parse(urlStartDate, 'yyyy-MM-dd HH:mm', new Date());
