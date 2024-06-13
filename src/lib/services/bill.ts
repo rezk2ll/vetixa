@@ -151,8 +151,8 @@ class BillService {
 	): Promise<void> => {
 		const bill = await this.get();
 
-		const totalPaid = bill.total_paid + amount;
-		const paid = bill.total - totalPaid === 0;
+		const totalPaid = currency(bill.total_paid).add(amount).value;
+		const paid = currency(bill.total).subtract(totalPaid).value === 0;
 
 		await this.pb.collection('bills').update(bill.id, {
 			paid,

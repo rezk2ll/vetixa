@@ -16,6 +16,7 @@ import type {
 import type { RecordModel } from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
+import currency from 'currency.js';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {
 	const addForm = await superValidate(zod(addInventoryItemSchema), { id: 'addForm' });
@@ -36,11 +37,11 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 	});
 
 	const dailyRevenu = dailySales.reduce((acc, curr) => {
-		return acc + curr.total;
+		return currency(acc).add(curr.total).value;
 	}, 0);
 
 	const monthlyRevenu = monthlySales.reduce((acc, curr) => {
-		return acc + curr.total;
+		return currency(acc).add(curr.total).value;
 	}, 0);
 
 	const bestSellers = totalSales.reduce((acc, curr) => {
@@ -130,7 +131,9 @@ export const actions: Actions = {
 					seller: user?.id
 				});
 
-				total += item.quantity * existingItem.price;
+				const itemTotalPrice = currency(existingItem.price).multiply(item.quantity).value;
+
+				total = currency(total).add(itemTotalPrice).value;
 
 				await pb.collection('inventory_item').update(item.id, {
 					quantity: existingItem.quantity - item.quantity

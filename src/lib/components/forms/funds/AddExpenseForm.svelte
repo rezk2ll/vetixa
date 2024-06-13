@@ -6,6 +6,7 @@
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import Select from 'svelte-select';
 	import type { PaymentMethodType } from '$types';
+	import currency from 'currency.js';
 
 	export let open = false;
 
@@ -28,8 +29,11 @@
 	};
 
 	$: disabled =
-		$form.amount < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount);
-	$: invalidCash = $form.amount > 1 && $form.incash - $form.outcash !== $form.amount;
+		$form.amount < 1 ||
+		($form.method === 'cash' &&
+			currency($form.incash).subtract($form.outcash).value !== $form.amount);
+	$: invalidCash =
+		$form.amount > 1 && currency($form.incash).subtract($form.outcash).value !== $form.amount;
 </script>
 
 <div>
