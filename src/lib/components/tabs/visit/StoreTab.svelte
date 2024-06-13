@@ -65,7 +65,6 @@
 		$updateForm.id = id;
 		$updateForm.discount = metadata[itemId].discount ?? 0;
 		$updateForm.quantity = metadata[itemId].quantity ?? 1;
-		$updateForm.type = 'inventory_item';
 		updateFormRef.requestSubmit();
 	};
 

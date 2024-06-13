@@ -41,10 +41,11 @@
 					{#each items as item}
 						<tr
 							><th
-								class="max-w-lg border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-left"
+								class="max-w-lg border-t-0 px-6 align-middle border-l-0  border-r-0 text-xs p-4 text-left"
 								>{item.name}</th
 							>
-							<td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4"
+							<td
+								class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4"
 								>{item.count}</td
 							>
 							<td

@@ -12,7 +12,7 @@
 	import Crab from '$components/icons/Crab.svelte';
 	import Horse from '$components/icons/Horse.svelte';
 	import Sheep from '$components/icons/Sheep.svelte';
-	import Fox from '$components/icons/Fox.svelte';
+	import Fox from '$components/icons/Fox.svelte'; 
 	import Insect from '$components/icons/Insect.svelte';
 	import Dinosaur from '$components/icons/Dinosaur.svelte';
 	import Goat from '$components/icons/Goat.svelte';

@@ -2,7 +2,7 @@
 	export let loading: boolean = false;
 	export let disabled: boolean = false;
 	export let full: boolean = false;
-	export let small: boolean = false;
+  export let small: boolean = false;
 
 	$: disable = loading || disabled;
 </script>
@@ -16,11 +16,7 @@
 		? 'hover:bg-slate-500'
 		: 'hover:bg-emerald-500'} focus:outline-none focus:ring {disable
 		? 'focus:ring-slate-300'
-		: 'focus:ring-emerald-300'} focus:ring-opacity-40 {full
-		? 'lg:w-full lg:mx-0'
-		: small
-		? 'lg:max-w-xs'
-		: ''}"
+		: 'focus:ring-emerald-300'} focus:ring-opacity-40 {full ? 'lg:w-full lg:mx-0' : small ? 'lg:max-w-xs' : ''}"
 >
 	{#if loading}
 		<svg

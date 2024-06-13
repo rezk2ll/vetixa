@@ -2,15 +2,15 @@
 	export let loading: boolean = false;
 	export let disabled: boolean = false;
 	export let full: boolean = false;
-	export let small: boolean = false;
-	export let handler: () => void = () => {};
+  export let small: boolean = false;
+  export let handler: () => void = () => {}
 
 	$: disable = loading || disabled;
 </script>
 
 <button
 	disabled={disable}
-	on:click={handler}
+  on:click={handler}
 	type="button"
 	class="px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform {disable
 		? 'bg-slate-600'
@@ -18,11 +18,7 @@
 		? 'hover:bg-slate-500'
 		: 'hover:bg-red-400'} focus:outline-none focus:ring {disable
 		? 'focus:ring-slate-300'
-		: 'focus:ring-red-300'} focus:ring-opacity-40 {full
-		? 'lg:w-full lg:mx-0'
-		: small
-		? 'lg:max-w-xs'
-		: ''}"
+		: 'focus:ring-red-300'} focus:ring-opacity-40 {full ? 'lg:w-full lg:mx-0' : small ? 'lg:max-w-xs' : ''}"
 >
 	{#if loading}
 		<svg

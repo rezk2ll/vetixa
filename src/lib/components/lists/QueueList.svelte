@@ -2,6 +2,8 @@
 	import { calculateDiff, formatDateString } from '$lib/utils/date';
 	import { queue, updateQueueFormStore } from '$lib/store/queue';
 	import type { QueueStatusFilter as StatusFilter } from '$types';
+	import Cat from '../icons/Cat.svelte';
+	import Dog from '../icons/Dog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 

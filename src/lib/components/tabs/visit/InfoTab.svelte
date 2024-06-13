@@ -12,7 +12,7 @@
 	const { enhance, form, submitting } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
 		resetForm: false,
-		dataType: 'json'
+    dataType: "json"
 	});
 
 	$: ({ animal } = $currentVisit);
@@ -37,9 +37,9 @@
 	];
 
 	$: $form.motif = $currentVisit.motif;
-	$: $form.id = $currentVisit.id;
-	$: $form.doctor = $currentVisit.doctor;
-	$: $form.visit_price = $currentVisit.visit_price;
+  $: $form.id = $currentVisit.id;
+  $: $form.doctor = $currentVisit.doctor;
+  $: $form.visit_price = $currentVisit.visit_price;
 </script>
 
 <div class="flex flex-col gap-2">

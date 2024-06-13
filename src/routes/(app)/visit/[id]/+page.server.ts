@@ -29,7 +29,6 @@ import { message, superValidate, withFiles } from 'sveltekit-superforms/server';
 import BillService from '$lib/services/bill';
 import { zod } from 'sveltekit-superforms/adapters';
 import { removeSchema } from '$lib/schemas';
-import { InventoryService } from '$lib/services/inventory';
 
 export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
@@ -404,7 +403,6 @@ export const actions = {
 			const { id, items } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 			const billService = new BillService(pb, visit);
-			const inventoryService = new InventoryService(pb);
 
 			if (!visit) {
 				throw Error('visit not found');
@@ -413,10 +411,6 @@ export const actions = {
 			await pb.collection('visits').update(id, {
 				...visit,
 				'store_items+': items
-			});
-
-			items.forEach(async (itemId) => {
-				await inventoryService.decreaseItemQuantity(itemId, 1);
 			});
 
 			await billService.update();
@@ -440,18 +434,12 @@ export const actions = {
 			}
 
 			const { id, item } = form.data;
-			const visit = await pb.collection('visits').getOne<VisitsResponse<ItemMetadata[]>>(id);
+			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 			const billService = new BillService(pb, visit);
-			const inventoryService = new InventoryService(pb);
 
 			if (!visit) {
 				throw Error('visit not found');
 			}
-
-			const itemQuantity =
-				visit.item_metadata?.find((metdata) => metdata.item === item)?.quantity ?? 1;
-
-			await inventoryService.increaseItemQuantity(item, itemQuantity);
 
 			await pb.collection('visits').update(id, {
 				...visit,
@@ -706,25 +694,15 @@ export const actions = {
 				throw Error('invalid data');
 			}
 
-			const { id, discount, quantity, item, type } = form.data;
+			const { id, discount, quantity, item } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse<ItemMetadata[]>>(id);
 
 			if (!visit) {
 				throw Error('visit not found');
 			}
 			const billService = new BillService(pb, visit);
-			const inventoryService = new InventoryService(pb);
 			const items: ItemMetadata[] = visit.item_metadata || [];
 			const existingIndex = items.findIndex((metadata) => metadata.item === item);
-
-			if (type === 'inventory_item') {
-				const currentQuantity = existingIndex !== -1 ? items[existingIndex].quantity : 1;
-				if (currentQuantity > quantity) {
-					await inventoryService.increaseItemQuantity(item, currentQuantity - quantity);
-				} else if (currentQuantity < quantity) {
-					await inventoryService.decreaseItemQuantity(item, quantity - currentQuantity);
-				}
-			}
 
 			if (existingIndex !== -1) {
 				items[existingIndex].quantity = quantity;

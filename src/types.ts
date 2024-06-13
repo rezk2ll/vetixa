@@ -249,9 +249,3 @@ export interface ItemMetadata {
 	quantity: number;
 	discount: number;
 }
-
-export interface InventoryItemInfo {
-	name: string;
-	quantity: number;
-	price: number;
-}

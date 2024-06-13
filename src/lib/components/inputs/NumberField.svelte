@@ -5,7 +5,7 @@
 	export let isInValid: boolean = false;
 	export let name: string;
 	export let isNumber: boolean = false;
-	export let onChange: (e: Event) => void = () => {};
+	export let onChange: (e: any) => void = () => {};
 	export let disabled: boolean = false;
 	export let size: 'small' | 'normal' = 'normal';
 

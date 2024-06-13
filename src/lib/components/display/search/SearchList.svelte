@@ -4,7 +4,7 @@
 	import SearchAnimalList from '$components/lists/search/SearchAnimalList.svelte';
 	import SearchClientList from '$components/lists/search/SearchClientList.svelte';
 	import { searchPage } from '$lib/store/search';
-	import type { AnimalsResponse, ClientsResponse } from '$types';
+	import type { AnimalsResponse, ClientsResponse, SearchEntityType } from '$types';
 	import EmptyTable from '$components/display/EmptyTable.svelte';
 
 	const animals = $searchPage.items as AnimalsResponse[];

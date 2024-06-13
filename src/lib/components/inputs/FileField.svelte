@@ -29,6 +29,6 @@
 			Téléchargez ou glissez-déposez votre fichier PNG, JPG ou PDF.
 		</p>
 
-		<input id="dropzone-file" type="file" class="hidden" {name} multiple />
+		<input id="dropzone-file" type="file" class="hidden" {name} multiple/>
 	</label>
 </div>

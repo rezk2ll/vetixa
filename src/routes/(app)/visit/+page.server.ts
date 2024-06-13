@@ -46,7 +46,9 @@ export const load = (async ({ locals: { pb }, url }) => {
 	const partialCount = await pb
 		.collection('visits_partial_view')
 		.getOne<VisitsPendingViewResponse>('partial');
-	const totalCount = await pb.collection('visits').getList(1, 1);
+  const totalCount = await pb
+    .collection('visits')
+    .getList(1, 1);
 
 	const visits = await Promise.all(
 		visitRecords.items.map(async (visit) => {
@@ -72,7 +74,7 @@ export const load = (async ({ locals: { pb }, url }) => {
 		items: visits,
 		filter,
 		count: {
-			total: totalCount.totalItems ?? 0,
+      total: totalCount.totalItems ?? 0,
 			pending: pendingCount.total ?? 0,
 			paid: paidCount.total ?? 0,
 			partial: partialCount.total ?? 0

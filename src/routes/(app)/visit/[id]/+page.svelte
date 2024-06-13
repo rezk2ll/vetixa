@@ -65,8 +65,8 @@
 		generatedBill,
 		removeVisitHospitForm,
 		updateVisitTreatmentForm,
-		updateVisitItemForm,
-		tab
+    updateVisitItemForm,
+    tab
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -93,8 +93,8 @@
 	$: generatedBill && visitBill.set(generatedBill);
 	$: removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
 	$: updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
-	$: activeVisitTab.set(tab as VisitTabsType);
-	$: updateVisitItemFormStore.set(updateVisitItemForm);
+  $: activeVisitTab.set(tab as VisitTabsType);
+  $: updateVisitItemFormStore.set(updateVisitItemForm);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-5 w-full">

@@ -23,7 +23,7 @@
 					]
 				},
 				options: {
-					responsive: true,
+          responsive: true,
 					plugins: {
 						legend: {
 							position: 'top'

@@ -6,14 +6,15 @@
 	import type { InventoryItemResponse } from '$types';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import currency from 'currency.js';
-	import { zodClient } from 'sveltekit-superforms/adapters';
+	import SuperDebug from 'sveltekit-superforms';
+	import { zod, zodClient } from 'sveltekit-superforms/adapters';
 	import { updateInventoryItemSchema } from '$lib/schemas';
 	import { updatedInventoryItem } from '$lib/store/inventory';
 
 	export let open = false;
 	export let item: InventoryItemResponse;
 
-	const { form, message, submitting, enhance } = superForm(
+	const { form, message, submitting, enhance, validateForm } = superForm(
 		defaults($updatedInventoryItem, zodClient(updateInventoryItemSchema)).data,
 		{
 			dataType: 'json',

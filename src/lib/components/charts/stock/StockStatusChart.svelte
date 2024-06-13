@@ -3,7 +3,7 @@
 	import Chart from 'chart.js/auto';
 
 	export let data: number[];
-
+	
 	onMount(async () => {
 		const ctx = (document.getElementById('stock-chart') as HTMLCanvasElement).getContext('2d');
 
