@@ -6,6 +6,7 @@
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import type { PaymentMethodType, InventoryItemInfo } from '$types';
+	import currency from 'currency.js';
 
 	export let open = false;
 
@@ -94,8 +95,9 @@
 
 	$: total = $form.items.reduce((acc, curr) => {
 		const record = itemRecords[curr.id];
+		const itemTotal = currency(record.price).multiply(curr.quantity).value;
 
-		return acc + record.price * curr.quantity;
+		return currency(acc).add(itemTotal).value;
 	}, 0);
 
 	const handleMethodChange = (e: CustomEvent) => {
@@ -105,8 +107,10 @@
 		}
 	};
 
-	$: disabled = total < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== total);
-	$: invalidCash = total > 1 && $form.incash - $form.outcash !== total;
+	$: disabled =
+		total < 1 ||
+		($form.method === 'cash' && currency($form.incash).subtract($form.outcash).value !== total);
+	$: invalidCash = total > 1 && currency($form.incash).subtract($form.outcash).value !== total;
 </script>
 
 <div>

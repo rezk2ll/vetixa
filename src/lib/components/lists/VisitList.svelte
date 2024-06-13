@@ -7,6 +7,7 @@
 	import { formatDateString } from '$utils/date';
 	import { visitItems } from '$store/visit';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
+	import currency from 'currency.js';
 
 	export let isNew: boolean = false;
 
@@ -285,7 +286,7 @@
 											>{visit.bill.total} Dt</td
 										>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{visit.bill.total - visit.bill.total_paid} Dt</td
+											>{currency(visit.bill.total).subtract(visit.bill.total_paid).value} Dt</td
 										>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<PaymentStatus bill={visit.bill} />

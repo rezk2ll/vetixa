@@ -8,6 +8,7 @@
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import type { BillsResponse } from '$types';
+	import currency from 'currency.js';
 
 	export let bill: BillsResponse;
 
@@ -34,12 +35,14 @@
 	$: $form.id = $currentVisit.id;
 	$: disabled =
 		$form.amount <= 0 ||
-		($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount) ||
+		($form.method === 'cash' &&
+			currency($form.incash).subtract($form.outcash).value !== $form.amount) ||
 		$form.method === undefined ||
 		rest === 0;
-	$: invalidCash = $form.amount > 0 && $form.incash - $form.outcash !== $form.amount;
+	$: invalidCash =
+		$form.amount > 0 && currency($form.incash).subtract($form.outcash).value !== $form.amount;
 	$: disabledSelect = $form.amount === undefined || $form.amount <= 0;
-	$: rest = bill.total - bill.total_paid;
+	$: rest = currency(bill.total).subtract(bill.total_paid).value;
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
