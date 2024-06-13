@@ -134,7 +134,7 @@
 	<div>
 		<div class="mt-2 text-center">
 			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400 px-2">
-				Êtes-vous sûr de vouloir supprimer cet acte médical ?
+				Êtes-vous sûr de vouloir supprimer cet acte médical?
 				<br />
 				Cette action ne peut pas être annulée.
 			</p>
