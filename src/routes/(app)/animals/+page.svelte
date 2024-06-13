@@ -1,10 +1,6 @@
 <script lang="ts">
 	import AnimalList from '$components/lists/AnimalList.svelte';
-	import {
-		animalsPageInfo,
-		deleteAnimalFormStore,
-		updateAnimalFormStore
-	} from '$store/animals';
+	import { animalsPageInfo, deleteAnimalFormStore, updateAnimalFormStore } from '$store/animals';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

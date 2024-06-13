@@ -87,10 +87,10 @@
 							/></svg
 						>
 					</span>
-          <p class="w-full text-ellipsis text-left">
-            {item.description ?? '-'}
-          </p>
-        </div>
+					<p class="w-full text-ellipsis text-left">
+						{item.description ?? '-'}
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>

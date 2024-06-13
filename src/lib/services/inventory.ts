@@ -24,7 +24,7 @@ export class InventoryService {
 		} catch (error) {
 			console.error('Failed to update inventory item');
 
-      throw error;
+			throw error;
 		}
 	}
 
@@ -52,8 +52,8 @@ export class InventoryService {
 			});
 		} catch (error) {
 			console.error('Failed to update inventory item');
-      
-      throw error;
+
+			throw error;
 		}
 	}
 

@@ -16,7 +16,7 @@
 				open = false;
 			}
 		},
-    dataType: 'json',
+		dataType: 'json',
 		taintedMessage: null
 	});
 

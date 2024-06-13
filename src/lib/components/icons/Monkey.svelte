@@ -1,5 +1,5 @@
 <svg
-  class="h-8"
+	class="h-8"
 	version="1.1"
 	id="_x32_"
 	xmlns="http://www.w3.org/2000/svg"
