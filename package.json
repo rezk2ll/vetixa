@@ -47,7 +47,7 @@
 		"@fullcalendar/interaction": "^6.1.9",
 		"@fullcalendar/list": "^6.1.9",
 		"@fullcalendar/timegrid": "^6.1.9",
-		"@tinymce/tinymce-svelte": "^2.0.2",
+		"@tinymce/tinymce-svelte": "^3.0.0",
 		"chart.js": "4.4.3",
 		"currency.js": "^2.0.4",
 		"date-fns": "^2.30.0",
