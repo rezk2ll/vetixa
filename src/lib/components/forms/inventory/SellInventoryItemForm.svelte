@@ -5,7 +5,7 @@
 	import Select from 'svelte-select';
 	import NumberField from '$lib/components/inputs/NumberField.svelte';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
-	import type { PaymentMethodType } from '$types';
+	import type { PaymentMethodType, InventoryItemInfo } from '$types';
 
 	export let open = false;
 
@@ -39,8 +39,8 @@
 		];
 	};
 
-	const handleQuantityChange = (e: any, id: string) => {
-		const value = e.target.value;
+	const handleQuantityChange = (e: Event, id: string) => {
+		const value = (e.target as HTMLInputElement).valueAsNumber;
 
 		const currentQuantity = itemRecords[id].quantity;
 		const newQuantity = value < 1 ? 1 : currentQuantity - value >= 0 ? value : currentQuantity;
@@ -66,7 +66,7 @@
 		];
 	};
 
-	const onItemSelect = (e: any) => {
+	const onItemSelect = (e: CustomEvent) => {
 		$form.items = [...$form.items, { id: e.detail.value, quantity: 1 }];
 		selectedValue = '';
 	};
@@ -90,7 +90,7 @@
 		};
 
 		return acc;
-	}, {} as Record<string, any>);
+	}, {} as Record<string, InventoryItemInfo>);
 
 	$: total = $form.items.reduce((acc, curr) => {
 		const record = itemRecords[curr.id];
@@ -98,7 +98,7 @@
 		return acc + record.price * curr.quantity;
 	}, 0);
 
-	const handleMethodChange = (e: any) => {
+	const handleMethodChange = (e: CustomEvent) => {
 		if (e.detail.value !== 'cash') {
 			$form.incash = 0;
 			$form.outcash = 0;

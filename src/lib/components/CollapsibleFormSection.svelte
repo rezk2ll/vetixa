@@ -11,11 +11,7 @@
 		? 'xl:w-1/2'
 		: size === 'big'
 		? 'xl:w-10/12'
-		: ''} bg-white {color === 'info'
-		? ''
-		: shadow
-		? 'shadow-2xl'
-		: ''} pb-1"
+		: ''} bg-white {color === 'info' ? '' : shadow ? 'shadow-2xl' : ''} pb-1"
 >
 	<button
 		type="button"
@@ -30,7 +26,7 @@
 		<span class="transition {show ? '' : '-rotate-90	'}">
 			<svg
 				fill="none"
-				shape-rendering="geometricPrecision"  
+				shape-rendering="geometricPrecision"
 				stroke="currentColor"
 				stroke-linecap="round"
 				stroke-linejoin="round"

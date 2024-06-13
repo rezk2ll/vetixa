@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 services:
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
@@ -8,7 +8,7 @@ services:
       - --encryptionEnv #optional
       - ENCRYPTION #optional
     ports:
-      - "8090:8090"
+      - '8090:8090'
     volumes:
       - ./data:/pb_data
     healthcheck:

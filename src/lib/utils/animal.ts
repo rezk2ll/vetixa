@@ -7,7 +7,7 @@ export const animalTypeList = [
 	'chèvre',
 	'mouton',
 	'lapin',
-  'singe',
+	'singe',
 	'rongeur',
 	'poisson',
 	'amphibien',

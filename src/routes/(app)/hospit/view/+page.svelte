@@ -1,5 +1,4 @@
 <script lang="ts">
-	import CageCard from '$components/display/cages/CageCard.svelte';
 	import CagesList from '$components/lists/CagesList.svelte';
 	import { cagesInfo } from '$store/hospit';
 	import type { PageData } from './$types';
