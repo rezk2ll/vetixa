@@ -20,7 +20,7 @@
 		taintedMessage: null
 	});
 
-	const handleMethodChange = (e: any) => {
+	const handleMethodChange = (e: CustomEvent) => {
 		if (e.detail.value !== 'cash') {
 			$form.incash = 0;
 			$form.outcash = 0;

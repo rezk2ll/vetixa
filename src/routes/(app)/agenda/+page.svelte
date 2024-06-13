@@ -34,9 +34,9 @@
 	let selectedEvent: AgendaResponse | null;
 
 	$: getEvents = (
-		_fetchInfo: any,
+		_fetchInfo: unknown,
 		successCallback: (arg0: AgendaResponse[]) => void,
-		_failureCallback: any
+		_failureCallback: unknown
 	) => {
 		successCallback(events);
 	};

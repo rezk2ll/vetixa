@@ -13,8 +13,8 @@
 		label: item.name
 	}));
 
-	const handleChane = (e: any) => {
-		value = e.detail.map(({ value }: any) => value);
+	const handleChane = (e: CustomEvent) => {
+		value = e.detail.map(({ value }: Record<string, string>) => value);
 	};
 
 	const handleConfirm = () => {
