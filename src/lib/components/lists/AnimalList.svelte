@@ -125,10 +125,12 @@
 </ConfirmationDialog>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full px-3 lg:p-5 bg-white md:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4">
 			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
-				<div>
+				<div
+					class="flex flex-col w-full items-center justify-center lg:items-start lg:justify-start"
+				>
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Animaux</h2>
 						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
@@ -236,7 +238,7 @@
 						</span>
 					</button>
 				</div>
-				<form on:submit|preventDefault={dispatchSearch} class="w-1/3">
+				<form on:submit|preventDefault={dispatchSearch} class="w-full lg:w-auto">
 					<div class="flex items-center mt-0 h-6">
 						<button class="absolute">
 							<svg
@@ -264,10 +266,10 @@
 					</div>
 				</form>
 			</div>
-			<div class="flex flex-col mt-6">
+			<div class="flex flex-col mt-6 px-2 lg:px-0">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="overflow-hidden border border-gray-200 md:rounded-lg">
+						<div class="border border-gray-200 md:rounded-lg">
 							<table class="min-w-full divide-y divide-gray-200 table-fixed">
 								<thead class="bg-slate-50">
 									<tr>
@@ -446,7 +448,7 @@
 				</div>
 			</div>
 
-			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
+			<div class="mt-6 sm:flex sm:items-center sm:justify-between pb-10 lg:pb-0">
 				<div class="text-sm text-gray-500 dark:text-gray-400">
 					Page <span class="font-medium text-gray-700 dark:text-gray-100"
 						>{$animalsPageInfo.page} sur {$animalsPageInfo.totalPages}</span
