@@ -21,7 +21,7 @@
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">
 	<FundsList />
-	<div class="w-full lg:w-5/12 flex flex-col lg:px-10 gap-3 pt-10">
+	<div class="w-full lg:w-5/12 flex flex-col lg:px-10 lg:gap-3 lg:pt-10">
 		<FundsEvolution {labels} data={balance} />
 		<IncomeEvolution {labels} bind:income bind:expense />
 		<FundsPaymentMethodsStats {stats} />
