@@ -107,10 +107,10 @@
 </ConfirmationDialog>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-5 pt-10 lg:p-5 lg:py-3 bg-white shadow-2xl border-gray-200 xl:rounded">
-		<div class="flex flex-col space-y-4">
-			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
-				<div>
+	<div class="w-full px-3 lg:px-5 lg:p-5 lg:py-5 bg-white md:shadow-2xl border-gray-200 xl:rounded">
+		<div class="flex flex-col space-y-4 w-full">
+			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full lg:pr-5">
+				<div class="flex items-center justify-center lg:justify-start lg:items-start flex-col w-full">
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800">Clients</h2>
 						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
@@ -120,10 +120,10 @@
 
 					<p class="mt-1 text-sm text-gray-500">La liste des clients</p>
 				</div>
-				<div class="flex items-center mt-4 gap-x-2">
+				<div class="flex items-center mt-4 gap-x-2 w-full md:w-auto">
 					<button
 						on:click={() => (openAddModal = true)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
+						class="flex items-center justify-center w-full px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -178,13 +178,13 @@
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="overflow-hidden border border-gray-200 md:rounded-lg">
+						<div class="border border-gray-200 md:rounded-lg">
 							<table class="min-w-full divide-y divide-gray-200">
 								<thead class="bg-gray-50">
 									<tr>
 										<th
 											scope="col"
-											class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="py-2.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"
 										>
 											<div class="flex items-center gap-x-3">
 												<span>Nom</span>
@@ -193,27 +193,27 @@
 
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 											>Email</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
-											>Numéro de téléphone</th
+											class="px-4 w-auto py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											>Téléphone</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 											>Adresse</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 										>
 											Animaux
 										</th>
 
-										<th scope="col" class="relative py-3.5 px-4">
+										<th scope="col" class="relative py-2.5 px-4">
 											<span class="sr-only">Modifier</span>
 										</th>
 									</tr>
@@ -308,7 +308,7 @@
 				</div>
 			</div>
 
-			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
+			<div class="mt-6 sm:flex sm:items-center sm:justify-between px-5 pb-10 lg:pb-0">
 				<div class="text-sm text-gray-500">
 					Page <span class="font-medium text-gray-700"
 						>{$clientsPageInfo.page} sur {$clientsPageInfo.totalPages}</span
