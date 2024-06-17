@@ -14,7 +14,7 @@
 	let locale = localeFromDateFnsLocale(fr);
 	let openAddFundsForm = false;
 	let openAddExpensesForm = false;
-	let search: string;
+	let search: string = $fundsPageInfo.query;
 	let startDate: Date = setMinutes(setHours(new Date(), 0), 0);
 	let endDate: Date = setMinutes(setHours(new Date(), 23), 0);
 
@@ -83,34 +83,31 @@
 </Modal>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
-	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full p-1 lg:pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4 pt-10 lg:pt-0">
 			<div
 				class="flex pl-2 lg:pl-0 flex-col lg:flex-row items-start lg:items-center justify-between w-full"
 			>
-				<div>
-					<div class="flex items-center gap-x-3">
+				<div class="flex flex-col">
+					<div class="flex flex-col justify-start lg:items-start items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Caisse</h2>
-						<span
-							class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400"
-							>{$fundsPageInfo.totalItems} transactions</span
-						>
-						<span
-							class="px-3 py-1 text-xs text-emerald-600 bg-emerald-100 rounded-full dark:bg-gray-800 dark:text-emerald-400"
-							>Revenu: {$fundsPageInfo.total.income} dt</span
-						>
-						<span
-							class="px-3 py-1 text-xs text-red-600 bg-red-100 rounded-full dark:bg-gray-800 dark:text-red-400"
-							>Dépenses: {$fundsPageInfo.total.expense} dt</span
-						>
-						<span
-							class="px-3 py-1 text-xs text-slate-600 bg-slate-200 rounded-full dark:bg-gray-800 dark:text-orange-400"
-							>Recette: {$fundsPageInfo.total.balance} dt</span
-						>
-						<span
-							class="px-3 py-1 text-xs text-orange-800 bg-orange-200 rounded-full dark:bg-gray-800 dark:text-orange-400"
-							>Arriarés: {$fundsPageInfo.total.remaining} dt</span
-						>
+						<div class="flex flex-wrap gap-1">
+							<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded"
+								>{$fundsPageInfo.totalItems} transactions</span
+							>
+							<span class="px-3 py-1 text-xs text-emerald-600 bg-emerald-100 rounded"
+								>Revenu: {$fundsPageInfo.total.income} dt</span
+							>
+							<span class="px-3 py-1 text-xs text-red-600 bg-red-100 rounded"
+								>Dépenses: {$fundsPageInfo.total.expense} dt</span
+							>
+							<span class="px-3 py-1 text-xs text-slate-600 bg-slate-200 rounded"
+								>Recette: {$fundsPageInfo.total.balance} dt</span
+							>
+							<span class="px-3 py-1 text-xs text-orange-800 bg-orange-200 rounded"
+								>Arriarés: {$fundsPageInfo.total.remaining} dt</span
+							>
+						</div>
 					</div>
 
 					<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
@@ -118,10 +115,10 @@
 					</p>
 				</div>
 
-				<div class="flex items-center mt-4 gap-x-3">
+				<div class="flex items-center mt-4 gap-x-3 w-full lg:w-auto pr-5 lg:pr-0">
 					<button
 						on:click={() => (openAddFundsForm = true)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600 dark:hover:bg-emerald-500 dark:bg-emerald-600"
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +134,7 @@
 					</button>
 					<button
 						on:click={() => (openAddExpensesForm = true)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-red-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-red-600 dark:hover:bg-red-500 dark:bg-red-600"
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-red-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-red-800"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -154,38 +151,38 @@
 				</div>
 			</div>
 			<div
-				class="flex px-1 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between"
+				class="flex px-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-5 lg:space-y-0 justify-between w-full lg:w-auto"
 			>
 				<div
-					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg w-full lg:w-auto"
 				>
 					<button
 						type="button"
 						on:click={() => changeTab('all')}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
+						class="px-5 py-2 text-xs w-full font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'all'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Tout
 					</button>
 					<button
 						type="button"
 						on:click={() => changeTab('income')}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
+						class="px-5 py-2 text-xs w-full font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'income'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Revenu
 					</button>
 					<button
 						type="button"
 						on:click={() => changeTab('expense')}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
+						class="px-5 py-2 text-xs w-full font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'expense'
 							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							: ''} sm:text-sm hover:bg-gray-100"
 					>
 						Dépenses
 					</button>
@@ -250,8 +247,8 @@
 						</svg>
 					</button>
 				</div>
-				<form on:submit|preventDefault={dispatchSearch}>
-					<div class="flex items-center mt-0 h-6">
+				<form on:submit|preventDefault={dispatchSearch} class="w-full lg:w-auto">
+					<div class="flex relative items-center mt-0 h-6">
 						<button class="absolute right-0 focus:outline-none">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -272,12 +269,12 @@
 							bind:value={search}
 							type="text"
 							placeholder="Rechercher"
-							class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-60 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+							class="block w-full py-1.5 pr-2 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-60 placeholder-gray-400/70 pl-5 rtl:pr-11 rtl:pl-5 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
 						/>
 					</div>
 				</form>
 			</div>
-			<div class="flex flex-col mt-6">
+			<div class="flex flex-col mt-6 px-4 lg:px-0">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -410,7 +407,7 @@
 				</div>
 			</div>
 
-			<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between">
+			<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between px-4 lg:px-0">
 				<div class="text-sm text-gray-500 dark:text-gray-400">
 					Page <span class="font-medium text-gray-700 dark:text-gray-100"
 						>{$fundsPageInfo.page} sur {$fundsPageInfo.totalPages}</span
