@@ -139,7 +139,7 @@
 >
 	<div class="flex flex-col items-center justify-start w-full xl:w-11/12 xl:pl-10">
 		<div
-			class="w-full pt-10 lg:pt-10 border-gray-200 xl:rounded-2xl relative z-0 flex min-w-0 xl:p-3 break-words bg-white border-0 shadow-xl rounded-2xl bg-clip-border"
+			class="w-full lg:pt-10 border-gray-200 xl:rounded-2xl relative flex min-w-0 xl:p-3 break-words bg-white border-0 shadow-xl rounded-2xl bg-clip-border"
 		>
 			<div bind:this={calendarRef} class="xl:p-5 pt-10 xl:pt-0 h-auto w-full" />
 		</div>
