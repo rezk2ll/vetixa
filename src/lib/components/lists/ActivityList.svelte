@@ -56,7 +56,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Visites</h2>
@@ -67,7 +67,7 @@
 			</div>
 		</div>
 		<div
-			class="flex px-1 py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
+			class="flex py-5 px-2 lg:py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-5 lg:space-y-0 justify-between w-full"
 		>
 			<div class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg">
 				<button
@@ -130,7 +130,7 @@
 					</span>
 				</button>
 			</div>
-			<form on:submit|preventDefault={dispatchSearch}>
+			<form on:submit|preventDefault={dispatchSearch} class="w-full md:w-auto md:pb-0">
 				<div class="flex items-center mt-0 h-6 relative w-full">
 					<button class="absolute right-0 focus:outline-none">
 						<svg
@@ -157,7 +157,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="flex flex-col">
+		<div class="flex flex-col px-5 md:px-0">
 			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 				<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 					<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -312,7 +312,7 @@
 			</div>
 		</div>
 
-		<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between">
+		<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between px-5">
 			<div class="text-sm text-gray-500 dark:text-gray-400">
 				Page <span class="font-medium text-gray-700 dark:text-gray-100"
 					>{$activityPage.page} sur {$activityPage.totalPages}</span

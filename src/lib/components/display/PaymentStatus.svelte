@@ -11,7 +11,7 @@
 	$: processing = bill.total == 0;
 </script>
 
-<div class="flex items-center gap-x-4 {type === 'large' ? 'w-full' : 'w-full md:w-1/2'}">
+<div class="flex items-center gap-x-4 {type === 'large' ? 'w-full' : 'w-full md:w-3/4'}">
 	<span
 		class="flex font-semibold items-center justify-center text-white w-full p-1 {done
 			? 'bg-emerald-500/80'

@@ -14,3 +14,7 @@ body {
 .tox.tox-tinymce {
 	@apply border-none;
 }
+
+input:placeholder-shown {
+  @apply truncate;
+}
