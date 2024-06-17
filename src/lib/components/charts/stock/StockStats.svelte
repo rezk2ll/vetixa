@@ -10,16 +10,18 @@
 
 <div class="flex flex-col pt-20 lg:flex-row items-center justify-center xl:pl-14 w-full xl:pt-8">
 	<div class="w-full xl:w-3/12">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
-			<div class="flex-auto p-4">
-				<div class="flex flex-wrap">
-					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
+			<div class="flex lg:p-4 px-4 w-full">
+				<div class="flex w-full">
+					<div class="pr-4">
 						<h5 class="text-blueGray-600 uppercase font-bold text-xs">Articles</h5>
 						<span class="font-semibold text-xl text-blueGray-700">{total}</span>
 					</div>
-					<div class="relative w-auto pl-4 flex-initial">
+					<div class="w-1/2 pl-4">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-blueGray-600"
+							class="text-white p-3 text-center flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-blueGray-600"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +40,9 @@
 		</div>
 	</div>
 	<div class="w-full xl:w-3/12 lg:px-4">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap">
 					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -49,7 +53,7 @@
 					</div>
 					<div class="relative w-auto pl-4 flex-initial">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500"
+							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-red-500"
 						>
 							<svg
 								fill="none"
@@ -72,7 +76,9 @@
 		</div>
 	</div>
 	<div class="w-full xl:w-3/12 lg:px-4">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap">
 					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -83,7 +89,7 @@
 					</div>
 					<div class="relative w-auto pl-4 flex-initial">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-emerald-500"
+							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-emerald-500"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +108,9 @@
 		</div>
 	</div>
 	<div class="w-full xl:w-3/12 lg:pl-4">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap">
 					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -111,7 +119,7 @@
 					</div>
 					<div class="relative w-auto pl-4 flex-initial">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-emerald-500"
+							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-emerald-500"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +141,9 @@
 
 <div class="flex flex-col lg:flex-row items-center justify-center xl:pl-10 w-full xl:pt-2">
 	<div class="w-full xl:w-4/12 lg:pl-4">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap">
 					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -144,7 +154,7 @@
 					</div>
 					<div class="relative w-auto pl-4 flex-initial">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-violet-500"
+							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-violet-500"
 						>
 							<svg
 								data-slot="icon"
@@ -168,7 +178,9 @@
 		</div>
 	</div>
 	<div class="w-full xl:w-4/12 lg:pl-4">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap">
 					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -177,7 +189,7 @@
 					</div>
 					<div class="relative w-auto pl-4 flex-initial">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-violet-500"
+							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-violet-500"
 						>
 							<svg
 								data-slot="icon"
@@ -202,7 +214,9 @@
 	</div>
 
 	<div class="w-full xl:w-4/12 lg:pl-4">
-		<div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+		<div
+			class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 md:shadow-lg"
+		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap">
 					<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
@@ -213,7 +227,7 @@
 					</div>
 					<div class="relative w-auto pl-4 flex-initial">
 						<div
-							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-blue-500"
+							class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 md:shadow-lg rounded-full bg-blue-500"
 						>
 							<svg
 								data-slot="icon"
