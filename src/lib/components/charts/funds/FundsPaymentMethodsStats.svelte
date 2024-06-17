@@ -15,8 +15,8 @@
 	$: total = items.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
 </script>
 
-<div class="flex flex-col items-center justify-start w-full xl:pb-8">
-	<div class="w-full px-1 pt-10 lg:py-5 bg-white shadow-2xl border-gray-200 h-fit xl:rounded">
+<div class="flex flex-col items-center justify-start w-full pb-10">
+	<div class="w-full px-1 pt-10 lg:py-5 bg-white lg:shadow-2xl border-gray-200 h-fit xl:rounded">
 		<div class="rounded-t mb-0 px-4 py-3 border-0">
 			<div class="flex flex-wrap items-center">
 				<div class="relative w-full max-w-full flex-grow flex-1">
@@ -29,19 +29,19 @@
 				<thead class="thead-light"
 					><tr
 						><th
-							class="px-6 max-w-md bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+							class="px-3 w-16 lg:w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
 							>Méthode</th
 						>
 						<th
-							class="px-6 w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+							class="px-3 w-16 lg:w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
 							>Operations
 						</th>
 						<th
-							class="px-6 w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+							class="px-5 w-20 lg:w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
 							>Total
 						</th>
 						<th
-							class="px-6 w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+							class="px-3 w-20 lg:w-32 bg-blueGray-50 text-blueGray-600 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
 							>% $
 						</th>
 					</tr></thead
