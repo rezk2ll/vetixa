@@ -33,7 +33,7 @@
 	<SearchForm />
 </Modal>
 <aside
-	class="flex flex-col fixed items-center w-16 bg-transparent py-8 overflow-y-auto {open
+	class="flex flex-col fixed items-center z-10 w-16 bg-transparent py-8 overflow-y-auto {open
 		? 'hidden'
 		: ''}"
 >
