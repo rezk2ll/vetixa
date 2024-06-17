@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from 'svelte-select';
 	import { fr } from 'date-fns/locale';
-	import { superForm } from 'sveltekit-superforms';
+	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
@@ -18,20 +18,28 @@
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import RemoveButton from '$components/buttons/removeButton.svelte';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
+	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
 	let removeFormRef: HTMLFormElement;
 	let invalidated: boolean = false;
 	let showConfirmation = false;
+	let loading: boolean;
 
 	const { form, enhance, submitting } = superForm($updateVisitHospitalisationFormStore, {
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: false,
+    onSubmit: ({ }) => {
+      loading = true;
+    },
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
-				invalidated = true;
+				setTimeout(() => {
+					invalidated = true;
+          loading = false;
+				}, 250);
 			}
 		},
 		id: 'update-hospit'
@@ -42,9 +50,9 @@
 		{
 			taintedMessage: null,
 			resetForm: false,
-			onResult: async ({ result }) => {
+			onResult: ({ result }) => {
 				if (result.type === 'success') {
-					window.location.reload();
+					invalidated = true;
 				}
 			},
 			id: 'remove-hospit'
@@ -77,30 +85,28 @@
 		$currentVisit.hospit?.start && $currentVisit.hospit?.end
 			? getDaysBetween($currentVisit.hospit?.start, $currentVisit.hospit.end)
 			: 0;
-	$: {
-		if (treatments.length !== daysCount || invalidated) {
-			treatments = getPreviousDays(new Date($currentVisit.hospit.end), daysCount).map((day) => {
-				if ($currentVisit.hospit.treatment) {
-					const existingDay = $currentVisit.hospit.treatment.find(
-						(treatment) => treatment.date === formatDateShort(day)
-					);
+	$: if (invalidated || treatments.length !== daysCount) {
+		treatments = getPreviousDays(new Date($currentVisit.hospit.end), daysCount).map((day) => {
+			if ($currentVisit.hospit.treatment) {
+				const existingDay = $currentVisit.hospit.treatment.find(
+					(treatment) => treatment.date === formatDateShort(day)
+				);
 
-					if (existingDay) {
-						return {
-							...existingDay,
-							observations: [{}, ...(existingDay.observations || []).filter((obs) => obs.time)]
-						};
-					}
+				if (existingDay) {
+					return {
+						...existingDay,
+						observations: [{}, ...(existingDay.observations || []).filter((obs) => obs.time)]
+					};
 				}
+			}
 
-				invalidated = false;
+			invalidated = false;
 
-				return {
-					date: formatDateShort(day),
-					observations: [{}]
-				} satisfies Treatment;
-			});
-		}
+			return {
+				date: formatDateShort(day),
+				observations: [{}]
+			} satisfies Treatment;
+		});
 	}
 
 	$: $form.treatment = JSON.stringify(treatments);
@@ -130,13 +136,20 @@
 	</div>
 </ConfirmationDialog>
 
-<div class="container px-4 mt-5 pb-5">
+<div class="container px-4 mt-5 pb-5 relative">
 	<div class="flex flex-col space-y-5">
 		<div class="sm:flex sm:items-center sm:justify-between">
 			<h2 class="text-lg font-medium text-gray-800 dark:text-white">
 				{daysCount} jours de hospitalisation
 			</h2>
 		</div>
+		{#if loading}
+			<div
+				class="absolute top-0 right-0 w-full h-full z-[80] bg-slate-100/50 flex items-center justify-center"
+			>
+				<LoadingSpinner />
+			</div>
+		{/if}
 		<form method="post" action="?/updateHospit" use:enhance class="flex flex-col gap-5">
 			<input type="hidden" name="id" value={$form.id} />
 			<TextAreaField name="note" label="Note" bind:value={$form.note} placeholder="" />
