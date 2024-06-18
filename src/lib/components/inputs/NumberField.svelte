@@ -7,7 +7,7 @@
 	export let isNumber: boolean = false;
 	export let onChange: (e: Event) => void = () => {};
 	export let disabled: boolean = false;
-	export let size: 'small' | 'normal' = 'normal';
+	export let size: 'small' | 'medium' | 'normal' = 'normal';
 
 	$: props = { ...(isNumber ? {} : { step: 'any' }) };
 </script>
@@ -25,8 +25,8 @@
 		on:change={onChange}
 		type="number"
 		class="{size === 'small'
-			? 'h-7 text-sm ring-1'
-			: 'h-14 text-[17px] font-medium  ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
+			? 'h-7 text-sm ring-1 min-w-14'
+			: size === 'medium' ? 'h-[46.4px] text-[17px] font-medium ring-2' : 'h-14 text-[17px] font-medium ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
 			: 'ring-gray-300 focus:ring-blue-500'}"
 	/>
