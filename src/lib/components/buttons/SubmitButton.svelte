@@ -10,7 +10,7 @@
 <button
 	disabled={disable}
 	type="submit"
-	class="px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform {disable
+	class="px-4 w-full py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform {disable
 		? 'bg-slate-600'
 		: 'bg-emerald-600'} rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 {disable
 		? 'hover:bg-slate-500'
