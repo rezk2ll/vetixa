@@ -41,7 +41,7 @@
 	show={index === 0}
 >
 	<div class="flex flex-col gap-2">
-		<div class="flex flex-row gap-4 justify-between">
+		<div class="flex flex-col lg:flex-row lg:gap-4 justify-between">
 			<TextField required name="time" bind:value={entity.time} label="Temps" isInValid={false} />
 			<TextField
 				required
@@ -57,8 +57,8 @@
 				isInValid={false}
 			/>
 		</div>
-		<div class="flex flex-row gap-3 justify-between">
-			<div class="w-1/3 min-w-60">
+		<div class="flex flex-col lg:flex-row gap-3 justify-between">
+			<div class="w-full lg:w-1/3 min-w-60">
 				<label class="text-gray-700 dark:text-gray-200 pl-2" for="alimentation-{index}"
 					>Alimentation</label
 				>
@@ -71,7 +71,7 @@
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
-			<div class="w-1/3 min-w-60">
+			<div class="w-full lg:w-1/3 min-w-60">
 				<label class="text-gray-700 dark:text-gray-200 pl-2" for="abreuvement-{index}"
 					>Abreuvement</label
 				>
@@ -84,7 +84,7 @@
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
-			<div class="w-1/3 min-w-60">
+			<div class="w-full lg:w-1/3 min-w-60">
 				<label class="text-gray-700 dark:text-gray-200 pl-2" for="vaumissement-{index}"
 					>Vaumissement</label
 				>
@@ -98,8 +98,8 @@
 				/>
 			</div>
 		</div>
-		<div class="flex flex-row gap-3 justify-between">
-			<div class="w-1/3 min-w-60">
+		<div class="flex flex-col lg:flex-row gap-3 justify-between w-full">
+			<div class="w-full lg:w-1/3 min-w-60">
 				<label class="text-gray-700 dark:text-gray-200 pl-2" for="fecale-{index}"
 					>Matière fécale</label
 				>
@@ -113,7 +113,7 @@
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
-			<div class="w-1/3 min-w-60">
+			<div class="w-full lg:w-1/3 min-w-60">
 				<label class="text-gray-700 dark:text-gray-200 pl-2" for="urines-{index}">Urines</label>
 				<Select
 					id="urines-{index}"
@@ -125,7 +125,7 @@
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
-			<div class="w-1/3 min-w-60">
+			<div class="w-full lg:w-1/3 min-w-60">
 				<label class="text-gray-700 dark:text-gray-200 pl-2" for="state-{index}"
 					>Etat physiologique</label
 				>
