@@ -16,7 +16,7 @@
 		: ''} p-5 xl:py-5 bg-white {color === 'info'
 		? 'border border-teal-400'
 		: shadow
-		? 'shadow-2xl'
+		? 'lg:shadow-2xl shadow'
 		: ''} border-gray-200 xl:rounded-lg h-fit mb-2"
 >
 	<div class="flex flex-row space-x-5">
