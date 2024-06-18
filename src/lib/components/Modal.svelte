@@ -3,9 +3,9 @@
 	export let size: 'small' | 'medium' | 'bigmedium' | 'big' = 'small';
 </script>
 
-<div class="relative flex justify-center">
+<div class="relative flex items-center justify-center w-full max-w-full">
 	<div
-		class="fixed inset-0 z-40 overflow-y-auto {open ? '' : 'hidden'}"
+		class="fixed inset-0 z-40 w-full overflow-y-auto {open ? '' : 'hidden'}"
 		aria-labelledby="modal-title"
 		role="dialog"
 		aria-modal="true"
