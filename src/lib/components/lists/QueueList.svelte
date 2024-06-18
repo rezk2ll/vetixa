@@ -57,12 +57,12 @@
 </form>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
-	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full p-1 pt-10 lg:p-5 bg-white lg:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4 pt-10 lg:pt-0">
 			<div
-				class="flex pl-2 lg:pl-0 flex-col lg:flex-row items-start lg:items-center justify-between w-full gr"
+				class="flex pl-2 lg:pl-0 flex-col lg:flex-row items-start lg:items-center justify-between w-full"
 			>
-				<div>
+				<div class="w-full flex flex-col justify-center items-center lg:items-start">
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">File d'attente</h2>
 						<span
@@ -77,17 +77,17 @@
 				</div>
 			</div>
 			<div
-				class="flex px-1 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between"
+				class="flex px-1 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full lg:w-auto"
 			>
 				<div
-					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg w-full lg:w-96"
 				>
 					<button
 						on:click={() => {
 							statusFilter = 'pending';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 w-full py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'pending'
 							? 'bg-gray-100'
 							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
@@ -104,7 +104,7 @@
 							statusFilter = 'completed';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 py-2 w-full text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'completed'
 							? 'bg-gray-100'
 							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
@@ -117,7 +117,7 @@
 						</span>
 					</button>
 				</div>
-				<div class="flex items-center mt-0 h-6">
+				<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 					<span class="absolute">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -143,10 +143,10 @@
 					/>
 				</div>
 			</div>
-			<div class="flex flex-col mt-6">
+			<div class="flex flex-col mt-6 px-2 lg:px-0">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+						<div class="border border-gray-200 dark:border-gray-700 md:rounded-lg">
 							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
 								<thead class="bg-gray-50 dark:bg-gray-800 table-fixed">
 									<tr>
@@ -269,7 +269,7 @@
 				</div>
 			</div>
 
-			<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between">
+			<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between px-4 lg:px-0">
 				<div class="text-sm text-gray-500 dark:text-gray-400">
 					Page <span class="font-medium text-gray-700 dark:text-gray-100"
 						>{page + 1} sur {totalPages}</span
