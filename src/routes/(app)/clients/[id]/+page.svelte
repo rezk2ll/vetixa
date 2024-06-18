@@ -42,7 +42,7 @@
 </Modal>
 
 <div class="antialiased xl:pl-14">
-	<div class="flex flex-col xl:flex-row xl:px-14 xl:py-10 w-full">
+	<div class="flex flex-col xl:flex-row xl:px-14 xl:py-10 py-5 w-full">
 		<CollapsibleSection
 			title={client.name}
 			color="primary"
