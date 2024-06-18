@@ -74,15 +74,14 @@
 	};
 </script>
 
-<Modal bind:open={openAddFundsForm} size="small">
-	<AddFundsForm bind:open={openAddFundsForm} />
-</Modal>
-
-<Modal bind:open={openAddExpensesForm} size="small">
-	<AddExpenseForm bind:open={openAddExpensesForm} />
-</Modal>
-
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
+	<Modal bind:open={openAddFundsForm} size="small">
+		<AddFundsForm bind:open={openAddFundsForm} />
+	</Modal>
+
+	<Modal bind:open={openAddExpensesForm} size="small">
+		<AddExpenseForm bind:open={openAddExpensesForm} />
+	</Modal>
 	<div class="w-full p-1 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4 pt-10 lg:pt-0">
 			<div

@@ -77,40 +77,43 @@
 	});
 </script>
 
-<Modal bind:open={openAddModal} size="medium">
-	<AddClientForm bind:open={openAddModal} />
-</Modal>
-<Modal bind:open={openUpdateModal} size="medium">
-	{#if selectedUpdateItem}
-		<UpdateClientForm bind:open={openUpdateModal} bind:item={selectedUpdateItem} />
-	{/if}
-</Modal>
+<div class="flex flex-col items-start justify-start lg:pl-14 w-full">
+	<Modal bind:open={openAddModal} size="medium">
+		<AddClientForm bind:open={openAddModal} />
+	</Modal>
+	<Modal bind:open={openUpdateModal} size="medium">
+		{#if selectedUpdateItem}
+			<UpdateClientForm bind:open={openUpdateModal} bind:item={selectedUpdateItem} />
+		{/if}
+	</Modal>
 
-<form use:enhance action="?/removeClient" method="POST" class="hidden" bind:this={deleteFormRef}>
-	{#if selectedItem}
-		<input type="hidden" name="id" bind:value={$deleteForm.id} />
-	{/if}
-</form>
+	<form use:enhance action="?/removeClient" method="POST" class="hidden" bind:this={deleteFormRef}>
+		{#if selectedItem}
+			<input type="hidden" name="id" bind:value={$deleteForm.id} />
+		{/if}
+	</form>
 
-<ConfirmationDialog bind:show={showConfirmation} handler={deleteHandler}>
-	<div>
-		<div class="mt-2 text-center">
-			<h3 class="text-lg font-medium leading-6 text-gray-800" id="modal-title">
-				Supprimer {selectedItem?.name}
-			</h3>
-			<p class="mt-2 text-sm text-gray-500">
-				Êtes-vous sûr de vouloir supprimer cet animal ? Toutes vos données seront définitivement
-				supprimé. Cette action ne peut pas être annulée.
-			</p>
+	<ConfirmationDialog bind:show={showConfirmation} handler={deleteHandler}>
+		<div>
+			<div class="mt-2 text-center">
+				<h3 class="text-lg font-medium leading-6 text-gray-800" id="modal-title">
+					Supprimer {selectedItem?.name}
+				</h3>
+				<p class="mt-2 text-sm text-gray-500">
+					Êtes-vous sûr de vouloir supprimer cet animal ? Toutes vos données seront définitivement
+					supprimé. Cette action ne peut pas être annulée.
+				</p>
+			</div>
 		</div>
-	</div>
-</ConfirmationDialog>
-
-<div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-3 lg:px-5 lg:p-5 lg:py-5 bg-white md:shadow-2xl border-gray-200 xl:rounded">
+	</ConfirmationDialog>
+	<div class="w-full px-3 lg:px-5 lg:p-5 lg:py-3 bg-white md:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4 w-full">
-			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full lg:pr-5">
-				<div class="flex items-center justify-center lg:justify-start lg:items-start flex-col w-full">
+			<div
+				class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full lg:pr-5"
+			>
+				<div
+					class="flex items-center justify-center lg:justify-start lg:items-start flex-col w-full"
+				>
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800">Clients</h2>
 						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"

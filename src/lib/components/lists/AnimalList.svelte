@@ -93,38 +93,37 @@
 	});
 </script>
 
-{#if canAdd}
-	<Modal bind:open={openAddAnimalModal} size="medium">
-		<AddAnimalForm bind:open={openAddAnimalModal} />
-	</Modal>
-{/if}
-<Modal bind:open={openUpdateAnimalModal} size="medium">
-	{#if selectedUpdateItem}
-		<UpdateAnimalForm bind:open={openUpdateAnimalModal} bind:item={selectedUpdateItem} />
-	{/if}
-</Modal>
-
-<form use:enhance action="?/removeAnimal" method="POST" class="hidden" bind:this={deleteFormRef}>
-	{#if selectedItem}
-		<input type="hidden" name="id" bind:value={$deleteForm.id} />
-	{/if}
-</form>
-
-<ConfirmationDialog bind:show={showConfirmation} handler={removeHandler}>
-	<div>
-		<div class="mt-2 text-center">
-			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
-				Supprimer {selectedItem?.name}
-			</h3>
-			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-				Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront définitivement
-				supprimé. Cette action ne peut pas être annulée.
-			</p>
-		</div>
-	</div>
-</ConfirmationDialog>
-
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
+	{#if canAdd}
+		<Modal bind:open={openAddAnimalModal} size="medium">
+			<AddAnimalForm bind:open={openAddAnimalModal} />
+		</Modal>
+	{/if}
+	<Modal bind:open={openUpdateAnimalModal} size="medium">
+		{#if selectedUpdateItem}
+			<UpdateAnimalForm bind:open={openUpdateAnimalModal} bind:item={selectedUpdateItem} />
+		{/if}
+	</Modal>
+
+	<form use:enhance action="?/removeAnimal" method="POST" class="hidden" bind:this={deleteFormRef}>
+		{#if selectedItem}
+			<input type="hidden" name="id" bind:value={$deleteForm.id} />
+		{/if}
+	</form>
+
+	<ConfirmationDialog bind:show={showConfirmation} handler={removeHandler}>
+		<div>
+			<div class="mt-2 text-center">
+				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+					Supprimer {selectedItem?.name}
+				</h3>
+				<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+					Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront définitivement
+					supprimé. Cette action ne peut pas être annulée.
+				</p>
+			</div>
+		</div>
+	</ConfirmationDialog>
 	<div class="w-full px-3 lg:p-5 bg-white md:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4">
 			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
