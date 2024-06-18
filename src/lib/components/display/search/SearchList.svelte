@@ -35,7 +35,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full px-5 pt-10 lg:p-5 bg-white lg:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex items-center gap-x-3 w-full">
 			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Résultats de la recherche</h2>
