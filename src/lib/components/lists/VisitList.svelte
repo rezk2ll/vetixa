@@ -91,10 +91,10 @@
 </Modal>
 <div class="flex flex-col items-center justify-start w-full">
 	<div
-		class="w-full xl:w-11/12 pt-10 lg:p-10 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded px-2"
+		class="w-full xl:w-11/12 p-2 lg:pt-5 lg:p-5 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded"
 	>
-		<div class="flex items-center gap-x-3 w-full">
-			<div class="w-full grow flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
+		<div class="flex flex-col lg:flex-row gap-2 items-center gap-x-3 w-full">
+			<div class="w-full flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
 				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Visites</h2>
 
 				<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
@@ -103,7 +103,7 @@
 			</div>
 			<button
 				on:click={() => (openAddModal = true)}
-				class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+				class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -119,14 +119,14 @@
 						d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
 					/>
 				</svg>
-				<span>Ajouter</span>
+				<span>Nouvelle visite</span>
 			</button>
 		</div>
 		<div
-			class="flex px-1 py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
+			class="flex py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
 		>
 			<div
-				class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+				class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg w-full lg:w-auto"
 			>
 				<button
 					on:click={() => {
@@ -193,7 +193,7 @@
 				</button>
 			</div>
 
-			<div class="flex items-center mt-0 h-6">
+			<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 				<span class="absolute">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -219,7 +219,7 @@
 				/>
 			</div>
 		</div>
-		<div class="flex flex-col mt-6">
+		<div class="flex flex-col mt-6 px-2 lg:px-0">
 			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 				<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 					<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -344,7 +344,7 @@
 			</div>
 		</div>
 
-		<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between">
+		<div class="mt-6 pb-5 lg:pb-0 sm:flex sm:items-center sm:justify-between px-2 lg:px-0">
 			<div class="text-sm text-gray-500 dark:text-gray-400">
 				Page <span class="font-medium text-gray-700 dark:text-gray-100"
 					>{page + 1} sur {totalPages}</span
