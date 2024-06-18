@@ -23,7 +23,7 @@
 	};
 </script>
 
-<div>
+<div class="w-full">
 	<div class="flex items-center justify-center">
 		<slot />
 	</div>
