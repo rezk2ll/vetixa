@@ -187,12 +187,11 @@
 	<div class="flex flex-col mt-6">
 		<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-				<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+				<div class="border border-gray-200 dark:border-gray-700 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-						<thead class="bg-gray-50 dark:bg-gray-800">
+						<thead class="bg-gray-50 ">
 							<tr>
 								<th
-									scope="col"
 									class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 								>
 									<div class="flex items-center gap-x-3">
@@ -201,14 +200,13 @@
 								</th>
 
 								<th
-									scope="col"
-									class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									class="px-10 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 								>
 									Nom
 								</th>
 								<th
 									scope="col"
-									class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									class="px-8 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 								>
 									Description
 								</th>
@@ -227,7 +225,7 @@
 								</th>
 								<th
 									scope="col"
-									class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									class="px-4 py-3.5 text-sm font-normal text-left text-gray-500"
 								>
 									<span class="sr-only">Remise</span>
 								</th>
@@ -266,10 +264,10 @@
 												</div>
 											</div>
 										</td>
-										<td class="px-12 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
+										<td class="px-10 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
 											{item.name}
 										</td>
-										<td class="px-12 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
+										<td class="px-8 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
 											{@html item.description}
 										</td>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"

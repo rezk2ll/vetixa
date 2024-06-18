@@ -203,7 +203,7 @@
 
 								<th
 									scope="col"
-									class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									class="px-8 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 								>
 									Nom
 								</th>
@@ -262,7 +262,7 @@
 												</div>
 											</div>
 										</td>
-										<td class="px-12 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
+										<td class="px-8 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
 											{exam.name}
 										</td>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
