@@ -148,19 +148,20 @@
 	</div>
 </ConfirmationDialog>
 
+<Modal bind:open size="medium">
+	<SelectActForm
+		bind:open
+		title="Sélectionner un ou plusieurs actes chirurgicaux"
+		items={$surgicalActs}
+		{handler}
+		bind:value={$addForm.items}
+	/>
+</Modal>
+
 <section class="container px-4">
 	<div class="flex items-center justify-between">
 		<div class="lg:w-full" />
 		<div class="flex items-center justify-end mt-4 gap-x-3 w-full">
-			<Modal bind:open size="medium">
-				<SelectActForm
-					bind:open
-					title="Sélectionner un ou plusieurs actes chirurgicaux"
-					items={$surgicalActs}
-					{handler}
-					bind:value={$addForm.items}
-				/>
-			</Modal>
 			<button
 				type="button"
 				on:click={() => (open = true)}

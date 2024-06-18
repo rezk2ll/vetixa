@@ -142,21 +142,22 @@
 	</div>
 </ConfirmationDialog>
 
-<section class="container px-1 lg:px-4 mx-auto max-w-full">
-	<div class="flex w-full">
-		<div />
+<Modal bind:open size="medium">
+	<SelectActForm
+		bind:open
+		title="Ajouter un examen"
+		items={$clinicalExams}
+		{handler}
+		bind:value={$addForm.items}
+	>
+		<slot />
+	</SelectActForm>
+</Modal>
+
+<section class="container px-4">
+	<div class="flex items-center justify-between w-full">
+		<div class="lg:w-full" />
 		<div class="flex items-center mt-4 gap-x-3 w-full lg:w-auto">
-			<Modal bind:open size="medium">
-				<SelectActForm
-					bind:open
-					title="Ajouter un examen"
-					items={$clinicalExams}
-					{handler}
-					bind:value={$addForm.items}
-				>
-					<slot />
-				</SelectActForm>
-			</Modal>
 			<button
 				type="button"
 				on:click={() => (open = true)}

@@ -142,21 +142,22 @@
 	</div>
 </ConfirmationDialog>
 
+<Modal bind:open size="medium">
+	<SelectActForm
+		bind:open
+		title="Sélectionner un ou plusieurs actes médicaux"
+		items={$medicalActs}
+		{handler}
+		bind:value={$addForm.items}
+	>
+		<slot />
+	</SelectActForm>
+</Modal>
+
 <section class="container px-4">
 	<div class="flex items-center justify-between w-full">
 		<div class="lg:w-full" />
 		<div class="flex items-center justify-end mt-4 gap-x-3 w-full">
-			<Modal bind:open size="medium">
-				<SelectActForm
-					bind:open
-					title="Sélectionner un ou plusieurs actes médicaux"
-					items={$medicalActs}
-					{handler}
-					bind:value={$addForm.items}
-				>
-					<slot />
-				</SelectActForm>
-			</Modal>
 			<button
 				type="button"
 				on:click={() => (open = true)}
