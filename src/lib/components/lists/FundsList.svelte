@@ -83,7 +83,7 @@
 </Modal>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
-	<div class="w-full p-1 lg:pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full p-1 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded">
 		<div class="flex flex-col space-y-4 pt-10 lg:pt-0">
 			<div
 				class="flex pl-2 lg:pl-0 flex-col lg:flex-row items-start lg:items-center justify-between w-full"
