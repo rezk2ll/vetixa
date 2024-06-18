@@ -118,10 +118,10 @@
 </ConfirmationDialog>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
-	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
-		<div class="flex flex-col space-y-4">
-			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
-				<div>
+	<div class="w-full px-2 lg:px-5 pt-10 lg:p-5 bg-white lg:shadow-2xl border-gray-200 xl:rounded">
+		<div class="flex flex-col space-y-4 w-full">
+			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full">
+				<div class="flex flex-col items-center justify-center lg:items-start w-full">
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Animaux</h2>
 						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
@@ -132,10 +132,10 @@
 					<p class="mt-1 text-sm text-gray-500">La liste des animeaux</p>
 				</div>
 				{#if canAdd}
-					<div class="flex items-center mt-4 gap-x-2">
+					<div class="flex items-center mt-4 gap-x-2 w-full justify-end">
 						<button
 							on:click={() => (openAddAnimalModal = true)}
-							class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
+							class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +158,7 @@
 				{/if}
 			</div>
 			<div
-				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
+				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between w-full"
 			>
 				<div
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse"
@@ -245,7 +245,7 @@
 					</button>
 				</div>
 
-				<div class="flex items-center mt-0 h-6">
+				<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 					<span class="absolute">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
