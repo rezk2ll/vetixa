@@ -104,11 +104,11 @@
 </ConfirmationDialog>
 
 <section class="container px-4 mx-auto">
-	<div class="sm:flex sm:items-center sm:justify-between">
-		<h2 class="text-lg font-medium text-gray-800 dark:text-white">
+	<div class="flex items-center justify-between">
+		<div class="w-full text-lg font-medium text-gray-800 dark:text-white">
 			{$currentVisit.files.length} fichier{$currentVisit.files.length !== 1 ? 's' : ''}
-		</h2>
-		<div class="flex items-center mt-4 gap-x-4">
+		</div>
+		<div class="flex items-center justify-end mt-4 gap-x-4 w-full">
 			<form
 				method="POST"
 				enctype="multipart/form-data"
@@ -117,7 +117,7 @@
 				use:enhance
 			>
 				<label
-					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+					class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 				>
 					<svg class="w-6 h-6" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<g clip-path="url(#clip0_3098_154395)">

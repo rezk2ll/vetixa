@@ -43,7 +43,12 @@
 </script>
 
 <div class="flex flex-col gap-2">
-	<form use:enhance action="?/updateVisit" class="mt-4 flex flex-col w-full" method="POST">
+	<form
+		use:enhance
+		action="?/updateVisit"
+		class="mt-4 flex flex-col w-full px-2 lg:px-0"
+		method="POST"
+	>
 		<input type="hidden" bind:value={$currentVisit.id} name="id" />
 		<div class="flex flex-col pb-1">
 			<TextAreaField
@@ -52,7 +57,7 @@
 				bind:value={$form.motif}
 				placeholder="motif"
 			/>
-			<div class="flex gap-5 h-full justify-center">
+			<div class="flex flex-col lg:flex-row lg:gap-5 h-full justify-center">
 				<TextField
 					name="doctor"
 					label="Docteur"
@@ -73,13 +78,18 @@
 
 		<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-100">
 			<SubmitButton small loading={$submitting} />
-			<div class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-				Dernière mise à jour: {formatDateString($currentVisit.updated)}
+			<div class="flex flex-col gap-1 lg:flex-row px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+        <div>
+          Dernière mise à jour:
+        </div>
+        <div>
+          {formatDateString($currentVisit.updated)}
+        </div>
 			</div>
 		</div>
 	</form>
 
-	<div class="flex flex-row space-x-5 w-full">
+	<div class="flex flex-col lg:flex-row px-2 lg:space-x-5 w-full">
 		<div class="flex flex-col space-y-5 w-full">
 			<div
 				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"

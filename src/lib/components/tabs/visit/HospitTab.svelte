@@ -31,14 +31,14 @@
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: false,
-    onSubmit: ({ }) => {
-      loading = true;
-    },
+		onSubmit: ({}) => {
+			loading = true;
+		},
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				setTimeout(() => {
 					invalidated = true;
-          loading = false;
+					loading = false;
 				}, 250);
 			}
 		},
@@ -138,7 +138,7 @@
 
 <div class="container px-4 mt-5 pb-5 relative">
 	<div class="flex flex-col space-y-5">
-		<div class="sm:flex sm:items-center sm:justify-between">
+		<div class="flex items-center justify-between">
 			<h2 class="text-lg font-medium text-gray-800 dark:text-white">
 				{daysCount} jours de hospitalisation
 			</h2>
@@ -150,57 +150,60 @@
 				<LoadingSpinner />
 			</div>
 		{/if}
-		<form method="post" action="?/updateHospit" use:enhance class="flex flex-col gap-5">
+		<form method="post" action="?/updateHospit" use:enhance class="flex flex-col gap-5 w-full">
 			<input type="hidden" name="id" value={$form.id} />
 			<TextAreaField name="note" label="Note" bind:value={$form.note} placeholder="" />
-			<div class="flex flex-row gap-5 justify-start items-end">
-				<div class="pt-10 hospit">
-					<label class="text-gray-700 dark:text-gray-200 pl-2" for="startdate"
-						>Date d'admission</label
-					>
-					<DateInput
-						id="startdate"
-						class="rounded-full"
-						bind:value={$form.start}
-						timePrecision="minute"
-						closeOnSelection={true}
-						format="yyyy-MM-dd"
-						{locale}
-					/>
-				</div>
-				<div class="text-slate-500 flex items-center justify-center py-5">
-					<svg
-						data-slot="icon"
-						fill="none"
-						stroke-width="1.5"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						class="w-5 h-5"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+			<div class="flex flex-col lg:flex-row gap-2 lg:gap-5 justify-start">
+				<div class="flex w-full justify-between lg:w-auto lg:gap-4">
+					<div class="hospit">
+						<label class="text-gray-700 dark:text-gray-200 pl-2" for="startdate"
+							>Date d'admission</label
+						>
+						<DateInput
+							id="startdate"
+							class="rounded-full"
+							bind:value={$form.start}
+							timePrecision="minute"
+							closeOnSelection={true}
+							format="yyyy-MM-dd"
+							{locale}
 						/>
-					</svg>
+					</div>
+					<div class="text-slate-500 flex items-center justify-center py-10">
+						<svg
+							data-slot="icon"
+							fill="none"
+							stroke-width="1.5"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							class="w-5 h-5"
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+							/>
+						</svg>
+					</div>
+					<div class="hospit">
+						<label class="text-gray-700 dark:text-gray-200 pl-2" for="enddate"
+							>Date de sortie prévue</label
+						>
+						<DateInput
+							bind:value={$form.end}
+							id="enddate"
+							min={$form.start}
+							format="yyyy-MM-dd"
+							closeOnSelection={true}
+							timePrecision="minute"
+							{locale}
+						/>
+					</div>
 				</div>
-				<div class="pt-10 hospit">
-					<label class="text-gray-700 dark:text-gray-200 pl-2" for="enddate"
-						>Date de sortie prévue</label
-					>
-					<DateInput
-						bind:value={$form.end}
-						id="enddate"
-						min={$form.start}
-						format="yyyy-MM-dd"
-						closeOnSelection={true}
-						timePrecision="minute"
-						{locale}
-					/>
-				</div>
-				<div class="min-w-60 shrink">
+
+				<div class="min-w-60 shrink pt-6">
 					<Select
 						id="cage"
 						name="cage"
@@ -209,11 +212,12 @@
 						listOffset={10}
 						placeholder="veuillez sélectionner un cage"
 						bind:justValue={$form.cage}
-						class="h-[57px] relative rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
+						class="h-[48px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
 					/>
 				</div>
-				<div class="shrink min-w-96">
+				<div class="min-w-96">
 					<NumberField
+            size="medium"
 						label="Prix"
 						placeholder="montant"
 						bind:value={$form.price}
@@ -223,8 +227,8 @@
 				</div>
 			</div>
 
-			<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-100">
-				<div class="flex flex-row space-x-5 w-2/3">
+			<div class="flex flex-col lg:flex-row items-center justify-between lg:px-2 lg:py-1 border-t bg-gray-100">
+				<div class="flex flex-row gap-1 lg:space-x-5 w-full lg:w-2/3">
 					<SubmitButton small {disabled} loading={$submitting}>Payer</SubmitButton>
 					<RemoveButton
 						small

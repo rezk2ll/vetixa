@@ -142,10 +142,10 @@
 	</div>
 </ConfirmationDialog>
 
-<section class="container px-4 mx-auto">
-	<div class="sm:flex sm:items-center sm:justify-between">
+<section class="container px-1 lg:px-4 mx-auto max-w-full">
+	<div class="flex w-full">
 		<div />
-		<div class="flex items-center mt-4 gap-x-3">
+		<div class="flex items-center mt-4 gap-x-3 w-full lg:w-auto">
 			<Modal bind:open size="medium">
 				<SelectActForm
 					bind:open
@@ -160,7 +160,7 @@
 			<button
 				type="button"
 				on:click={() => (open = true)}
-				class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+				class="flex items-center grow justify-center w-full lg:w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 			>
 				<svg
 					data-slot="icon"
@@ -184,7 +184,7 @@
 		</div>
 	</div>
 
-	<div class="flex flex-col mt-6">
+	<div class="flex flex-col mt-6 px-2 lg:px-0">
 		<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">

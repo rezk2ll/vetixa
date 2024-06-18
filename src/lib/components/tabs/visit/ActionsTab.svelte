@@ -17,12 +17,12 @@
 	$: $form.actions = $currentVisit.actions;
 </script>
 
-<section class="container px-4 mx-auto">
+<section class="container px-4">
 	<div class="flex flex-col mt-6">
-		<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+		<div class="-mx-4 -my-2 overflow-x-auto lg:-mx-8">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden border border-gray-200 md:rounded-lg">
-					<form method="post" action="?/updateActions" use:enhance>
+					<form method="post" action="?/updateActions" use:enhance class="w-full">
 						<input type="hidden" name="id" value={$form.id} />
 						<textarea class="hidden" name="actions" value={$form.actions} />
 						<Editor
@@ -34,8 +34,13 @@
 						/>
 						<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-200">
 							<SubmitButton small loading={$submitting} />
-							<div class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-								Dernière mise à jour: {formatDateString($currentVisit.updated)}
+							<div
+								class="flex flex-col gap-1 lg:flex-row px-4 py-4 text-sm text-gray-500 whitespace-nowrap"
+							>
+								<div>Dernière mise à jour:</div>
+								<div>
+									{formatDateString($currentVisit.updated)}
+								</div>
 							</div>
 						</div>
 					</form>
