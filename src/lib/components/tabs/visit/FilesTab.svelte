@@ -155,7 +155,7 @@
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-						<thead class="bg-gray-50 dark:bg-gray-800">
+						<thead class="bg-gray-50">
 							<tr>
 								<th
 									scope="col"
