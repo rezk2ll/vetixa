@@ -43,9 +43,9 @@
 </script>
 
 <div
-	class="flex flex-col gap-2 w-full p-1 pt-10 lg:p-8 lg:pb-3 bg-white border-gray-200 xl:rounded px-2"
+	class="flex flex-col gap-2 w-full p-1 pt-10 lg:p-8 lg:pb-3 bg-white shadow border-gray-200 xl:rounded px-2"
 >
-	<div class="flex space-x-5">
+	<div class="flex space-x-5 w-full">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 512 512"

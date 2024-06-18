@@ -8,9 +8,9 @@
 	$: disabled = bill === undefined;
 </script>
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 w-full">
 	<PrimaryButton full {disabled} {handler}>
-		<div class="flex space-x-5 items-start justify-start">
+		<div class="flex space-x-5 items-start justify-start w-full">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 384 512"
