@@ -42,7 +42,7 @@
 </script>
 
 <div class="flex flex-row xl:pl-14 w-full">
-	<div class="flex-grow flex flex-col">
+	<div class="flex-grow flex flex-col-reverse lg:flex-col w-full">
 		<StockStats
 			total={$inventoryItems.length}
 			unavailable={stats[0]}
