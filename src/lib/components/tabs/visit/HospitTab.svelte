@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from 'svelte-select';
 	import { fr } from 'date-fns/locale';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
@@ -31,7 +31,7 @@
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: false,
-		onSubmit: ({}) => {
+		onSubmit: () => {
 			loading = true;
 		},
 		onResult: ({ result }) => {
