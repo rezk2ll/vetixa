@@ -84,45 +84,44 @@
 	});
 </script>
 
-<Modal bind:open={openAddInventoryItemModal} size="bigmedium">
-	<AddInventoryItemForm bind:open={openAddInventoryItemModal} />
-</Modal>
-
-<Modal bind:open={openSellInventoryItemModal} size="bigmedium">
-	<SellInventoryItemForm bind:open={openSellInventoryItemModal} />
-</Modal>
-
-<Modal bind:open={openUpdateInventoryItemModal} size="bigmedium">
-	{#if selectedUpdateItem}
-		<UpdateInventoryItemForm bind:open={openUpdateInventoryItemModal} item={selectedUpdateItem} />
-	{/if}
-</Modal>
-
-<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
-	{#if selectedItem}
-		<input type="hidden" name="id" bind:value={selectedItem.id} />
-	{/if}
-</form>
-
-<ConfirmationDialog bind:show={showConfirmation} {handler}>
-	<div>
-		<div class="mt-2 text-center">
-			<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
-				Supprimer {selectedItem?.name}
-			</h3>
-			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-				Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront définitivement
-				supprimé. Cette action ne peut pas être annulée.
-			</p>
-		</div>
-	</div>
-</ConfirmationDialog>
-
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-4">
-	<div class="w-full px-5 pt-10 lg:p-5 bg-white shadow-2xl border-gray-200 xl:rounded">
-		<div class="flex flex-col space-y-4">
-			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full gr">
-				<div>
+	<Modal bind:open={openAddInventoryItemModal} size="bigmedium">
+		<AddInventoryItemForm bind:open={openAddInventoryItemModal} />
+	</Modal>
+
+	<Modal bind:open={openSellInventoryItemModal} size="bigmedium">
+		<SellInventoryItemForm bind:open={openSellInventoryItemModal} />
+	</Modal>
+
+	<Modal bind:open={openUpdateInventoryItemModal} size="bigmedium">
+		{#if selectedUpdateItem}
+			<UpdateInventoryItemForm bind:open={openUpdateInventoryItemModal} item={selectedUpdateItem} />
+		{/if}
+	</Modal>
+
+	<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
+		{#if selectedItem}
+			<input type="hidden" name="id" bind:value={selectedItem.id} />
+		{/if}
+	</form>
+
+	<ConfirmationDialog bind:show={showConfirmation} {handler}>
+		<div>
+			<div class="mt-2 text-center">
+				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+					Supprimer {selectedItem?.name}
+				</h3>
+				<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+					Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront définitivement
+					supprimé. Cette action ne peut pas être annulée.
+				</p>
+			</div>
+		</div>
+	</ConfirmationDialog>
+	<div class="w-full px-2 lg:px-5 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded">
+		<div class="flex flex-col space-y-4 w-full">
+			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full">
+				<div class="flex flex-col items-center justify-center lg:justify-start lg:items-start w-full">
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Inventaire</h2>
 						<span
@@ -136,7 +135,7 @@
 					</p>
 				</div>
 
-				<div class="flex items-center mt-4 gap-x-2">
+				<div class="flex items-center mt-4 gap-x-2 w-full lg:w-auto px-2 lg:px-0">
 					<button
 						on:click={() => (openAddInventoryItemModal = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
@@ -178,10 +177,10 @@
 				</div>
 			</div>
 			<div
-				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
+				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between w-full"
 			>
 				<div
-					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
+					class="flex flex-row w-full lg:w-auto overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
 				>
 					<button
 						on:click={() => {
@@ -249,7 +248,7 @@
 					</button>
 				</div>
 
-				<div class="flex items-center mt-0 h-6">
+				<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 					<span class="absolute">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -278,9 +277,9 @@
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-								<thead class="bg-gray-50 dark:bg-gray-800">
+						<div class="border border-gray-200 md:rounded-lg">
+							<table class="min-w-full divide-y divide-gray-200">
+								<thead class="bg-gray-50">
 									<tr>
 										<th
 											scope="col"
@@ -423,7 +422,7 @@
 				</div>
 			</div>
 
-			<div class="mt-6 sm:flex sm:items-center sm:justify-between">
+			<div class="mt-6 flex flex-col lg:flex-row items-center justify-between w-full pb-10">
 				<div class="text-sm text-gray-500 dark:text-gray-400">
 					Page <span class="font-medium text-gray-700 dark:text-gray-100"
 						>{page + 1} sur {totalPages}</span
