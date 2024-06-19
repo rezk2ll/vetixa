@@ -71,25 +71,25 @@
 	{/if}
 </form>
 
-<ConfirmationDialog bind:show={showConfirmation} {handler}>
-	<div>
-		{#if selectedItem?.date}
-			<div class="mt-2 text-center">
-				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
-					Supprimer la visite de {formatDateString(selectedItem.created)}
-				</h3>
-				<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-					Êtes-vous sûr de vouloir supprimer cette visite ? Toutes vos données seront définitivement
-					supprimé. Cette action ne peut pas être annulée.
-				</p>
-			</div>
-		{/if}
-	</div>
-</ConfirmationDialog>
-<Modal bind:open={openAddModal} size="medium">
-	<AddVisitForm bind:open={openAddModal} />
-</Modal>
 <div class="flex flex-col items-center justify-start w-full">
+	<ConfirmationDialog bind:show={showConfirmation} {handler}>
+		<div>
+			{#if selectedItem?.date}
+				<div class="mt-2 text-center">
+					<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+						Supprimer la visite de {formatDateString(selectedItem.created)}
+					</h3>
+					<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+						Êtes-vous sûr de vouloir supprimer cette visite ? Toutes vos données seront
+						définitivement supprimé. Cette action ne peut pas être annulée.
+					</p>
+				</div>
+			{/if}
+		</div>
+	</ConfirmationDialog>
+	<Modal bind:open={openAddModal} size="medium">
+		<AddVisitForm bind:open={openAddModal} />
+	</Modal>
 	<div
 		class="w-full xl:w-11/12 p-2 lg:pt-5 lg:p-5 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded"
 	>
