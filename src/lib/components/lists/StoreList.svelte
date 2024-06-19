@@ -118,10 +118,14 @@
 			</div>
 		</div>
 	</ConfirmationDialog>
-	<div class="w-full px-2 lg:px-5 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded">
+	<div
+		class="w-full px-2 lg:px-5 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded"
+	>
 		<div class="flex flex-col space-y-4 w-full">
 			<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full">
-				<div class="flex flex-col items-center justify-center lg:justify-start lg:items-start w-full">
+				<div
+					class="flex flex-col items-center justify-center lg:justify-start lg:items-start w-full"
+				>
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Inventaire</h2>
 						<span
