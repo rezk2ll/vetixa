@@ -46,7 +46,7 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 		query
 	);
 
-  const transactions = await fundsService.transactions(startDate, endDate);
+	const transactions = await fundsService.transactions(startDate, endDate);
 	const stats = await fundsService.paymentMethodStats(transactions);
 
 	return {

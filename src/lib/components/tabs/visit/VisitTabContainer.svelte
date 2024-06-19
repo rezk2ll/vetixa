@@ -15,8 +15,10 @@
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
 
-<div class="flex flex-col items-center justify-start lg:pl-14 w-full lg:pt-10 ">
-	<div class="w-full p-1 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded-md pb-5">
+<div class="flex flex-col items-center justify-start lg:pl-14 w-full lg:pt-10">
+	<div
+		class="w-full p-1 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded-md pb-5"
+	>
 		<div class="flex flex-col items-center gap-x-3 w-full">
 			<div class="flex overflow-x-auto whitespace-nowrap w-full">
 				<button

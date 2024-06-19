@@ -78,13 +78,13 @@
 
 		<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-100">
 			<SubmitButton small loading={$submitting} />
-			<div class="flex flex-col gap-1 lg:flex-row px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-        <div>
-          Dernière mise à jour:
-        </div>
-        <div>
-          {formatDateString($currentVisit.updated)}
-        </div>
+			<div
+				class="flex flex-col gap-1 lg:flex-row px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+			>
+				<div>Dernière mise à jour:</div>
+				<div>
+					{formatDateString($currentVisit.updated)}
+				</div>
 			</div>
 		</div>
 	</form>

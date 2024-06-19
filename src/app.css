@@ -16,15 +16,15 @@ body {
 }
 
 input:placeholder-shown {
-  @apply truncate;
+	@apply truncate;
 }
 
 @media screen and (max-width: 767px) {
-  .fc-toolbar.fc-header-toolbar {
-    flex-direction: column;
-  }
-  .fc-toolbar-chunk {
-    text-align: center;
-    padding: 5px 0;
-  }
+	.fc-toolbar.fc-header-toolbar {
+		flex-direction: column;
+	}
+	.fc-toolbar-chunk {
+		text-align: center;
+		padding: 5px 0;
+	}
 }

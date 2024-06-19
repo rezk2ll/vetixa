@@ -217,7 +217,7 @@
 				</div>
 				<div class="min-w-96">
 					<NumberField
-            size="medium"
+						size="medium"
 						label="Prix"
 						placeholder="montant"
 						bind:value={$form.price}
@@ -227,7 +227,9 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col lg:flex-row items-center justify-between lg:px-2 lg:py-1 border-t bg-gray-100">
+			<div
+				class="flex flex-col lg:flex-row items-center justify-between lg:px-2 lg:py-1 border-t bg-gray-100"
+			>
 				<div class="flex flex-row gap-1 lg:space-x-5 w-full lg:w-2/3">
 					<SubmitButton small {disabled} loading={$submitting}>Payer</SubmitButton>
 					<RemoveButton
