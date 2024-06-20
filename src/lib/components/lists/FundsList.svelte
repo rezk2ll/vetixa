@@ -15,8 +15,13 @@
 	let openAddFundsForm = false;
 	let openAddExpensesForm = false;
 	let search: string = $fundsPageInfo.query;
-	let startDate: Date = setMinutes(setHours(new Date(), 0), 0);
-	let endDate: Date = setMinutes(setHours(new Date(), 23), 0);
+
+	let startDate: Date = $fundsPageInfo.startDate.startsWith('@')
+		? setMinutes(setHours(new Date(), 0), 0)
+		: new Date($fundsPageInfo.startDate);
+	let endDate: Date = $fundsPageInfo.endDate.startsWith('@')
+		? setMinutes(setHours(new Date(), 23), 0)
+		: new Date($fundsPageInfo.endDate);
 
 	$: currentUrl = browser ? document.location.href : '';
 

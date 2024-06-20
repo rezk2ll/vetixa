@@ -131,7 +131,9 @@ export class FundsService {
 			items,
 			query,
 			filter,
-			total
+			total,
+			startDate,
+			endDate
 		};
 	};
 

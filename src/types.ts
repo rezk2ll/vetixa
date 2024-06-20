@@ -109,6 +109,8 @@ export interface HospitPageInfo extends PageInfo<Hospit> {
 export interface FundsPageInfo extends PageInfo<Fund> {
 	filter: fundsStatusFilter;
 	total: FundsTotal;
+	startDate: string;
+	endDate: string;
 }
 
 export interface ClientsPageInfo extends PageInfo<IClient> {}
