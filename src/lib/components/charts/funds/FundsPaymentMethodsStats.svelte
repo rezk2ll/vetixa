@@ -16,7 +16,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-start w-full pb-10">
-	<div class="w-full px-1 pt-10 lg:py-5 bg-white lg:shadow-2xl border-gray-200 h-fit xl:rounded">
+	<div class="w-full px-1 pt-10 lg:py-0 bg-white lg:shadow-2xl border-gray-200 h-fit xl:rounded">
 		<div class="rounded-t mb-0 px-4 py-3 border-0">
 			<div class="flex flex-wrap items-center">
 				<div class="relative w-full max-w-full flex-grow flex-1">
