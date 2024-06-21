@@ -6,7 +6,7 @@ import { isValid, parse } from 'date-fns';
 import { getPreviousDays, getPreviousDaysLabels } from '$lib/utils/date';
 import { FundsService } from '$lib/services/funds';
 import { zod } from 'sveltekit-superforms/adapters';
-import type { fundsStatusFilter } from '$types';
+import type { FundsPageInfo, fundsStatusFilter } from '$types';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
 	const addFundsForm = await superValidate(zod(addFundsSchema), { id: 'addFunds' });
@@ -48,11 +48,18 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 
 	const transactions = await fundsService.transactions(startDate, endDate);
 	const stats = await fundsService.paymentMethodStats(transactions);
+	const total = await fundsService.transactionsTotals(transactions, startDate, endDate);
 
 	return {
 		addFundsForm,
 		addExpenses,
-		pageInfo: pageTransactions,
+		pageInfo: {
+			...pageTransactions,
+			total,
+			count: {
+				all: transactions.length
+			}
+		} satisfies FundsPageInfo,
 		labels,
 		balanceData,
 		stats
