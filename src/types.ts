@@ -109,8 +109,13 @@ export interface HospitPageInfo extends PageInfo<Hospit> {
 export interface FundsPageInfo extends PageInfo<Fund> {
 	filter: fundsStatusFilter;
 	total: FundsTotal;
+	count: FundsCount;
 	startDate: string;
 	endDate: string;
+}
+
+export interface FundsCount {
+	all: number;
 }
 
 export interface ClientsPageInfo extends PageInfo<IClient> {}

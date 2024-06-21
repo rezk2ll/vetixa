@@ -97,7 +97,7 @@
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Caisse</h2>
 						<div class="flex flex-wrap gap-1">
 							<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded"
-								>{$fundsPageInfo.totalItems} transactions</span
+								>{$fundsPageInfo.count.all} transactions</span
 							>
 							<span class="px-3 py-1 text-xs text-emerald-600 bg-emerald-100 rounded"
 								>Revenu: {$fundsPageInfo.total.income} dt</span
