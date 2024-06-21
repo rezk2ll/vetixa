@@ -106,32 +106,26 @@ export class FundsService {
 		page: number = 1,
 		filter: fundsStatusFilter = 'all',
 		query: string = ''
-	): Promise<FundsPageInfo> => {
+	): Promise<Omit<FundsPageInfo, 'total' | 'count'>> => {
 		const start = startDate.startsWith('@') ? startDate : `"${startDate}"`;
 		const end = endDate.startsWith('@') ? endDate : `"${endDate}"`;
 
-		const collection =
-			filter === 'income'
-				? 'funds_income_list'
-				: filter === 'expense'
-				? 'funds_expense_list'
-				: 'fund_transactions';
+		const filterString =
+			filter === 'income' ? '&& amount > 0' : filter === 'expense' ? '&& amount < 0' : '';
 
 		const transactionslist = await this.pb
-			.collection(collection)
+			.collection('fund_transactions')
 			.getList<FundTransactionsResponse>(page, 10, {
-				filter: `created >= ${start} && created <= ${end} && description ~ "${query}"`,
+				filter: `created >= ${start} && created <= ${end} && description ~ "${query}" ${filterString}`,
 				expand: 'user'
 			});
 		const items = this.expandTranscations(transactionslist.items);
-		const total = await this.transactionsTotals(items, start, end);
 
 		return {
 			...transactionslist,
 			items,
 			query,
 			filter,
-			total,
 			startDate,
 			endDate
 		};
@@ -190,8 +184,13 @@ export class FundsService {
 
 	/**
 	 * Fetches the totals stats of a transactions list
+	 *
+	 * @param {FundTransactionsResponse[]} transactions - the list of transactions
+	 * @param {string} startDate - the start date
+	 * @param {string} endDate - the end date
+	 * @returns {Promise<FundsTotal>} the totals stats
 	 */
-	private transactionsTotals = async (
+	transactionsTotals = async (
 		transactions: FundTransactionsResponse[],
 		startDate: string,
 		endDate: string
@@ -207,7 +206,7 @@ export class FundsService {
 		const balance = currency(income).add(expense).value;
 
 		const unpaidBills = await this.pb.collection('bills').getFullList<BillsResponse>({
-			filter: `total_paid < total && created >= ${startDate} && created <= ${endDate}`
+			filter: `total_paid < total && created >= "${startDate}" && created <= "${endDate}"`
 		});
 
 		const remaining = unpaidBills.reduce(
