@@ -10,6 +10,8 @@
 	import { format, setHours, setMinutes } from 'date-fns';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import ArrowDown from '../icons/ArrowDown.svelte';
+	import ArrowUp from '../icons/ArrowUp.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let openAddFundsForm = false;
@@ -381,22 +383,30 @@
 													</div>
 												{/if}
 											</td>
-											<td class="px-4 py-4 text-sm whitespace-nowrap">
-												<div class="flex flex-col">
-													<p class="text-sm font-normal text-gray-600 dark:text-gray-400 uppercase">
+											<td class="px-4 py-3 text-sm whitespace-nowrap">
+												<div class="flex gap-2">
+													<div
+														class="text-sm pt-1 font-normal text-gray-600 dark:text-gray-400 uppercase"
+													>
 														{item.method}
-													</p>
+													</div>
 													{#if item.method === 'cash'}
 														<div class="flex flex-row gap-1">
 															<kbd
-																class="inline-flex items-center px-1 py-1 font-sans text-xs text-gray-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
+																aria-label="montant entrant"
+																title="montant entrant"
+																class="inline-flex items-center px-1 py-1 font-sans text-xs text-emerald-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
 															>
-																entrant: {item.incash} DT
+																<ArrowDown />
+																{item.incash} DT
 															</kbd>
 															<kbd
-																class="inline-flex items-center px-1 py-1 font-sans text-xs text-gray-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
+																aria-label="montant sortant"
+																title="montant sortant"
+																class="inline-flex items-center px-1 py-1 font-sans text-xs text-red-500 border rounded-md dark:text-gray-400 dark:border-gray-700"
 															>
-																sortant: {item.outcash} DT
+																<ArrowUp />
+																{item.outcash} DT
 															</kbd>
 														</div>
 													{/if}
