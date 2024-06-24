@@ -1,14 +1,15 @@
 name: publish docker image
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
@@ -17,4 +18,4 @@ jobs:
           password: ${{ secrets.DOCKRE_PASSWORD }}
           tags: |
             latest
-            ${{ github.ref_name }}
+            ${{ github.ref }}
