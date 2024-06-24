@@ -1,5 +1,6 @@
 FROM node:18-alpine AS builder
 
+ENV ADAPTER=node
 WORKDIR /app
 COPY package*.json .
 RUN npm ci
