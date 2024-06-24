@@ -2,9 +2,9 @@
   <img src="static/favicon.png" width="200" alt="logo" />
 </p>
 
-# Veterinary Clinic Management System
+# Vetixa
 
-- The Veterinary Clinic Management System is designed to streamline the operations of veterinary clinics, offering a comprehensive suite of features to enhance efficiency and improve patient care.
+- Vetixa is a Veterinary Clinic Management System designed to streamline the operations of veterinary clinics, offering a comprehensive suite of features to enhance efficiency and improve patient care.
 
 ## Built using:
 

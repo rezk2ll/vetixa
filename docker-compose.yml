@@ -16,3 +16,14 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  vetixa:
+    image: kferjani/vetixa:latest
+    container_name: vetixa
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    depends_on:
+      - pocketbase
+    environment:
+      - PUBLIC_POCKETBASE_URL=http://pocketbase:8090
