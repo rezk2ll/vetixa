@@ -18,4 +18,4 @@ jobs:
           password: ${{ secrets.DOCKRE_PASSWORD }}
           tags: |
             latest
-            ${{ github.ref }}
+            ${{ github.ref_name }}
