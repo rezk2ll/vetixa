@@ -165,7 +165,7 @@
 							bind:value={$form.start}
 							timePrecision="minute"
 							closeOnSelection={true}
-							format="yyyy-MM-dd"
+							format="yyyy-MM-dd HH:mm"
 							{locale}
 						/>
 					</div>
@@ -195,7 +195,7 @@
 							bind:value={$form.end}
 							id="enddate"
 							min={$form.start}
-							format="yyyy-MM-dd"
+							format="yyyy-MM-dd HH:mm"
 							closeOnSelection={true}
 							timePrecision="minute"
 							{locale}

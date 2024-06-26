@@ -8,7 +8,18 @@ import locale from 'date-fns/locale/fr/index';
  * @returns {string} the formatted date string
  */
 export const formatDateString = (timestamp: string): string =>
-	format(new Date(timestamp), 'EEEE dd/LL/yyyy  HH:mm', {
+	format(new Date(timestamp), 'EEEE dd/LL/yyyy HH:mm', {
+		locale
+	});
+
+/**
+ * format a timestamp string to a string with short day name
+ *
+ * @param {string} timestamp - the timestamp to format
+ * @returns {string} the formatted date string
+ */
+export const formatDateStringShortDay = (timestamp: string): string =>
+	format(new Date(timestamp), 'E dd/LL/yyyy HH:mm', {
 		locale
 	});
 
