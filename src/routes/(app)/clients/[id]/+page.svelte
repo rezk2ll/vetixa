@@ -4,19 +4,21 @@
 	import Details from '$lib/components/Details.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import UpdateClientForm from '$lib/components/forms/clients/UpdateClientForm.svelte';
+	import ClientBillsList from '$lib/components/lists/ClientBillsList.svelte';
 	import {
 		addAnimalFormStore,
 		animals,
 		deleteAnimalFormStore,
 		updateAnimalFormStore
 	} from '$lib/store/animals';
+	import { clientBills } from '$lib/store/bills';
 	import { updateClientFormStore } from '$lib/store/clients';
 
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	$: ({ client, isNew } = data);
+	$: ({ client, isNew, addForm, bills, form, removeForm, updateForm } = data);
 
 	let openUpdateModal = false;
 
@@ -28,11 +30,12 @@
 		{ name: 'Adresse', value: client.address ?? '-' }
 	];
 
-	$: addAnimalFormStore.set(data.addForm);
-	$: updateAnimalFormStore.set(data.updateForm);
-	$: deleteAnimalFormStore.set(data.removeForm);
+	$: addAnimalFormStore.set(addForm);
+	$: updateAnimalFormStore.set(updateForm);
+	$: deleteAnimalFormStore.set(removeForm);
 	$: animals.set(client.animals);
-	$: updateClientFormStore.set(data.form);
+	$: updateClientFormStore.set(form);
+	$: clientBills.set(bills);
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">
@@ -52,7 +55,9 @@
 		>
 			<Details details={clientDetails} />
 		</CollapsibleSection>
-
-		<ClientAnimalsList {isNew} />
+		<div class="flex flex-col lg:gap-2">
+			<ClientAnimalsList {isNew} />
+			<ClientBillsList />
+		</div>
 	</div>
 </div>
