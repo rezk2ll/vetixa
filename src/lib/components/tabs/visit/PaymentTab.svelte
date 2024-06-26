@@ -42,7 +42,11 @@
 	$: invalidCash =
 		$form.amount > 0 && currency($form.incash).subtract($form.outcash).value !== $form.amount;
 	$: disabledSelect = $form.amount === undefined || $form.amount <= 0;
-	$: rest = currency(bill.total).subtract(bill.total_paid).value;
+	$: rest = Math.max(currency(bill.total).subtract(bill.total_paid).value, 0);
+	$: surplus =
+		currency(bill.total).subtract(bill.total_paid).value < 0
+			? Math.abs(currency(bill.total).subtract(bill.total_paid).value)
+			: 0;
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
@@ -82,6 +86,17 @@
 						>
 						<span class="font-bold text-gray-800 dark:text-gray-200">{rest} DT</span>
 					</div>
+					{#if surplus}
+						<div class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700">
+							<button
+								type="button"
+								disabled
+								class="min-w-20 px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700 focus:outline-none"
+								>SURPLUS</button
+							>
+							<span class="font-bold text-gray-800 dark:text-gray-200">{surplus} DT</span>
+						</div>
+					{/if}
 				</div>
 			</div>
 			<form
