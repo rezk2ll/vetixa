@@ -49,7 +49,7 @@
 					/></svg
 				>
 
-				<h2 class="font-normal">Arriaré</h2>
+				<h2 class="font-normal">Arriéré</h2>
 			</div>
 		{:else if processing}
 			<div class="inline-flex items-center px-5 py-1 rounded-full gap-x-2">

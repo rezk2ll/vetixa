@@ -167,7 +167,7 @@
 						? 'bg-gray-100'
 						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
 				>
-					Arriarés
+					Arriérés
 					<span
 						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 					>
