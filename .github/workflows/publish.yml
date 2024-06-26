@@ -19,4 +19,4 @@ jobs:
           name: kferjani/vetixa
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKRE_PASSWORD }}
-          tags: "latest,${{ steps.pre-step.outputs.release-version }}"
+          tags: 'latest,${{ steps.pre-step.outputs.release-version }}'

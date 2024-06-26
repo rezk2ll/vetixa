@@ -7,7 +7,7 @@
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full">
 	<div class="flex items-start justify-start w-full">
-		<div class="flex gap-2 bg-slate-100/50 h-10 w-full md:w-96 px-5">
+		<div class="flex gap-2 bg-slate-100/50 h-10 w-full md:w-96 pl-5">
 			<div
 				class="w-full p-1 text-center font-bold flex flex-row gap-5 items-center justify-center text-slate-800"
 			>
