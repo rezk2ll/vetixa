@@ -21,6 +21,7 @@ export type QueueStatusFilter = 'pending' | 'completed';
 export type AnimalStatusFilter = 'all' | 'chat' | 'chien' | 'male' | 'female';
 export type VisitStatusFilter = 'all' | 'pending' | 'partial' | 'completed';
 export type HospitStatusFilter = 'all' | 'pending' | 'complete';
+export type BillStatusFilter = VisitStatusFilter;
 
 export interface Fund extends FundTransactionsResponse {
 	category: string;
