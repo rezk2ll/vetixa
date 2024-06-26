@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { BillStatusFilter as StatusFilter } from '$types';
 	import { clientBills } from '$store/bills';
-	import { formatDateStringShort, formatDateStringToTime } from '$lib/utils/date';
+	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
 	import currency from 'currency.js';
-	import PaymentStatus from '../display/PaymentStatus.svelte';
+	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 
 	let statusFilter: StatusFilter = 'all';
 	let page = 0;
@@ -152,6 +152,12 @@
 										<th
 											scope="col"
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>
+											Surplus
+										</th>
+										<th
+											scope="col"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>statut</th
 										>
 										<th scope="col" class="relative py-3.5 px-4">
@@ -181,8 +187,15 @@
 											>
 											<td
 												class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
-												>{currency(item.total).subtract(item.total_paid).value} DT</td
+												>{Math.max(currency(item.total).subtract(item.total_paid).value, 0)} DT</td
 											>
+											<td
+												class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+											>
+												{#if currency(item.total).subtract(item.total_paid).value < 0}
+													{Math.abs(currency(item.total).subtract(item.total_paid).value)}
+												{/if}
+											</td>
 											<td
 												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>
@@ -192,7 +205,7 @@
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<a
-														href="/visit/{item.id}"
+														href="/visit/{item.visit}"
 														title="Modifier le client"
 														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 hover:text-yellow-500 focus:outline-none"
 													>

@@ -210,6 +210,11 @@
 									<th
 										scope="col"
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>Surplus</th
+									>
+									<th
+										scope="col"
+										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 									>
 										Docteur
 									</th>
@@ -270,8 +275,19 @@
 										>
 										<td
 											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
-											>{currency(visit.bill.total).subtract(visit.bill.total_paid).value} DT</td
+											>{Math.max(
+												currency(visit.bill.total).subtract(visit.bill.total_paid).value,
+												0
+											)} DT</td
 										>
+										<td
+											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+										>
+											{#if currency(visit.bill.total).subtract(visit.bill.total_paid).value < 0}
+												{Math.abs(currency(visit.bill.total).subtract(visit.bill.total_paid).value)}
+												DT
+											{/if}
+										</td>
 										<td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 											>{visit.doctor ?? ''}</td
 										>
