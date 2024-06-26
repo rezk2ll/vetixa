@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../app.css';
-	import Nav from '$lib/components/Nav.svelte';
-	import { currentUser } from '$lib/store/user';
+	import Nav from '$components/Nav.svelte';
+	import { currentUser } from '$store/user';
 	import type { PageData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
@@ -22,11 +22,11 @@
 
 <svelte:head>
 	<meta charset="UTF-8" />
-	<meta name="description" content="Hospit management" />
-	<meta name="keywords" content="Sveltekit, Seif, bardo, jiji, luna" />
-	<meta name="author" content="Dhaw" />
+	<meta name="description" content="Vetixa: Veterinary Clinic Management System" />
+	<meta name="keywords" content="sveltekit, veterinary, management, hospitalisation, billing, clinic" />
+	<meta name="author" content="Khaled Ferjani <ferjani@pm.me>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Hospit management</title>
+	<title>Vetixa</title>
 </svelte:head>
 
 <Nav />
