@@ -22,7 +22,7 @@ const config = {
 			$utils: 'src/lib/utils',
 			$types: 'src/types'
 		},
-    csrf: false
+		csrf: false
 	}
 };
 
