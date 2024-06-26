@@ -21,7 +21,8 @@ const config = {
 			$store: 'src/lib/store',
 			$utils: 'src/lib/utils',
 			$types: 'src/types'
-		}
+		},
+    csrf: false
 	}
 };
 
