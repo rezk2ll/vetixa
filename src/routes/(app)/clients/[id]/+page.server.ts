@@ -9,6 +9,7 @@ import {
 	updateClientSchema
 } from '$lib/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
+import ClientService from '$lib/services/client';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;
@@ -25,6 +26,9 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 		throw redirect(301, '/404');
 	}
 
+	const clientService = new ClientService(pb);
+	const bills = clientService.getClientBills(id);
+
 	const animals: AnimalsResponse[] = client.expand?.['animals(client)'] || [];
 
 	return {
@@ -36,7 +40,8 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 		addForm,
 		updateForm,
 		removeForm,
-		isNew
+		isNew,
+		bills
 	};
 };
 
