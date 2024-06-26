@@ -152,7 +152,7 @@ class BillService {
 		const bill = await this.get();
 
 		const totalPaid = currency(bill.total_paid).add(amount).value;
-		const paid = currency(bill.total).subtract(totalPaid).value === 0;
+		const paid = currency(bill.total).subtract(totalPaid).value <= 0;
 
 		await this.pb.collection('bills').update(bill.id, {
 			paid,
