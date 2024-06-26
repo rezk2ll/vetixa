@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { daysDiff, formatDateStringShort, formatFilterDate } from '$lib/utils/date';
+	import { daysDiff, formatDateStringShortDay, formatFilterDate } from '$lib/utils/date';
 	import type { HospitStatusFilter as StatusFilter } from '$types';
 	import { hospitPageInfo } from '$store/hospit';
 	import { goto } from '$app/navigation';
@@ -248,11 +248,11 @@
 										>
 										<td
 											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
-											>{formatDateStringShort(item.start)}</td
+											>{formatDateStringShortDay(item.start)}</td
 										>
 										<td
 											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
-											>{formatDateStringShort(item.end)}</td
+											>{formatDateStringShortDay(item.end)}</td
 										>
 										<td
 											class="px-4 text-sm truncate lg:overflow-hidden font-semibold max-w-sm {item
