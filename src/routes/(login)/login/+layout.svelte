@@ -4,11 +4,14 @@
 
 <svelte:head>
 	<meta charset="UTF-8" />
-	<meta name="description" content="Hospit management" />
-	<meta name="keywords" content="Sveltekit, Seif, bardo, jiji, luna" />
-	<meta name="author" content="Dhaw" />
+	<meta name="description" content="Vetixa: Veterinary Clinic Management System" />
+	<meta
+		name="keywords"
+		content="sveltekit, veterinary, management, hospitalisation, billing, clinic"
+	/>
+	<meta name="author" content="Khaled Ferjani <ferjani@pm.me>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Hospit management</title>
+	<title>Vetixa</title>
 </svelte:head>
 
 <div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col">
