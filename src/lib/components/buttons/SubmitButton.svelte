@@ -3,6 +3,7 @@
 	export let disabled: boolean = false;
 	export let full: boolean = false;
 	export let small: boolean = false;
+	export let text = 'confirmer';
 
 	$: disable = loading || disabled;
 </script>
@@ -41,6 +42,6 @@
 			/>
 		</svg>
 	{:else}
-		Confirmer
+		{text}
 	{/if}
 </button>
