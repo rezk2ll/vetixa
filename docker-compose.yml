@@ -27,3 +27,4 @@ services:
       - pocketbase
     environment:
       - PUBLIC_POCKETBASE_URL=http://pocketbase:8090
+      - PUBLIC_POCKETBASE_ADMIN_URL=http://localhost:8090/_/
