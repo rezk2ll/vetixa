@@ -11,7 +11,9 @@
 
 	export let data: PageData;
 
-	const { form, message, submitting, enhance } = superForm(data.form);
+	const { form, message, submitting, enhance } = superForm(data.form, {
+		resetForm: false
+	});
 </script>
 
 <div class="bg-white dark:bg-gray-900">
@@ -42,16 +44,31 @@
 					</p>
 				</div>
 				{#if $message === 'failed'}
-					<div class="w-full text-white bg-red-500">
+					<div class="w-full text-white bg-red-500 rounded-md shadow-xl mt-6">
 						<div class="container flex items-center justify-between px-6 py-4 mx-auto">
 							<div class="flex">
-								<svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+								<svg
+									class="w-7 h-6"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
 									<path
-										d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+										d="M6.30928 9C8.59494 5 9.96832 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.45498 18.0635 2.24306 16.2635 4.05373 13"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linecap="round"
 									/>
+									<path
+										d="M12 8V13"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linecap="round"
+									/>
+									<circle cx="12" cy="16" r="1" fill="currentColor" />
 								</svg>
 
-								<p class="mx-3">échec de connexion</p>
+								<p class="mx-5 text-md">échec de connexion</p>
 							</div>
 						</div>
 					</div>
