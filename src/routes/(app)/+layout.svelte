@@ -40,7 +40,7 @@
 	{:else}
 		<slot />
 	{/if}
-  <Toaster />
+	<Toaster />
 </div>
 
 <style lang="postcss">
