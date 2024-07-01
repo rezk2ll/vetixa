@@ -7,12 +7,13 @@
 	import { addAnimalFormStore } from '$lib/store/animals';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import { animalTypeList } from '$utils/animal';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
 	let birthday = '';
 
-	const { enhance, form, submitting } = superForm($addAnimalFormStore, {
+	const { enhance, form, submitting, allErrors } = superForm($addAnimalFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -21,6 +22,8 @@
 	});
 
 	$: $form.birthday = new Date(birthday);
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

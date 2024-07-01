@@ -8,6 +8,7 @@
 	import { fr } from 'date-fns/locale';
 	import { formatISO } from 'date-fns';
 	import type { AgendaResponse } from '$types';
+	import { toast } from 'svelte-sonner';
 
 	let locale = localeFromDateFnsLocale(fr);
 
@@ -17,7 +18,7 @@
 	let start = new Date(item.start);
 	let end = new Date(item.end);
 
-	const { enhance, form } = superForm($updateEventFormStore, {
+	const { enhance, form, allErrors } = superForm($updateEventFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -36,6 +37,9 @@
 		$form.start = formatISO(start);
 		$form.end = formatISO(end);
 	}
+
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div class="flex items-center justify-center">

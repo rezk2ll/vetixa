@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	}
 
 	const clientService = new ClientService(pb);
-	const bills = clientService.getClientBills(id);
+	const bills = await clientService.getClientBills(id);
 
 	const animals: AnimalsResponse[] = client.expand?.['animals(client)'] || [];
 
@@ -79,8 +79,6 @@ export const actions: Actions = {
 			console.error(error);
 			return message(form, 'Failed to add animal');
 		}
-
-		return { form };
 	},
 
 	removeAnimal: async ({ request, locals: { pb } }) => {

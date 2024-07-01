@@ -3,10 +3,11 @@
 	import { addClientFormStore } from '$lib/store/clients';
 	import { superForm } from 'sveltekit-superforms/client';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
-	const { form, enhance, submitting } = superForm($addClientFormStore, {
+	const { form, enhance, submitting, allErrors } = superForm($addClientFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -14,6 +15,9 @@
 		},
 		taintedMessage: null
 	});
+
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

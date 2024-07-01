@@ -7,11 +7,12 @@
 	import Select from 'svelte-select';
 	import type { PaymentMethodType } from '$types';
 	import currency from 'currency.js';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
 	const methods: PaymentMethodType[] = ['cash', 'tpe', 'cheque'];
-	const { enhance, submitting, form } = superForm($addExpenseFormStore, {
+	const { enhance, submitting, form, allErrors } = superForm($addExpenseFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -34,6 +35,9 @@
 			currency($form.incash).subtract($form.outcash).value !== $form.amount);
 	$: invalidCash =
 		$form.amount > 1 && currency($form.incash).subtract($form.outcash).value !== $form.amount;
+
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

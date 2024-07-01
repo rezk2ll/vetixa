@@ -7,6 +7,7 @@
 	import { localeFromDateFnsLocale } from 'date-picker-svelte/locale';
 	import { fr } from 'date-fns/locale';
 	import { formatISO } from 'date-fns';
+	import { toast } from 'svelte-sonner';
 
 	let locale = localeFromDateFnsLocale(fr);
 
@@ -14,7 +15,7 @@
 	export let start: Date;
 	export let end: Date;
 
-	const { enhance, form } = superForm($addEventFormStore, {
+	const { enhance, form, allErrors } = superForm($addEventFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -27,6 +28,8 @@
 
 	$: $form.start = formatISO(start);
 	$: $form.end = formatISO(end);
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div class="flex items-center justify-center">

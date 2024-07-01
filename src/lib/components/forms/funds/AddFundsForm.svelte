@@ -6,11 +6,12 @@
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import Select from 'svelte-select';
 	import type { PaymentMethodType } from '$types';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
 	const methods: PaymentMethodType[] = ['cash', 'tpe', 'cheque'];
-	const { enhance, submitting, form } = superForm($addFundsFormStore, {
+	const { enhance, submitting, form, allErrors } = superForm($addFundsFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -30,6 +31,8 @@
 	$: disabled =
 		$form.amount < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount);
 	$: invalidCash = $form.amount > 1 && $form.incash - $form.outcash !== $form.amount;
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>
