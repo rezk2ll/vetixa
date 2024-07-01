@@ -9,11 +9,12 @@
 	import { format } from 'date-fns';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { animalTypeList } from '$utils/animal';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 	export let item: AnimalsResponse;
 
-	const { enhance, form, submitting } = superForm($updateAnimalFormStore, {
+	const { enhance, form, submitting, allErrors } = superForm($updateAnimalFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
@@ -40,6 +41,9 @@
 		$form.deceased = deceased;
 		$form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
 	}
+
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

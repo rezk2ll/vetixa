@@ -9,11 +9,12 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { updateInventoryItemSchema } from '$lib/schemas';
 	import { updatedInventoryItem } from '$lib/store/inventory';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 	export let item: InventoryItemResponse;
 
-	const { form, message, submitting, enhance } = superForm(
+	const { form, message, submitting, enhance, allErrors } = superForm(
 		defaults($updatedInventoryItem, zodClient(updateInventoryItemSchema)).data,
 		{
 			dataType: 'json',
@@ -57,6 +58,8 @@
 	};
 
 	$: $form.price = currency(htPrice).multiply(1 + $form.tva / 100).value;
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

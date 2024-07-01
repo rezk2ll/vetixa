@@ -7,12 +7,13 @@
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import type { PaymentMethodType, InventoryItemInfo } from '$types';
 	import currency from 'currency.js';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
 	const methods: PaymentMethodType[] = ['cash', 'tpe', 'cheque'];
 
-	const { form, enhance, submitting } = superForm($sellInventoryFormStore, {
+	const { form, enhance, submitting, allErrors } = superForm($sellInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
 		dataType: 'json',
 		onResult: ({ result }) => {
@@ -111,6 +112,8 @@
 		total < 1 ||
 		($form.method === 'cash' && currency($form.incash).subtract($form.outcash).value !== total);
 	$: invalidCash = total > 1 && currency($form.incash).subtract($form.outcash).value !== total;
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

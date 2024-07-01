@@ -6,6 +6,7 @@
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import { globalLoading } from '$store/loading';
+	import { Toaster } from 'svelte-sonner';
 
 	export let data: PageData;
 
@@ -39,6 +40,7 @@
 	{:else}
 		<slot />
 	{/if}
+  <Toaster />
 </div>
 
 <style lang="postcss">

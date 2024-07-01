@@ -6,10 +6,11 @@
 	import { addInventoryFormStore } from '$store/inventory';
 	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import currency from 'currency.js';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
-	const { form, message, enhance, submitting } = superForm($addInventoryFormStore, {
+	const { form, message, enhance, submitting, allErrors } = superForm($addInventoryFormStore, {
 		resetForm: true,
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
@@ -40,6 +41,8 @@
 
 	let htPrice = 0;
 	$: $form.price = currency(htPrice).multiply(1 + $form.tva / 100).value;
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <div>

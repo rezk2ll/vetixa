@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const clientSchema = z.object({
 	firstname: z.string().min(1),
 	lastname: z.string().min(1),
-	email: z.string().email().optional(),
+	email: z.string().email('Email invalide').optional(),
 	tel: z.string().min(1),
 	address: z.string().optional()
 });

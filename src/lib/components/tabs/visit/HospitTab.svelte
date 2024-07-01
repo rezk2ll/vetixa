@@ -218,7 +218,7 @@
 				<div class="min-w-96">
 					<NumberField
 						size="medium"
-						label="Prix"
+						label="Prix par jour"
 						placeholder="montant"
 						bind:value={$form.price}
 						name="price"
