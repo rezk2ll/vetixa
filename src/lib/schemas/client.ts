@@ -6,7 +6,7 @@ export const clientSchema = z.object({
 	email: z.string().email('Email invalide').optional(),
 	tel: z.string().min(1),
 	address: z.string().optional(),
-  note: z.string().optional()
+	note: z.string().optional()
 });
 
 export const addClientSchema = clientSchema;

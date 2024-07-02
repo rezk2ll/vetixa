@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
 	import { toast } from 'svelte-sonner';
-  import { addClientFormStore } from '$store/clients';
+	import { addClientFormStore } from '$store/clients';
 	import TextField from '$components/inputs/TextField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
