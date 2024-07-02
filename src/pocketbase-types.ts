@@ -17,6 +17,7 @@ export enum Collections {
 	Cages = 'cages',
 	Clients = 'clients',
 	ClinicalExams = 'clinical_exams',
+	Doctors = 'doctors',
 	FundTransactions = 'fund_transactions',
 	HospitCompletedList = 'hospit_completed_list',
 	HospitPendingList = 'hospit_pending_list',
@@ -305,6 +306,10 @@ export type ClinicalExamsRecord = {
 	price?: number;
 };
 
+export type DoctorsRecord = {
+	name?: string;
+};
+
 export enum FundTransactionsMethodOptions {
 	'cash' = 'cash',
 	'tpe' = 'tpe',
@@ -462,6 +467,8 @@ export type ClientsResponse<Texpand = unknown> = Required<ClientsRecord> &
 	BaseSystemFields<Texpand>;
 export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRecord> &
 	BaseSystemFields<Texpand>;
+export type DoctorsResponse<Texpand = unknown> = Required<DoctorsRecord> &
+	BaseSystemFields<Texpand>;
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> &
 	BaseSystemFields<Texpand>;
 export type HospitCompletedListResponse<Ttreatment = unknown, Texpand = unknown> = Required<
@@ -517,6 +524,7 @@ export type CollectionRecords = {
 	cages: CagesRecord;
 	clients: ClientsRecord;
 	clinical_exams: ClinicalExamsRecord;
+	doctors: DoctorsRecord;
 	fund_transactions: FundTransactionsRecord;
 	hospit_completed_list: HospitCompletedListRecord;
 	hospit_pending_list: HospitPendingListRecord;
@@ -548,6 +556,7 @@ export type CollectionResponses = {
 	cages: CagesResponse;
 	clients: ClientsResponse;
 	clinical_exams: ClinicalExamsResponse;
+	doctors: DoctorsResponse;
 	fund_transactions: FundTransactionsResponse;
 	hospit_completed_list: HospitCompletedListResponse;
 	hospit_pending_list: HospitPendingListResponse;
@@ -582,6 +591,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'cages'): RecordService<CagesResponse>;
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>;
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>;
+	collection(idOrName: 'doctors'): RecordService<DoctorsResponse>;
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>;
 	collection(idOrName: 'hospit_completed_list'): RecordService<HospitCompletedListResponse>;
 	collection(idOrName: 'hospit_pending_list'): RecordService<HospitPendingListResponse>;
