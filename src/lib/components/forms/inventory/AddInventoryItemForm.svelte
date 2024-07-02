@@ -18,7 +18,7 @@
 			}
 		},
 		taintedMessage: null,
-    dataType: 'json'
+		dataType: 'json'
 	});
 
 	$form.quantity = 1;
