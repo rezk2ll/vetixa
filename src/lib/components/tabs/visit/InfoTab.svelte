@@ -3,7 +3,6 @@
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
-	import TextField from '$components/inputs/TextField.svelte';
 	import { doctorList } from '$store/doctor';
 	import { currentVisit, updateVisitFormStore } from '$lib/store/visit';
 	import type { entityDetailsList } from '$types';
@@ -66,27 +65,27 @@
 				placeholder="motif"
 			/>
 			<div class="flex flex-col lg:flex-row lg:gap-5 h-full justify-center">
-        <div class="flex flex-col justify-center item-center pt-6 w-full">
-          <Select
-					id="cage"
-					name="cage"
-					items={doctors}
-					value={$form.doctor}
-					listOffset={10}
-					placeholder="Docteur"
-					bind:justValue={$form.doctor}
-					class="h-[57px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
-          />
-        </div>
-        <div class="flex items-center justify-center flex-col w-full">
-          <NumberField
-					label="Prix du consultation"
-					name="visit_price"
-					bind:value={$form.visit_price}
-					placeholder=""
-					isInValid={false}
-          />
-        </div>
+				<div class="flex flex-col justify-center item-center pt-6 w-full">
+					<Select
+						id="cage"
+						name="cage"
+						items={doctors}
+						value={$form.doctor}
+						listOffset={10}
+						placeholder="Docteur"
+						bind:justValue={$form.doctor}
+						class="h-[57px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
+					/>
+				</div>
+				<div class="flex items-center justify-center flex-col w-full">
+					<NumberField
+						label="Prix du consultation"
+						name="visit_price"
+						bind:value={$form.visit_price}
+						placeholder=""
+						isInValid={false}
+					/>
+				</div>
 			</div>
 		</div>
 

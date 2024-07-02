@@ -68,7 +68,7 @@
 		updateVisitTreatmentForm,
 		updateVisitItemForm,
 		tab,
-    doctors
+		doctors
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -97,7 +97,7 @@
 	$: updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
 	$: activeVisitTab.set(tab as VisitTabsType);
 	$: updateVisitItemFormStore.set(updateVisitItemForm);
-  $: doctorList.set(doctors);
+	$: doctorList.set(doctors);
 </script>
 
 <div class="flex flex-col lg:flex-row lg:pl-5 w-full">

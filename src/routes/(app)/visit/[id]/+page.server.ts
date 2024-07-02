@@ -10,7 +10,7 @@ import type {
 	InventoryItemResponse,
 	Visit,
 	ItemMetadata,
-  DoctorsResponse
+	DoctorsResponse
 } from '$types';
 import {
 	addVisitFileSchema,
@@ -127,7 +127,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		}
 
 		const generatedBill = await billService.generateBill();
-    const doctors = await pb.collection('doctors').getFullList<DoctorsResponse>();
+		const doctors = await pb.collection('doctors').getFullList<DoctorsResponse>();
 
 		return {
 			tab,
@@ -137,7 +137,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			clinicalExams,
 			surgicalActs,
 			cages,
-      doctors,
+			doctors,
 			storeItems,
 			form,
 			addExamForm,
