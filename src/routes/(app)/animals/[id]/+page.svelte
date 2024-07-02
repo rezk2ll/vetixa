@@ -13,7 +13,7 @@
 		updateVisitFormStore,
 		visitItems
 	} from '$store/visit';
-	import { formatDateString } from '$utils/date';
+	import { formatDateString, formatDateStringShort } from '$utils/date';
 	import type { entityDetailsList } from '$types';
 
 	export let data: PageData;
@@ -28,6 +28,7 @@
 		{ name: 'Propriétaire', value: animal.client },
 		{ name: 'Espèce', value: animal.type },
 		{ name: 'Sexe', value: animal.sex },
+		{ name: 'Date de naissance', value: formatDateStringShort(animal.birthday) },
 		{ name: 'Age', value: animal.birthday, isAge: true },
 		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
 		{ name: 'Couleur', value: animal.color },
