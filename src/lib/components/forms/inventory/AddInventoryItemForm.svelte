@@ -17,7 +17,8 @@
 				open = false;
 			}
 		},
-		taintedMessage: null
+		taintedMessage: null,
+    dataType: 'json'
 	});
 
 	$form.quantity = 1;
