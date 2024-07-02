@@ -1,9 +1,10 @@
 <script lang="ts">
-	import TextField from '$lib/components/inputs/TextField.svelte';
-	import { addClientFormStore } from '$lib/store/clients';
 	import { superForm } from 'sveltekit-superforms/client';
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import { toast } from 'svelte-sonner';
+  import { addClientFormStore } from '$store/clients';
+	import TextField from '$components/inputs/TextField.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 
 	export let open = false;
 
@@ -70,6 +71,9 @@
 		isInValid={false}
 		required={false}
 	/>
+	<div class="mt-4">
+		<TextAreaField name="note" label="Note" placeholder="" bind:value={$form.note} />
+	</div>
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"
