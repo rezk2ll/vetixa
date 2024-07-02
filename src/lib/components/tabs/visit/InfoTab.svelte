@@ -33,7 +33,8 @@
 		{ name: 'Nom', value: animal.client.lastname },
 		{ name: 'Téléphone', value: animal.client.tel ?? '-' },
 		{ name: 'Email', value: animal.client.email ?? '-' },
-		{ name: 'Adresse', value: animal.client.address ?? '-' }
+		{ name: 'Adresse', value: animal.client.address ?? '-' },
+		{ name: 'Note', value: animal.client.note ?? '-' }
 	];
 
 	$: $form.motif = $currentVisit.motif;

@@ -18,8 +18,6 @@ export enum Collections {
 	Clients = 'clients',
 	ClinicalExams = 'clinical_exams',
 	FundTransactions = 'fund_transactions',
-	FundsExpenseList = 'funds_expense_list',
-	FundsIncomeList = 'funds_income_list',
 	HospitCompletedList = 'hospit_completed_list',
 	HospitPendingList = 'hospit_pending_list',
 	Hospitalisation = 'hospitalisation',
@@ -297,6 +295,7 @@ export type ClientsRecord = {
 	firstname?: string;
 	lastname?: string;
 	name: string;
+	note?: string;
 	tel?: string;
 };
 
@@ -316,34 +315,6 @@ export type FundTransactionsRecord = {
 	description?: string;
 	incash?: number;
 	method?: FundTransactionsMethodOptions;
-	outcash?: number;
-	user?: RecordIdString;
-};
-
-export enum FundsExpenseListMethodOptions {
-	'cash' = 'cash',
-	'tpe' = 'tpe',
-	'cheque' = 'cheque'
-}
-export type FundsExpenseListRecord = {
-	amount?: number;
-	description?: string;
-	incash?: number;
-	method?: FundsExpenseListMethodOptions;
-	outcash?: number;
-	user?: RecordIdString;
-};
-
-export enum FundsIncomeListMethodOptions {
-	'cash' = 'cash',
-	'tpe' = 'tpe',
-	'cheque' = 'cheque'
-}
-export type FundsIncomeListRecord = {
-	amount?: number;
-	description?: string;
-	incash?: number;
-	method?: FundsIncomeListMethodOptions;
 	outcash?: number;
 	user?: RecordIdString;
 };
@@ -493,10 +464,6 @@ export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRec
 	BaseSystemFields<Texpand>;
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> &
 	BaseSystemFields<Texpand>;
-export type FundsExpenseListResponse<Texpand = unknown> = Required<FundsExpenseListRecord> &
-	BaseSystemFields<Texpand>;
-export type FundsIncomeListResponse<Texpand = unknown> = Required<FundsIncomeListRecord> &
-	BaseSystemFields<Texpand>;
 export type HospitCompletedListResponse<Ttreatment = unknown, Texpand = unknown> = Required<
 	HospitCompletedListRecord<Ttreatment>
 > &
@@ -551,8 +518,6 @@ export type CollectionRecords = {
 	clients: ClientsRecord;
 	clinical_exams: ClinicalExamsRecord;
 	fund_transactions: FundTransactionsRecord;
-	funds_expense_list: FundsExpenseListRecord;
-	funds_income_list: FundsIncomeListRecord;
 	hospit_completed_list: HospitCompletedListRecord;
 	hospit_pending_list: HospitPendingListRecord;
 	hospitalisation: HospitalisationRecord;
@@ -584,8 +549,6 @@ export type CollectionResponses = {
 	clients: ClientsResponse;
 	clinical_exams: ClinicalExamsResponse;
 	fund_transactions: FundTransactionsResponse;
-	funds_expense_list: FundsExpenseListResponse;
-	funds_income_list: FundsIncomeListResponse;
 	hospit_completed_list: HospitCompletedListResponse;
 	hospit_pending_list: HospitPendingListResponse;
 	hospitalisation: HospitalisationResponse;
@@ -620,8 +583,6 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>;
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>;
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>;
-	collection(idOrName: 'funds_expense_list'): RecordService<FundsExpenseListResponse>;
-	collection(idOrName: 'funds_income_list'): RecordService<FundsIncomeListResponse>;
 	collection(idOrName: 'hospit_completed_list'): RecordService<HospitCompletedListResponse>;
 	collection(idOrName: 'hospit_pending_list'): RecordService<HospitPendingListResponse>;
 	collection(idOrName: 'hospitalisation'): RecordService<HospitalisationResponse>;

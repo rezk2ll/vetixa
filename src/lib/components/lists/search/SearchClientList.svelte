@@ -31,6 +31,11 @@
 				class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 				>Adresse</th
 			>
+			<th
+				scope="col"
+				class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+				>Note</th
+			>
 
 			<th scope="col" class="relative py-3.5 px-4">
 				<span class="sr-only">Edit</span>
@@ -59,6 +64,9 @@
 				>
 				<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
 					>{item.address}</td
+				>
+				<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+					>{item.note}</td
 				>
 
 				<td class="px-4 py-4 text-sm whitespace-nowrap">

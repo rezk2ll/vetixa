@@ -1,10 +1,11 @@
 <script lang="ts">
-	import TextField from '$lib/components/inputs/TextField.svelte';
-	import { updateClientFormStore } from '$lib/store/clients';
 	import { superForm } from 'sveltekit-superforms/client';
-	import type { IClient } from '$types';
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
 	import { toast } from 'svelte-sonner';
+	import type { IClient } from '$types';
+	import { updateClientFormStore } from '$store/clients';
+	import TextField from '$components/inputs/TextField.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 
 	export let open = false;
 	export let item: IClient;
@@ -20,7 +21,7 @@
 	});
 
 	$: {
-		const { id, firstname, lastname, address, email, tel } = item;
+		const { id, firstname, lastname, address, email, tel, note } = item;
 
 		form.set({
 			id,
@@ -28,7 +29,8 @@
 			lastname,
 			address,
 			tel,
-			email
+			email,
+			note
 		});
 	}
 
@@ -86,6 +88,9 @@
 		isInValid={false}
 		required={false}
 	/>
+	<div class="mt-4">
+		<TextAreaField name="note" label="Note" placeholder="" bind:value={$form.note} />
+	</div>
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"

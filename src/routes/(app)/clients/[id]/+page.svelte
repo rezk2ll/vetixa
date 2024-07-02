@@ -1,18 +1,18 @@
 <script lang="ts">
 	import ClientAnimalsList from '$components/lists/ClientAnimalsList.svelte';
-	import CollapsibleSection from '$lib/components/CollapsibleSection.svelte';
-	import Details from '$lib/components/Details.svelte';
-	import Modal from '$lib/components/Modal.svelte';
-	import UpdateClientForm from '$lib/components/forms/clients/UpdateClientForm.svelte';
-	import ClientBillsList from '$lib/components/lists/ClientBillsList.svelte';
+	import CollapsibleSection from '$components/CollapsibleSection.svelte';
+	import Details from '$components/Details.svelte';
+	import Modal from '$components/Modal.svelte';
+	import UpdateClientForm from '$components/forms/clients/UpdateClientForm.svelte';
+	import ClientBillsList from '$components/lists/ClientBillsList.svelte';
 	import {
 		addAnimalFormStore,
 		animals,
 		deleteAnimalFormStore,
 		updateAnimalFormStore
-	} from '$lib/store/animals';
-	import { clientBills } from '$lib/store/bills';
-	import { updateClientFormStore } from '$lib/store/clients';
+	} from '$store/animals';
+	import { clientBills } from '$store/bills';
+	import { updateClientFormStore } from '$store/clients';
 
 	import type { PageData } from './$types';
 
@@ -27,7 +27,8 @@
 		{ name: 'Nom', value: client.lastname },
 		{ name: 'Téléphone', value: client.tel ?? '-' },
 		{ name: 'Email', value: client.email ?? '-' },
-		{ name: 'Adresse', value: client.address ?? '-' }
+		{ name: 'Adresse', value: client.address ?? '-' },
+		{ name: 'Note', value: client.note ?? '-' }
 	];
 
 	$: addAnimalFormStore.set(addForm);

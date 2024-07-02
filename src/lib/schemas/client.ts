@@ -5,7 +5,8 @@ export const clientSchema = z.object({
 	lastname: z.string().min(1),
 	email: z.string().email('Email invalide').optional(),
 	tel: z.string().min(1),
-	address: z.string().optional()
+	address: z.string().optional(),
+	note: z.string().optional()
 });
 
 export const addClientSchema = clientSchema;
