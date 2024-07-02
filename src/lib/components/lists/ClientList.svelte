@@ -212,6 +212,11 @@
 										<th
 											scope="col"
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											>Note</th
+										>
+										<th
+											scope="col"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 										>
 											Animaux
 										</th>
@@ -244,6 +249,9 @@
 											>
 											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{item.address ?? '-'}</td
+											>
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
+												>{item.note ?? '-'}</td
 											>
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-center gap-x-2">
