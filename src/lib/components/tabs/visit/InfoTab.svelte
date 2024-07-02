@@ -6,7 +6,7 @@
 	import TextField from '$components/inputs/TextField.svelte';
 	import { currentVisit, updateVisitFormStore } from '$lib/store/visit';
 	import type { entityDetailsList } from '$types';
-	import { formatDateString } from '$utils/date';
+	import { formatDateStringShort, formatDateString } from '$utils/date';
 	import { superForm } from 'sveltekit-superforms/client';
 
 	const { enhance, form, submitting } = superForm($updateVisitFormStore, {
@@ -21,6 +21,7 @@
 		{ name: 'Nom', value: animal.name },
 		{ name: 'Espèce', value: animal.type },
 		{ name: 'Sexe', value: animal.sex },
+		{ name: 'Date de naissance', value: formatDateStringShort(animal.birthday) },
 		{ name: 'Age', value: animal.birthday, isAge: true },
 		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
 		{ name: 'Couleur', value: animal.color },
