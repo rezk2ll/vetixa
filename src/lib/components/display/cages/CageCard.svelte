@@ -11,6 +11,7 @@
 	import Note from '$components/icons/Note.svelte';
 	import Info from '$components/icons/Info.svelte';
 	import Edit from '$components/icons/Edit.svelte';
+	import Phone from '$components/icons/Phone.svelte';
 
 	export let cage: CageItem;
 
@@ -62,6 +63,16 @@
 					</div>
 					<div>{cage.hospit.visit.client.name}</div>
 				</div>
+				{#if cage.hospit.visit.client.tel}
+					<div class="flex flex-row w-full text-sm gap-2 pt-2">
+						<Phone />
+						<div class="font-semibold">Téléphone</div>
+						<div class="text-slate-500 flex items-center justify-center">
+							{'-'}
+						</div>
+						<div>{cage.hospit.visit.client.tel}</div>
+					</div>
+				{/if}
 				<div class="flex flex-row w-full text-sm gap-2 pt-2">
 					<Note />
 					<div class="font-semibold">Motif</div>
