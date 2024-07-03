@@ -265,15 +265,11 @@
 								<dd class="col-span-2 text-gray-500">clinique verterinaire</dd>
 							</div>
 
-							<div class="text-end">
-								<h2 class="text-2xl md:text-3xl font-semibold text-gray-800 underline">
-									Ordonnace
-								</h2>
-								<div class="text-lg text-gray-500">
-									{#if doctor && doctor.length}
-										Dr {doctor}
-									{/if}
-								</div>
+							<h2 class="text-2xl md:text-3xl font-semibold text-gray-800 underline">Ordonnace</h2>
+							<div class="text-lg text-gray-500">
+								{#if doctor && doctor.length}
+									Dr {doctor}
+								{/if}
 							</div>
 						</div>
 
