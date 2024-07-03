@@ -50,7 +50,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
-	<div class="w-full p-1 lg:pt-10 lg:p-8 bg-white lg:shadow-2xl border-gray-200 xl:rounded px-2">
+	<div class="w-full p-1 lg:pt-4 lg:p-8 bg-white lg:shadow-2xl border-gray-200 xl:rounded px-2">
 		<div class="flex flex-col w-full space-y-2">
 			<div class="flex flex-col w-full">
 				<div class="flex flex-row space-x-5 items-center justify-start">
