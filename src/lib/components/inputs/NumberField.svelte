@@ -37,7 +37,8 @@
 		class="absolute left-0 px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs {size ===
 		'small'
 			? ''
-			: 'font-medium'}  leading-4 {isInValid ? 'text-red-500' : ''} {disabled ? 'bg-gray-200 rounded-lg' : 'bg-white'}"
-		>{label}</label
+			: 'font-medium'}  leading-4 {isInValid ? 'text-red-500' : ''} {disabled
+			? 'bg-gray-200 rounded-lg'
+			: 'bg-white'}">{label}</label
 	>
 </div>

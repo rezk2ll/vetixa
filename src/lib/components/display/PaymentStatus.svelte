@@ -4,7 +4,7 @@
 
 	export let bill: BillsResponse;
 	export let type: 'large' | 'small' = 'large';
-  export let control: boolean = false;
+	export let control: boolean = false;
 
 	$: ({ paid, total, total_paid } = bill);
 	$: partiallyPaid = total_paid > 0 && total_paid < total;
@@ -16,9 +16,9 @@
 
 <div class="flex items-center gap-x-4 {type === 'large' ? 'w-full' : 'w-full md:w-3/4'}">
 	<span
-		class="flex font-semibold items-center justify-center text-white w-full p-1 {
-      control ? 'bg-green-600/80'
-      : done
+		class="flex font-semibold items-center justify-center text-white w-full p-1 {control
+			? 'bg-green-600/80'
+			: done
 			? 'bg-emerald-500/80'
 			: pendingPayment
 			? 'bg-red-500/80'
@@ -32,7 +32,7 @@
 	>
 		{#if control}
 			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
-        <Magnifier />
+				<Magnifier />
 
 				<h2 class="font-normal">contrôle</h2>
 			</div>

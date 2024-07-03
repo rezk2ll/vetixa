@@ -54,12 +54,12 @@
 		}
 
 		if (statusFilter === 'pending') {
-			return item.bill && item.bill.total_paid === 0 && item.control === false
+			return item.bill && item.bill.total_paid === 0 && item.control === false;
 		}
 
-    if (statusFilter === 'control') {
-      return item.control;
-    }
+		if (statusFilter === 'control') {
+			return item.control;
+		}
 
 		return true;
 	});
