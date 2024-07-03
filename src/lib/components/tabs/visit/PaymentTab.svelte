@@ -67,7 +67,7 @@
 				</div>
 				<span class="text-slate-800 font-normal">Saisissez les détails du paiement.</span>
 				<div class="py-2 flex flex-col gap-1">
-					<PaymentStatus {bill} />
+					<PaymentStatus {bill} control={$currentVisit.control} />
 					<div class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700">
 						<button
 							type="button"

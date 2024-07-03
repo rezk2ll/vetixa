@@ -53,6 +53,14 @@
 			return item.bill && item.bill.total_paid > 0 && item.bill.total_paid < item.bill.total;
 		}
 
+		if (statusFilter === 'pending') {
+			return item.bill && item.bill.total_paid === 0 && item.control === false
+		}
+
+    if (statusFilter === 'control') {
+      return item.control;
+    }
+
 		return true;
 	});
 
@@ -60,9 +68,13 @@
 
 	$: paidCount = $visitItems.filter(({ bill }) => bill && bill.paid).length;
 	$: partialCount = $visitItems.filter(
-		({ bill }) => bill && bill.total_paid > 0 && bill.total_paid < bill.total
+		({ bill, control }) =>
+			bill && bill.total_paid > 0 && bill.total_paid < bill.total && control === false
 	).length;
-	$: pendingCount = $visitItems.filter(({ bill }) => bill && bill.total_paid === 0).length;
+	$: pendingCount = $visitItems.filter(
+		({ bill, control }) => bill && bill.total_paid === 0 && control === false
+	).length;
+	$: controlCount = $visitItems.filter(({ control }) => control).length;
 </script>
 
 <form use:enhance action="?/deleteVisit" method="POST" class="hidden" bind:this={deleteFormRef}>
@@ -191,6 +203,23 @@
 						{pendingCount}
 					</span>
 				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'control';
+						page = 0;
+					}}
+					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'control'
+						? 'bg-gray-100'
+						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+				>
+					contrôle
+					<span
+						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+					>
+						{controlCount}
+					</span>
+				</button>
 			</div>
 
 			<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
@@ -305,7 +334,7 @@
 											{/if}
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
-											<PaymentStatus bill={visit.bill} />
+											<PaymentStatus bill={visit.bill} control={visit.control} />
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div class="flex items-end justify-end gap-x-6 w-full">
