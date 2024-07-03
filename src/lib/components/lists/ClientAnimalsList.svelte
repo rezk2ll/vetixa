@@ -167,7 +167,7 @@
 							statusFilter = 'all';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'all'
 							? 'bg-gray-100'
 							: ''} sm:text-sm"
@@ -179,7 +179,7 @@
 							statusFilter = 'chat';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'chat'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -196,7 +196,7 @@
 							statusFilter = 'chien';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'chien'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -213,7 +213,7 @@
 							statusFilter = 'male';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'male'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -230,7 +230,7 @@
 							statusFilter = 'female';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'female'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
