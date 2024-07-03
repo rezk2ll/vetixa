@@ -4,7 +4,8 @@ import type {
 	AnimalsResponse,
 	VisitsResponse,
 	VisitsPendingViewResponse,
-	VisitStatusFilter
+	VisitStatusFilter,
+	visitCount
 } from '$types';
 import type { RecordListOptions, RecordModel } from 'pocketbase';
 import type { PageServerLoad } from './$types';
@@ -21,6 +22,8 @@ export const load = (async ({ locals: { pb }, url }) => {
 			? 'visits_paid_list'
 			: filter === 'partial'
 			? 'visits_partial_list'
+			: filter === 'control'
+			? 'visits_control_list'
 			: 'visits';
 
 	const listOptions = {
@@ -47,6 +50,9 @@ export const load = (async ({ locals: { pb }, url }) => {
 		.collection('visits_partial_view')
 		.getOne<VisitsPendingViewResponse>('partial');
 	const totalCount = await pb.collection('visits').getList(1, 1);
+	const controlCount = await pb
+		.collection('visits_control_view')
+		.getOne<VisitsPendingViewResponse>('controle');
 
 	const visits = await Promise.all(
 		visitRecords.items.map(async (visit) => {
@@ -75,7 +81,8 @@ export const load = (async ({ locals: { pb }, url }) => {
 			total: totalCount.totalItems ?? 0,
 			pending: pendingCount.total ?? 0,
 			paid: paidCount.total ?? 0,
-			partial: partialCount.total ?? 0
-		}
+			partial: partialCount.total ?? 0,
+			control: controlCount.total ?? 0
+		} satisfies visitCount
 	};
 }) satisfies PageServerLoad;

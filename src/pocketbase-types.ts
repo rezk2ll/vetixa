@@ -29,6 +29,8 @@ export enum Collections {
 	SurgicalActs = 'surgical_acts',
 	Users = 'users',
 	Visits = 'visits',
+	VisitsControlList = 'visits_control_list',
+	VisitsControlView = 'visits_control_view',
 	VisitsPaidList = 'visits_paid_list',
 	VisitsPaidView = 'visits_paid_view',
 	VisitsPartialList = 'visits_partial_list',
@@ -406,6 +408,7 @@ export type VisitsRecord<Titem_metadata = unknown> = {
 	actions?: HTMLString;
 	animal?: RecordIdString;
 	clinical_exams?: RecordIdString[];
+	control?: boolean;
 	date?: IsoDateString;
 	doctor?: string;
 	files?: string[];
@@ -420,8 +423,19 @@ export type VisitsRecord<Titem_metadata = unknown> = {
 	visit_price?: number;
 };
 
+export type VisitsControlListRecord = {
+	animal?: RecordIdString;
+	control?: boolean;
+	motif?: string;
+};
+
+export type VisitsControlViewRecord = {
+	total?: number;
+};
+
 export type VisitsPaidListRecord = {
 	animal?: RecordIdString;
+	control?: boolean;
 	motif?: string;
 };
 
@@ -431,6 +445,7 @@ export type VisitsPaidViewRecord = {
 
 export type VisitsPartialListRecord = {
 	animal?: RecordIdString;
+	control?: boolean;
 	motif?: string;
 };
 
@@ -440,6 +455,7 @@ export type VisitsPartialViewRecord = {
 
 export type VisitsPendingListRecord = {
 	animal?: RecordIdString;
+	control?: boolean;
 	motif?: string;
 };
 
@@ -497,6 +513,10 @@ export type VisitsResponse<Titem_metadata = unknown, Texpand = unknown> = Requir
 	VisitsRecord<Titem_metadata>
 > &
 	BaseSystemFields<Texpand>;
+export type VisitsControlListResponse<Texpand = unknown> = Required<VisitsControlListRecord> &
+	BaseSystemFields<Texpand>;
+export type VisitsControlViewResponse<Texpand = unknown> = Required<VisitsControlViewRecord> &
+	BaseSystemFields<Texpand>;
 export type VisitsPaidListResponse<Texpand = unknown> = Required<VisitsPaidListRecord> &
 	BaseSystemFields<Texpand>;
 export type VisitsPaidViewResponse<Texpand = unknown> = Required<VisitsPaidViewRecord> &
@@ -536,6 +556,8 @@ export type CollectionRecords = {
 	surgical_acts: SurgicalActsRecord;
 	users: UsersRecord;
 	visits: VisitsRecord;
+	visits_control_list: VisitsControlListRecord;
+	visits_control_view: VisitsControlViewRecord;
 	visits_paid_list: VisitsPaidListRecord;
 	visits_paid_view: VisitsPaidViewRecord;
 	visits_partial_list: VisitsPartialListRecord;
@@ -568,6 +590,8 @@ export type CollectionResponses = {
 	surgical_acts: SurgicalActsResponse;
 	users: UsersResponse;
 	visits: VisitsResponse;
+	visits_control_list: VisitsControlListResponse;
+	visits_control_view: VisitsControlViewResponse;
 	visits_paid_list: VisitsPaidListResponse;
 	visits_paid_view: VisitsPaidViewResponse;
 	visits_partial_list: VisitsPartialListResponse;
@@ -603,6 +627,8 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'surgical_acts'): RecordService<SurgicalActsResponse>;
 	collection(idOrName: 'users'): RecordService<UsersResponse>;
 	collection(idOrName: 'visits'): RecordService<VisitsResponse>;
+	collection(idOrName: 'visits_control_list'): RecordService<VisitsControlListResponse>;
+	collection(idOrName: 'visits_control_view'): RecordService<VisitsControlViewResponse>;
 	collection(idOrName: 'visits_paid_list'): RecordService<VisitsPaidListResponse>;
 	collection(idOrName: 'visits_paid_view'): RecordService<VisitsPaidViewResponse>;
 	collection(idOrName: 'visits_partial_list'): RecordService<VisitsPartialListResponse>;

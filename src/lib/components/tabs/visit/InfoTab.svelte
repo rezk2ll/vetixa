@@ -43,6 +43,7 @@
 	$: $form.id = $currentVisit.id;
 	$: $form.doctor = $currentVisit.doctor;
 	$: $form.visit_price = $currentVisit.visit_price;
+	$: $form.control = $currentVisit.control;
 	$: doctors = $doctorList.map((doctor) => ({
 		label: doctor.name,
 		value: doctor.name
@@ -86,6 +87,23 @@
 						isInValid={false}
 					/>
 				</div>
+				<div class="flex items-center justify-end flex-col w-full pt-5 lg:pt-0">
+					<div class="flex items-center ps-4 ring-2 ring-gray-300 rounded w-full h-[57px]">
+						<input
+							bind:checked={$form.control}
+							id="control"
+							type="checkbox"
+							value={$form.control}
+							name="control"
+							class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-0"
+						/>
+						<label
+							for="control"
+							class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+							>visite de contrôle</label
+						>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -102,7 +120,7 @@
 		</div>
 	</form>
 
-	<div class="flex flex-col lg:flex-row px-2 lg:space-x-5 w-full">
+	<div class="flex flex-col lg:flex-row px-2 lg:px-0 lg:space-x-5 w-full">
 		<div class="flex flex-col space-y-5 w-full">
 			<div
 				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"

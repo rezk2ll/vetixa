@@ -20,7 +20,11 @@
 		}
 
 		if (statusFilter === 'pending') {
-			return item.total_paid === 0;
+			return item.total_paid === 0 && item.control === false;
+		}
+
+		if (statusFilter === 'control') {
+			return item.control;
 		}
 
 		return true;
@@ -32,7 +36,10 @@
 	$: partialCount = $clientBills.filter(
 		(item) => item.total_paid < item.total && item.total_paid > 0
 	).length;
-	$: pendingCount = $clientBills.filter((item) => item.total_paid === 0).length;
+	$: pendingCount = $clientBills.filter(
+		({ total_paid, control }) => total_paid === 0 && control === false
+	).length;
+	$: controlCount = $clientBills.filter(({ control }) => control).length;
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
@@ -61,7 +68,7 @@
 							statusFilter = 'all';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-2 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'all'
 							? 'bg-gray-100'
 							: ''} sm:text-sm"
@@ -73,7 +80,7 @@
 							statusFilter = 'completed';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-2 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'completed'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -87,10 +94,27 @@
 					</button>
 					<button
 						on:click={() => {
+							statusFilter = 'partial';
+							page = 0;
+						}}
+						class="px-2 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						'partial'
+							? 'bg-gray-100'
+							: ''} sm:text-sm hover:bg-gray-100"
+					>
+						Arriérés
+						<span
+							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						>
+							{partialCount}
+						</span>
+					</button>
+					<button
+						on:click={() => {
 							statusFilter = 'pending';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-2 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'pending'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
@@ -104,19 +128,19 @@
 					</button>
 					<button
 						on:click={() => {
-							statusFilter = 'partial';
+							statusFilter = 'control';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
-						'partial'
+						class="px-2 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						'control'
 							? 'bg-gray-100'
 							: ''} sm:text-sm hover:bg-gray-100"
 					>
-						Arriérés
+						Contrôle
 						<span
 							class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
 						>
-							{partialCount}
+							{controlCount}
 						</span>
 					</button>
 				</div>
@@ -199,7 +223,7 @@
 											<td
 												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>
-												<PaymentStatus bill={item} type="small" />
+												<PaymentStatus bill={item} type="small" control={item.control} />
 											</td>
 
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">

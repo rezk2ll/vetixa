@@ -1,4 +1,4 @@
 import { writable } from 'svelte/store';
-import type { BillsResponse } from '$types';
+import type { ClientBill } from '$types';
 
-export const clientBills = writable<BillsResponse[]>([]);
+export const clientBills = writable<ClientBill[]>([]);

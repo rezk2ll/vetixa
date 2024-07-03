@@ -30,13 +30,15 @@
 			? 'h-[46.4px] text-[17px] font-medium ring-2'
 			: 'h-14 text-[17px] font-medium ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
-			: 'ring-gray-300 focus:ring-blue-500'}"
+			: 'ring-gray-300 focus:ring-blue-500'} {disabled ? 'bg-gray-200' : ''}"
 	/>
 	<label
 		for={name}
-		class="absolute left-0 bg-white px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs {size ===
+		class="absolute left-0 px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs {size ===
 		'small'
 			? ''
-			: 'font-medium'}  leading-4 {isInValid ? 'text-red-500' : ''}">{label}</label
+			: 'font-medium'}  leading-4 {isInValid ? 'text-red-500' : ''} {disabled
+			? 'bg-gray-200 rounded-lg'
+			: 'bg-white'}">{label}</label
 	>
 </div>

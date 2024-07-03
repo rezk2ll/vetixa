@@ -56,7 +56,7 @@
 		>
 			<Details details={clientDetails} />
 		</CollapsibleSection>
-		<div class="flex flex-col lg:gap-2">
+		<div class="flex flex-col lg:gap-2 w-full">
 			<ClientAnimalsList {isNew} />
 			<ClientBillsList />
 		</div>

@@ -19,7 +19,7 @@ export type storeStatusFilter = 'all' | 'available' | 'alert' | 'unavailable';
 export type fundsStatusFilter = 'all' | 'income' | 'expense';
 export type QueueStatusFilter = 'pending' | 'completed';
 export type AnimalStatusFilter = 'all' | 'chat' | 'chien' | 'male' | 'female';
-export type VisitStatusFilter = 'all' | 'pending' | 'partial' | 'completed';
+export type VisitStatusFilter = 'all' | 'pending' | 'partial' | 'completed' | 'control';
 export type HospitStatusFilter = 'all' | 'pending' | 'complete';
 export type BillStatusFilter = VisitStatusFilter;
 
@@ -162,6 +162,7 @@ export interface visitCount {
 	pending: number;
 	paid: number;
 	partial: number;
+	control: number;
 }
 
 export interface Treatment {
@@ -262,4 +263,8 @@ export interface InventoryItemInfo {
 	name: string;
 	quantity: number;
 	price: number;
+}
+
+export interface ClientBill extends BillsResponse {
+	control: boolean;
 }
