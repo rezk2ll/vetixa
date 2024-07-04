@@ -12,15 +12,23 @@
 	import Info from '$components/icons/Info.svelte';
 	import Edit from '$components/icons/Edit.svelte';
 	import Phone from '$components/icons/Phone.svelte';
+	import PaintColors from '$lib/components/icons/PaintColors.svelte';
+	import { getTextColor } from '$utils/color';
 
 	export let cage: CageItem;
+	export let handleColorChange: (id: string) => void = (id: string) => {};
 
 	$: isNew = cage.hospit && daysDiff(cage.hospit.start, formatFilterDate(new Date())) === 0;
 	$: isDead = (cage.hospit && cage.hospit.visit.animal.deceased) || false;
+	$: color = cage.hospit?.color;
+	$: textColor = getTextColor(color ?? '');
 </script>
 
 <div
-	class="flex flex-col rounded {isDead
+	style="background-color: {color};"
+	class="flex flex-col rounded {color
+		? ''
+		: isDead
 		? 'bg-red-100/80'
 		: isNew
 		? 'bg-emerald-100/90'
@@ -46,7 +54,7 @@
 			>
 				<AnimalIcon type={cage.hospit?.visit.animal.type} />
 			</div>
-			<div class="flex flex-col grow">
+			<div class="flex flex-col grow {textColor}">
 				<div class="flex flex-row w-full text-sm gap-2 pt-2">
 					<Time />
 					<div>{formatDateStringShort(cage.hospit?.start)}</div>
@@ -93,13 +101,22 @@
 				{/if}
 			</div>
 
-			<div class="mt-auto">
+			<div class="mt-auto flex gap-5">
 				<PrimaryButton full handler={() => goto(`/visit/${cage.hospit?.visit.id}?tab=hospit`)}>
 					<div class="flex flex-row items-center justify-center gap-5">
 						<div>Modifier</div>
 						<Edit />
 					</div>
 				</PrimaryButton>
+				{#if cage.hospit && cage.hospit.id}
+					<button
+						type="button"
+						title="changer le couleur"
+						on:click={() => handleColorChange(cage.hospit?.id ?? '')}
+					>
+						<PaintColors />
+					</button>
+				{/if}
 			</div>
 		{:else}
 			<EmptyCage />
