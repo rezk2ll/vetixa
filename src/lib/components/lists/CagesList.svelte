@@ -3,7 +3,7 @@
 	import Grid from '$components/icons/Grid.svelte';
 	import List from '$components/icons/List.svelte';
 	import { cagesInfo, hospitChangeColorFormStore } from '$store/hospit';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 	import ColorPicker from 'svelte-awesome-color-picker';
 	import Modal from '$components/Modal.svelte';
 	import PrimaryButton from '../buttons/PrimaryButton.svelte';

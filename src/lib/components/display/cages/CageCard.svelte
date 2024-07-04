@@ -16,7 +16,7 @@
 	import { getTextColor } from '$utils/color';
 
 	export let cage: CageItem;
-	export let handleColorChange: (id: string) => void = (id: string) => {};
+	export let handleColorChange: (id: string) => void = (_id: string) => {};
 
 	$: isNew = cage.hospit && daysDiff(cage.hospit.start, formatFilterDate(new Date())) === 0;
 	$: isDead = (cage.hospit && cage.hospit.visit.animal.deceased) || false;

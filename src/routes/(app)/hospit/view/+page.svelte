@@ -7,7 +7,7 @@
 
 	$: ({ cageList, changeHospitColorForm } = data);
 	$: cagesInfo.set(cageList);
-  $: hospitChangeColorFormStore.set(changeHospitColorForm);
+	$: hospitChangeColorFormStore.set(changeHospitColorForm);
 </script>
 
 <div

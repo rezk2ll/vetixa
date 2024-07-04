@@ -20,6 +20,6 @@ export const getTextColorFromHex = (background: string): string => {
 	const g = parseInt(background.substring(3, 5), 16);
 	const b = parseInt(background.substring(5, 7), 16);
 
-	const yiq = (r * 0.299 + g * 0.587 + b * 0.114);
+	const yiq = r * 0.299 + g * 0.587 + b * 0.114;
 	return 255 - yiq < 105 ? 'text-black' : 'text-white';
 };
