@@ -8,6 +8,7 @@
 	import AgeDisplay from '$components/display/AgeDisplay.svelte';
 	import Grid from '$components/icons/Grid.svelte';
 	import List from '$components/icons/List.svelte';
+	import { getTextColor } from '$lib/utils/color';
 
 	let search: string = $hospitPageInfo.query;
 	let page = $hospitPageInfo.page;
@@ -236,22 +237,30 @@
 							>
 								{#each $hospitPageInfo.items as item}
 									<tr
-										class={item.visit.animal.deceased
+										style="background-color: {item.color};"
+										class={item.color
+											? ''
+											: item.visit.animal.deceased
 											? 'bg-red-100/80'
 											: daysDiff(item.start, formatFilterDate(new Date())) === 0
 											? 'bg-emerald-100/90'
 											: 'bg-white'}
 									>
 										<td
-											class="px-4 py-3 text-sm font-semibold text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
-											>{item.cage.code}</td
+											class="px-4 py-3 text-sm font-semibold {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'}  whitespace-nowrap text-left">{item.cage.code}</td
 										>
 										<td
-											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+											class="px-4 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} truncate lg:overflow-hidden max-w-sm"
 											>{formatDateStringShortDay(item.start)}</td
 										>
 										<td
-											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+											class="px-4 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} truncate lg:overflow-hidden max-w-sm"
 											>{formatDateStringShortDay(item.end)}</td
 										>
 										<td
@@ -260,7 +269,11 @@
 												? 'text-blue-500 '
 												: 'text-pink-500 '} whitespace-nowrap">{item.visit.animal.name}</td
 										>
-										<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap">
+										<td
+											class="px-4 py-2.5 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} whitespace-nowrap"
+										>
 											<AgeDisplay
 												date={item.visit.animal.birthday}
 												death={item.visit.animal.deathdate}
@@ -274,27 +287,36 @@
 										>
 											<AnimalIcon type={item.visit.animal.type} />
 										</td>
-										<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-											>{item.visit.animal.type}</td
+										<td
+											class="px-4 py-2.5 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} whitespace-nowrap">{item.visit.animal.type}</td
 										>
-										<td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+										<td
+											class="px-4 py-4 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} whitespace-nowrap"
+										>
 											<div class="flex items-center gap-x-2">
 												<p
 													class="px-3 py-1 text-xs
-																 'text-blue-500 bg-blue-100/60 rounded-full"
+																 '{item.color ? getTextColor(item.color) : 'text-gray-500'} bg-blue-100/60 rounded-full"
 												>
 													{item.visit.client.name}
 												</p>
 											</div>
 										</td>
 										<td
-											class="px-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+											class="px-4 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} truncate lg:overflow-hidden max-w-sm"
 											>{item.visit.client.tel}</td
 										>
 
 										<td
-											class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
-											>{item.note}</td
+											class="px-4 py-3 text-sm {item.color
+												? getTextColor(item.color)
+												: 'text-gray-500'} truncate lg:overflow-hidden max-w-sm">{item.note}</td
 										>
 
 										<td class="px-4 py-3 text-sm whitespace-nowrap">

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import CagesList from '$components/lists/CagesList.svelte';
-	import { cagesInfo } from '$store/hospit';
+	import { cagesInfo, hospitChangeColorFormStore } from '$store/hospit';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	$: ({ cageList } = data);
+	$: ({ cageList, changeHospitColorForm } = data);
 	$: cagesInfo.set(cageList);
+	$: hospitChangeColorFormStore.set(changeHospitColorForm);
 </script>
 
 <div

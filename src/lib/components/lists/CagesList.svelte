@@ -2,7 +2,40 @@
 	import CageCard from '$components/display/cages/CageCard.svelte';
 	import Grid from '$components/icons/Grid.svelte';
 	import List from '$components/icons/List.svelte';
-	import { cagesInfo } from '$store/hospit';
+	import { cagesInfo, hospitChangeColorFormStore } from '$store/hospit';
+	import { superForm } from 'sveltekit-superforms';
+	import ColorPicker from 'svelte-awesome-color-picker';
+	import Modal from '$components/Modal.svelte';
+	import PrimaryButton from '../buttons/PrimaryButton.svelte';
+
+	let formRef: HTMLFormElement;
+	let hex: string;
+	let showPicker = false;
+
+	const { enhance, submitting, form } = superForm($hospitChangeColorFormStore, {
+		taintedMessage: null,
+		resetForm: true,
+		id: 'change-color',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				$form.id = '';
+				showPicker = false;
+			}
+		}
+	});
+
+	const handleSubmit = () => {
+		$form.color = hex;
+
+		formRef.requestSubmit();
+	};
+
+	const handleColorChange = (id: string) => {
+		$form.id = id;
+		showPicker = true;
+	};
+
+	$: $form.color = hex;
 </script>
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full">
@@ -27,9 +60,39 @@
 		</div>
 	</div>
 	<div class="w-full px-1 pt-10 lg:p-2 bg-slate-100/50 shadow-2xl border-gray-200">
+		<Modal bind:open={showPicker} size="small">
+			<div class="flex flex-col picker w-full">
+				<ColorPicker
+					bind:hex
+					textInputModes={['hex']}
+					isDialog={false}
+					--picker-width="240px"
+					--cp-border-color="transparent"
+					--cp-text-color="text-gray-200"
+				/>
+				<div class="flex flex-row gap-5 w-full">
+					<button
+						type="button"
+						on:click={() => (showPicker = false)}
+						class="w-full px-4 lg:py-2 mt-3 lg:mt-0 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
+					>
+						Annuler
+					</button>
+					<PrimaryButton disabled={$submitting} loading={$submitting} handler={handleSubmit} full>
+						Sauvegarder
+					</PrimaryButton>
+				</div>
+			</div>
+		</Modal>
+
+		<form class="hidden" method="post" action="?/changeColor" use:enhance bind:this={formRef}>
+			<input type="hidden" name="id" bind:value={$form.id} />
+			<input type="hidden" name="color" bind:value={$form.color} />
+		</form>
+
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 px-4 py-4 w-full">
 			{#each $cagesInfo as cage}
-				<CageCard {cage} />
+				<CageCard {cage} {handleColorChange} />
 			{/each}
 		</div>
 	</div>
