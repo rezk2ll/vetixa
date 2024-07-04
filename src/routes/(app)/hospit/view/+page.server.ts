@@ -1,6 +1,15 @@
-import type { CageItem, CagesResponse, HospitPendingListResponse, Treatment } from '$types';
+import type {
+	CageItem,
+	CagesResponse,
+	HospitPendingListResponse,
+	HospitalisationResponse,
+	Treatment
+} from '$types';
 import type { RecordModel } from 'pocketbase';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+import { message, superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { changeHospitColorsSchema } from '$lib/schemas/hospit';
 
 export const load = (async ({ locals: { pb } }) => {
 	const cages = await pb.collection('cages').getFullList<CagesResponse>();
@@ -9,6 +18,9 @@ export const load = (async ({ locals: { pb } }) => {
 		.getFullList<HospitPendingListResponse>({
 			expand: 'visit, visit.animal, visit.animal.client, cage'
 		});
+	const changeHospitColorForm = await superValidate(zod(changeHospitColorsSchema), {
+		id: 'change-color'
+	});
 
 	const cageList: CageItem[] = cages
 		.map((cage) => {
@@ -36,6 +48,37 @@ export const load = (async ({ locals: { pb } }) => {
 		})
 		.sort((a, b) => a.code.localeCompare(b.code));
 	return {
-		cageList
+		cageList,
+		changeHospitColorForm
 	};
 }) satisfies PageServerLoad;
+
+export const actions = {
+	changeColor: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(changeHospitColorsSchema), {
+			id: 'change-color'
+		});
+
+		try {
+			if (!form.valid) {
+				return message(form, 'Failed to update colors');
+			}
+
+			const { id, color } = form.data;
+
+			const hospit = await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
+
+			if (!hospit) {
+				throw Error('hospit not found');
+			}
+
+			await pb.collection('hospitalisation').update(id, {
+				color
+			});
+
+			return { form };
+		} catch (error) {
+			return message(form, 'Failed to change hospit color');
+		}
+	}
+} satisfies Actions;
