@@ -3,7 +3,7 @@
 	import type { IClient } from '$types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { clientsPageInfo, removeClientFormStore } from '$lib/store/clients';
+	import { clientsPageInfo, currentClient, removeClientFormStore } from '$lib/store/clients';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import AddClientForm from '../forms/clients/AddClientForm.svelte';
 	import UpdateClientForm from '../forms/clients/UpdateClientForm.svelte';
@@ -63,6 +63,7 @@
 	};
 
 	const update = (item: IClient) => {
+		currentClient.set(item);
 		selectedUpdateItem = item;
 		openUpdateModal = true;
 	};
@@ -83,7 +84,7 @@
 	</Modal>
 	<Modal bind:open={openUpdateModal} size="medium">
 		{#if selectedUpdateItem}
-			<UpdateClientForm bind:open={openUpdateModal} bind:item={selectedUpdateItem} />
+			<UpdateClientForm bind:open={openUpdateModal} />
 		{/if}
 	</Modal>
 
