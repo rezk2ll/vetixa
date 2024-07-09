@@ -6,7 +6,7 @@
 	import type { PageData } from './$types';
 	import Modal from '$components/Modal.svelte';
 	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
-	import { updateAnimalFormStore } from '$store/animals';
+	import { currentAnimal, updateAnimalFormStore } from '$store/animals';
 	import {
 		addVisitFormStore,
 		deleteVisitFormStore,
@@ -44,11 +44,12 @@
 	$: updateVisitFormStore.set(data.updateForm);
 	$: deleteVisitFormStore.set(data.deleteForm);
 	$: visitItems.set(visits);
+	$: currentAnimal.set(animal);
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">
 	{#if animal}
-		<UpdateAnimalForm bind:open={openUpdateModal} bind:item={animal} />
+		<UpdateAnimalForm bind:open={openUpdateModal} />
 	{/if}
 </Modal>
 <div class="antialiased xl:pl-14">
