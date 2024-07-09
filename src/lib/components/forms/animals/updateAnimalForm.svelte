@@ -4,15 +4,13 @@
 	import SelectField from '$components/inputs/SelectField.svelte';
 	import TextField from '$components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { updateAnimalFormStore } from '$store/animals';
-	import type { AnimalsResponse } from '$types';
+	import { currentAnimal, updateAnimalFormStore } from '$store/animals';
 	import { format } from 'date-fns';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { animalTypeList } from '$utils/animal';
 	import { toast } from 'svelte-sonner';
 
 	export let open = false;
-	export let item: AnimalsResponse;
 
 	const { enhance, form, submitting, allErrors } = superForm($updateAnimalFormStore, {
 		onResult: ({ result }) => {
@@ -25,22 +23,24 @@
 		taintedMessage: null
 	});
 
-	let birthday = format(new Date(item.birthday), 'yyyy-MM-dd');
-	let deathdate = format(item.deathdate ? new Date(item.deathdate) : new Date(), 'yyyy-MM-dd');
-	let deceased = item.deceased;
+	let birthday = format(new Date($currentAnimal.birthday), 'yyyy-MM-dd');
+	let deathdate = format(
+		$currentAnimal.deathdate ? new Date($currentAnimal.deathdate) : new Date(),
+		'yyyy-MM-dd'
+	);
+	let deceased = $currentAnimal.deceased;
 
-	$: {
-		$form.id = item.id;
-		$form.birthday = new Date(birthday);
-		$form.name = item.name;
-		$form.sex = item.sex;
-		$form.type = item.type;
-		$form.weight = item.weight;
-		$form.color = item.color;
-		$form.breed = item.breed;
-		$form.deceased = deceased;
-		$form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
-	}
+	$: $form.id = $currentAnimal.id;
+	$: $form.birthday = new Date(birthday);
+	$: $form.name = $currentAnimal.name;
+	$: $form.sex = $currentAnimal.sex;
+	$: $form.type = $currentAnimal.type;
+	$: $form.weight = $currentAnimal.weight;
+	$: $form.color = $currentAnimal.color;
+	$: $form.breed = $currentAnimal.breed;
+	$: $form.deceased = deceased;
+	$: $form.identifier = $currentAnimal.identifier;
+	$: $form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
 
 	$: $allErrors.length &&
 		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
@@ -69,7 +69,7 @@
 			class="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
 			id="modal-title"
 		>
-			mettre à jour {item.name}
+			mettre à jour {$currentAnimal.name}
 		</h3>
 		<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 			Veuillez remplir le formulaire ci-dessous avec des détails précis
