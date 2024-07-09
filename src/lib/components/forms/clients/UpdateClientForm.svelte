@@ -2,13 +2,12 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { toast } from 'svelte-sonner';
 	import type { IClient } from '$types';
-	import { updateClientFormStore } from '$store/clients';
+	import { currentClient, updateClientFormStore } from '$store/clients';
 	import TextField from '$components/inputs/TextField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 
 	export let open = false;
-	export let item: IClient;
 
 	const { form, enhance, submitting, allErrors } = superForm($updateClientFormStore, {
 		onResult: ({ result }) => {
@@ -17,22 +16,17 @@
 			}
 		},
 		dataType: 'json',
-		taintedMessage: null
+		taintedMessage: null,
+		resetForm: false
 	});
 
-	$: {
-		const { id, firstname, lastname, address, email, tel, note } = item;
-
-		form.set({
-			id,
-			firstname,
-			lastname,
-			address,
-			tel,
-			email,
-			note
-		});
-	}
+	$: $form.id = $currentClient.id;
+	$: $form.firstname = $currentClient.firstname;
+	$: $form.lastname = $currentClient.lastname;
+	$: $form.address = $currentClient.address;
+	$: $form.tel = $currentClient.tel;
+	$: $form.email = $currentClient.email;
+	$: $form.note = $currentClient.note;
 
 	$: $allErrors.length &&
 		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
@@ -62,7 +56,7 @@
 			class="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
 			id="modal-title"
 		>
-			mettre à jour {item.name}
+			mettre à jour {$currentClient.name}
 		</h3>
 		<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 			Veuillez remplir le formulaire ci-dessous avec des détails précis
