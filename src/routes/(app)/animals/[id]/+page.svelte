@@ -33,6 +33,7 @@
 		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
 		{ name: 'Couleur', value: animal.color },
 		{ name: 'Race', value: animal.breed },
+		{ name: 'Identifiant', value: animal.identifier },
 		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
 	] satisfies entityDetailsList;
 
