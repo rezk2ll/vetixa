@@ -12,7 +12,7 @@
 		updateAnimalFormStore
 	} from '$store/animals';
 	import { clientBills } from '$store/bills';
-	import { updateClientFormStore } from '$store/clients';
+	import { currentClient, updateClientFormStore } from '$store/clients';
 
 	import type { PageData } from './$types';
 
@@ -37,11 +37,12 @@
 	$: animals.set(client.animals);
 	$: updateClientFormStore.set(form);
 	$: clientBills.set(bills);
+	$: currentClient.set(client);
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">
 	{#if client}
-		<UpdateClientForm bind:open={openUpdateModal} bind:item={client} />
+		<UpdateClientForm bind:open={openUpdateModal} />
 	{/if}
 </Modal>
 
