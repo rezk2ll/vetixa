@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
-	import { animals, deleteAnimalFormStore } from '$lib/store/animals';
+	import { animals, currentAnimal, deleteAnimalFormStore } from '$lib/store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import type { AnimalsResponse } from '$types';
@@ -72,6 +72,7 @@
 	};
 
 	$: update = (item: AnimalsResponse) => {
+		currentAnimal.set(item);
 		selectedUpdateItem = item;
 		openUpdateAnimalModal = true;
 	};
@@ -94,7 +95,7 @@
 	{/if}
 	<Modal bind:open={openUpdateAnimalModal} size="medium">
 		{#if selectedUpdateItem}
-			<UpdateAnimalForm bind:open={openUpdateAnimalModal} bind:item={selectedUpdateItem} />
+			<UpdateAnimalForm bind:open={openUpdateAnimalModal} />
 		{/if}
 	</Modal>
 
@@ -394,7 +395,7 @@
 											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.breed}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-right text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
 												>{animal.identifier}</td
 											>
 
