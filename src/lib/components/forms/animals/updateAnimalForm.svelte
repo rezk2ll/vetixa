@@ -39,6 +39,7 @@
 	$: $form.color = $currentAnimal.color;
 	$: $form.breed = $currentAnimal.breed;
 	$: $form.deceased = deceased;
+	$: $form.identifier = $currentAnimal.identifier;
 	$: $form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
 
 	$: $allErrors.length &&
