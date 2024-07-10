@@ -1,8 +1,10 @@
 <script lang="ts">
-	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
+	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { addVisitFormStore } from '$store/visit';
 	import { superForm } from 'sveltekit-superforms/client';
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
+	import Vaccination from '$components/icons/Vaccination.svelte';
 
 	export let open = false;
 
@@ -54,6 +56,47 @@
 		placeholder="motif"
 	/>
 
+	<div class="flex flex-col lg:flex-row gap-2 lg:gap-5 w-full">
+		<div class="flex items-center justify-end flex-col w-full pt-5 lg:pt-0">
+			<input
+				bind:checked={$form.control}
+				type="checkbox"
+				id="control"
+				name="control"
+				value={$form.control}
+				class="hidden peer"
+			/>
+			<label
+				for="control"
+				class="inline-flex items-center justify-between w-full px-2 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50"
+			>
+				<div class="flex gap-2">
+					<MagnifierGlass />
+					<div class="w-full text-base pt-1">visite de contrôle</div>
+				</div>
+			</label>
+		</div>
+		<div class="flex items-center justify-end flex-col w-full pt-5 lg:pt-0">
+			<input
+				bind:checked={$form.vaccination}
+				type="checkbox"
+				id="vaccination"
+				name="vaccination"
+				value={$form.vaccination}
+				class="hidden peer"
+			/>
+			<label
+				for="vaccination"
+				class="inline-flex items-center justify-between w-full px-2 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50"
+			>
+				<div class="flex gap-2">
+					<Vaccination />
+					<div class="w-full text-base pt-1">consultation vaccinale</div>
+				</div>
+			</label>
+		</div>
+	</div>
+
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2 xl:max-w-lg xl:items-end xl:justify-end">
 		<button
 			type="button"
@@ -63,6 +106,6 @@
 			Annuler
 		</button>
 
-		<SubmitButton loading={$submitting} />
+		<SubmitButton loading={$submitting} disabled={$submitting} />
 	</div>
 </form>
