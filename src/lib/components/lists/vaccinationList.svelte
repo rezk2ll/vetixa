@@ -1,16 +1,9 @@
 <script lang="ts">
-	import Modal from '$components/Modal.svelte';
-	import AddVisitForm from '$components/forms/visit/AddVisitForm.svelte';
-	import type { VisitStatusFilter as StatusFilter } from '$types';
-	import { formatDateString } from '$utils/date';
-	import { visitItems } from '$store/visit';
+	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
+	import { vaccinationVisitList as visitItems } from '$store/visit';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import currency from 'currency.js';
 
-	export let isNew: boolean = false;
-
-	let openAddModal = isNew;
-	let statusFilter: StatusFilter = 'all';
 	let search: string;
 	let page = 0;
 
@@ -20,167 +13,27 @@
 		if (search && search.length) {
 			const searchString = search.toLocaleLowerCase();
 
-			if (!item.motif.toLowerCase().includes(searchString)) {
-				return false;
-			}
-		}
-
-		if (statusFilter === 'completed') {
-			return item.bill && item.bill.paid && item.bill.total === item.bill.total_paid;
-		}
-
-		if (statusFilter === 'partial') {
-			return item.bill && item.bill.total_paid > 0 && item.bill.total_paid < item.bill.total;
-		}
-
-		if (statusFilter === 'pending') {
-			return item.bill && item.bill.total_paid === 0 && item.control === false;
-		}
-
-		if (statusFilter === 'control') {
-			return item.control;
+			return item.motif.toLowerCase().includes(searchString);
 		}
 
 		return true;
 	});
 
 	$: pageItems = items.slice(page * 10, page * 10 + 10);
-
-	$: paidCount = $visitItems.filter(({ bill }) => bill && bill.paid).length;
-	$: partialCount = $visitItems.filter(
-		({ bill, control }) =>
-			bill && bill.total_paid > 0 && bill.total_paid < bill.total && control === false
-	).length;
-	$: pendingCount = $visitItems.filter(
-		({ bill, control }) => bill && bill.total_paid === 0 && control === false
-	).length;
-	$: controlCount = $visitItems.filter(({ control }) => control).length;
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
-	<Modal bind:open={openAddModal} size="medium">
-		<AddVisitForm bind:open={openAddModal} />
-	</Modal>
 	<div
-		class="w-full xl:w-11/12 p-2 lg:pt-5 lg:p-5 bg-white shadow-2xl border-gray-200 h-full xl:h-fit xl:rounded"
+		class="w-full xl:w-11/12 p-2 lg:pt-5 lg:p-5 bg-white shadow-2xl border-gray-200 h-screen xl:h-fit xl:rounded"
 	>
 		<div class="flex flex-col lg:flex-row gap-2 items-center gap-x-3 w-full">
 			<div class="w-full flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
-				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Visites</h2>
+				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Consultations vaccinales</h2>
 
 				<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
 					>{$visitItems.length}</span
 				>
 			</div>
-			<button
-				on:click={() => (openAddModal = true)}
-				class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-5 h-5"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-					/>
-				</svg>
-				<span>Nouvelle visite</span>
-			</button>
-		</div>
-		<div
-			class="flex py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
-		>
-			<div
-				class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg w-full lg:w-auto"
-			>
-				<button
-					on:click={() => {
-						statusFilter = 'all';
-						page = 0;
-					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
-					'all'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
-				>
-					Tout
-				</button>
-				<button
-					on:click={() => {
-						statusFilter = 'completed';
-						page = 0;
-					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
-					'completed'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-				>
-					payés
-					<span
-						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
-					>
-						{paidCount}
-					</span>
-				</button>
-				<button
-					on:click={() => {
-						statusFilter = 'partial';
-						page = 0;
-					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
-					'partial'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-				>
-					Arriérés
-					<span
-						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
-					>
-						{partialCount}
-					</span>
-				</button>
-				<button
-					on:click={() => {
-						statusFilter = 'pending';
-						page = 0;
-					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
-					'pending'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-				>
-					En attente
-					<span
-						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
-					>
-						{pendingCount}
-					</span>
-				</button>
-				<button
-					on:click={() => {
-						statusFilter = 'control';
-						page = 0;
-					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
-					'control'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-				>
-					contrôle
-					<span
-						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
-					>
-						{controlCount}
-					</span>
-				</button>
-			</div>
-
 			<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 				<span class="absolute">
 					<svg
@@ -218,7 +71,13 @@
 										scope="col"
 										class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 									>
-										<span>Date</span>
+										Date
+									</th>
+									<th
+										scope="col"
+										class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+									>
+										Heure
 									</th>
 									<th
 										scope="col"
@@ -260,16 +119,18 @@
 										<td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
 											<div class="inline-flex items-center gap-x-3">
 												<a href="/visit/{visit.id}" class="flex items-center gap-x-2">
-													<div>
-														<h2
-															class="capitalize font-medium text-gray-800 dark:text-white hover:underline"
-														>
-															{formatDateString(visit.created)}
-														</h2>
-													</div>
+													<h2
+														class="capitalize font-medium text-gray-800 dark:text-white hover:underline"
+													>
+														{formatDateStringShort(visit.created)}
+													</h2>
 												</a>
 											</div>
 										</td>
+										<td
+											class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
+											>{formatDateStringToTime(visit.created)}</td
+										>
 										<td
 											class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 truncate lg:overflow-hidden max-w-sm"
 											>{visit.motif}</td
@@ -278,7 +139,7 @@
 											>{visit.bill.total} Dt</td
 										>
 										<td
-											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+											class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
 											>{Math.max(
 												currency(visit.bill.total).subtract(visit.bill.total_paid).value,
 												0

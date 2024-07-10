@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
 export const addVisitSchema = z.object({
-	motif: z.string().min(1)
+	motif: z.string().min(1),
+	control: z.boolean().optional().default(false),
+	vaccination: z.boolean().optional().default(false)
 });
 
 export const updateVisitSchema = addVisitSchema.extend({
@@ -12,8 +14,7 @@ export const updateVisitSchema = addVisitSchema.extend({
 		.default(0)
 		.or(z.string().regex(/\d+/).transform(Number))
 		.default(0),
-	doctor: z.string().min(1).optional(),
-	control: z.boolean().optional().default(false)
+	doctor: z.string().min(1).optional()
 });
 
 export const payVisitSchema = z.object({
