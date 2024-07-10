@@ -9,6 +9,8 @@
 	import { formatDateStringShort, formatDateString } from '$utils/date';
 	import Select from 'svelte-select';
 	import { superForm } from 'sveltekit-superforms/client';
+	import Vaccination from '$lib/components/icons/Vaccination.svelte';
+	import MagnifierGlass from '$lib/components/icons/MagnifierGlass.svelte';
 
 	const { enhance, form, submitting } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
@@ -44,6 +46,7 @@
 	$: $form.doctor = $currentVisit.doctor;
 	$: $form.visit_price = $currentVisit.visit_price;
 	$: $form.control = $currentVisit.control;
+	$: $form.vaccination = $currentVisit.vaccination;
 	$: doctors = $doctorList.map((doctor) => ({
 		label: doctor.name,
 		value: doctor.name
@@ -65,7 +68,7 @@
 				bind:value={$form.motif}
 				placeholder="motif"
 			/>
-			<div class="flex flex-col lg:flex-row lg:gap-5 h-full justify-center">
+			<div class="flex flex-col lg:flex-row lg:gap-5 h-full justify-center pb-0.5">
 				<div class="flex flex-col justify-center item-center pt-6 w-full">
 					<Select
 						id="cage"
@@ -78,7 +81,7 @@
 						class="h-[57px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
 					/>
 				</div>
-				<div class="flex items-center justify-center flex-col w-full">
+				<div class="flex items-center justify-center flex-col w-full pb-0.5">
 					<NumberField
 						label="Prix du consultation"
 						name="visit_price"
@@ -88,21 +91,40 @@
 					/>
 				</div>
 				<div class="flex items-center justify-end flex-col w-full pt-5 lg:pt-0">
-					<div class="flex items-center ps-4 ring-2 ring-gray-300 rounded w-full h-[57px]">
-						<input
-							bind:checked={$form.control}
-							id="control"
-							type="checkbox"
-							value={$form.control}
-							name="control"
-							class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-0"
-						/>
-						<label
-							for="control"
-							class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-							>visite de contrôle</label
-						>
-					</div>
+					<input
+						bind:checked={$form.control}
+						type="checkbox"
+						id="control"
+						value={$form.control}
+						class="hidden peer"
+					/>
+					<label
+						for="control"
+						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50"
+					>
+						<div class="flex gap-2">
+							<MagnifierGlass />
+							<div class="w-full text-base pt-1">visite de contrôle</div>
+						</div>
+					</label>
+				</div>
+				<div class="flex items-center justify-end flex-col w-full pt-5 lg:pt-0">
+					<input
+						bind:checked={$form.vaccination}
+						type="checkbox"
+						id="vaccination"
+						value={$form.vaccination}
+						class="hidden peer"
+					/>
+					<label
+						for="vaccination"
+						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50"
+					>
+						<div class="flex gap-2">
+							<Vaccination />
+							<div class="w-full text-base pt-1">consultation vaccinale</div>
+						</div>
+					</label>
 				</div>
 			</div>
 		</div>
