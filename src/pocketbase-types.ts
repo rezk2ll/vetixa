@@ -423,6 +423,7 @@ export type VisitsRecord<Titem_metadata = unknown> = {
 	store_items?: RecordIdString[];
 	surgical_acts?: RecordIdString[];
 	treatment?: HTMLString;
+	vaccination?: boolean;
 	visit_price?: number;
 };
 
