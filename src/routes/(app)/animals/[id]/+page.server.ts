@@ -1,17 +1,16 @@
 import { redirect, type Redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type {
-	MedicalActsResponse,
 	AnimalsResponse,
-	ClinicalExamsResponse,
-	SurgicalActsResponse,
 	BillsRecord,
 	VisitsResponse,
 	QueueRecord,
-	ClientsResponse
+	ClientsResponse,
+	BillsResponse,
+	AnimalVisit
 } from '$types';
 import type { RecordModel } from 'pocketbase';
-import { removeSchema, updateAnimalSchema } from '$lib/schemas';
+import { updateAnimalSchema } from '$lib/schemas';
 import { superValidate, message } from 'sveltekit-superforms/client';
 import { addVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -22,56 +21,50 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 
 	const addForm = await superValidate(zod(addVisitSchema), { id: 'add-visit' });
 	const updateForm = await superValidate(zod(updateVisitSchema), { id: 'update-visit' });
-	const deleteForm = await superValidate(zod(removeSchema), { id: 'delete-visit' });
 	const form = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 
-	const animal = await pb.collection('animals').getOne(id, {
-		expand: 'visits(animal), client'
+	const animal = await pb.collection('animals').getOne<AnimalsResponse>(id, {
+		expand: 'visits_via_animal, client'
 	});
-
-	const visits = await Promise.all(
-		(animal.expand?.['visits(animal)'] || []).map(async (visit: VisitsResponse) => {
-			const expandedVisit = await pb.collection('visits').getOne<VisitsResponse>(visit.id, {
-				expand: 'medical_acts, clinical_exams, surgical_acts'
-			});
-
-			const bill = await pb.collection('bills').getFirstListItem(`visit="${visit.id}"`);
-
-			return {
-				...(expandedVisit as VisitsResponse),
-				animal,
-				medical_acts: (expandedVisit.expand as RecordModel)?.medical_acts || [],
-				clinical_exams: (expandedVisit.expand as RecordModel)?.clinical_exams || [],
-				surgical_acts: (expandedVisit.expand as RecordModel)?.surgical_acts || [],
-				bill
-			};
-		})
-	);
-
-	const expandedAnimal = {
-		...(animal as AnimalsResponse),
-		visits,
-		client: ((animal.expand as RecordModel)?.client as ClientsResponse).name || ''
-	};
-
-	const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
-	const clinicalExams = await pb.collection('clinical_exams').getFullList<ClinicalExamsResponse>();
-	const surgicalActs = await pb.collection('surgical_acts').getFullList<SurgicalActsResponse>();
 
 	if (!animal) {
 		throw redirect(301, '/404');
 	}
 
+	const visits = await Promise.all(
+		(((animal.expand as RecordModel)?.['visits_via_animal'] as VisitsResponse[]) || []).map(
+			async (visit: VisitsResponse) => {
+				const bill = await pb
+					.collection('bills')
+					.getFirstListItem<BillsResponse>(`visit="${visit.id}"`);
+
+				return {
+					...visit,
+					animal: {
+						...animal,
+						client: ((animal.expand as RecordModel)?.client as ClientsResponse) || {}
+					},
+					bill
+				} satisfies AnimalVisit;
+			}
+		)
+	);
+
+	const expandedAnimal = {
+		...(animal as AnimalsResponse),
+		visits,
+		client: ((animal.expand as RecordModel)?.client as ClientsResponse) || {}
+	};
+
+	const vaccinationVisits = visits.filter(({ vaccination }) => vaccination);
+
 	return {
 		animal: expandedAnimal,
-		medicalActs,
-		clinicalExams,
-		surgicalActs,
 		form,
 		isNew,
 		addForm,
 		updateForm,
-		deleteForm
+		vaccinationVisits
 	};
 };
 
@@ -92,8 +85,12 @@ export const actions: Actions = {
 				return message(form, 'Failed to add visit');
 			}
 
+			const { control, motif, vaccination } = form.data;
+
 			const visit = await pb.collection('visits').create<VisitsResponse>({
-				motif: form.data.motif,
+				motif,
+				control,
+				vaccination,
 				animal: id,
 				date: Date.now()
 			});

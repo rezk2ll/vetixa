@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { clinicalExams, medicalActs, surgicalActs } from '$lib/store/acts';
 	import VisitList from '$components/lists/VisitList.svelte';
 	import CollapsibleSection from '$components/CollapsibleSection.svelte';
 	import Details from '$components/Details.svelte';
@@ -9,23 +8,24 @@
 	import { currentAnimal, updateAnimalFormStore } from '$store/animals';
 	import {
 		addVisitFormStore,
-		deleteVisitFormStore,
 		updateVisitFormStore,
+		vaccinationVisitList,
 		visitItems
 	} from '$store/visit';
 	import { formatDateString, formatDateStringShort } from '$utils/date';
 	import type { entityDetailsList } from '$types';
+	import VaccinationList from '$lib/components/lists/vaccinationList.svelte';
 
 	export let data: PageData;
 
 	let openUpdateModal = false;
 
-	$: ({ animal, isNew } = data);
+	$: ({ animal, isNew, vaccinationVisits } = data);
 	$: ({ visits } = animal);
 
 	$: animalDetails = [
 		{ name: 'Nom', value: animal.name },
-		{ name: 'Propriétaire', value: animal.client },
+		{ name: 'Propriétaire', value: animal.client.name },
 		{ name: 'Espèce', value: animal.type },
 		{ name: 'Sexe', value: animal.sex },
 		{ name: 'Date de naissance', value: formatDateStringShort(animal.birthday) },
@@ -37,15 +37,12 @@
 		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
 	] satisfies entityDetailsList;
 
-	$: clinicalExams.set(data.clinicalExams);
-	$: surgicalActs.set(data.surgicalActs);
-	$: medicalActs.set(data.medicalActs);
 	$: updateAnimalFormStore.set(data.form);
 	$: addVisitFormStore.set(data.addForm);
 	$: updateVisitFormStore.set(data.updateForm);
-	$: deleteVisitFormStore.set(data.deleteForm);
 	$: visitItems.set(visits);
-	$: currentAnimal.set(animal);
+	$: currentAnimal.set({ ...animal, client: animal.client.name });
+	$: vaccinationVisitList.set(vaccinationVisits);
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">
@@ -64,7 +61,9 @@
 		>
 			<Details details={animalDetails} />
 		</CollapsibleSection>
-
-		<VisitList {isNew} />
+		<div class="flex flex-col lg:gap-2 w-full">
+			<VisitList {isNew} />
+			<VaccinationList />
+		</div>
 	</div>
 </div>
