@@ -51,6 +51,11 @@ export interface Visit
 	store_items: InventoryItemResponse[];
 }
 
+export interface AnimalVisit extends Omit<VisitsResponse, 'animal'> {
+	animal: expandedAnimal;
+	bill: BillsResponse;
+}
+
 export interface expandedAnimal extends Omit<AnimalsResponse, 'client'> {
 	client: ClientsResponse;
 }
