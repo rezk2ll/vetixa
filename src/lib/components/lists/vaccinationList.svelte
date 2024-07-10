@@ -1,13 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
-	import type { AnimalVisit } from '$types';
-	import {
-		formatDateString,
-		formatDateStringShort,
-		formatDateStringShortDay,
-		formatDateStringToTime
-	} from '$utils/date';
+	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
 	import { vaccinationVisitList as visitItems } from '$store/visit';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import currency from 'currency.js';
@@ -36,9 +28,7 @@
 	>
 		<div class="flex flex-col lg:flex-row gap-2 items-center gap-x-3 w-full">
 			<div class="w-full flex items-center justify-center gap-x-3 xl:px-1 xl:justify-start">
-				<h2 class="text-lg font-medium text-gray-800 dark:text-white">
-					Consultations vaccinales
-				</h2>
+				<h2 class="text-lg font-medium text-gray-800 dark:text-white">Consultations vaccinales</h2>
 
 				<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
 					>{$visitItems.length}</span
