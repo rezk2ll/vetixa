@@ -7,6 +7,7 @@
 	import PrintPrescription from './prescription/PrintPrescription.svelte';
 	import currency from 'currency.js';
 	import PrintReport from './report/printReport.svelte';
+	import PrintIcon from '$components/icons/PrintIcon.svelte';
 
 	export let bill: BillInformation | undefined;
 	export let doctor: string | undefined;
@@ -62,15 +63,7 @@
 	class="flex flex-col gap-2 w-full p-1 pt-10 lg:p-8 lg:pb-3 bg-white shadow border-gray-200 xl:rounded px-2"
 >
 	<div class="flex space-x-5 w-full">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 512 512"
-			class="w-6 h-6"
-			fill="currentColor"
-			><path
-				d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"
-			/></svg
-		>
+		<PrintIcon />
 		<span class="text-lg font-semibold">Imprimer</span>
 	</div>
 	<PrintBill {bill} handler={handlePrintBill} />

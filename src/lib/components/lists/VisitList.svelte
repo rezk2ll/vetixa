@@ -6,6 +6,11 @@
 	import { visitItems } from '$store/visit';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
 	import currency from 'currency.js';
+	import SearchIcon from '$components/icons/SearchIcon.svelte';
+	import PlusIcon from '$components/icons/PlusIcon.svelte';
+	import BackArrow from '$components/icons/BackArrow.svelte';
+	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
+	import EditIcon from '$components/icons/EditIcon.svelte';
 
 	export let isNew: boolean = false;
 
@@ -76,20 +81,7 @@
 				on:click={() => (openAddModal = true)}
 				class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-5 h-5"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-					/>
-				</svg>
+				<PlusIcon />
 				<span>Nouvelle visite</span>
 			</button>
 		</div>
@@ -107,7 +99,7 @@
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 					'all'
 						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+						: ''} sm:text-sm"
 				>
 					Tout
 				</button>
@@ -119,7 +111,7 @@
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 					'completed'
 						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+						: ''} sm:text-sm hover:bg-gray-100"
 				>
 					payés
 					<span
@@ -136,7 +128,7 @@
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 					'partial'
 						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+						: ''} sm:text-sm hover:bg-gray-100"
 				>
 					Arriérés
 					<span
@@ -153,7 +145,7 @@
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 					'pending'
 						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+						: ''} sm:text-sm hover:bg-gray-100"
 				>
 					En attente
 					<span
@@ -170,7 +162,7 @@
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 					'control'
 						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+						: ''} sm:text-sm hover:bg-gray-100"
 				>
 					contrôle
 					<span
@@ -183,20 +175,7 @@
 
 			<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 				<span class="absolute">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-						/>
-					</svg>
+					<SearchIcon />
 				</span>
 
 				<input
@@ -302,20 +281,7 @@
 													title="Modifier la visite"
 													class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
 												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke-width="1.5"
-														stroke="currentColor"
-														class="w-5 h-5"
-													>
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-														/>
-													</svg>
+													<EditIcon />
 												</a>
 											</div>
 										</td>
@@ -344,22 +310,9 @@
 						? 'bg-slate-200'
 						: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {page <= 0
 						? 'hover:bg-slate-200'
-						: 'hover:bg-gray-100'}  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+						: 'hover:bg-gray-100'}"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-5 h-5 rtl:-scale-x-100"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-						/>
-					</svg>
+					<BackArrow />
 
 					<span> précédent </span>
 				</button>
@@ -376,20 +329,7 @@
 				>
 					<span> Suivant </span>
 
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-5 h-5 rtl:-scale-x-100"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-						/>
-					</svg>
+					<ForwardArrow />
 				</button>
 			</div>
 		</div>

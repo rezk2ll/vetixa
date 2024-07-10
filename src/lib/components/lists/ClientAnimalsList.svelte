@@ -9,6 +9,12 @@
 	import AddAnimalForm from '$components/forms/animals/AddAnimalForm.svelte';
 	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
+	import SearchIcon from '$components/icons/SearchIcon.svelte';
+	import PlusIcon from '$components/icons/PlusIcon.svelte';
+	import BackArrow from '$components/icons/BackArrow.svelte';
+	import ForwardArrow from '../icons/ForwardArrow.svelte';
+	import EditIcon from '$components/icons/EditIcon.svelte';
+	import TrashIcon from '$components/icons/TrashIcon.svelte';
 
 	export let canAdd: boolean = true;
 	export let isNew: boolean = false;
@@ -137,20 +143,7 @@
 							on:click={() => (openAddAnimalModal = true)}
 							class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="w-5 h-5"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
+							<PlusIcon />
 
 							<span>Nouveau animal</span>
 						</button>
@@ -247,20 +240,7 @@
 
 				<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 					<span class="absolute">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/>
-						</svg>
+						<SearchIcon />
 					</span>
 
 					<input
@@ -405,20 +385,7 @@
 														on:click={() => remove(animal)}
 														class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 													>
-														<svg
-															xmlns="http://www.w3.org/2000/svg"
-															fill="none"
-															viewBox="0 0 24 24"
-															stroke-width="1.5"
-															stroke="currentColor"
-															class="w-5 h-5"
-														>
-															<path
-																stroke-linecap="round"
-																stroke-linejoin="round"
-																d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-															/>
-														</svg>
+														<TrashIcon />
 													</button>
 
 													<button
@@ -427,20 +394,7 @@
 														title="Modifier le client"
 														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 hover:text-yellow-500 focus:outline-none"
 													>
-														<svg
-															xmlns="http://www.w3.org/2000/svg"
-															fill="none"
-															viewBox="0 0 24 24"
-															stroke-width="1.5"
-															stroke="currentColor"
-															class="w-5 h-5"
-														>
-															<path
-																stroke-linecap="round"
-																stroke-linejoin="round"
-																d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-															/>
-														</svg>
+														<EditIcon />
 													</button>
 												</div>
 											</td>
@@ -471,20 +425,7 @@
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}   dark:text-gray-200 dark:hover:bg-gray-800"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 rtl:-scale-x-100"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-							/>
-						</svg>
+						<BackArrow />
 
 						<span> précédent </span>
 					</button>
@@ -501,20 +442,7 @@
 					>
 						<span> Suivant </span>
 
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 rtl:-scale-x-100"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-							/>
-						</svg>
+						<ForwardArrow />
 					</button>
 				</div>
 			</div>

@@ -1,13 +1,14 @@
 <script lang="ts">
-	import DateField from '$lib/components/inputs/DateField.svelte';
-	import NumberField from '$lib/components/inputs/NumberField.svelte';
-	import SelectField from '$lib/components/inputs/SelectField.svelte';
-	import TextField from '$lib/components/inputs/TextField.svelte';
+	import DateField from '$components/inputs/DateField.svelte';
+	import NumberField from '$components/inputs/NumberField.svelte';
+	import SelectField from '$components/inputs/SelectField.svelte';
+	import TextField from '$components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addAnimalFormStore } from '$lib/store/animals';
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { animalTypeList } from '$utils/animal';
 	import { toast } from 'svelte-sonner';
+	import PlusIcon from '$components/icons/PlusIcon.svelte';
 
 	export let open = false;
 
@@ -28,21 +29,7 @@
 
 <div>
 	<div class="flex items-center justify-center">
-		<svg
-			fill="none"
-			class="w-8 h-8 text-gray-700 dark:text-gray-300"
-			stroke="currentColor"
-			stroke-width="1.5"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
-			aria-hidden="true"
-		>
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-			/>
-		</svg>
+		<PlusIcon />
 	</div>
 
 	<div class="mt-2 text-center">

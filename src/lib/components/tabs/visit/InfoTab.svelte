@@ -9,8 +9,8 @@
 	import { formatDateStringShort, formatDateString } from '$utils/date';
 	import Select from 'svelte-select';
 	import { superForm } from 'sveltekit-superforms/client';
-	import Vaccination from '$lib/components/icons/Vaccination.svelte';
-	import MagnifierGlass from '$lib/components/icons/MagnifierGlass.svelte';
+	import Vaccination from '$components/icons/Vaccination.svelte';
+	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
 
 	const { enhance, form, submitting } = superForm($updateVisitFormStore, {
 		taintedMessage: null,

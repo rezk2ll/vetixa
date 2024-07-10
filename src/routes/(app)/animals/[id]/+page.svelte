@@ -14,7 +14,7 @@
 	} from '$store/visit';
 	import { formatDateString, formatDateStringShort } from '$utils/date';
 	import type { entityDetailsList } from '$types';
-	import VaccinationList from '$lib/components/lists/vaccinationList.svelte';
+	import VaccinationList from '$components/lists/vaccinationList.svelte';
 
 	export let data: PageData;
 
