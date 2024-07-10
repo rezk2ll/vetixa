@@ -1,12 +1,13 @@
 <script lang="ts">
-	import TextAreaField from '$lib/components/inputs/TextAreaField.svelte';
+	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import NumberField from '$lib/components/inputs/NumberField.svelte';
-	import TextField from '$lib/components/inputs/TextField.svelte';
+	import NumberField from '$components/inputs/NumberField.svelte';
+	import TextField from '$components/inputs/TextField.svelte';
 	import { addInventoryFormStore } from '$store/inventory';
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import currency from 'currency.js';
 	import { toast } from 'svelte-sonner';
+	import InventoryCube from '$components/icons/InventoryCube.svelte';
 
 	export let open = false;
 
@@ -48,11 +49,7 @@
 
 <div>
 	<div class="flex items-center justify-center">
-		<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"
-			><path
-				d="M234.5 5.7c13.9-5 29.1-5 43.1 0l192 68.6C495 83.4 512 107.5 512 134.6V377.4c0 27-17 51.2-42.5 60.3l-192 68.6c-13.9 5-29.1 5-43.1 0l-192-68.6C17 428.6 0 404.5 0 377.4V134.6c0-27 17-51.2 42.5-60.3l192-68.6zM256 66L82.3 128 256 190l173.7-62L256 66zm32 368.6l160-57.1v-188L288 246.6v188z"
-			/></svg
-		>
+		<InventoryCube />
 	</div>
 
 	<div class="mt-2 text-center">

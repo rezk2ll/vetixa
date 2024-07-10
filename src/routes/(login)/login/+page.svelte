@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/buttons/SubmitButton.svelte';
+	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms/client';
 

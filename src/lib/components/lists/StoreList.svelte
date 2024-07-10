@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$lib/components/Modal.svelte';
+	import Modal from '$components/Modal.svelte';
 	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
 	import {
 		inventoryItems,
@@ -7,11 +7,18 @@
 		updatedInventoryItem
 	} from '$lib/store/inventory';
 	import type { storeStatusFilter as StatusFilter } from '$types';
-	import SellInventoryItemForm from '$lib/components/forms/inventory/SellInventoryItemForm.svelte';
-	import ConfirmationDialog from '$lib/components/ConfirmationDialog.svelte';
+	import SellInventoryItemForm from '$components/forms/inventory/SellInventoryItemForm.svelte';
+	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import type { InventoryItemResponse } from '$types';
-	import UpdateInventoryItemForm from '$lib/components/forms/inventory/UpdateInventoryItemForm.svelte';
+	import UpdateInventoryItemForm from '$components/forms/inventory/UpdateInventoryItemForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
+	import SearchIcon from '$components/icons/SearchIcon.svelte';
+	import PlusIcon from '$components/icons/PlusIcon.svelte';
+	import BackArrow from '$components/icons/BackArrow.svelte';
+	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
+	import EditIcon from '$components/icons/EditIcon.svelte';
+	import TrashIcon from '$components/icons/TrashIcon.svelte';
+	import BagIcon from '$components/icons/BagIcon.svelte';
 
 	let openAddInventoryItemModal = false;
 	let openSellInventoryItemModal = false;
@@ -144,20 +151,7 @@
 						on:click={() => (openAddInventoryItemModal = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
+						<PlusIcon />
 
 						<span>Ajouter</span>
 					</button>
@@ -165,16 +159,7 @@
 						on:click={() => (openSellInventoryItemModal = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600 dark:hover:bg-emerald-500 dark:bg-emerald-600"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							height="16"
-							width="18"
-							viewBox="0 0 576 512"
-							fill="currentColor"
-							><path
-								d="M253.3 35.1c6.1-11.8 1.5-26.3-10.2-32.4s-26.3-1.5-32.4 10.2L117.6 192H32c-17.7 0-32 14.3-32 32s14.3 32 32 32L83.9 463.5C91 492 116.6 512 146 512H430c29.4 0 55-20 62.1-48.5L544 256c17.7 0 32-14.3 32-32s-14.3-32-32-32H458.4L365.3 12.9C359.2 1.2 344.7-3.4 332.9 2.7s-16.3 20.6-10.2 32.4L404.3 192H171.7L253.3 35.1zM192 304v96c0 8.8-7.2 16-16 16s-16-7.2-16-16V304c0-8.8 7.2-16 16-16s16 7.2 16 16zm96-16c8.8 0 16 7.2 16 16v96c0 8.8-7.2 16-16 16s-16-7.2-16-16V304c0-8.8 7.2-16 16-16zm128 16v96c0 8.8-7.2 16-16 16s-16-7.2-16-16V304c0-8.8 7.2-16 16-16s16 7.2 16 16z"
-							/></svg
-						>
+						<BagIcon />
 
 						<span>Vendre</span>
 					</button>
@@ -254,20 +239,7 @@
 
 				<div class="flex items-center mt-0 h-6 w-full lg:w-auto">
 					<span class="absolute">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/>
-						</svg>
+						<SearchIcon />
 					</span>
 
 					<input
@@ -381,40 +353,14 @@
 													on:click={() => update(item)}
 													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke-width="1.5"
-														stroke="currentColor"
-														class="w-5 h-5"
-													>
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-														/>
-													</svg>
+													<EditIcon />
 												</button>
 												<button
 													type="button"
 													on:click={() => remove(item)}
 													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke-width="1.5"
-														stroke="currentColor"
-														class="w-5 h-5"
-													>
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-														/>
-													</svg>
+													<TrashIcon />
 												</button>
 											</td>
 										</tr>
@@ -444,20 +390,7 @@
 							? 'hover:bg-slate-200'
 							: 'hover:bg-gray-100'}  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 rtl:-scale-x-100"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-							/>
-						</svg>
+						<BackArrow />
 
 						<span> précédent </span>
 					</button>
@@ -474,20 +407,7 @@
 					>
 						<span> Suivant </span>
 
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 rtl:-scale-x-100"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-							/>
-						</svg>
+						<ForwardArrow />
 					</button>
 				</div>
 			</div>

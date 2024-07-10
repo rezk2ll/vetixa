@@ -12,7 +12,7 @@
 	import Info from '$components/icons/Info.svelte';
 	import Edit from '$components/icons/Edit.svelte';
 	import Phone from '$components/icons/Phone.svelte';
-	import PaintColors from '$lib/components/icons/PaintColors.svelte';
+	import PaintColors from '$components/icons/PaintColors.svelte';
 	import { getTextColor } from '$utils/color';
 
 	export let cage: CageItem;

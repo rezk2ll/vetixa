@@ -8,6 +8,8 @@
 	import Modal from '$components/Modal.svelte';
 	import SearchForm from '$components/forms/search/searchForm.svelte';
 	import { env } from '$env/dynamic/public';
+	import SearchIcon from '$components/icons/SearchIcon.svelte';
+	import SliderIcon from '$components/icons/SliderIcon.svelte';
 
 	let open = false;
 
@@ -44,16 +46,7 @@
 			class="p-1.5 text-gray-700 focus:outline-nones transition-all duration-200 rounded-lg xl:font-bold"
 			on:click={() => (open = !open)}
 		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="currentColor"
-				stroke="currentColor"
-				class="w-4 h-4 xl:h-8"
-				viewBox="0 0 320 512"
-				><path
-					d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-				/></svg
-			>
+			<SliderIcon />
 		</button>
 	</nav>
 </aside>
@@ -361,21 +354,10 @@
 		>
 			<li class="lg:mr-12">
 				<button type="button" class="relative flex items-center" on:click={openSearch}>
-					<span class="absolute text-gray-400 left-3"
-						><svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/></svg
-						></span
-					><input
+					<span class="absolute text-gray-400 left-3">
+						<SearchIcon />
+					</span>
+					<input
 						type="text"
 						placeholder="Rechercher..."
 						class="block py-4 pl-14 pr-16 text-blue-950 placeholder-gray-400/70 focus:outline-none"

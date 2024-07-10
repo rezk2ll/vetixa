@@ -1,8 +1,8 @@
 <script lang="ts">
-	import StockStats from '$lib/components/charts/stock/StockStats.svelte';
-	import StockSalesRank from '$lib/components/charts/stock/StockSalesRank.svelte';
-	import StockStatusChart from '$lib/components/charts/stock/StockStatusChart.svelte';
-	import StoreList from '$lib/components/lists/StoreList.svelte';
+	import StockStats from '$components/charts/stock/StockStats.svelte';
+	import StockSalesRank from '$components/charts/stock/StockSalesRank.svelte';
+	import StockStatusChart from '$components/charts/stock/StockStatusChart.svelte';
+	import StoreList from '$components/lists/StoreList.svelte';
 	import type { PageData } from './$types';
 	import {
 		addInventoryFormStore,

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import QuickAccess from '$components/display/QuickAccess.svelte';
-	import Calendar from '$lib/components/icons/Calendar.svelte';
-	import Store from '$lib/components/icons/Store.svelte';
-	import User from '$lib/components/icons/User.svelte';
+	import Calendar from '$components/icons/Calendar.svelte';
+	import Store from '$components/icons/Store.svelte';
+	import User from '$components/icons/User.svelte';
 </script>
 
 <div class="flex xl:space-x-4 w-full px-0 md:px-10 pt-2 xl:pt-16 items-center justify-center">
