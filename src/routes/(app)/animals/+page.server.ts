@@ -1,5 +1,5 @@
 import { removeSchema, updateAnimalSchema } from '$lib/schemas';
-import { superValidate, message } from 'sveltekit-superforms/server';
+import { superValidate, setError } from 'sveltekit-superforms/server';
 import type { AnimalStatusFilter, AnimalsPageInfo, AnimalsResponse, ClientsResponse } from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import type { RecordModel } from 'pocketbase';
@@ -74,16 +74,17 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(removeSchema), { id: 'remove-animal' });
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to delete animal');
+				return setError(form, 'Données invalides');
 			}
 
 			await pb.collection('animals').delete(form.data.id);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
-			return message(form, 'Failed to delete animal');
-		}
 
-		return { form };
+			return setError(form, "Échec de la suppression de l'animal");
+		}
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {
@@ -91,15 +92,16 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update animal');
+				return setError(form, 'Failed to update animal');
 			}
 
 			await pb.collection('animals').update(form.data.id, form.data);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
-			return message(form, 'Failed to update animal');
-		}
 
-		return { form };
+			return setError(form, "Échec de la mise à jour de l'animal");
+		}
 	}
 };

@@ -1,6 +1,6 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { superValidate, message } from 'sveltekit-superforms/server';
+import { superValidate, setError } from 'sveltekit-superforms/server';
 import { loginSchema } from '$lib/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
 
@@ -19,17 +19,17 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(loginSchema));
 
 		if (!form.valid) {
-			return fail(400, { form });
+			return setError(form, 'Données invalides', { status: 400 });
 		}
 
 		try {
 			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
+
+			throw redirect(303, '/');
 		} catch (error) {
 			form.data.password = '';
 
-			return message(form, 'failed');
+			return setError(form, 'Identifiants invalides', { status: 400 });
 		}
-
-		throw redirect(303, '/');
 	}
 };

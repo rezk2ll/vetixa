@@ -7,7 +7,7 @@ import type {
 } from '$types';
 import type { RecordModel } from 'pocketbase';
 import type { Actions, PageServerLoad } from './$types';
-import { message, superValidate } from 'sveltekit-superforms';
+import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { changeHospitColorsSchema } from '$lib/schemas/hospit';
 
@@ -61,7 +61,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update colors');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, color } = form.data;
@@ -69,7 +69,7 @@ export const actions = {
 			const hospit = await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
 
 			if (!hospit) {
-				throw Error('hospit not found');
+				return setError(form, 'Hospitalisation non trouvée');
 			}
 
 			await pb.collection('hospitalisation').update(id, {
@@ -78,7 +78,9 @@ export const actions = {
 
 			return { form };
 		} catch (error) {
-			return message(form, 'Failed to change hospit color');
+			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la couleur');
 		}
 	}
 } satisfies Actions;

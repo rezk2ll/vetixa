@@ -15,6 +15,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addEventFormStore, updateEventFormStore } from '$store/agenda';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
+	import { toast } from 'svelte-sonner';
 
 	export let data: PageData;
 	$: ({ events } = data);
@@ -85,10 +86,17 @@
 		openDisplayModal = false;
 	};
 
-	const { form: deleteForm, enhance } = superForm(data.removeForm, {
+	const {
+		form: deleteForm,
+		enhance,
+		allErrors
+	} = superForm(data.removeForm, {
 		dataType: 'json',
 		taintedMessage: null
 	});
+
+	$: $allErrors.length &&
+		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 </script>
 
 <Modal bind:open={openAddModal} size="medium">

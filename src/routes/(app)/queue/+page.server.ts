@@ -1,4 +1,4 @@
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { setError, superValidate } from 'sveltekit-superforms/server';
 import type {
 	AnimalsResponse,
 	BillsResponse,
@@ -55,7 +55,7 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update queue');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const item = await pb
@@ -74,9 +74,9 @@ export const actions: Actions = {
 				throw error;
 			}
 
-			console.log({ error });
+			console.error(error);
 
-			return message(form, 'Failed to update queue');
+			return setError(form, "Échec de la mise à jour de la file d'attente", { status: 500 });
 		}
 	}
 };

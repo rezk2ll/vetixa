@@ -11,7 +11,7 @@ import type {
 } from '$types';
 import type { RecordModel } from 'pocketbase';
 import { updateAnimalSchema } from '$lib/schemas';
-import { superValidate, message } from 'sveltekit-superforms/client';
+import { superValidate, setError } from 'sveltekit-superforms/client';
 import { addVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
 import { zod } from 'sveltekit-superforms/adapters';
 
@@ -82,7 +82,7 @@ export const actions: Actions = {
 			}
 
 			if (!form.valid) {
-				return message(form, 'Failed to add visit');
+				return setError(form, 'Données invalides');
 			}
 
 			const { control, motif, vaccination } = form.data;
@@ -114,7 +114,7 @@ export const actions: Actions = {
 
 			console.error(error);
 
-			return message(form, 'Failed to add visit');
+			return setError(form, 'Échec de la création de la visite');
 		}
 	},
 
@@ -123,15 +123,17 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update animal');
+				return setError(form, 'Failed to update animal');
 			}
 
 			await pb.collection('animals').update(form.data.id, form.data);
+
+      return { form };
 		} catch (error) {
 			console.error(error);
-			return message(form, 'Failed to update animal');
+
+			return setError(form, "Échec de la mise à jour de l'animal");
 		}
 
-		return { form };
 	}
 };
