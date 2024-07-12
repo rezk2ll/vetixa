@@ -10,10 +10,11 @@
 	import type { BillsResponse } from '$types';
 	import currency from 'currency.js';
 	import DollarBill from '$components/icons/DollarBill.svelte';
+	import { toast } from 'svelte-sonner';
 
 	export let bill: BillsResponse;
 
-	const { form, enhance, submitting } = superForm($payVisitFormStore, {
+	const { form, enhance, submitting, allErrors } = superForm($payVisitFormStore, {
 		taintedMessage: null,
 		resetForm: false,
 		dataType: 'json',
@@ -48,6 +49,9 @@
 		currency(bill.total).subtract(bill.total_paid).value < 0
 			? Math.abs(currency(bill.total).subtract(bill.total_paid).value)
 			: 0;
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">

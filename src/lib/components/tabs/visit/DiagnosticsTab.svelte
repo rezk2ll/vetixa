@@ -5,8 +5,9 @@
 	import { currentVisit, updateVisitDiagnosticFormStore } from '$store/visit';
 	import { formatDateString } from '$utils/date';
 	import { defaultEditorOptions } from '$utils/editor';
+	import { toast } from 'svelte-sonner';
 
-	const { form, enhance, submitting } = superForm($updateVisitDiagnosticFormStore, {
+	const { form, enhance, submitting, allErrors } = superForm($updateVisitDiagnosticFormStore, {
 		id: 'update-diagnostic',
 		taintedMessage: null,
 		dataType: 'json',
@@ -15,6 +16,10 @@
 
 	$: $form.id = $currentVisit.id;
 	$: $form.observations = $currentVisit.observations;
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <section class="container px-4">

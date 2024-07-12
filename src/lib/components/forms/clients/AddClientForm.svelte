@@ -18,8 +18,9 @@
 		taintedMessage: null
 	});
 
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div>

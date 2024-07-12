@@ -17,6 +17,7 @@
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
+	import { toast } from 'svelte-sonner';
 
 	export let canAdd: boolean = true;
 	export let isNew: boolean = false;
@@ -90,13 +91,21 @@
 		goto(filterUrl);
 	};
 
-	const { enhance, form: deleteForm } = superForm($deleteAnimalFormStore, {
+	const {
+		enhance,
+		form: deleteForm,
+		allErrors
+	} = superForm($deleteAnimalFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				showConfirmation = false;
 			}
 		},
 		dataType: 'json'
+	});
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
 	});
 </script>
 

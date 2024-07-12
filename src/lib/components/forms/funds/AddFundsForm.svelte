@@ -32,8 +32,9 @@
 	$: disabled =
 		$form.amount < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount);
 	$: invalidCash = $form.amount > 1 && $form.incash - $form.outcash !== $form.amount;
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div>

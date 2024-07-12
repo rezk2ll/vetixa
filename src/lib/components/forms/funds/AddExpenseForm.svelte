@@ -37,8 +37,9 @@
 	$: invalidCash =
 		$form.amount > 1 && currency($form.incash).subtract($form.outcash).value !== $form.amount;
 
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div>

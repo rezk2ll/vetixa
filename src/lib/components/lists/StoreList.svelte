@@ -19,6 +19,7 @@
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
 	import BagIcon from '$components/icons/BagIcon.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let openAddInventoryItemModal = false;
 	let openSellInventoryItemModal = false;
@@ -82,12 +83,16 @@
 		openUpdateInventoryItemModal = true;
 	};
 
-	const { enhance } = superForm($removeInventoryFormStore, {
+	const { enhance, allErrors } = superForm($removeInventoryFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				location.reload();
 			}
 		}
+	});
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
 	});
 </script>
 

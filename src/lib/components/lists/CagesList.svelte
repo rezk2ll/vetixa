@@ -7,12 +7,13 @@
 	import ColorPicker from 'svelte-awesome-color-picker';
 	import Modal from '$components/Modal.svelte';
 	import PrimaryButton from '../buttons/PrimaryButton.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let formRef: HTMLFormElement;
 	let hex: string;
 	let showPicker = false;
 
-	const { enhance, submitting, form } = superForm($hospitChangeColorFormStore, {
+	const { enhance, submitting, form, allErrors } = superForm($hospitChangeColorFormStore, {
 		taintedMessage: null,
 		resetForm: true,
 		id: 'change-color',
@@ -36,6 +37,10 @@
 	};
 
 	$: $form.color = hex;
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full">

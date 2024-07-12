@@ -19,6 +19,7 @@
 	import RemoveButton from '$components/buttons/removeButton.svelte';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
@@ -27,7 +28,7 @@
 	let showConfirmation = false;
 	let loading: boolean;
 
-	const { form, enhance, submitting } = superForm($updateVisitHospitalisationFormStore, {
+	const { form, enhance, submitting, allErrors } = superForm($updateVisitHospitalisationFormStore, {
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: false,
@@ -45,19 +46,20 @@
 		id: 'update-hospit'
 	});
 
-	const { enhance: removeEnhance, submitting: removeSubmitting } = superForm(
-		$removeVisitHospitalisationFormStore,
-		{
-			taintedMessage: null,
-			resetForm: false,
-			onResult: ({ result }) => {
-				if (result.type === 'success') {
-					invalidated = true;
-				}
-			},
-			id: 'remove-hospit'
-		}
-	);
+	const {
+		enhance: removeEnhance,
+		submitting: removeSubmitting,
+		allErrors: removeErrors
+	} = superForm($removeVisitHospitalisationFormStore, {
+		taintedMessage: null,
+		resetForm: false,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				invalidated = true;
+			}
+		},
+		id: 'remove-hospit'
+	});
 
 	const handleRemoveHospit = () => {
 		removeFormRef.requestSubmit();
@@ -110,6 +112,9 @@
 	}
 
 	$: $form.treatment = JSON.stringify(treatments);
+	$: [...$allErrors, ...$removeErrors].map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <form
