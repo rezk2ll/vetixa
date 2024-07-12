@@ -25,6 +25,8 @@ export const actions: Actions = {
 		try {
 			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
 		} catch (error) {
+			form.data.password = '';
+
 			return message(form, 'failed');
 		}
 
