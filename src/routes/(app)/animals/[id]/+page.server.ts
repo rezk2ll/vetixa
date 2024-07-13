@@ -128,12 +128,11 @@ export const actions: Actions = {
 
 			await pb.collection('animals').update(form.data.id, form.data);
 
-      return { form };
+			return { form };
 		} catch (error) {
 			console.error(error);
 
 			return setError(form, "Échec de la mise à jour de l'animal");
 		}
-
 	}
 };

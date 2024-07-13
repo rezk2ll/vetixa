@@ -101,7 +101,7 @@ export const actions: Actions = {
 	},
 	sell: async ({ locals: { pb, user }, request }) => {
 		const form = await superValidate(request, zod(sellInventoryItemSchema));
-    
+
 		try {
 			if (!form.valid) {
 				return setError(form, 'Données invalides');
