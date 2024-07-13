@@ -13,6 +13,7 @@
 	const { enhance, form, submitting, allErrors } = superForm($addVisitFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Visite créée avec succès', { important: true, position: 'bottom-center' });
 				open = false;
 			}
 		},

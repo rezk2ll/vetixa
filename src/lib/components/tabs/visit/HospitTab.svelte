@@ -20,6 +20,7 @@
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import { toast } from 'svelte-sonner';
+	import { browser } from '$app/environment';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
@@ -37,10 +38,15 @@
 		},
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
-				setTimeout(() => {
-					invalidated = true;
-					loading = false;
-				}, 250);
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+
+				if (browser) {
+					const currentUrl = document.location.href;
+					const refreshUrl = new URL(currentUrl);
+
+					refreshUrl.searchParams.set('tab', 'hospit');
+					window.location.assign(refreshUrl);
+				}
 			}
 		},
 		id: 'update-hospit'
@@ -56,6 +62,7 @@
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				invalidated = true;
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
 			}
 		},
 		id: 'remove-hospit'

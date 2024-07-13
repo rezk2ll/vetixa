@@ -21,6 +21,7 @@
 			dataType: 'json',
 			onResult: ({ result }) => {
 				if (result.type === 'success') {
+					toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
 					open = false;
 				}
 			}

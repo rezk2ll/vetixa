@@ -19,6 +19,10 @@
 		id: 'change-color',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('La couleur a été modifiée avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
 				$form.id = '';
 				showPicker = false;
 			}

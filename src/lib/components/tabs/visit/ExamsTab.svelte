@@ -34,7 +34,12 @@
 		id: 'add-exam',
 		taintedMessage: null,
 		dataType: 'json',
-		resetForm: true
+		resetForm: true,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+			}
+		}
 	});
 
 	const {
@@ -45,7 +50,12 @@
 		taintedMessage: null,
 		id: 'remove-exam',
 		dataType: 'json',
-		resetForm: true
+		resetForm: true,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+			}
+		}
 	});
 
 	const {
@@ -56,7 +66,12 @@
 		taintedMessage: null,
 		id: 'update-discount',
 		dataType: 'json',
-		resetForm: true
+		resetForm: true,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+			}
+		}
 	});
 
 	$: ({ clinical_exams, id, item_metadata } = $currentVisit);

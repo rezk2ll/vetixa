@@ -92,7 +92,15 @@
 		allErrors
 	} = superForm(data.removeForm, {
 		dataType: 'json',
-		taintedMessage: null
+		taintedMessage: null,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Agenda supprimé avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
+			}
+		}
 	});
 
 	$: $allErrors.length &&

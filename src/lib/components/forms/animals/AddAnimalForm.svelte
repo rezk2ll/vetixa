@@ -17,6 +17,7 @@
 	const { enhance, form, submitting, allErrors } = superForm($addAnimalFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Animal ajouté avec succès', { important: true, position: 'bottom-center' });
 				open = false;
 			}
 		}

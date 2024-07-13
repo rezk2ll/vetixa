@@ -16,6 +16,10 @@
 	const { enhance, submitting, form, allErrors } = superForm($addExpenseFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Dépense ajoutée avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
 				open = false;
 			}
 		},

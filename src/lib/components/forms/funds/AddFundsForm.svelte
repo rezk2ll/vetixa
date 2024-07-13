@@ -15,6 +15,10 @@
 	const { enhance, submitting, form, allErrors } = superForm($addFundsFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Encaissement ajouté avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
 				open = false;
 			}
 		},

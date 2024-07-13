@@ -11,7 +11,12 @@
 		id: 'update-diagnostic',
 		taintedMessage: null,
 		dataType: 'json',
-		resetForm: false
+		resetForm: false,
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+			}
+		}
 	});
 
 	$: $form.id = $currentVisit.id;

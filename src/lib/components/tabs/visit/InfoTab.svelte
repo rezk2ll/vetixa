@@ -16,7 +16,12 @@
 	const { enhance, form, submitting, allErrors } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
 		resetForm: false,
-		dataType: 'json'
+		dataType: 'json',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+			}
+		}
 	});
 
 	$: ({ animal } = $currentVisit);

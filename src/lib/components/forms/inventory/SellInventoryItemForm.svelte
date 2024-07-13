@@ -19,6 +19,10 @@
 		dataType: 'json',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('articles vendus avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
 				open = false;
 			}
 		},
