@@ -4,10 +4,8 @@
  * @param background - the background color
  * @returns the text color
  */
-export const getTextColor = (background: string): string => {
-	console.log({ background });
-	return background.charAt(0) === '#' ? getTextColorFromHex(background) : 'text-slate-800';
-};
+export const getTextColor = (background: string): string =>
+	background.charAt(0) === '#' ? getTextColorFromHex(background) : 'text-slate-800';
 
 /**
  * returns the text color based on the background color (hexadecimal)
