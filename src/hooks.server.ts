@@ -11,7 +11,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	} catch (_) {
 		event.locals.pb.authStore.clear();
-		console.log(_);
+		console.error(_);
 	}
 
 	event.locals.pb.autoCancellation(false);

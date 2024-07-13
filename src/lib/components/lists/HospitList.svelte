@@ -48,7 +48,6 @@
 	};
 
 	$: changeTab = (filter: StatusFilter) => {
-		console.log(filter);
 		const filterUrl = new URL(currentUrl);
 
 		if (filter === 'all') {
