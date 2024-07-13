@@ -31,7 +31,15 @@
 		allErrors
 	} = superForm($addVisitFileFormStore, {
 		id: 'add-file',
-		dataType: 'json'
+		dataType: 'json',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Fichier téléchargé avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
+			}
+		}
 	});
 
 	const {
@@ -40,7 +48,15 @@
 		allErrors: removeErrors
 	} = superForm($removeVisitFileFormStore, {
 		id: 'remove-file',
-		dataType: 'json'
+		dataType: 'json',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Fichier supprimé avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
+			}
+		}
 	});
 
 	let files = filesProxy(addFileForm, 'files');

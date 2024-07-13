@@ -91,6 +91,11 @@
 	} = superForm($deleteAnimalFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Animal supprimé avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
+
 				showConfirmation = false;
 			}
 		},

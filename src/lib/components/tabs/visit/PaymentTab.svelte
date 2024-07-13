@@ -24,6 +24,14 @@
 			$form.method = 'cash';
 			$form.incash = 0;
 			$form.outcash = 0;
+		},
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Paiement effectué avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
+			}
 		}
 	});
 

@@ -86,6 +86,10 @@
 	const { enhance, allErrors } = superForm($removeInventoryFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Article supprimé avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
 				location.reload();
 			}
 		}

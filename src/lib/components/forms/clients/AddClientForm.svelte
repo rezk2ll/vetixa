@@ -12,6 +12,7 @@
 	const { form, enhance, submitting, allErrors } = superForm($addClientFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Client ajouté avec succès', { important: true, position: 'bottom-center' });
 				open = false;
 			}
 		},

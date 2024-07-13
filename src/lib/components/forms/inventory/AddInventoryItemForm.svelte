@@ -15,6 +15,7 @@
 		resetForm: true,
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Article ajouté avec succès', { important: true, position: 'bottom-center' });
 				open = false;
 			}
 		},

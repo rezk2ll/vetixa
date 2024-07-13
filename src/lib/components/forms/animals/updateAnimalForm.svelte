@@ -16,6 +16,7 @@
 	const { enhance, form, submitting, allErrors } = superForm($updateAnimalFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
 				open = false;
 			}
 		},

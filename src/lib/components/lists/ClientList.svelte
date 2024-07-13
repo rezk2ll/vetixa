@@ -82,6 +82,10 @@
 	} = superForm($removeClientFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
+				toast.success('Client supprimé avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
 				showConfirmation = false;
 			}
 		},
