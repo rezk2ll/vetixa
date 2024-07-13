@@ -1,4 +1,4 @@
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { setError, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
 import {
 	addInventoryItemSchema,
@@ -14,7 +14,6 @@ import type {
 	InventorySaleResponse
 } from '$types';
 import type { RecordModel } from 'pocketbase';
-import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import currency from 'currency.js';
 
@@ -82,7 +81,7 @@ export const actions: Actions = {
 
 		try {
 			if (!addForm.valid) {
-				return fail(400, { addForm });
+				return setError(addForm, 'Données invalides');
 			}
 
 			const item = await pb
@@ -90,14 +89,14 @@ export const actions: Actions = {
 				.getList(1, 1, { filter: `code = ${addForm.data.code}` });
 
 			if (item.totalItems != 0) {
-				return fail(400, { addForm });
+				return setError(addForm, 'Code déjà utilisé');
 			}
 
 			await pb.collection('inventory_item').create(addForm.data);
 
 			return { addForm };
 		} catch (error) {
-			return fail(400, { addForm });
+			return setError(addForm, "Échec de l'ajout de l'article en stock", { status: 500 });
 		}
 	},
 	sell: async ({ locals: { pb, user }, request }) => {
@@ -105,7 +104,7 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Invalid data');
+				return setError(form, 'Données invalides');
 			}
 
 			let total = 0;
@@ -117,11 +116,11 @@ export const actions: Actions = {
 					.getOne<InventoryItemResponse>(item.id);
 
 				if (!existingItem) {
-					return message(form, 'Item not found');
+					return setError(form, 'Article non trouvé');
 				}
 
 				if (existingItem.quantity - item.quantity < 0) {
-					return message(form, 'Not enough in stock');
+					return setError(form, 'Quantité insuffisante dans le stock');
 				}
 
 				await pb.collection('inventory_sale').create<InventorySaleRecord>({
@@ -151,7 +150,9 @@ export const actions: Actions = {
 
 			return { form };
 		} catch (error) {
-			return message(form, 'Failed to sell inventory item');
+			console.error(error);
+
+			return setError(form, 'Échec de la vente', { status: 500 });
 		}
 	},
 	delete: async ({ locals: { pb }, request }) => {
@@ -159,28 +160,31 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'invalid item id');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('inventory_item').delete(form.data.id);
 			return { form };
 		} catch (error) {
-			return message(form, 'Failed to delete inventory item');
+			console.error(error);
+
+			return setError(form, "Échec de la suppression de l'article");
 		}
 	},
 	update: async ({ locals: { pb }, request }) => {
 		const form = await superValidate(request, zod(updateInventoryItemSchema));
 		try {
 			if (!form.valid) {
-				return message(form, 'Invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('inventory_item').update(form.data.id, form.data);
 
 			return { form };
 		} catch (error) {
-			console.log(error);
-			return message(form, 'Failed to update inventory item');
+			console.error(error);
+
+			return setError(form, "Échec de la mise à jour de l'article");
 		}
 	}
 };

@@ -1,7 +1,7 @@
-import { fail, redirect, type Redirect } from '@sveltejs/kit';
+import { redirect, type Redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { AnimalsResponse, ClientsResponse } from '$types';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { setError, superValidate } from 'sveltekit-superforms/server';
 import {
 	addAnimalSchema,
 	removeSchema,
@@ -53,13 +53,13 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const client = await pb.collection('clients').getOne<ClientsResponse>(id);
 
 			if (!client) {
-				return fail(400, { message: 'not found ' });
+				return setError(form, 'Client introuvable', { status: 404 });
 			}
 
 			const animal = await pb.collection('animals').create({
@@ -68,7 +68,7 @@ export const actions: Actions = {
 			});
 
 			if (!animal) {
-				return fail(400, { message: 'error' });
+				return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
 			}
 
 			throw redirect(303, `/animals/${animal.id}/?new=true`);
@@ -77,7 +77,8 @@ export const actions: Actions = {
 				throw error;
 			}
 			console.error(error);
-			return message(form, 'Failed to add animal');
+
+			return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
 		}
 	},
 
@@ -85,16 +86,17 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(removeSchema), { id: 'remove-animal' });
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to delete animal');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('animals').delete(form.data.id);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
-			return fail(500, { message: 'Failed to delete animal' });
-		}
 
-		return { form };
+			return setError(form, "Échec de la suppression de l'animal", { status: 500 });
+		}
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {
@@ -102,16 +104,17 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update animal');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('animals').update(form.data.id, form.data);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
-			return message(form, 'Failed to update animal');
-		}
 
-		return { form };
+			return setError(form, "Échec de la mise à jour de l'animal", { status: 500 });
+		}
 	},
 
 	updateClient: async ({ request, locals: { pb } }) => {
@@ -119,16 +122,16 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update client');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('clients').update(form.data.id, form.data);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to update client');
+			return setError(form, 'Échec de la mise à jour du client', { status: 500 });
 		}
-
-		return { form };
 	}
 };

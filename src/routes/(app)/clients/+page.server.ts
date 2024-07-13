@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad } from './$types';
 import type { ClientsPageInfo, ClientsResponse } from '$types';
 import type { RecordModel } from 'pocketbase';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { setError, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
 import { redirect, type Redirect } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -44,7 +44,7 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(addClientSchema), { id: 'add-client' });
 		try {
 			if (!form.valid) {
-				return message(form, 'Invalid data', { status: 400 });
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { firstname, lastname } = form.data;
@@ -61,7 +61,7 @@ export const actions: Actions = {
 			}
 			console.error(error);
 
-			return message(form, 'Failed to add client', { status: 500 });
+			return setError(form, "Échec de l'ajout du client", { status: 500 });
 		}
 	},
 
@@ -69,7 +69,7 @@ export const actions: Actions = {
 		const form = await superValidate(request, zod(removeSchema), { id: 'delete-client' });
 		try {
 			if (!form.valid) {
-				return message(form, 'Invalid data', { status: 400 });
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id } = form.data;
@@ -77,17 +77,17 @@ export const actions: Actions = {
 			const client = await pb.collection('clients').getOne(id);
 
 			if (client.animals && client.animals.length > 0) {
-				return message(form, 'Client has animals assigned', { status: 400 });
+				return setError(form, 'Client has animals assigned', { status: 400 });
 			}
 
 			await pb.collection('clients').delete(id);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to delete client', { status: 500 });
+			return setError(form, 'Échec de la suppression du client', { status: 500 });
 		}
-
-		return { form };
 	},
 
 	updateClient: async ({ request, locals: { pb } }) => {
@@ -95,7 +95,7 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update client');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { firstname, lastname } = form.data;
@@ -104,12 +104,12 @@ export const actions: Actions = {
 				...form.data,
 				name: `${firstname} ${lastname}`
 			});
+
+			return { form };
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to update client');
+			return setError(form, 'Échec de la mise à jour du client');
 		}
-
-		return { form };
 	}
 };

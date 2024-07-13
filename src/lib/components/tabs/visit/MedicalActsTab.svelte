@@ -17,6 +17,7 @@
 	import UpdateIcon from '$components/icons/UpdateIcon.svelte';
 	import Flask from '$components/icons/Flask.svelte';
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let open = false;
 	let showConfirmation = false;
@@ -25,21 +26,33 @@
 	let updateFormRef: HTMLFormElement;
 	let metadata: Record<string, Partial<ItemMetadata>> = {};
 
-	const { form: addForm, enhance } = superForm($addVisitMedicalActsFormStore, {
+	const {
+		form: addForm,
+		enhance,
+		allErrors
+	} = superForm($addVisitMedicalActsFormStore, {
 		id: 'add-medical-acts',
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: true
 	});
 
-	const { form: removeForm, enhance: removeEnhance } = superForm($removeVisitMedicalActFormStore, {
+	const {
+		form: removeForm,
+		enhance: removeEnhance,
+		allErrors: removeErrors
+	} = superForm($removeVisitMedicalActFormStore, {
 		taintedMessage: null,
 		id: 'remove-medical-act',
 		dataType: 'json',
 		resetForm: true
 	});
 
-	const { form: updateForm, enhance: updateEnhance } = superForm($updateVisitItemFormStore, {
+	const {
+		form: updateForm,
+		enhance: updateEnhance,
+		allErrors: updateErrors
+	} = superForm($updateVisitItemFormStore, {
 		taintedMessage: null,
 		id: 'update-visit-item',
 		dataType: 'json',
@@ -103,6 +116,10 @@
 	const getQuantity = (itemId: string) => {
 		return (item_metadata || []).find(({ item }) => item === itemId)?.quantity ?? 1;
 	};
+
+	$: [...$allErrors, ...$removeErrors, ...$updateErrors].map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <form class="hidden" use:enhance action="?/addMedicalActs" method="POST" bind:this={addActsFormRef}>

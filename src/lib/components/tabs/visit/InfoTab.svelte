@@ -11,8 +11,9 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import Vaccination from '$components/icons/Vaccination.svelte';
 	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
+	import { toast } from 'svelte-sonner';
 
-	const { enhance, form, submitting } = superForm($updateVisitFormStore, {
+	const { enhance, form, submitting, allErrors } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
 		resetForm: false,
 		dataType: 'json'
@@ -51,6 +52,10 @@
 		label: doctor.name,
 		value: doctor.name
 	}));
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div class="flex flex-col gap-2">

@@ -1,5 +1,5 @@
 import type { AgendaResponse } from '$types';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { setError, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
 import { addAgendaEventSchema, removeSchema, updateAgendaEventSchema } from '$lib/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -20,17 +20,17 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'invalid data', { status: 400 });
+				return setError(form, 'Données invalides');
 			}
 
 			await pb.collection('agenda').create(form.data);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'something went wrong', { status: 500 });
+			return setError(form, "échec de la création de l'événement", { status: 500 });
 		}
-
-		return { form };
 	},
 
 	updateEvent: async ({ request, locals: { pb } }) => {
@@ -38,17 +38,17 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'invalid data', { status: 400 });
+				return setError(form, 'Données invalides');
 			}
 
 			await pb.collection('agenda').update(form.data.id, form.data);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'something went wrong', { status: 500 });
+			return setError(form, "échec de la mise à jour de l'événement", { status: 500 });
 		}
-
-		return { form };
 	},
 
 	removeEvent: async ({ request, locals: { pb } }) => {
@@ -56,16 +56,16 @@ export const actions: Actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'invalid data', { status: 400 });
+				return setError(form, 'Données invalides');
 			}
 
 			await pb.collection('agenda').delete(form.data.id);
+
+			return { form };
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'something went wrong', { status: 500 });
+			return setError(form, "échec de la suppression de l'événement", { status: 500 });
 		}
-
-		return { form };
 	}
 };

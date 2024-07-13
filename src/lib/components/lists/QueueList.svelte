@@ -8,13 +8,14 @@
 	import BackArrow from '$components/icons/BackArrow.svelte';
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let statusFilter: StatusFilter = 'pending';
 	let search: string;
 	let page = 0;
 	let currentTime = new Date().getTime();
 	let formRef: HTMLFormElement | undefined;
-	const { enhance, form } = superForm($updateQueueFormStore, {
+	const { enhance, form, allErrors } = superForm($updateQueueFormStore, {
 		dataType: 'json'
 	});
 
@@ -54,6 +55,10 @@
 
 		formRef?.requestSubmit();
 	};
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <form class="hidden" method="post" use:enhance bind:this={formRef}>

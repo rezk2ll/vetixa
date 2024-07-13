@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 export const addAnimalSchema = z.object({
-	birthday: z.date().max(new Date()),
-	name: z.string().min(1),
-	sex: z.string().min(1),
-	type: z.string().min(1),
+	birthday: z.date().max(new Date(), { message: 'Date de naissance invalide' }),
+	name: z.string().min(1, { message: 'Nom invalide' }),
+	sex: z.string().min(1, { message: 'Sexe invalide' }),
+	type: z.string().min(1, { message: 'invalide' }),
 	weight: z
 		.number()
 		.default(0)

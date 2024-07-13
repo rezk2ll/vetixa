@@ -26,7 +26,7 @@ import {
 	updateVisitTreatmentSchema
 } from '$lib/schemas/visit';
 import type { RecordModel } from 'pocketbase';
-import { message, superValidate, withFiles } from 'sveltekit-superforms/server';
+import { setError, superValidate, withFiles } from 'sveltekit-superforms/server';
 import BillService from '$lib/services/bill';
 import { zod } from 'sveltekit-superforms/adapters';
 import { removeSchema } from '$lib/schemas';
@@ -172,7 +172,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				return message(form, 'Failed to update visit');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id } = params;
@@ -180,7 +180,7 @@ export const actions = {
 			const item = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!item) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			const updated = await pb.collection('visits').update<VisitsResponse>(id, form.data);
@@ -190,7 +190,9 @@ export const actions = {
 
 			return { form };
 		} catch (error) {
-			return message(form, 'Failed to update visit');
+			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite');
 		}
 	},
 
@@ -199,14 +201,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { amount, id, incash, method, outcash, description } = form.data;
 			const item = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!item) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			const billService = new BillService(pb, item);
@@ -224,7 +226,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to update visit payment');
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -233,7 +235,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, items } = form.data;
@@ -241,7 +243,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -255,7 +257,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to add visit exam');
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -264,7 +266,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, item } = form.data;
@@ -272,7 +274,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -285,6 +287,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -294,14 +298,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, form.data);
@@ -309,6 +313,8 @@ export const actions = {
 			return withFiles({ form });
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, "Échec de l'ajout du fichier", { status: 500 });
 		}
 	},
 
@@ -317,14 +323,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, file } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -335,6 +341,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -345,14 +353,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, observations } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -363,6 +371,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -373,14 +383,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, actions } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -391,6 +401,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -401,7 +413,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, items } = form.data;
@@ -410,7 +422,7 @@ export const actions = {
 			const inventoryService = new InventoryService(pb);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -428,7 +440,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to add visit exam');
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -439,7 +451,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, item } = form.data;
@@ -448,7 +460,7 @@ export const actions = {
 			const inventoryService = new InventoryService(pb);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			const itemQuantity =
@@ -466,6 +478,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -474,7 +488,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, items } = form.data;
@@ -482,7 +496,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Visite non trouvée', { status: 500 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -496,7 +510,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to add medical act');
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -507,7 +521,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, item } = form.data;
@@ -515,7 +529,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -528,6 +542,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -538,7 +554,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, items } = form.data;
@@ -546,7 +562,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -560,7 +576,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 
-			return message(form, 'Failed to add surgical act');
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -571,7 +587,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, item } = form.data;
@@ -579,7 +595,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -592,6 +608,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -602,7 +620,7 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, cage, end, start, note, treatment, price } = form.data;
@@ -610,7 +628,7 @@ export const actions = {
 			const billService = new BillService(pb, visit);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			if (visit.hospit) {
@@ -644,6 +662,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -652,12 +672,16 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 			const billService = new BillService(pb, visit);
+
+			if (!visit) {
+				return setError(form, 'Données invalides', { status: 400 });
+			}
 
 			if (visit.hospit) {
 				await pb.collection('hospitalisation').delete(visit.hospit);
@@ -668,6 +692,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -678,14 +704,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, treatment } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			await pb.collection('visits').update(id, {
@@ -696,6 +722,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	},
 
@@ -706,14 +734,14 @@ export const actions = {
 
 		try {
 			if (!form.valid) {
-				throw Error('invalid data');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 
 			const { id, discount, quantity, item, type } = form.data;
 			const visit = await pb.collection('visits').getOne<VisitsResponse<ItemMetadata[]>>(id);
 
 			if (!visit) {
-				throw Error('visit not found');
+				return setError(form, 'Données invalides', { status: 400 });
 			}
 			const billService = new BillService(pb, visit);
 			const inventoryService = new InventoryService(pb);
@@ -746,6 +774,8 @@ export const actions = {
 			return { form };
 		} catch (error) {
 			console.error(error);
+
+			return setError(form, 'Échec de la mise à jour de la visite', { status: 500 });
 		}
 	}
 } satisfies Actions;

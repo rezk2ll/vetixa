@@ -6,16 +6,21 @@
 	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
 	import Vaccination from '$components/icons/Vaccination.svelte';
 	import NewFile from '$components/icons/NewFile.svelte';
+	import { toast } from 'svelte-sonner';
 
 	export let open = false;
 
-	const { enhance, form, submitting } = superForm($addVisitFormStore, {
+	const { enhance, form, submitting, allErrors } = superForm($addVisitFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				open = false;
 			}
 		},
 		taintedMessage: null
+	});
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
 	});
 </script>
 

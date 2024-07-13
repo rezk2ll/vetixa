@@ -113,8 +113,9 @@
 		total < 1 ||
 		($form.method === 'cash' && currency($form.incash).subtract($form.outcash).value !== total);
 	$: invalidCash = total > 1 && currency($form.incash).subtract($form.outcash).value !== total;
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div>

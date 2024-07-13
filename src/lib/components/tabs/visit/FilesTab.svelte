@@ -18,6 +18,7 @@
 	import EmptyTable from '$components/display/EmptyTable.svelte';
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
 	import DownloadIcon from '$components/icons/DownloadIcon.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let uploadFileFormRef: HTMLFormElement;
 	let removeFileFormRef: HTMLFormElement;
@@ -26,13 +27,18 @@
 	const {
 		form: addFileForm,
 		enhance,
-		submitting
+		submitting,
+		allErrors
 	} = superForm($addVisitFileFormStore, {
 		id: 'add-file',
 		dataType: 'json'
 	});
 
-	const { form: removeFileForm, enhance: removeEnhance } = superForm($removeVisitFileFormStore, {
+	const {
+		form: removeFileForm,
+		enhance: removeEnhance,
+		allErrors: removeErrors
+	} = superForm($removeVisitFileFormStore, {
 		id: 'remove-file',
 		dataType: 'json'
 	});
@@ -79,6 +85,10 @@
 		});
 
 		lightbox.init();
+	});
+
+	$: [...$allErrors, ...$removeErrors].map((error) => {
+		toast.error(error.messages.join('. '));
 	});
 </script>
 

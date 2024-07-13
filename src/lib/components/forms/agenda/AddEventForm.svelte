@@ -30,8 +30,9 @@
 
 	$: $form.start = formatISO(start);
 	$: $form.end = formatISO(end);
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div class="flex items-center justify-center">

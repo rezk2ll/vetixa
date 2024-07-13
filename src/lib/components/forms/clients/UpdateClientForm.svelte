@@ -28,8 +28,9 @@
 	$: $form.email = $currentClient.email;
 	$: $form.note = $currentClient.note;
 
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
+	});
 </script>
 
 <div>

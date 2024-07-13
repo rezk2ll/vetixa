@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
+	import { toast, Toaster } from 'svelte-sonner';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms/client';
 
@@ -11,8 +12,12 @@
 
 	export let data: PageData;
 
-	const { form, message, submitting, enhance } = superForm(data.form, {
+	const { form, submitting, enhance, allErrors } = superForm(data.form, {
 		resetForm: false
+	});
+
+	$: $allErrors.map((error) => {
+		toast.error(error.messages.join('. '));
 	});
 </script>
 
@@ -43,7 +48,7 @@
 						Identifiez vous pour accéder à votre compte
 					</p>
 				</div>
-				{#if $message === 'failed'}
+				{#if $allErrors.length}
 					<div class="w-full text-white bg-red-500 rounded-md shadow-xl mt-6">
 						<div class="container flex items-center justify-between px-6 py-4 mx-auto">
 							<div class="flex">
@@ -116,3 +121,4 @@
 		</div>
 	</div>
 </div>
+<Toaster />
