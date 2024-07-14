@@ -18,9 +18,10 @@
 	import { toast } from 'svelte-sonner';
 
 	export let data: PageData;
-	$: ({ events } = data);
-	$: addEventFormStore.set(data.addForm);
-	$: updateEventFormStore.set(data.updateForm);
+	$: ({ events, addForm, updateForm } = data);
+
+	$: addEventFormStore.set(addForm);
+	$: updateEventFormStore.set(updateForm);
 
 	let calendarRef: HTMLElement;
 	let openAddModal = false;
