@@ -9,11 +9,6 @@
 	import PrintReport from './report/printReport.svelte';
 	import PrintIcon from '$components/icons/PrintIcon.svelte';
 	import { configuration } from '$store/configuration';
-	import InstagramIcon from '$lib/components/icons/InstagramIcon.svelte';
-	import FacebookIcon from '$lib/components/icons/FacebookIcon.svelte';
-	import EmailIcon from '$lib/components/icons/EmailIcon.svelte';
-	import LocationIcon from '$lib/components/icons/LocationIcon.svelte';
-	import PhoneIcon from '$lib/components/icons/PhoneIcon.svelte';
 	import PrintableFooter from '$lib/components/display/PrintableFooter.svelte';
 	import PrintableHeader from '$lib/components/display/PrintableHeader.svelte';
 
