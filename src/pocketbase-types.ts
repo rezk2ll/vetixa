@@ -17,6 +17,7 @@ export enum Collections {
 	Cages = 'cages',
 	Clients = 'clients',
 	ClinicalExams = 'clinical_exams',
+	Configuration = 'configuration',
 	Doctors = 'doctors',
 	FundTransactions = 'fund_transactions',
 	HospitCompletedList = 'hospit_completed_list',
@@ -308,6 +309,17 @@ export type ClinicalExamsRecord = {
 	price?: number;
 };
 
+export type ConfigurationRecord = {
+	adress?: string;
+	email?: string;
+	facebook?: string;
+	facility?: string;
+	instagram?: string;
+	logo?: string;
+	name?: string;
+	phone?: string;
+};
+
 export type DoctorsRecord = {
 	name?: string;
 };
@@ -487,6 +499,8 @@ export type ClientsResponse<Texpand = unknown> = Required<ClientsRecord> &
 	BaseSystemFields<Texpand>;
 export type ClinicalExamsResponse<Texpand = unknown> = Required<ClinicalExamsRecord> &
 	BaseSystemFields<Texpand>;
+export type ConfigurationResponse<Texpand = unknown> = Required<ConfigurationRecord> &
+	BaseSystemFields<Texpand>;
 export type DoctorsResponse<Texpand = unknown> = Required<DoctorsRecord> &
 	BaseSystemFields<Texpand>;
 export type FundTransactionsResponse<Texpand = unknown> = Required<FundTransactionsRecord> &
@@ -548,6 +562,7 @@ export type CollectionRecords = {
 	cages: CagesRecord;
 	clients: ClientsRecord;
 	clinical_exams: ClinicalExamsRecord;
+	configuration: ConfigurationRecord;
 	doctors: DoctorsRecord;
 	fund_transactions: FundTransactionsRecord;
 	hospit_completed_list: HospitCompletedListRecord;
@@ -582,6 +597,7 @@ export type CollectionResponses = {
 	cages: CagesResponse;
 	clients: ClientsResponse;
 	clinical_exams: ClinicalExamsResponse;
+	configuration: ConfigurationResponse;
 	doctors: DoctorsResponse;
 	fund_transactions: FundTransactionsResponse;
 	hospit_completed_list: HospitCompletedListResponse;
@@ -619,6 +635,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'cages'): RecordService<CagesResponse>;
 	collection(idOrName: 'clients'): RecordService<ClientsResponse>;
 	collection(idOrName: 'clinical_exams'): RecordService<ClinicalExamsResponse>;
+	collection(idOrName: 'configuration'): RecordService<ConfigurationResponse>;
 	collection(idOrName: 'doctors'): RecordService<DoctorsResponse>;
 	collection(idOrName: 'fund_transactions'): RecordService<FundTransactionsResponse>;
 	collection(idOrName: 'hospit_completed_list'): RecordService<HospitCompletedListResponse>;
