@@ -7,10 +7,14 @@
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import { globalLoading } from '$store/loading';
 	import { Toaster } from 'svelte-sonner';
+	import { configuration } from '$store/configuration';
 
 	export let data: PageData;
 
-	$: currentUser.set(data.user);
+	$: ({ user, config } = data);
+
+	$: currentUser.set(user);
+	$: configuration.set(config);
 
 	beforeNavigate(() => {
 		globalLoading.set(true);

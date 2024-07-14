@@ -8,6 +8,9 @@
 	import currency from 'currency.js';
 	import PrintReport from './report/printReport.svelte';
 	import PrintIcon from '$components/icons/PrintIcon.svelte';
+	import { configuration } from '$store/configuration';
+	import PrintableFooter from '$lib/components/display/PrintableFooter.svelte';
+	import PrintableHeader from '$lib/components/display/PrintableHeader.svelte';
 
 	export let bill: BillInformation | undefined;
 	export let doctor: string | undefined;
@@ -78,13 +81,7 @@
 				<div class="w-full">
 					<div class="flex flex-col p-2 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
-							<div>
-								<img src="/logo.svg" alt="logo" height="52" width="52" />
-								<h1 class="mt-2 text-lg md:text-xl font-semibold text-blue-600">
-									SEIFEDDINE ISSAOUI
-								</h1>
-								<dd class="col-span-2 text-gray-500">clinique verterinaire</dd>
-							</div>
+							<PrintableHeader config={$configuration} />
 
 							<div class="text-end">
 								{#if doctor && doctor.length}
@@ -194,87 +191,13 @@
 						</div>
 						<!-- End Flex -->
 					</div>
-					<div
-						class="w-full flex flex-col justify-center items-center fixed bottom-0 space-y-1 text-blue-800"
-					>
-						<div class="  flex flex-row gap-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 512 512"
-								class="w-4 h-4"
-								fill="currentColor"
-								><path
-									d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"
-								/></svg
-							>
-							<div>53 423 765 / 23 423 765</div>
-						</div>
-						<div class="flex flex-row space-x-5">
-							<div class="  flex flex-row gap-1">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 384 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
-									/></svg
-								>
-								<div>10, rue El Mouahidine, le Bardo 2000 Tunis, Tunisie</div>
-							</div>
-							<div class="  flex flex-row gap-1">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"
-									/></svg
-								>
-								<div>clinique@vetissaoui.com.tn</div>
-							</div>
-						</div>
-						<div class="flex flex-row space-x-5 items-center justify-center">
-							<div class="flex flex-row space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
-									/></svg
-								>
-								<div>Clinique vétérinaire Dr Seifeddine Issaoui. LE BARDO</div>
-							</div>
-							<div class="flex flex-row space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 448 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-									/></svg
-								>
-								<div>doctor_vet_seifeddine</div>
-							</div>
-						</div>
-					</div>
+					<PrintableFooter config={$configuration} />
 				</div>
 			{:else if showPrescription}
 				<div class="sm:w-11/12 lg:w-full">
 					<div class="flex flex-col p-4 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
-							<div>
-								<img src="/logo.svg" alt="logo" height="52" width="52" />
-								<h1 class="mt-2 text-lg md:text-2xl font-semibold text-blue-600">
-									SEIFEDDINE ISSAOUI
-								</h1>
-								<dd class="col-span-2 text-gray-500">clinique verterinaire</dd>
-							</div>
-
+							<PrintableHeader config={$configuration} />
 							<h2 class="text-2xl md:text-3xl font-semibold text-gray-800 underline">Ordonnace</h2>
 							<div class="text-lg text-gray-500">
 								{#if doctor && doctor.length}
@@ -309,86 +232,13 @@
 							{@html treatment}
 						</div>
 					</div>
-					<div
-						class="w-full flex flex-col justify-center items-center fixed bottom-0 space-y-1 text-blue-800"
-					>
-						<div class="  flex flex-row gap-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 512 512"
-								class="w-4 h-4"
-								fill="currentColor"
-								><path
-									d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"
-								/></svg
-							>
-							<div>53 423 765 / 23 423 765</div>
-						</div>
-						<div class="flex flex-row space-x-5">
-							<div class="  flex flex-row gap-1">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 384 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
-									/></svg
-								>
-								<div>10, rue El Mouahidine, le Bardo 2000 Tunis, Tunisie</div>
-							</div>
-							<div class="  flex flex-row gap-1">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"
-									/></svg
-								>
-								<div>clinique@vetissaoui.com.tn</div>
-							</div>
-						</div>
-						<div class="flex flex-row space-x-5 items-center justify-center">
-							<div class="flex flex-row space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
-									/></svg
-								>
-								<div>Clinique vétérinaire Dr Seifeddine Issaoui. LE BARDO</div>
-							</div>
-							<div class="flex flex-row space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 448 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-									/></svg
-								>
-								<div>doctor_vet_seifeddine</div>
-							</div>
-						</div>
-					</div>
+					<PrintableFooter config={$configuration} />
 				</div>
 			{:else if showReport}
 				<div class="sm:w-11/12 lg:w-full">
 					<div class="flex flex-col p-4 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
-							<div>
-								<img src="/logo.svg" alt="logo" height="52" width="52" />
-								<h1 class="mt-2 text-lg md:text-2xl font-semibold text-blue-600">
-									SEIFEDDINE ISSAOUI
-								</h1>
-								<dd class="col-span-2 text-gray-500">clinique verterinaire</dd>
-							</div>
+							<PrintableHeader config={$configuration} />
 
 							<h2
 								class="text-2xl md:text-3xl font-semibold text-gray-800 underline first-letter:capitalize"
@@ -428,74 +278,7 @@
 							{@html report}
 						</div>
 					</div>
-					<div
-						class="w-full flex flex-col justify-center items-center fixed bottom-0 space-y-1 text-blue-800"
-					>
-						<div class="  flex flex-row gap-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 512 512"
-								class="w-4 h-4"
-								fill="currentColor"
-								><path
-									d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"
-								/></svg
-							>
-							<div>53 423 765 / 23 423 765</div>
-						</div>
-						<div class="flex flex-row space-x-5">
-							<div class="  flex flex-row gap-1">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 384 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
-									/></svg
-								>
-								<div>10, rue El Mouahidine, le Bardo 2000 Tunis, Tunisie</div>
-							</div>
-							<div class="  flex flex-row gap-1">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"
-									/></svg
-								>
-								<div>clinique@vetissaoui.com.tn</div>
-							</div>
-						</div>
-						<div class="flex flex-row space-x-5 items-center justify-center">
-							<div class="flex flex-row space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 512 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
-									/></svg
-								>
-								<div>Clinique vétérinaire Dr Seifeddine Issaoui. LE BARDO</div>
-							</div>
-							<div class="flex flex-row space-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 448 512"
-									class="w-5 h-5"
-									fill="currentColor"
-									><path
-										d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-									/></svg
-								>
-								<div>doctor_vet_seifeddine</div>
-							</div>
-						</div>
-					</div>
+					<PrintableFooter config={$configuration} />
 				</div>
 			{/if}
 		</Page>
