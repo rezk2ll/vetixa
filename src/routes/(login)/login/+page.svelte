@@ -3,6 +3,7 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms/client';
+	import { configuration } from '$store/configuration';
 
 	let imageNumber = 1;
 
@@ -41,7 +42,7 @@
 			<div class="flex-1">
 				<div class="text-center">
 					<div class="flex justify-center mx-auto">
-						<img class="w-auto h-7 sm:h-8" src="/logo.svg" alt="" />
+						<img class="w-auto h-7 sm:h-8" src={$configuration.logo} alt="" />
 					</div>
 
 					<p class="mt-3 text-gray-500 dark:text-gray-300">
