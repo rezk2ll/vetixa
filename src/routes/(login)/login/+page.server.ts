@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { Redirect, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { superValidate, setError } from 'sveltekit-superforms/server';
 import { loginSchema } from '$lib/schemas';
@@ -27,6 +27,10 @@ export const actions: Actions = {
 
 			throw redirect(303, '/');
 		} catch (error) {
+			if ((error as Redirect).location) {
+				throw error;
+			}
+
 			form.data.password = '';
 
 			return setError(form, 'Identifiants invalides', { status: 400 });
