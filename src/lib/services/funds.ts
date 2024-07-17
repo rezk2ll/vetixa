@@ -203,7 +203,7 @@ export class FundsService {
 			(acc, curr) => currency(acc).add(curr.amount < 0 ? Math.abs(curr.amount) : 0).value,
 			0
 		);
-		const balance = currency(income).add(expense).value;
+		const balance = currency(income).subtract(expense).value;
 
 		const unpaidBills = await this.pb.collection('bills').getFullList<BillsResponse>({
 			filter: `total_paid < total && created >= "${startDate}" && created <= "${endDate}"`
