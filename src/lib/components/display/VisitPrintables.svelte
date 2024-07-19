@@ -16,7 +16,9 @@
 	export let doctor: string | undefined;
 	export let treatment: string | undefined;
 	export let report: string | undefined;
+	export let actions: string | undefined;
 	export let animal: expandedAnimal;
+	export let acts: string[] | undefined;
 
 	let print = false;
 	let showBill = false;
@@ -74,7 +76,7 @@
 	<PrintReport {report} handler={handlePrintReport} />
 </div>
 
-<div class="screen:hidden print:block px-0 fixed top-0 w-full">
+<div class="screen:hidden px-0 w-full">
 	<PrintPdf bind:print>
 		<Page>
 			{#if showBill}
@@ -236,12 +238,12 @@
 				</div>
 			{:else if showReport}
 				<div class="sm:w-11/12 lg:w-full">
-					<div class="flex flex-col p-4 bg-white rounded-xl h-full">
+					<div class="flex flex-col p-2 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
 							<PrintableHeader config={$configuration} />
 
 							<h2
-								class="text-2xl md:text-3xl font-semibold text-gray-800 underline first-letter:capitalize"
+								class="text-2xl md:text-3xl font-semibold text-gray-800 underline first-letter:capitalize text-center"
 							>
 								compte rendu
 							</h2>
@@ -252,7 +254,7 @@
 							</div>
 						</div>
 
-						<div class="mt-8 grid sm:grid-cols-2 gap-3">
+						<div class="mt-1 grid sm:grid-cols-2 gap-2">
 							<div>
 								<div class="flex flex-row space-x-1">
 									<h3 class="text-md font-semibold text-gray-800 text-lg">
@@ -274,8 +276,27 @@
 								</div>
 							</div>
 						</div>
-						<div class="mt-6 text-xl">
+						<div class="mt-2">
+							<hr />
 							{@html report}
+							{#if actions}
+								<hr />
+								<div class="pt-2">
+									<div class="text-center font-semibold text-lg pt-1">Conduites à tenir</div>
+									{@html actions}
+								</div>
+							{/if}
+							{#if acts && acts.length}
+								<div class="pt-2">
+									<hr />
+									<div class="py-2 text-center font-semibold text-lg">Actes</div>
+									<div class="flex felx-row gap-1">
+										{#each acts as act, index}
+											<div>{act} {index === acts.length - 1 ? '' : '-'}</div>
+										{/each}
+									</div>
+								</div>
+							{/if}
 						</div>
 					</div>
 					<PrintableFooter config={$configuration} />
