@@ -38,7 +38,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Info </span>
+					<span class="mx-1 text-sm">Info</span>
 				</button>
 				<button
 					type="button"
@@ -57,7 +57,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Examens </span>
+					<span class="mx-1 text-sm">Examens</span>
 				</button>
 
 				<button
@@ -77,7 +77,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Diagnostiques </span>
+					<span class="mx-1 text-sm">Compte rendu</span>
 				</button>
 
 				<button
@@ -97,7 +97,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Fichiers </span>
+					<span class="mx-1 text-sm">Fichiers</span>
 				</button>
 
 				<button
@@ -117,7 +117,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Conduites à tenir </span>
+					<span class="mx-1 text-sm">Conduites à tenir</span>
 				</button>
 				<button
 					type="button"
@@ -136,7 +136,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Traitement </span>
+					<span class="mx-1 text-sm">Ordonnance</span>
 				</button>
 				<button
 					type="button"
@@ -155,7 +155,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Actes médicaux </span>
+					<span class="mx-1 text-sm">Actes médicaux</span>
 				</button>
 				<button
 					type="button"
@@ -174,7 +174,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Actes chirurgicaux </span>
+					<span class="mx-1 text-sm">Actes chirurgicaux</span>
 				</button>
 				<button
 					type="button"
@@ -193,7 +193,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Hospit </span>
+					<span class="mx-1 text-sm">Hospit</span>
 				</button>
 				<button
 					type="button"
@@ -213,7 +213,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Magasin </span>
+					<span class="mx-1 text-sm">Magasin</span>
 				</button>
 			</div>
 		</div>
