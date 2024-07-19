@@ -58,12 +58,12 @@ export const removeVisitFileSchema = z.object({
 
 export const updateVisitDiagnosticSchema = z.object({
 	id: z.string().min(1),
-	observations: z.string().min(1, { message: 'Observations invalide' })
+	observations: z.string().optional()
 });
 
 export const updateVisitActionsSchema = z.object({
 	id: z.string().min(1),
-	actions: z.string().min(1, { message: 'Conduites à tenir invalide' })
+	actions: z.string().optional()
 });
 
 export const updateVisitHospitalisationSchema = z.object({
@@ -78,7 +78,7 @@ export const updateVisitHospitalisationSchema = z.object({
 
 export const updateVisitTreatmentSchema = z.object({
 	id: z.string().min(1),
-	treatment: z.string().min(1, { message: 'Traitement invalide' })
+	treatment: z.string().optional()
 });
 
 export const updateVisitItemSchema = z.object({
