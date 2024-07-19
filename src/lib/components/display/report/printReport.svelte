@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PrimaryButton from '$components/buttons/PrimaryButton.svelte';
+	import ReportIcon from '$lib/components/icons/ReportIcon.svelte';
 
 	export let report: string | undefined;
 	export let handler: () => void = () => {};
@@ -10,29 +11,7 @@
 <div class="flex flex-col gap-6">
 	<PrimaryButton full {disabled} {handler}>
 		<div class="flex space-x-5 items-start justify-start">
-			<svg
-				fill="currentColor"
-				xmlns="http://www.w3.org/2000/svg"
-				class="w-7 h-7"
-				viewBox="0 0 100 100"
-				xml:space="preserve"
-			>
-				<g>
-					<g>
-						<path
-							d="M39,32h22c1.1,0,2-0.9,2-2v-4c0-3.3-2.7-6-6-6H43c-3.3,0-6,2.7-6,6v4C37,31.1,37.9,32,39,32z"
-						/>
-					</g>
-					<g>
-						<path
-							d="M72,25h-2c-0.6,0-1,0.4-1,1v4c0,4.4-3.6,8-8,8H39c-4.4,0-8-3.6-8-8v-4c0-0.6-0.4-1-1-1h-2c-3.3,0-6,2.7-6,6
-			v43c0,3.3,2.7,6,6,6h44c3.3,0,6-2.7,6-6V31C78,27.7,75.3,25,72,25z M43,66c0,1.1-0.9,2-2,2h-2c-1.1,0-2-0.9-2-2V56
-			c0-1.1,0.9-2,2-2h2c1.1,0,2,0.9,2,2V66z M53,66c0,1.1-0.9,2-2,2h-2c-1.1,0-2-0.9-2-2V47c0-1.1,0.9-2,2-2h2c1.1,0,2,0.9,2,2V66z
-			 M63,66c0,1.1-0.9,2-2,2h-2c-1.1,0-2-0.9-2-2V51c0-1.1,0.9-2,2-2h2c1.1,0,2,0.9,2,2V66z"
-						/>
-					</g>
-				</g>
-			</svg>
+			<ReportIcon />
 			<div class="text-base font-semibold grow">Compte rendu</div>
 		</div>
 	</PrimaryButton>
