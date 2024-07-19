@@ -5,7 +5,7 @@
 	import Modal from '$components/Modal.svelte';
 	import { fundsPageInfo } from '$store/funds';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
-	import { fr } from 'date-fns/locale';
+	import fr from 'date-fns/locale/fr/index'
 	import type { fundsStatusFilter as StatusFilter } from '$types';
 	import { format, setHours, setMinutes } from 'date-fns';
 	import { goto } from '$app/navigation';

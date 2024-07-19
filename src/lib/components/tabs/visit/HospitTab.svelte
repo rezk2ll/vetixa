@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from 'svelte-select';
-	import { fr } from 'date-fns/locale';
+	import fr from 'date-fns/locale/fr/index'
 	import { superForm } from 'sveltekit-superforms';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
