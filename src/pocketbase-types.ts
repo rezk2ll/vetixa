@@ -376,6 +376,7 @@ export type InventoryItemRecord = {
 	code: string;
 	cost?: number;
 	description?: HTMLString;
+	gain?: number;
 	name?: string;
 	price?: number;
 	quantity?: number;
