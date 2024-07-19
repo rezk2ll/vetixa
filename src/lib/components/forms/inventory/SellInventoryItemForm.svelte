@@ -5,14 +5,13 @@
 	import Select from 'svelte-select';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
-	import type { PaymentMethodType, InventoryItemInfo } from '$types';
+	import type { InventoryItemInfo } from '$types';
 	import currency from 'currency.js';
 	import { toast } from 'svelte-sonner';
 	import ShoppingIcon from '$components/icons/ShoppingIcon.svelte';
+	import { paymentMethods } from '$utils/payment';
 
 	export let open = false;
-
-	const methods: PaymentMethodType[] = ['cash', 'tpe', 'cheque'];
 
 	const { form, enhance, submitting, allErrors } = superForm($sellInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
@@ -145,6 +144,7 @@
 		on:change={onItemSelect}
 		showChevron
 		listOffset={10}
+		class="uppercase"
 		placeholder="veuillez sélectionner un produit"
 		bind:value={selectedValue}
 	/>
@@ -179,7 +179,7 @@
 
 	<div class="w-full lg:w-1/2 px-10">
 		<Select
-			items={methods}
+			items={paymentMethods}
 			disabled={total < 1}
 			listOffset={10}
 			value="cash"
