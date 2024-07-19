@@ -1,3 +1,16 @@
-import type { PaymentMethodType } from '$types';
+import type { PaymentMethod } from '$types';
 
-export const paymentMethods: PaymentMethodType[] = ['cash', 'cheque', 'tpe'];
+export const paymentMethods: PaymentMethod[] = [
+	{
+		label: 'Espèces',
+		value: 'cash'
+	},
+	{
+		label: 'TPE',
+		value: 'tpe'
+	},
+	{
+		label: 'Chèque',
+		value: 'cheque'
+	}
+];
