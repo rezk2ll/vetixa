@@ -299,11 +299,16 @@
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>TVA</th
 										>
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+											>Gain</th
+										>
 
 										<th
 											scope="col"
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-											>Prix de vente</th
+											>Prix en TTC</th
 										>
 
 										<th scope="col" class="relative py-3.5 px-4">
@@ -354,7 +359,8 @@
 											</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.quantity} </td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.tva} %</td>
-											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.price} </td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.gain} %</td>
+											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.price} DT</td>
 
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
 												<button
