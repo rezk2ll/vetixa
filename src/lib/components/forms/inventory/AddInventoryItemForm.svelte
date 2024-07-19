@@ -25,25 +25,21 @@
 
 	$form.quantity = 1;
 
-	$: totalCost = currency($form.cost).multiply($form.quantity).value;
+	$: htCost = currency($form.cost).divide(currency($form.tva).divide(100).add(1)).value;
 
 	$: handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		if ($form.quantity) {
-			$form.cost = currency(value).divide($form.quantity).value;
-		}
+		$form.cost = currency(value).multiply(1 + $form.tva / 100).value;
 	};
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
-		const divider = currency($form.tva).divide(100).add(1);
 
-		htPrice = currency(value).divide(divider).value;
+		$form.gain = currency(value).divide($form.cost).subtract(1).multiply(100).value;
 	};
 
-	let htPrice = 0;
-	$: $form.price = currency(htPrice).multiply(1 + $form.tva / 100).value;
+	$: $form.price = currency($form.cost).multiply(1 + $form.gain / 100).value;
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
@@ -95,34 +91,32 @@
 	</div>
 	<div class="flex flex-row space-x-5">
 		<NumberField
-			label="Prix d'achat total en DT"
+			label="Prix d'achat HT en DT"
 			placeholder="1"
-			value={totalCost}
+			value={htCost}
 			name="total"
 			isInValid={false}
-			isNumber
 			onChange={handleCostChange}
 		/>
+		<NumberField label="TVA %" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
-			label="Prix d'achat unitaire en DT"
+			label="Prix d'achat TTC en DT"
 			placeholder="1"
 			bind:value={$form.cost}
 			name="cost"
-			isNumber
 			isInValid={false}
 		/>
 	</div>
 	<div class="flex flex-row space-x-5 pb-6">
-		<NumberField label="TVA %" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
-			label="prix de vente unitaire HT en DT"
-			placeholder="1"
-			bind:value={htPrice}
-			name="price_ht"
+			label="Marge de gain %"
+			placeholder=""
+			bind:value={$form.gain}
+			name="gain"
 			isInValid={false}
 		/>
 		<NumberField
-			label="prix de vente unitaire TTC en DT"
+			label="prix de vente TTC en DT"
 			placeholder="1"
 			onChange={handleHTCChange}
 			value={$form.price}

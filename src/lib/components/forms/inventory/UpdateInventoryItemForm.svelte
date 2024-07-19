@@ -8,25 +8,22 @@
 	import currency from 'currency.js';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { updateInventoryItemSchema } from '$lib/schemas';
-	import { updatedInventoryItem } from '$lib/store/inventory';
+	import { updatedInventoryItem, updateInventoryFormStore } from '$lib/store/inventory';
 	import { toast } from 'svelte-sonner';
 	import InventoryCube from '$components/icons/InventoryCube.svelte';
 
 	export let open = false;
 	export let item: InventoryItemResponse;
 
-	const { form, message, submitting, enhance, allErrors } = superForm(
-		defaults($updatedInventoryItem, zodClient(updateInventoryItemSchema)).data,
-		{
-			dataType: 'json',
-			onResult: ({ result }) => {
-				if (result.type === 'success') {
-					toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
-					open = false;
-				}
+	const { form, message, submitting, enhance, allErrors } = superForm($updateInventoryFormStore, {
+		dataType: 'json',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('Mis à jour avec succés', { important: true, position: 'bottom-center' });
+				open = false;
 			}
 		}
-	);
+	});
 
 	let htPrice = 0;
 
@@ -40,26 +37,24 @@
 		$form.quantity = value.quantity;
 		$form.tva = value.tva;
 		$form.description = value.description;
-		htPrice = currency($form.price).divide(1 + $form.tva / 100).value;
+		$form.gain = value.gain;
 	});
 
-	$: totalCost = currency($form.cost).multiply($form.quantity).value;
+	$: htcost = currency($form.cost).divide(currency($form.tva).divide(100).add(1)).value;
 
 	const handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		if ($form.quantity) {
-			$form.cost = currency(value).divide($form.quantity).value;
-		}
+		$form.cost = currency(value).multiply(1 + $form.tva / 100).value;
 	};
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		htPrice = currency(value).divide(1 + $form.tva / 100).value;
+		$form.gain = currency(value).divide($form.cost).subtract(1).multiply(100).value;
 	};
 
-	$: $form.price = currency(htPrice).multiply(1 + $form.tva / 100).value;
+	$: $form.price = currency($form.cost).multiply(1 + $form.gain / 100).value;
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
@@ -112,15 +107,16 @@
 	</div>
 	<div class="flex flex-row space-x-5">
 		<NumberField
-			label="Prix d'achat total"
+			label="Prix d'achat HT en DT"
 			placeholder="1"
-			value={totalCost}
+			value={htcost}
 			name="total"
 			onChange={handleCostChange}
 			isInValid={false}
 		/>
+		<NumberField label="TVA %" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
-			label="Prix d'achat unitaire"
+			label="Prix d'achat TTC en DT"
 			placeholder="1"
 			bind:value={$form.cost}
 			name="cost"
@@ -128,12 +124,11 @@
 		/>
 	</div>
 	<div class="flex flex-row space-x-5 pb-6">
-		<NumberField label="TVA" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
-			label="prix de vente unitaire HT"
-			placeholder="1"
-			bind:value={htPrice}
-			name="price_ht"
+			label="Marge de gain %"
+			placeholder=""
+			bind:value={$form.gain}
+			name="gain"
 			isInValid={false}
 		/>
 		<NumberField
