@@ -86,7 +86,7 @@ export const actions: Actions = {
 
 			const item = await pb
 				.collection('inventory_item')
-				.getList(1, 1, { filter: `code = ${addForm.data.code}` });
+				.getList(1, 1, { filter: `code = '${addForm.data.code}'` });
 
 			if (item.totalItems != 0) {
 				return setError(addForm, 'Code déjà utilisé');
@@ -96,6 +96,8 @@ export const actions: Actions = {
 
 			return { addForm };
 		} catch (error) {
+			console.error(error);
+
 			return setError(addForm, "Échec de l'ajout de l'article en stock", { status: 500 });
 		}
 	},
