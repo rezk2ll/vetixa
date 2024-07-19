@@ -23,6 +23,7 @@
 		{placeholder}
 		{...props}
 		on:change={onChange}
+		on:input={onChange}
 		type="number"
 		class="{size === 'small'
 			? 'h-7 text-sm ring-1 min-w-14'
