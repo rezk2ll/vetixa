@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { defaults, superForm } from 'sveltekit-superforms/client';
+	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import TextField from '$components/inputs/TextField.svelte';
 	import type { InventoryItemResponse } from '$types';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import currency from 'currency.js';
-	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { updateInventoryItemSchema } from '$lib/schemas';
 	import { updatedInventoryItem, updateInventoryFormStore } from '$lib/store/inventory';
 	import { toast } from 'svelte-sonner';
 	import InventoryCube from '$components/icons/InventoryCube.svelte';
@@ -24,8 +22,6 @@
 			}
 		}
 	});
-
-	let htPrice = 0;
 
 	updatedInventoryItem.subscribe((value) => {
 		$form.alert = value.alert;
