@@ -5,13 +5,12 @@
 	import { addFundsFormStore } from '$lib/store/funds';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import Select from 'svelte-select';
-	import type { PaymentMethodType } from '$types';
 	import { toast } from 'svelte-sonner';
 	import MoneyBagIcon from '$components/icons/MoneyBagIcon.svelte';
+	import { paymentMethods } from '$utils/payment';
 
 	export let open = false;
 
-	const methods: PaymentMethodType[] = ['cash', 'tpe', 'cheque'];
 	const { enhance, submitting, form, allErrors } = superForm($addFundsFormStore, {
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
@@ -76,7 +75,7 @@
 	/>
 	<div class="flex flex-col gap-2 pt-2">
 		<Select
-			items={methods}
+			items={paymentMethods}
 			disabled={$form.amount < 1}
 			listOffset={10}
 			value="cash"
