@@ -5,7 +5,7 @@
 	import TextAreaField from '../../inputs/TextAreaField.svelte';
 	import DateInput from 'date-picker-svelte/DateInput.svelte';
 	import { localeFromDateFnsLocale } from 'date-picker-svelte/locale';
-	import { fr } from 'date-fns/locale';
+	import fr from 'date-fns/locale/fr/index';
 	import { formatISO } from 'date-fns';
 	import type { AgendaResponse } from '$types';
 	import { toast } from 'svelte-sonner';
