@@ -27,10 +27,17 @@ export const addInventoryItemSchema = z.object({
 	tva: z
 		.number()
 		.min(0)
-		.default(10)
+		.default(0)
 		.or(z.string().regex(/\d+/).transform(Number))
 		.default(0)
-		.refine((n) => n > 0, { message: 'TVA invalide' }),
+		.refine((n) => n >= 0, { message: 'TVA invalide' }),
+	gain: z
+		.number()
+		.min(0)
+		.default(0)
+		.or(z.string().regex(/\d+/).transform(Number))
+		.default(0)
+		.refine((n) => n >= 0, { message: 'Marge de gain invalide' }),
 	description: z.string().optional(),
 	code: z.string().min(1, { message: 'Code invalide' })
 });
