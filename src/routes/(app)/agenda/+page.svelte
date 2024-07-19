@@ -58,7 +58,8 @@
 			height: 'auto',
 			allDaySlot: false,
 			navLinks: true,
-			editable: true,
+			editable: false,
+			droppable: false,
 			eventSources: [getEvents],
 			select: (info) => {
 				openAddModal = true;
