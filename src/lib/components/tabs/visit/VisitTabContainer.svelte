@@ -77,7 +77,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Diagnostiques </span>
+					<span class="mx-1 text-sm">Compte rendu</span>
 				</button>
 
 				<button
@@ -136,7 +136,7 @@
 						/></svg
 					>
 
-					<span class="mx-1 text-sm"> Traitement </span>
+					<span class="mx-1 text-sm"> Ordonnance </span>
 				</button>
 				<button
 					type="button"
