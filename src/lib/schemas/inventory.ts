@@ -19,11 +19,11 @@ export const addInventoryItemSchema = z.object({
 		.refine((n) => n > 0, { message: "Prix d'achat invalide" }),
 	alert: z
 		.number()
-		.min(1)
+		.min(0, { message: 'Alerte invalide' })
 		.default(10)
 		.or(z.string().regex(/\d+/).transform(Number))
 		.default(0)
-		.refine((n) => n > 0, { message: 'Alerte invalide' }),
+		.refine((n) => n >= 0, { message: 'Alerte invalide' }),
 	tva: z
 		.number()
 		.min(0)
