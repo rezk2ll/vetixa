@@ -98,6 +98,9 @@
 	$: activeVisitTab.set(tab as VisitTabsType);
 	$: updateVisitItemFormStore.set(updateVisitItemForm);
 	$: doctorList.set(doctors);
+	$: acts = [...visit.clinical_exams, ...visit.surgical_acts, ...visit.medical_acts].map(
+		(item) => item.name
+	);
 </script>
 
 <div class="flex flex-col lg:flex-row lg:pl-5 w-full">
@@ -110,6 +113,8 @@
 				doctor={visit.doctor}
 				treatment={visit.treatment}
 				animal={visit.animal}
+				actions={visit.actions}
+				{acts}
 			/>
 			<PaymentTab {bill} />
 		</div>
