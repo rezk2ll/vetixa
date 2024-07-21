@@ -166,8 +166,8 @@
 			<input type="hidden" name="id" value={$form.id} />
 			<TextAreaField name="note" label="Note" bind:value={$form.note} placeholder="" />
 			<div class="flex flex-col lg:flex-row gap-2 lg:gap-5 justify-start">
-				<div class="flex w-full justify-between lg:w-auto lg:gap-4">
-					<div class="hospit">
+				<div class="flex flex-col lg:flex-row w-full justify-between lg:w-auto lg:gap-4">
+					<div class="hospit w-full">
 						<label class="text-gray-700 dark:text-gray-200 pl-2" for="startdate"
 							>Date d'admission</label
 						>
@@ -181,7 +181,7 @@
 							{locale}
 						/>
 					</div>
-					<div class="text-slate-500 flex items-center justify-center py-10">
+					<div class="text-slate-500 items-center justify-center py-10 hidden lg:flex">
 						<svg
 							data-slot="icon"
 							fill="none"
