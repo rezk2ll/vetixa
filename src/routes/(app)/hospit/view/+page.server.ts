@@ -46,7 +46,25 @@ export const load = (async ({ locals: { pb } }) => {
 				}
 			} satisfies CageItem;
 		})
-		.sort((a, b) => a.code.localeCompare(b.code));
+		.sort((a, b) => {
+			const extractParts = (str: string): [string, number] => {
+				str = str.trim();
+				const alphaPart = str.match(/^[^\d]*/)?.[0] ?? '';
+				const numPart = str.match(/\d+$/)?.[0] ?? '0';
+				return [alphaPart, parseInt(numPart, 10)];
+			};
+
+			const [alphaA, numA] = extractParts(a.code.toLowerCase());
+			const [alphaB, numB] = extractParts(b.code.toLowerCase());
+
+			const alphaCompare = alphaA.localeCompare(alphaB, undefined, { sensitivity: 'base' });
+			if (alphaCompare !== 0) {
+				return alphaCompare;
+			}
+
+			return numA - numB;
+		});
+
 	return {
 		cageList,
 		changeHospitColorForm
