@@ -47,9 +47,9 @@
 		{ name: 'Note', value: animal.client.note ?? '-' }
 	];
 
-  currentVisit.subscribe(({ id }) => {
-    $form.id = id;
-  })
+	currentVisit.subscribe(({ id }) => {
+		$form.id = id;
+	});
 
 	$: $form.motif = $currentVisit.motif;
 	$: $form.id = $currentVisit.id;
