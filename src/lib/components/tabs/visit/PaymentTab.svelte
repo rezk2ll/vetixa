@@ -24,6 +24,7 @@
 			$form.method = 'cash';
 			$form.incash = 0;
 			$form.outcash = 0;
+			$form.description = '';
 		},
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
@@ -41,6 +42,10 @@
 			$form.outcash = 0;
 		}
 	};
+
+	currentVisit.subscribe(({ id }) => {
+		$form.id = id;
+	});
 
 	$: $form.id = $currentVisit.id;
 	$: disabled =
@@ -104,56 +109,58 @@
 					{/if}
 				</div>
 			</div>
-			<form
-				use:enhance
-				action="?/addPayment"
-				class="mt-2 flex flex-col space-y-4 w-full"
-				method="POST"
-			>
-				<input type="hidden" name="id" value={$currentVisit.id} />
-				<NumberField label="Montant" placeholder="" bind:value={$form.amount} name="amount" />
-				<div class="w-full">
-					<Select
-						items={paymentMethods}
-						disabled={disabledSelect}
-						listOffset={10}
-						value={$form.method}
-						placeholder="veuillez sélectionner"
-						bind:justValue={$form.method}
-						on:change={handleMethodChange}
-						class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
+			{#if $currentVisit.id}
+				<form
+					use:enhance
+					action="?/addPayment"
+					class="mt-2 flex flex-col space-y-4 w-full"
+					method="POST"
+				>
+					<input type="hidden" name="id" value={$currentVisit.id} />
+					<NumberField label="Montant" placeholder="" bind:value={$form.amount} name="amount" />
+					<div class="w-full">
+						<Select
+							items={paymentMethods}
+							disabled={disabledSelect}
+							listOffset={10}
+							value={$form.method}
+							placeholder="veuillez sélectionner"
+							bind:justValue={$form.method}
+							on:change={handleMethodChange}
+							class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
+						/>
+						{#if $form.method === 'cash'}
+							<div class="flex flex-row space-x-2">
+								<NumberField
+									bind:value={$form.incash}
+									name="incash"
+									label="Entré"
+									placeholder=""
+									disabled={disabledSelect}
+									isInValid={invalidCash}
+								/>
+								<NumberField
+									bind:value={$form.outcash}
+									name="outcash"
+									label="Sortie"
+									placeholder=""
+									disabled={disabledSelect}
+									isInValid={invalidCash}
+								/>
+							</div>
+						{/if}
+					</div>
+					<TextAreaField
+						bind:value={$form.description}
+						label="Informations supplémentaires"
+						name="description"
+						isInValid={false}
+						placeholder=""
 					/>
-					{#if $form.method === 'cash'}
-						<div class="flex flex-row space-x-2">
-							<NumberField
-								bind:value={$form.incash}
-								name="incash"
-								label="Entré"
-								placeholder=""
-								disabled={disabledSelect}
-								isInValid={invalidCash}
-							/>
-							<NumberField
-								bind:value={$form.outcash}
-								name="outcash"
-								label="Sortie"
-								placeholder=""
-								disabled={disabledSelect}
-								isInValid={invalidCash}
-							/>
-						</div>
-					{/if}
-				</div>
-				<TextAreaField
-					bind:value={$form.description}
-					label="Informations supplémentaires"
-					name="description"
-					isInValid={false}
-					placeholder=""
-				/>
 
-				<SubmitButton full {disabled} loading={$submitting}>Payer</SubmitButton>
-			</form>
+					<SubmitButton full {disabled} loading={$submitting}>Payer</SubmitButton>
+				</form>
+			{/if}
 		</div>
 	</div>
 </div>
