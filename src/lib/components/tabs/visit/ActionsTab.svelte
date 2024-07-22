@@ -38,6 +38,7 @@
 						<Editor
 							bind:value={$form.actions}
 							scriptSrc="/tinymce/tinymce.min.js"
+							licenseKey="gpl"
 							apiKey="no-api-key"
 							conf={defaultEditorOptions}
 							cssClass="border-none"
