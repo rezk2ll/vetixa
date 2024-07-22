@@ -200,7 +200,7 @@
 					<div class="flex flex-col p-4 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
 							<PrintableHeader config={$configuration} />
-							<h2 class="text-2xl md:text-3xl font-semibold text-gray-800 underline">Ordonnace</h2>
+							<h2 class="text-2xl md:text-3xl font-semibold text-gray-800 underline">Ordonnance</h2>
 							<div class="text-lg text-gray-500">
 								{#if doctor && doctor.length}
 									Dr {doctor}
