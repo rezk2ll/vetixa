@@ -37,7 +37,7 @@
 						<textarea class="hidden" name="observations" value={$form.observations} />
 						<Editor
 							bind:value={$form.observations}
-              licenseKey="gpl"
+							licenseKey="gpl"
 							scriptSrc="/tinymce/tinymce.min.js"
 							apiKey="no-api-key"
 							conf={defaultEditorOptions}

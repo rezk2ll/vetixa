@@ -39,7 +39,7 @@
 							bind:value={$form.treatment}
 							scriptSrc="/tinymce/tinymce.min.js"
 							apiKey="no-api-key"
-              licenseKey="gpl"
+							licenseKey="gpl"
 							conf={defaultEditorOptions}
 							cssClass="border-none"
 						/>
