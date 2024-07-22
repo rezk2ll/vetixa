@@ -31,6 +31,7 @@ import BillService from '$lib/services/bill';
 import { zod } from 'sveltekit-superforms/adapters';
 import { removeSchema } from '$lib/schemas';
 import { InventoryService } from '$lib/services/inventory';
+import { cageCompare } from '$utils/cage';
 
 export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
@@ -118,11 +119,12 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		});
 
 		let cages = await pb.collection('available_cages').getFullList<CagesResponse>();
+		cages = cages.sort(cageCompare);
 
 		if (visit.hospit && visit.hospit.cage) {
 			currentCage = await pb.collection('cages').getOne<CagesResponse>(visit.hospit.cage);
-			if (currentCage) {
-				cages = [...cages, currentCage];
+			if (currentCage && cages.findIndex(({ code }) => code === currentCage?.code) === -1) {
+				cages = [currentCage, ...cages];
 			}
 		}
 
