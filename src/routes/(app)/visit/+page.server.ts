@@ -73,7 +73,7 @@ export const load = (async ({ locals: { pb }, url }) => {
 				if (animal.client) {
 					client = await pb.collection('clients').getOne<ClientsResponse>(animal.client);
 				} else {
-					client = unknownClient
+					client = unknownClient;
 				}
 
 				return {

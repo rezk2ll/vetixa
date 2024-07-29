@@ -44,7 +44,9 @@ export const load = (async ({ locals: { pb } }) => {
 						animal: {
 							...((matchingHospit.expand as RecordModel)?.visit.expand?.animal || unknownAnimal)
 						},
-						client: (matchingHospit.expand as RecordModel)?.visit.expand?.animal.expand?.client || unknownClient
+						client:
+							(matchingHospit.expand as RecordModel)?.visit.expand?.animal.expand?.client ||
+							unknownClient
 					}
 				}
 			} satisfies CageItem;

@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 	const query = searchParams.get('query') || '';
 	const filter = (searchParams.get('filter') as AnimalStatusFilter) || 'all';
 
-  try {
+	try {
 		const collection =
 			filter === 'chat'
 				? 'animals_cats_list'
@@ -91,8 +91,8 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 			} satisfies AnimalsPageInfo
 		};
 	} catch (error) {
-    console.error(error);
-  }
+		console.error(error);
+	}
 };
 
 export const actions: Actions = {

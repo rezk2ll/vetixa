@@ -23,5 +23,5 @@ export const animalTypeList = [
 ];
 
 export const unknownAnimal = {
-	name: 'Animal supprimé',
+	name: 'Animal supprimé'
 } as AnimalsResponse;
