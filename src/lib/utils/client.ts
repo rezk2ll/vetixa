@@ -1,4 +1,4 @@
-import { ClientsResponse } from '$types';
+import type { ClientsResponse } from '$types';
 
 export const unknownClient = {
 	name: 'Client supprimé',
