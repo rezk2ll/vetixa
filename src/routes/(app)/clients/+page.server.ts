@@ -54,6 +54,10 @@ export const actions: Actions = {
 				name: `${firstname} ${lastname}`
 			});
 
+			if (!client || !client.id) {
+				throw new Error('Failed to create client');
+			}
+
 			throw redirect(303, `/clients/${client.id}/?new=true`);
 		} catch (error) {
 			if ((error as Redirect).location) {
@@ -75,6 +79,10 @@ export const actions: Actions = {
 			const { id } = form.data;
 
 			const client = await pb.collection('clients').getOne(id);
+
+			if (!client || !client.id) {
+				return setError(form, 'Client introuvable', { status: 404 });
+			}
 
 			if (client.animals && client.animals.length > 0) {
 				return setError(form, 'Client has animals assigned', { status: 400 });
@@ -98,9 +106,15 @@ export const actions: Actions = {
 				return setError(form, 'Données invalides', { status: 400 });
 			}
 
-			const { firstname, lastname } = form.data;
+			const { firstname, lastname, id } = form.data;
 
-			await pb.collection('clients').update(form.data.id, {
+      const client = await pb.collection('clients').getOne(id);
+      
+      if (!client || !client.id) {
+        return setError(form, 'Client introuvable', { status: 404 });
+      }
+
+			await pb.collection('clients').update(id, {
 				...form.data,
 				name: `${firstname} ${lastname}`
 			});
