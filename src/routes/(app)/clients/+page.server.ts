@@ -108,11 +108,11 @@ export const actions: Actions = {
 
 			const { firstname, lastname, id } = form.data;
 
-      const client = await pb.collection('clients').getOne(id);
-      
-      if (!client || !client.id) {
-        return setError(form, 'Client introuvable', { status: 404 });
-      }
+			const client = await pb.collection('clients').getOne(id);
+
+			if (!client || !client.id) {
+				return setError(form, 'Client introuvable', { status: 404 });
+			}
 
 			await pb.collection('clients').update(id, {
 				...form.data,
