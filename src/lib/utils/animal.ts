@@ -1,3 +1,5 @@
+import type { AnimalsResponse } from '$types';
+
 export const animalTypeList = [
 	'chien',
 	'chat',
@@ -19,3 +21,7 @@ export const animalTypeList = [
 	'insecte',
 	'autre'
 ];
+
+export const unknownAnimal = {
+	name: 'Animal supprimé',
+} as AnimalsResponse;
