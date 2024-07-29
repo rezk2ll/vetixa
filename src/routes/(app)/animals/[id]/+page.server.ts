@@ -74,11 +74,10 @@ export const actions: Actions = {
 
 		try {
 			const { id } = params;
-
 			const animal = await pb.collection('animals').getOne(id);
 
-			if (!animal) {
-				throw redirect(301, '/404');
+			if (!animal || !animal.id) {
+				return setError(form, 'Animal introuvable', { status: 404 });
 			}
 
 			if (!form.valid) {
@@ -94,6 +93,10 @@ export const actions: Actions = {
 				animal: id,
 				date: Date.now()
 			});
+
+			if (!visit || !visit.id) {
+				return setError(form, 'Échec de la création de la visite', { status: 500 });
+			}
 
 			await pb.collection('queue').create<QueueRecord>({
 				visit: visit.id,
@@ -124,6 +127,13 @@ export const actions: Actions = {
 		try {
 			if (!form.valid) {
 				return setError(form, 'Failed to update animal');
+			}
+
+			const { id } = form.data;
+			const animal = await pb.collection('animals').getOne(id);
+
+			if (!animal || !animal.id) {
+				return setError(form, 'Animal introuvable', { status: 404 });
 			}
 
 			await pb.collection('animals').update(form.data.id, form.data);

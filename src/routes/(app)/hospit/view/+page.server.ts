@@ -70,7 +70,7 @@ export const actions = {
 
 			const hospit = await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
 
-			if (!hospit) {
+			if (!hospit || !hospit.id) {
 				return setError(form, 'Hospitalisation non trouvée');
 			}
 

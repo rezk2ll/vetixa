@@ -20,10 +20,14 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
 
-	const client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
+	let client;
 
-	if (!client) {
-		throw redirect(301, '/404');
+	try {
+		client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
+	} catch (error) {
+		if (!client) {
+			throw redirect(301, '/404');
+		}
 	}
 
 	const clientService = new ClientService(pb);
@@ -58,7 +62,7 @@ export const actions: Actions = {
 
 			const client = await pb.collection('clients').getOne<ClientsResponse>(id);
 
-			if (!client) {
+			if (!client || !client.id) {
 				return setError(form, 'Client introuvable', { status: 404 });
 			}
 
@@ -67,7 +71,7 @@ export const actions: Actions = {
 				client: id
 			});
 
-			if (!animal) {
+			if (!animal || !animal.id) {
 				return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
 			}
 
@@ -89,7 +93,15 @@ export const actions: Actions = {
 				return setError(form, 'Données invalides', { status: 400 });
 			}
 
-			await pb.collection('animals').delete(form.data.id);
+			const { id } = form.data;
+
+			const animal = await pb.collection('animals').getOne(id);
+
+			if (!animal || !animal.id) {
+				return setError(form, 'Animal introuvable', { status: 404 });
+			}
+
+			await pb.collection('animals').delete(id);
 
 			return { form };
 		} catch (error) {
@@ -107,7 +119,14 @@ export const actions: Actions = {
 				return setError(form, 'Données invalides', { status: 400 });
 			}
 
-			await pb.collection('animals').update(form.data.id, form.data);
+			const { id } = form.data;
+			const animal = await pb.collection('animals').getOne(id);
+
+			if (!animal || !animal.id) {
+				return setError(form, 'Animal introuvable', { status: 404 });
+			}
+
+			await pb.collection('animals').update(id, form.data);
 
 			return { form };
 		} catch (error) {
@@ -123,6 +142,13 @@ export const actions: Actions = {
 		try {
 			if (!form.valid) {
 				return setError(form, 'Données invalides', { status: 400 });
+			}
+
+			const { id } = form.data;
+			const client = await pb.collection('clients').getOne(id);
+
+			if (!client || !client.id) {
+				return setError(form, 'Client introuvable', { status: 404 });
 			}
 
 			await pb.collection('clients').update(form.data.id, form.data);
