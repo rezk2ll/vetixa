@@ -28,10 +28,31 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 		filter: queryFilter
 	});
 
-	const items = animalsPage.items.map((animal) => ({
-		...animal,
-		client: ((animal.expand as RecordModel).client as ClientsResponse).name || ''
-	}));
+	const items = animalsPage.items
+		.map((animal) => {
+			try {
+				const expansion = animal.expand as RecordModel;
+				let name = '';
+
+				if (!expansion || !expansion.client) {
+					console.error('anomaly: client not found');
+
+					name = 'inconnu - client supprimé';
+				} else {
+					const client = expansion.client as ClientsResponse;
+
+					name = client.name;
+				}
+
+				return {
+					...animal,
+					client: name
+				};
+			} catch (error) {
+				console.error({ error });
+			}
+		})
+		.filter((item) => item !== undefined);
 
 	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
 	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });

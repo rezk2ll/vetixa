@@ -20,31 +20,48 @@ export const load = (async ({ locals: { pb } }) => {
 		expand: 'visit, visit.animal, visit.animal.client'
 	});
 
-	const queue = await Promise.all(
+	const list = await Promise.all(
 		queueList.map(async (item) => {
-			const bill = await pb
-				.collection('bills')
-				.getFirstListItem<BillsResponse>(`visit = "${item.visit}"`);
+			try {
+				const bill = await pb
+					.collection('bills')
+					.getFirstListItem<BillsResponse>(`visit = "${item.visit}"`);
 
-			return {
-				...item,
-				visit: {
-					...((item.expand as RecordModel).visit as VisitsResponse),
-					bill,
-					animal: {
-						...(((item.expand as RecordModel).visit.expand as RecordModel)
-							.animal as AnimalsResponse),
-						client: {
-							...((
-								((item.expand as RecordModel).visit.expand as RecordModel).animal
-									.expand as RecordModel
-							).client as ClientsResponse)
+				const expansion = item.expand as RecordModel;
+				if (!expansion || !expansion.visit) {
+					throw Error('anomaly: visit not found');
+				}
+
+				const visit = expansion.visit as VisitsResponse;
+				const visitExpansion = visit.expand as RecordModel;
+				if (!visitExpansion || !visitExpansion.animal) {
+					throw Error('anomaly: animal not found');
+				}
+				const animal = visitExpansion.animal as AnimalsResponse;
+				const animalExpansion = animal.expand as RecordModel;
+				if (!animalExpansion || !animalExpansion.client) {
+					throw Error('anomaly: client not found');
+				}
+				const client = animalExpansion.client as ClientsResponse;
+
+				return {
+					...item,
+					visit: {
+						...visit,
+						bill,
+						animal: {
+							...animal,
+							client
 						}
 					}
-				}
-			};
+				};
+			} catch (error) {
+				console.error(error);
+			}
 		})
 	);
+
+	const queue = list.filter(Boolean);
 
 	return { queue, form };
 }) satisfies PageServerLoad;

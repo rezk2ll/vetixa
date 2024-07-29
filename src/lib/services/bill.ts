@@ -1,4 +1,5 @@
-import { getDaysBetween } from '$lib/utils/date';
+import { unknownClient } from '$utils/client';
+import { getDaysBetween } from '$utils/date';
 import type {
 	AnimalsResponse,
 	BillInformation,
@@ -94,7 +95,9 @@ class BillService {
 			...visitRecord,
 			animal: {
 				...(((visitRecord.expand as RecordModel)?.animal as AnimalsResponse) || {}),
-				client: ((visitRecord.expand as RecordModel)?.animal.expand.client as ClientsResponse) || {}
+				client:
+					((visitRecord.expand as RecordModel)?.animal.expand?.client as ClientsResponse) ||
+					unknownClient
 			},
 			medical_acts:
 				((visitRecord.expand as RecordModel)?.medical_acts as MedicalActsResponse[]) || [],

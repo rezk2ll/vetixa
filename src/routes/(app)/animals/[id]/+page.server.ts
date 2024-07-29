@@ -14,6 +14,7 @@ import { updateAnimalSchema } from '$lib/schemas';
 import { superValidate, setError } from 'sveltekit-superforms/client';
 import { addVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
 import { zod } from 'sveltekit-superforms/adapters';
+import { unknownClient } from '$utils/client';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const { id } = params;
@@ -42,7 +43,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 					...visit,
 					animal: {
 						...animal,
-						client: ((animal.expand as RecordModel)?.client as ClientsResponse) || {}
+						client: ((animal.expand as RecordModel)?.client as ClientsResponse) || unknownClient
 					},
 					bill
 				} satisfies AnimalVisit;
@@ -53,7 +54,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	const expandedAnimal = {
 		...(animal as AnimalsResponse),
 		visits,
-		client: ((animal.expand as RecordModel)?.client as ClientsResponse) || {}
+		client: ((animal.expand as RecordModel)?.client as ClientsResponse) || unknownClient
 	};
 
 	const vaccinationVisits = visits.filter(({ vaccination }) => vaccination);
