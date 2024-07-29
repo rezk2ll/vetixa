@@ -4,90 +4,95 @@ import type { AnimalStatusFilter, AnimalsPageInfo, AnimalsResponse, ClientsRespo
 import type { Actions, PageServerLoad } from './$types';
 import type { RecordModel } from 'pocketbase';
 import { zod } from 'sveltekit-superforms/adapters';
+import { unknownClient } from '$lib/utils/client';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
 	const page = parseInt(searchParams.get('page') || '1');
 	const query = searchParams.get('query') || '';
 	const filter = (searchParams.get('filter') as AnimalStatusFilter) || 'all';
 
-	const collection =
-		filter === 'chat'
-			? 'animals_cats_list'
-			: filter === 'chien'
-			? 'animals_dogs_list'
-			: filter === 'male'
-			? 'animals_male_list'
-			: filter === 'female'
-			? 'animals_female_list'
-			: 'animals';
-	const queryFilter = `name ~ "${query}" || type ~ "${query}" ||  breed ~ "${query}" || client.name ~ "${query}" || identifier ~ "${query}"`;
+  try {
+		const collection =
+			filter === 'chat'
+				? 'animals_cats_list'
+				: filter === 'chien'
+				? 'animals_dogs_list'
+				: filter === 'male'
+				? 'animals_male_list'
+				: filter === 'female'
+				? 'animals_female_list'
+				: 'animals';
+		const queryFilter = `name ~ "${query}" || type ~ "${query}" ||  breed ~ "${query}" || client.name ~ "${query}" || identifier ~ "${query}"`;
 
-	const animalsPage = await pb.collection(collection).getList<AnimalsResponse>(page, 10, {
-		sort: '-created',
-		expand: 'client',
-		filter: queryFilter
-	});
+		const animalsPage = await pb.collection(collection).getList<AnimalsResponse>(page, 10, {
+			sort: '-created',
+			expand: 'client',
+			filter: queryFilter
+		});
 
-	const items = animalsPage.items
-		.map((animal) => {
-			try {
-				const expansion = animal.expand as RecordModel;
-				let name = '';
+		const items = animalsPage.items
+			.map((animal) => {
+				try {
+					const expansion = animal.expand as RecordModel;
+					let name = '';
 
-				if (!expansion || !expansion.client) {
-					console.error('anomaly: client not found');
+					if (!expansion || !expansion.client) {
+						console.error('anomaly: client not found');
 
-					name = 'inconnu - client supprimé';
-				} else {
-					const client = expansion.client as ClientsResponse;
+						name = unknownClient.name;
+					} else {
+						const client = expansion.client as ClientsResponse;
 
-					name = client.name;
+						name = client.name;
+					}
+
+					return {
+						...animal,
+						client: name
+					};
+				} catch (error) {
+					console.error({ error });
 				}
+			})
+			.filter((item) => item !== undefined);
 
-				return {
-					...animal,
-					client: name
-				};
-			} catch (error) {
-				console.error({ error });
-			}
-		})
-		.filter((item) => item !== undefined);
+		const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
+		const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 
-	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
-	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
+		const dogsCount = await pb
+			.collection('animals')
+			.getList(1, 1, { filter: `(${queryFilter}) && type = "chien"` });
+		const catsCount = await pb
+			.collection('animals')
+			.getList(1, 1, { filter: `(${queryFilter}) && type = "chat"` });
+		const maleCount = await pb
+			.collection('animals')
+			.getList(1, 1, { filter: `(${queryFilter}) && sex = "male"` });
+		const femaleCount = await pb
+			.collection('animals')
+			.getList(1, 1, { filter: `(${queryFilter}) && sex = "female"` });
+		const allCount = await pb.collection('animals').getList(1, 1);
 
-	const dogsCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && type = "chien"` });
-	const catsCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && type = "chat"` });
-	const maleCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && sex = "male"` });
-	const femaleCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && sex = "female"` });
-	const allCount = await pb.collection('animals').getList(1, 1);
-
-	return {
-		removeForm,
-		updateForm,
-		pageInfo: {
-			...animalsPage,
-			items,
-			query,
-			filter,
-			count: {
-				all: allCount.totalItems ?? 0,
-				cats: catsCount.totalItems ?? 0,
-				dogs: dogsCount.totalItems ?? 0,
-				male: maleCount.totalItems ?? 0,
-				female: femaleCount.totalItems ?? 0
-			}
-		} satisfies AnimalsPageInfo
-	};
+		return {
+			removeForm,
+			updateForm,
+			pageInfo: {
+				...animalsPage,
+				items,
+				query,
+				filter,
+				count: {
+					all: allCount.totalItems ?? 0,
+					cats: catsCount.totalItems ?? 0,
+					dogs: dogsCount.totalItems ?? 0,
+					male: maleCount.totalItems ?? 0,
+					female: femaleCount.totalItems ?? 0
+				}
+			} satisfies AnimalsPageInfo
+		};
+	} catch (error) {
+    console.error(error);
+  }
 };
 
 export const actions: Actions = {

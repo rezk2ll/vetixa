@@ -8,6 +8,7 @@ import type {
 import type { RecordModel } from 'pocketbase';
 import type { PageServerLoad } from './$types';
 import { unknownClient } from '$utils/client';
+import { unknownAnimal } from '$utils/animal';
 
 export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	const page = parseInt(searchParams.get('page') ?? '1');
@@ -34,9 +35,9 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 			visit: {
 				...((item.expand as RecordModel)?.visit || {}),
 				animal: {
-					...((item.expand as RecordModel)?.visit.expand.animal || {})
+					...((item.expand as RecordModel)?.visit.expand?.animal || unknownAnimal)
 				},
-				client: (item.expand as RecordModel)?.visit.expand.animal.expand?.client || unknownClient
+				client: (item.expand as RecordModel)?.visit.expand?.animal.expand?.client || unknownClient
 			},
 			treatment: (item.treatment as Treatment[]) || [],
 			cage: (item.expand as RecordModel)?.cage || {}
