@@ -9,6 +9,7 @@ import type {
 } from '$types';
 import type { RecordListOptions, RecordModel } from 'pocketbase';
 import type { PageServerLoad } from './$types';
+import { unknownClient } from '$utils/client';
 
 export const load = (async ({ locals: { pb }, url }) => {
 	const page = parseInt(url.searchParams.get('page') ?? '1');
@@ -54,23 +55,41 @@ export const load = (async ({ locals: { pb }, url }) => {
 		.collection('visits_control_view')
 		.getOne<VisitsPendingViewResponse>('controle');
 
-	const visits = await Promise.all(
+	const list = await Promise.all(
 		visitRecords.items.map(async (visit) => {
-			const billService = new BillService(pb, visit);
-			const bill = await billService.get();
-			const total = await billService.getTotalPrice();
-			const animal: AnimalsResponse = (visit.expand as RecordModel)?.animal || {};
-			const client = await pb.collection('clients').getOne<ClientsResponse>(animal.client);
+			try {
+				const expansion = visit.expand as RecordModel;
 
-			return {
-				...visit,
-				bill,
-				animal,
-				total,
-				client
-			};
+				if (!expansion || !expansion.animal) {
+					throw Error('anomaly: animal not found');
+				}
+
+				const animal = expansion.animal as AnimalsResponse;
+				const billService = new BillService(pb, visit);
+				const bill = await billService.get();
+				const total = await billService.getTotalPrice();
+				let client = {};
+
+				if (animal.client) {
+					client = await pb.collection('clients').getOne<ClientsResponse>(animal.client);
+				} else {
+					client = unknownClient;
+				}
+
+				return {
+					...visit,
+					bill,
+					animal,
+					total,
+					client
+				};
+			} catch (error) {
+				console.error({ error });
+			}
 		})
 	);
+
+	const visits = list.filter(Boolean);
 
 	return {
 		...visitRecords,

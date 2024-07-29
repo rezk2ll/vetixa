@@ -11,6 +11,8 @@ import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { changeHospitColorsSchema } from '$lib/schemas/hospit';
 import { cageCompare } from '$utils/cage';
+import { unknownClient } from '$utils/client';
+import { unknownAnimal } from '$utils/animal';
 
 export const load = (async ({ locals: { pb } }) => {
 	const cages = await pb.collection('cages').getFullList<CagesResponse>();
@@ -40,9 +42,11 @@ export const load = (async ({ locals: { pb } }) => {
 					visit: {
 						...((matchingHospit.expand as RecordModel)?.visit || {}),
 						animal: {
-							...((matchingHospit.expand as RecordModel)?.visit.expand.animal || {})
+							...((matchingHospit.expand as RecordModel)?.visit.expand?.animal || unknownAnimal)
 						},
-						client: (matchingHospit.expand as RecordModel)?.visit.expand.animal.expand.client || {}
+						client:
+							(matchingHospit.expand as RecordModel)?.visit.expand?.animal.expand?.client ||
+							unknownClient
 					}
 				}
 			} satisfies CageItem;
