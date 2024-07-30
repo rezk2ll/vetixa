@@ -25,7 +25,9 @@
 
 	$form.quantity = 1;
 
-	$: htCost = currency($form.cost, { precision: 3 }).divide(1 + $form.tva / 100).value;
+	$: htCost = currency($form.cost, { precision: 3 }).divide(
+		currency($form.tva).divide(100).add(1)
+	).value;
 
 	$: handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
@@ -36,9 +38,10 @@
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		$form.gain = $form.cost
-			? currency(value, { precision: 3 }).divide($form.cost).subtract(1).multiply(100).value
-			: 35;
+		$form.gain = currency(value, { precision: 3 })
+			.divide($form.cost)
+			.subtract(1)
+			.multiply(100).value;
 	};
 
 	$: $form.price = currency($form.cost, { precision: 3 }).multiply(1 + $form.gain / 100).value;
@@ -98,23 +101,14 @@
 			value={htCost}
 			name="total"
 			isInValid={false}
-			isNumber
 			onChange={handleCostChange}
 		/>
-		<NumberField
-			label="TVA %"
-			isNumber
-			placeholder=""
-			bind:value={$form.tva}
-			name="tva"
-			isInValid={false}
-		/>
+		<NumberField label="TVA %" placeholder="" bind:value={$form.tva} name="tva" isInValid={false} />
 		<NumberField
 			label="Prix d'achat TTC en DT"
 			placeholder="1"
 			bind:value={$form.cost}
 			name="cost"
-			isNumber
 			isInValid={false}
 		/>
 	</div>
@@ -124,7 +118,6 @@
 			placeholder=""
 			bind:value={$form.gain}
 			name="gain"
-			isNumber
 			isInValid={false}
 		/>
 		<NumberField
@@ -133,7 +126,6 @@
 			onChange={handleHTCChange}
 			value={$form.price}
 			name="price"
-			isNumber
 			isInValid={false}
 		/>
 	</div>
