@@ -33,6 +33,7 @@ import { removeSchema } from '$lib/schemas';
 import { InventoryService } from '$lib/services/inventory';
 import { cageCompare } from '$utils/cage';
 import { unknownClient } from '$utils/client';
+import { unknownAnimal } from '$lib/utils/animal';
 
 export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
@@ -98,8 +99,8 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		const visit = {
 			...visitRecord,
 			animal: {
-				...((visitRecord.expand as RecordModel)?.animal || {}),
-				client: (visitRecord.expand as RecordModel)?.animal.expand?.client || unknownClient
+				...((visitRecord.expand as RecordModel)?.animal || unknownAnimal),
+				client: (visitRecord.expand as RecordModel)?.animal?.expand?.client || unknownClient
 			},
 			medical_acts: (visitRecord.expand as RecordModel)?.medical_acts || [],
 			clinical_exams: (visitRecord.expand as RecordModel)?.clinical_exams || [],
