@@ -25,21 +25,21 @@
 
 	$form.quantity = 1;
 
-	$: htCost = currency($form.cost).divide(currency($form.tva).divide(100).add(1)).value;
+	$: htCost = currency($form.cost, { precision: 3 }).divide(currency($form.tva).divide(100).add(1)).value;
 
 	$: handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		$form.cost = currency(value).multiply(1 + $form.tva / 100).value;
+		$form.cost = currency(value, { precision: 3 }).multiply(1 + $form.tva / 100).value;
 	};
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
 
-		$form.gain = currency(value).divide($form.cost).subtract(1).multiply(100).value;
+		$form.gain = currency(value, { precision: 3 }).divide($form.cost).subtract(1).multiply(100).value;
 	};
 
-	$: $form.price = currency($form.cost).multiply(1 + $form.gain / 100).value;
+	$: $form.price = currency($form.cost, { precision: 3 }).multiply(1 + $form.gain / 100).value;
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
