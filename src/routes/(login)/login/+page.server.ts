@@ -31,6 +31,8 @@ export const actions: Actions = {
 				throw error;
 			}
 
+			console.error({ error });
+
 			form.data.password = '';
 
 			return setError(form, 'Identifiants invalides', { status: 400 });
