@@ -36,7 +36,10 @@
 
 	$: items = $inventoryItems.filter((item) => {
 		if (search && search.length) {
-			if (!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
+			if (
+				!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
+				!item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+			) {
 				return false;
 			}
 		}
