@@ -26,7 +26,7 @@
 		on:input={onChange}
 		type="number"
 		class="{size === 'small'
-			? 'h-7 text-sm ring-1 min-w-14'
+			? 'h-7 text-sm ring-1 min-w-16'
 			: size === 'medium'
 			? 'h-[46.4px] text-[17px] font-medium ring-2'
 			: 'h-14 text-[17px] font-medium ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
