@@ -112,10 +112,9 @@
 		}
 	};
 
-	$: disabled =
-		total < 1 ||
-		($form.method === 'cash' && currency($form.incash).subtract($form.outcash).value !== total);
-	$: invalidCash = total > 1 && currency($form.incash).subtract($form.outcash).value !== total;
+	$: disabled = total < 1 || ($form.method === 'cash' && invalidCash);
+	$: cashBalance = currency(total).subtract(currency($form.incash).subtract($form.outcash)).value;
+	$: invalidCash = total > 1 && (cashBalance >= 1 || cashBalance < -1);
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
