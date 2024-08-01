@@ -11,7 +11,7 @@
 	import currency from 'currency.js';
 	import DollarBill from '$components/icons/DollarBill.svelte';
 	import { toast } from 'svelte-sonner';
-	import { formatDateShort, formatDateStringShortDay, formatDateTime } from '$lib/utils/date';
+	import { formatDateStringShortDay } from '$lib/utils/date';
 
 	export let bill: PaymentInformation;
 
