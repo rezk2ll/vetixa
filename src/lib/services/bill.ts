@@ -11,10 +11,12 @@ import type {
 	ClinicalExamsResponse,
 	FundTransactionsMethodOptions,
 	FundTransactionsRecord,
+	FundTransactionsResponse,
 	HospitalisationResponse,
 	InventoryItemResponse,
 	ItemMetadata,
 	MedicalActsResponse,
+	PaymentInformation,
 	SurgicalActsResponse,
 	Treatment,
 	TypedPocketBase,
@@ -55,14 +57,23 @@ class BillService {
 	/**
 	 * Fetches the bill
 	 *
-	 * @returns {Promise<BillsResponse>} - the bill object
+	 * @returns {Promise<PaymentInformation>} - the bill object
 	 * @example
 	 *  const bill = await billService.get();
 	 */
-	get = async (): Promise<BillsResponse> => {
-		return await this.pb
+	get = async (): Promise<PaymentInformation> => {
+		const bill = await this.pb
 			.collection('bills')
 			.getFirstListItem<BillsResponse>(`visit = "${this.visit.id}"`);
+
+		const history = await this.pb
+			.collection('fund_transactions')
+			.getFullList<FundTransactionsResponse>({ filter: `bill = '${bill.id}'` });
+
+		return {
+			...bill,
+			history
+		} satisfies PaymentInformation;
 	};
 
 	/**
@@ -169,7 +180,8 @@ class BillService {
 			outcash,
 			incash,
 			description,
-			user: userId
+			user: userId,
+			bill: bill.id
 		} satisfies FundTransactionsRecord);
 	};
 
