@@ -178,8 +178,8 @@
 						>
 					</div>
 					{#if history.description.length > 0}
-						<div class="px-5 py-1 bg-gray-100 text-gray-800">
-							{history.description}
+						<div class="px-5 py-1 bg-gray-100 text-gray-800 whitespace-pre-line">
+							{@html history.description}
 						</div>
 					{/if}
 				{/each}

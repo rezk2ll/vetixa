@@ -208,7 +208,7 @@ export const actions = {
 				return setError(form, 'Données invalides', { status: 400 });
 			}
 
-			const { amount, id, incash, method, outcash, description } = form.data;
+			const { amount, id, incash, method, outcash, description: desc } = form.data;
 			const item = await pb.collection('visits').getOne<VisitsResponse>(id);
 
 			if (!item) {
@@ -216,6 +216,11 @@ export const actions = {
 			}
 
 			const billService = new BillService(pb, item);
+			const expandedVisit = await billService.getClientExpandedVisit();
+
+			const visitLink = `visite client: <a href="/visit/${item.id}" class="text-blue-500">${expandedVisit.animal.client.name}</a>`;
+
+			const description = desc.length ? `${desc}\n ${visitLink}` : visitLink;
 
 			await billService.pay(
 				amount,
