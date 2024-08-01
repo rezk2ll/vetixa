@@ -278,3 +278,7 @@ export interface InventoryItemInfo {
 export interface ClientBill extends BillsResponse {
 	control: boolean;
 }
+
+export interface PaymentInformation extends BillsResponse {
+	history: FundTransactionsResponse[];
+}

@@ -7,12 +7,13 @@
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
-	import type { BillsResponse } from '$types';
+	import type { PaymentInformation } from '$types';
 	import currency from 'currency.js';
 	import DollarBill from '$components/icons/DollarBill.svelte';
 	import { toast } from 'svelte-sonner';
+	import { formatDateStringShortDay } from '$lib/utils/date';
 
-	export let bill: BillsResponse;
+	export let bill: PaymentInformation;
 
 	const { form, enhance, submitting, allErrors } = superForm($payVisitFormStore, {
 		taintedMessage: null,
@@ -160,6 +161,28 @@
 
 					<SubmitButton full {disabled} loading={$submitting}>Payer</SubmitButton>
 				</form>
+			{/if}
+			{#if bill.history}
+				<hr />
+				{#each bill.history as history}
+					<div class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700">
+						<button
+							type="button"
+							disabled
+							class="min-w-20 px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700 focus:outline-none"
+							>{formatDateStringShortDay(history.created)}
+						</button>
+						<span class="font-bold text-gray-800 dark:text-gray-200">{history.amount} DT</span>
+						<span class="font-bold text-gray-800 dark:text-gray-200 uppercase"
+							>{history.method}</span
+						>
+					</div>
+					{#if history.description.length > 0}
+						<div class="px-5 py-1 bg-gray-100 text-gray-800">
+							{history.description}
+						</div>
+					{/if}
+				{/each}
 			{/if}
 		</div>
 	</div>

@@ -331,6 +331,7 @@ export enum FundTransactionsMethodOptions {
 }
 export type FundTransactionsRecord = {
 	amount?: number;
+	bill?: RecordIdString;
 	description?: string;
 	incash?: number;
 	method?: FundTransactionsMethodOptions;
