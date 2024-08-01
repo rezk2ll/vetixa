@@ -282,3 +282,4 @@ export interface ClientBill extends BillsResponse {
 export interface PaymentInformation extends BillsResponse {
 	history: FundTransactionsResponse[];
 }
+export type PrintableTab = 'documents' | 'certificates';
