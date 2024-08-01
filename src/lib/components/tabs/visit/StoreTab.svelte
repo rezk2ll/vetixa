@@ -284,7 +284,7 @@
 											>{item.price} DT</td
 										>
 										<td
-											class="px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
+											class="px-1 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
 										>
 											<NumberField
 												label="Quantité"
@@ -296,7 +296,7 @@
 											/>
 										</td>
 										<td
-											class="px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
+											class="px-1 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
 										>
 											<NumberField
 												label="Remise %"
