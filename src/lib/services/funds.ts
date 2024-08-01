@@ -85,7 +85,7 @@ export class FundsService {
 			.getFullList<FundTransactionsResponse>({
 				filter: `created >= ${start} && created <= ${end}`,
 				expand: 'user',
-        sort: 'created'
+				sort: 'created'
 			});
 
 		return this.expandTranscations(transactionslist);
