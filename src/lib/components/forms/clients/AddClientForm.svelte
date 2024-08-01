@@ -17,7 +17,7 @@
 			}
 		},
 		taintedMessage: null,
-    dataType: 'json'
+		dataType: 'json'
 	});
 
 	$: $allErrors.map((error) => {
