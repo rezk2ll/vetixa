@@ -118,7 +118,8 @@ export class FundsService {
 			.collection('fund_transactions')
 			.getList<FundTransactionsResponse>(page, 10, {
 				filter: `created >= ${start} && created <= ${end} && description ~ "${query}" ${filterString}`,
-				expand: 'user'
+				expand: 'user',
+				sort: 'created'
 			});
 		const items = this.expandTranscations(transactionslist.items);
 
