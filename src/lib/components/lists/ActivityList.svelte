@@ -212,6 +212,11 @@
 									<th
 										scope="col"
 										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										>Payé</th
+									>
+									<th
+										scope="col"
+										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>Reste</th
 									>
 									<th
@@ -279,6 +284,10 @@
 										<td
 											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
 											>{visit.bill.total} DT</td
+										>
+										<td
+											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
+											>{visit.bill.total_paid} DT</td
 										>
 										<td
 											class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-left"
