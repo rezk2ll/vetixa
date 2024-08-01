@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { toWords } from '$lib/utils/bill';
 	import { formatDateSimple } from '$lib/utils/date';
-	import type { BillInformation, expandedAnimal } from '$types';
+	import type { BillInformation, expandedAnimal, PrintableTab } from '$types';
 	import PrintPdf, { Page } from 'svelte-printpdf';
 	import PrintBill from './bill/PrintBill.svelte';
 	import PrintPrescription from './prescription/PrintPrescription.svelte';
 	import currency from 'currency.js';
 	import PrintReport from './report/printReport.svelte';
-	import PrintIcon from '$components/icons/PrintIcon.svelte';
 	import { configuration } from '$store/configuration';
 	import PrintableFooter from '$lib/components/display/PrintableFooter.svelte';
 	import PrintableHeader from '$lib/components/display/PrintableHeader.svelte';
+	import PrintableTabs from '$lib/components/display/PrintableTabs.svelte';
+	import PrintCertificate from '$lib/components/display/certificates/PrintCertificate.svelte';
 
 	export let bill: BillInformation | undefined;
 	export let doctor: string | undefined;
@@ -19,11 +20,13 @@
 	export let actions: string | undefined;
 	export let animal: expandedAnimal;
 	export let acts: string[] | undefined;
+	export let tab: PrintableTab = 'documents';
 
 	let print = false;
 	let showBill = false;
 	let showPrescription = false;
 	let showReport = false;
+	let showCertificate = false;
 
 	const handlePrintBill = () => {
 		showPrescription = false;
@@ -55,6 +58,17 @@
 		}, 250);
 	};
 
+	const handlePrintCertificate = () => {
+		showBill = false;
+		showPrescription = false;
+		showReport = false;
+		showCertificate = true;
+
+		setTimeout(() => {
+			print = true;
+		}, 250);
+	};
+
 	$: total = bill
 		? bill.items.reduce((acc, curr) => {
 				const price = currency(curr.total).multiply(1 - curr.discount / 100);
@@ -67,13 +81,14 @@
 <div
 	class="flex flex-col gap-2 w-full p-1 pt-10 lg:p-8 lg:pb-3 bg-white shadow border-gray-200 xl:rounded px-2"
 >
-	<div class="flex space-x-5 w-full">
-		<PrintIcon />
-		<span class="text-lg font-semibold">Imprimer</span>
-	</div>
-	<PrintBill {bill} handler={handlePrintBill} />
-	<PrintPrescription {treatment} handler={handlePrintPrescription} />
-	<PrintReport {report} handler={handlePrintReport} />
+	<PrintableTabs bind:tab />
+	{#if tab === 'documents'}
+		<PrintBill {bill} handler={handlePrintBill} />
+		<PrintPrescription {treatment} handler={handlePrintPrescription} />
+		<PrintReport {report} handler={handlePrintReport} />
+	{:else}
+		<PrintCertificate handler={handlePrintCertificate} />
+	{/if}
 </div>
 
 <div class="screen:hidden px-0 w-full">
@@ -300,6 +315,128 @@
 						</div>
 					</div>
 					<PrintableFooter config={$configuration} />
+				</div>
+			{:else if showCertificate}
+				<div class="bg-white shadow-md rounded-lg p-6">
+					<div class="text-center mb-8">
+						<h1 class="text-2xl font-bold mb-2">
+							CERTIFICAT SANITAIRE INTERNATIONAL POUR LE TRANSIT DES ANIMAUX DE COMPAGNIE
+						</h1>
+						<h2 class="text-xl mb-2">شهادة صحية دولية لعبور الحيوانات الأليفة</h2>
+						<h2 class="text-xl mb-2">GESUNDHEITSZEUGNIS FÜR DEN TRANSIT VON MITFAHERNDEN TIEREN</h2>
+						<h2 class="text-xl mb-2">
+							CERTIFICADO SANITARIO PER IL TRANSITO DI ANIMALI DA COMPAGNIA
+						</h2>
+						<h2 class="text-xl mb-2">
+							CERTIFICADO SANITARIO PARA EL TRANSITO DE LOS ANIMALES DE COMPANIA
+						</h2>
+						<h2 class="text-xl mb-2">HEALTH CERTIFICATE TO ALLOW DOMESTIC ANIMAL TO TRAVEL</h2>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">N°:</span> 1471 / 97689401N</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg">
+							<span class="font-bold">Le soussigné Dr. Vétérinaire :</span> DR ISSAOUI SEIFEDDINE
+						</p>
+						<p class="text-lg">
+							<span class="font-bold">الطبيب البيطري الموقع أدناه الدكتور:</span> DR ISSAOUI SEIFEDDINE
+						</p>
+						<p class="text-lg">
+							<span class="font-bold">The undersigned Dr :</span> DR ISSAOUI SEIFEDDINE
+						</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg">
+							<span class="font-bold">Cabinet vétérinaire :</span> 17, Rue Sadok Thabet - Le Bardo
+						</p>
+						<p class="text-lg">
+							<span class="font-bold">العيادة البيطرية :</span> 17, Rue Sadok Thabet - Le Bardo
+						</p>
+						<p class="text-lg">
+							<span class="font-bold">Veterinary surgeon practising at :</span> 17, Rue Sadok Thabet
+							- Le Bardo
+						</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Certifie que le :</span></p>
+						<p class="text-lg"><span class="font-bold">التقرير التالي أن :</span></p>
+						<p class="text-lg"><span class="font-bold">Certifies that the :</span></p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Nom :</span> Zizou</p>
+						<p class="text-lg"><span class="font-bold">الاسم :</span> Zizou</p>
+						<p class="text-lg"><span class="font-bold">Name :</span> Zizou</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Sexe :</span> Mâle</p>
+						<p class="text-lg"><span class="font-bold">الجنس :</span> Mâle</p>
+						<p class="text-lg"><span class="font-bold">Sex :</span> Mâle</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Date de naissance :</span> 28/04/2024</p>
+						<p class="text-lg"><span class="font-bold">تاريخ الميلاد :</span> 28/04/2024</p>
+						<p class="text-lg"><span class="font-bold">Date of Birth :</span> 28/04/2024</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Race :</span> Pitbull</p>
+						<p class="text-lg"><span class="font-bold">السلالة :</span> Pitbull</p>
+						<p class="text-lg"><span class="font-bold">Breed :</span> Pitbull</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Robe et signes particuliers :</span></p>
+						<p class="text-lg"><span class="font-bold">اللون و العلامات المميزة :</span></p>
+						<p class="text-lg">
+							<span class="font-bold">Color and distinctive markings :</span>
+						</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg">
+							<span class="font-bold">N° d'identification électronique :</span>
+						</p>
+						<p class="text-lg"><span class="font-bold">رقاقة الإلكترونية عدد :</span></p>
+						<p class="text-lg"><span class="font-bold">Microchip number :</span></p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Appartenant à M :</span> NAILA SASSI</p>
+						<p class="text-lg">
+							<span class="font-bold">التابع إلى السيد (ة) :</span> NAILA SASSI
+						</p>
+						<p class="text-lg"><span class="font-bold">Belonging to M :</span> NAILA SASSI</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg"><span class="font-bold">Demeurant à :</span></p>
+						<p class="text-lg"><span class="font-bold">المقيم ب :</span></p>
+						<p class="text-lg"><span class="font-bold">Address :</span></p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg">
+							A été examiné ce jour et reconnu indemne de tout signe clinique de maladie contagieuse
+							ou de signe permettant de suspecter une maladie contagieuse (rage en particulier).
+						</p>
+						<p class="text-lg">
+							لقد تم فحصه اليوم و لم يقع العثور على علامات سريرية للأمراض المعدية (وبشكل خاص : داء
+							الكلب).
+						</p>
+						<p class="text-lg">
+							Today has undergone medical examination and has been found free of any clinical
+							symptom of contagious disease (in particular, rabies).
+						</p>
+					</div>
+					<div class="mb-8">
+						<p class="text-lg">Fait à TUNIS Le 30/07/2024</p>
+						<p class="text-lg">حرر ب TUNIS Le 30/07/2024</p>
+						<p class="text-lg">Done at TUNIS Le 30/07/2024</p>
+					</div>
+					<div class="text-center">
+						<p class="text-lg">
+							<span class="font-bold">Cachet et signature du vétérinaire :</span>
+						</p>
+						<p class="text-lg"><span class="font-bold">ختم وتوقيع :</span></p>
+						<p class="text-lg">
+							<span class="font-bold">Veterinary Stamp and Signature :</span>
+						</p>
+					</div>
 				</div>
 			{/if}
 		</Page>
