@@ -16,7 +16,8 @@
 				open = false;
 			}
 		},
-		taintedMessage: null
+		taintedMessage: null,
+		dataType: 'json'
 	});
 
 	$: $allErrors.map((error) => {
