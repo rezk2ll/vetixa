@@ -92,14 +92,14 @@
 				<NumberField
 					bind:value={$form.incash}
 					name="incash"
-					label="Entré"
+					label="Sortie"
 					placeholder=""
 					isInValid={invalidCash}
 				/>
 				<NumberField
 					bind:value={$form.outcash}
 					name="outcash"
-					label="Sortie"
+					label="Entré"
 					placeholder=""
 					isInValid={invalidCash}
 				/>
