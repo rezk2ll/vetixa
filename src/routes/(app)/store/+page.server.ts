@@ -110,6 +110,7 @@ export const actions: Actions = {
 			}
 
 			let total = 0;
+			let description = 'VENTE: ';
 			const { items, method, incash, outcash } = form.data;
 
 			for (const item of items) {
@@ -125,14 +126,15 @@ export const actions: Actions = {
 					return setError(form, 'Quantité insuffisante dans le stock');
 				}
 
+				const itemTotalPrice = currency(existingItem.price).multiply(item.quantity).value;
+				description = `${description}\n ${item.quantity}x ${existingItem.name}`;
+
 				await pb.collection('inventory_sale').create<InventorySaleRecord>({
-					total: item.quantity * existingItem.price,
+					total: itemTotalPrice,
 					quantity: item.quantity,
 					item: item.id,
 					seller: user?.id
 				});
-
-				const itemTotalPrice = currency(existingItem.price).multiply(item.quantity).value;
 
 				total = currency(total).add(itemTotalPrice).value;
 
@@ -143,7 +145,7 @@ export const actions: Actions = {
 
 			await pb.collection('fund_transactions').create<FundTransactionsRecord>({
 				amount: total,
-				description: 'vente de stock',
+				description,
 				method: method as FundTransactionsMethodOptions,
 				incash,
 				outcash,

@@ -309,11 +309,11 @@
 													{formatDateStringToTime(item.created)}
 												</h2>
 											</td>
-											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+											<td class="px-4 py-4 text-sm font-medium">
 												<p
-													class="text-sm font-normal text-gray-600 dark:text-gray-400 first-letter:capitalize"
+													class="text-sm font-normal text-gray-600 dark:text-gray-400 first-letter:capitalize whitespace-pre-line"
 												>
-													{item.description}
+													{@html item.description}
 												</p>
 											</td>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
