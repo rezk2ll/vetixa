@@ -117,7 +117,7 @@ export class FundsService {
 		const transactionslist = await this.pb
 			.collection('fund_transactions')
 			.getList<FundTransactionsResponse>(page, 10, {
-				filter: `created >= ${start} && created <= ${end} && description ~ "${query}" ${filterString}`,
+				filter: `created >= ${start} && created <= ${end} && (description ~ "${query}" || amount ~ "${query}") ${filterString}`,
 				expand: 'user',
 				sort: '-created'
 			});
