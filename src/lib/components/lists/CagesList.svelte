@@ -92,10 +92,13 @@
 				}
 			});
 
-			pickr.on('save', (color: any) => {
-				const toSubmit = color ? color.toHEXA().toString() : '';
-				handleSubmit(toSubmit);
-			});
+			pickr.on(
+				'save',
+				(color: { toHEXA: () => { (): any; new (): any; toString: { (): any; new (): any } } }) => {
+					const toSubmit = color ? color.toHEXA().toString() : '';
+					handleSubmit(toSubmit);
+				}
+			);
 
 			pickr.on('cancel', () => {
 				showPicker = false;
