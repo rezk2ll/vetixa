@@ -108,16 +108,23 @@ export class FundsService {
 		filter: fundsStatusFilter = 'all',
 		query: string = ''
 	): Promise<Omit<FundsPageInfo, 'total' | 'count'>> => {
-		const start = startDate.startsWith('@') ? startDate : `"${startDate}"`;
-		const end = endDate.startsWith('@') ? endDate : `"${endDate}"`;
-
 		const filterString =
 			filter === 'income' ? '&& amount > 0' : filter === 'expense' ? '&& amount < 0' : '';
+
+		const queryFilter = startDate.startsWith('@')
+			? `created >= ${startDate} && created <= ${endDate} && (description ~ "${query}" || amount ~ "${query}") ${filterString}`
+			: this.pb.filter(
+					`created >= {:start} && created <= {:end} && (description ~ "${query}" || amount ~ "${query}") ${filterString}`,
+					{
+						start: startDate.startsWith('@') ? startDate : new Date(startDate),
+						end: endDate.startsWith('@') ? endDate : new Date(endDate)
+					}
+			  );
 
 		const transactionslist = await this.pb
 			.collection('fund_transactions')
 			.getList<FundTransactionsResponse>(page, 10, {
-				filter: `created >= ${start} && created <= ${end} && (description ~ "${query}" || amount ~ "${query}") ${filterString}`,
+				filter: queryFilter,
 				expand: 'user',
 				sort: '-created'
 			});
