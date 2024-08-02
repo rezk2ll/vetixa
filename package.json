@@ -48,6 +48,7 @@
 		"@fullcalendar/interaction": "^6.1.15",
 		"@fullcalendar/list": "^6.1.15",
 		"@fullcalendar/timegrid": "^6.1.15",
+		"@simonwep/pickr": "^1.9.1",
 		"@sveltejs/adapter-node": "^1.3.1",
 		"@tinymce/tinymce-svelte": "^3.0.0",
 		"chart.js": "4.4.3",
