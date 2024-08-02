@@ -1,5 +1,7 @@
 <div class="flex flex-col lg:flex-row w-full items-center justify-center">
-	<div class="w-full flex h-6 lg:h-12 items-center justify-center bg-red-500/80 text-white font-semibold">
+	<div
+		class="w-full flex h-6 lg:h-12 items-center justify-center bg-red-500/80 text-white font-semibold"
+	>
 		Mort
 	</div>
 	<div
@@ -7,10 +9,14 @@
 	>
 		Nouvelle admission
 	</div>
-	<div class="w-full flex h-6 lg:h-12 items-center justify-center bg-pink-500/80 text-white font-semibold">
+	<div
+		class="w-full flex h-6 lg:h-12 items-center justify-center bg-pink-500/80 text-white font-semibold"
+	>
 		Sortie
 	</div>
-	<div class="w-full flex h-6 lg:h-12 items-center justify-center bg-blue-500/80 text-white font-semibold">
+	<div
+		class="w-full flex h-6 lg:h-12 items-center justify-center bg-blue-500/80 text-white font-semibold"
+	>
 		Prolongation
 	</div>
 	<div

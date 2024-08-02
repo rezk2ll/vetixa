@@ -94,7 +94,7 @@
 					</PrimaryButton>
 				</div>
 			</div>
-      <input type="text" id="coloris" />
+			<input type="text" id="coloris" />
 		</Modal>
 
 		<form class="hidden" method="post" action="?/changeColor" use:enhance bind:this={formRef}>
