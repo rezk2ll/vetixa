@@ -13,7 +13,7 @@
 	let formRef: HTMLFormElement;
 	let showPicker = false;
 
-	const { enhance, submitting, form, allErrors } = superForm($hospitChangeColorFormStore, {
+	const { enhance, form, allErrors } = superForm($hospitChangeColorFormStore, {
 		taintedMessage: null,
 		resetForm: true,
 		id: 'change-color',
