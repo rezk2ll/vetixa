@@ -306,7 +306,7 @@ class BillService {
 		const { start, end, price = 0 } = hospitalisation;
 		const days = Math.abs(getDaysBetween(start, end));
 
-		return currency(price).multiply(days).value;
+		return currency(price).multiply(Math.max(days, 0)).value;
 	};
 
 	/**
