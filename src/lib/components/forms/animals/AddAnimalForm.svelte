@@ -72,10 +72,10 @@
 		isInValid={false}
 	/>
 	{#if birthday}
-  <div class="px-2 pt-2 flex flex-row gap-2 justify-start items-center">
-    <span>Age</span>
-    <AgeDisplay date={birthday} dead={false} death={undefined} />
-  </div>
+		<div class="px-2 pt-2 flex flex-row gap-2 justify-start items-center">
+			<span>Age</span>
+			<AgeDisplay date={birthday} dead={false} death={undefined} />
+		</div>
 	{/if}
 	<NumberField
 		label="Poids"
