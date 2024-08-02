@@ -8,6 +8,7 @@
 	import Modal from '$components/Modal.svelte';
 	import PrimaryButton from '../buttons/PrimaryButton.svelte';
 	import { toast } from 'svelte-sonner';
+	import CageColorCodes from '$lib/components/display/cages/CageColorCodes.svelte';
 
 	let formRef: HTMLFormElement;
 	let hex: string;
@@ -48,8 +49,8 @@
 </script>
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full">
-	<div class="flex items-start justify-start w-full">
-		<div class="flex gap-2 bg-slate-100/50 h-10 w-full md:w-96 pl-5">
+	<div class="flex flex-col lg:flex-row items-start justify-start w-full">
+		<div class="flex gap-2 bg-slate-100/50 h-12 w-full md:w-[500px] pl-5">
 			<div
 				class="w-full p-1 text-center font-bold flex flex-row gap-5 items-center justify-center text-slate-800"
 			>
@@ -67,6 +68,7 @@
 				<List />
 			</a>
 		</div>
+		<CageColorCodes />
 	</div>
 	<div class="w-full px-1 pt-10 lg:p-2 bg-slate-100/50 shadow-2xl border-gray-200">
 		<Modal bind:open={showPicker} size="small">
@@ -92,6 +94,7 @@
 					</PrimaryButton>
 				</div>
 			</div>
+			<input type="text" id="coloris" />
 		</Modal>
 
 		<form class="hidden" method="post" action="?/changeColor" use:enhance bind:this={formRef}>

@@ -13,6 +13,7 @@
 	import BackArrow from '$components/icons/BackArrow.svelte';
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
+	import CageColorCodes from '$lib/components/display/cages/CageColorCodes.svelte';
 
 	let search: string = $hospitPageInfo.query;
 	let page = $hospitPageInfo.page;
@@ -62,7 +63,7 @@
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full">
 	<div class="flex items-start justify-start w-full">
-		<div class="bg-slate-100/50 flex gap-2 h-10 w-full md:w-96">
+		<div class="flex gap-2 bg-slate-100/50 h-12 w-full md:w-[500px] pl-5">
 			<div
 				class="w-full p-1 text-center font-bold flex flex-row gap-5 items-center justify-center text-slate-800"
 			>
@@ -80,6 +81,7 @@
 				<Grid />
 			</a>
 		</div>
+		<CageColorCodes />
 	</div>
 	<div class="w-full px-2 pt-10 lg:p-5 lg:pb-3 bg-white md:shadow-2xl border-gray-200">
 		<div class="flex items-center gap-x-3 w-full">
