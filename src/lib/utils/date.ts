@@ -176,7 +176,7 @@ export const getDaysBetween = (start: string, end: string): number => {
 	const startDate = setHours(setMinutes(new Date(start), 0), 0);
 	const endDate = setHours(setMinutes(new Date(end), 0), 24);
 
-	return differenceInDays(endDate, startDate);
+	return Math.max(differenceInDays(endDate, startDate) - 1, 0);
 };
 
 /**
