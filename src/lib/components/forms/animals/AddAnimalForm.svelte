@@ -9,6 +9,7 @@
 	import { animalTypeList } from '$utils/animal';
 	import { toast } from 'svelte-sonner';
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
+	import AgeDisplay from '$lib/components/display/AgeDisplay.svelte';
 
 	export let open = false;
 
@@ -70,6 +71,12 @@
 		name="birthday"
 		isInValid={false}
 	/>
+	{#if birthday}
+		<div class="px-2 pt-2 flex flex-row gap-2 justify-start items-center">
+			<span>Age</span>
+			<AgeDisplay date={birthday} dead={false} death={undefined} />
+		</div>
+	{/if}
 	<NumberField
 		label="Poids"
 		placeholder="Poids"
