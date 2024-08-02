@@ -4,17 +4,16 @@
 	import List from '$components/icons/List.svelte';
 	import { cagesInfo, hospitChangeColorFormStore } from '$store/hospit';
 	import { superForm } from 'sveltekit-superforms';
-	import ColorPicker from 'svelte-awesome-color-picker';
 	import Modal from '$components/Modal.svelte';
-	import PrimaryButton from '../buttons/PrimaryButton.svelte';
 	import { toast } from 'svelte-sonner';
 	import CageColorCodes from '$lib/components/display/cages/CageColorCodes.svelte';
+	import '@simonwep/pickr/dist/themes/classic.min.css';
+	import { onMount } from 'svelte';
 
 	let formRef: HTMLFormElement;
-	let hex: string;
 	let showPicker = false;
 
-	const { enhance, submitting, form, allErrors } = superForm($hospitChangeColorFormStore, {
+	const { enhance, form, allErrors } = superForm($hospitChangeColorFormStore, {
 		taintedMessage: null,
 		resetForm: true,
 		id: 'change-color',
@@ -27,12 +26,12 @@
 				$form.id = '';
 				showPicker = false;
 			}
-		}
+		},
+		dataType: 'json'
 	});
 
-	const handleSubmit = () => {
-		$form.color = hex;
-
+	const handleSubmit = (color: string) => {
+		$form.color = color;
 		formRef.requestSubmit();
 	};
 
@@ -41,10 +40,67 @@
 		showPicker = true;
 	};
 
-	$: $form.color = hex;
-
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
+	});
+
+	onMount(async () => {
+		await import('@simonwep/pickr').then((Pickr) => {
+			const pickr = Pickr.default.create({
+				el: '.color-picker',
+				theme: 'classic',
+				appClass: '!shadow-none',
+				default: '#e33d94d9',
+
+				swatches: [
+					'rgba(244, 67, 54, 1)',
+					'rgba(233, 30, 99, 1)',
+					'rgba(227, 61, 148)',
+					'rgba(103, 58, 183, 1)',
+					'rgba(63, 81, 181, 1)',
+					'rgba(33, 150, 243, 1)',
+					'rgba(3, 169, 244, 1)',
+					'rgba(0, 188, 212, 1)',
+					'rgba(0, 150, 136, 1)',
+					'rgba(76, 175, 80, 1)',
+					'rgba(139, 195, 74, 1)',
+					'rgba(205, 220, 57, 1)',
+					'rgba(255, 235, 59, 1)',
+					'rgba(249, 105, 14);'
+				],
+
+				showAlways: true,
+				inline: true,
+				autoReposition: true,
+
+				components: {
+					preview: true,
+					hue: true,
+					palette: true,
+
+					interaction: {
+						input: true,
+						clear: true,
+						save: true,
+						cancel: true
+					}
+				},
+				i18n: {
+					'btn:save': 'Sauvegarder',
+					'btn:clear': 'Supprimer',
+					'btn:cancel': 'Annuler'
+				}
+			});
+
+			pickr.on('save', (color: { toHEXA: () => { toString: { (): string } } }) => {
+				const toSubmit = color ? color.toHEXA().toString() : '';
+				handleSubmit(toSubmit);
+			});
+
+			pickr.on('cancel', () => {
+				showPicker = false;
+			});
+		});
 	});
 </script>
 
@@ -71,28 +127,9 @@
 		<CageColorCodes />
 	</div>
 	<div class="w-full px-1 pt-10 lg:p-2 bg-slate-100/50 shadow-2xl border-gray-200">
-		<Modal bind:open={showPicker} size="small">
+		<Modal bind:open={showPicker} size="medium">
 			<div class="flex flex-col picker w-full">
-				<ColorPicker
-					bind:hex
-					textInputModes={['hex']}
-					isDialog={false}
-					--picker-width="240px"
-					--cp-border-color="transparent"
-					--cp-text-color="text-gray-200"
-				/>
-				<div class="flex flex-row gap-5 w-full">
-					<button
-						type="button"
-						on:click={() => (showPicker = false)}
-						class="w-full px-4 lg:py-2 mt-3 lg:mt-0 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
-					>
-						Annuler
-					</button>
-					<PrimaryButton disabled={$submitting} loading={$submitting} handler={handleSubmit} full>
-						Sauvegarder
-					</PrimaryButton>
-				</div>
+				<div class="color-picker w-full" />
 			</div>
 			<input type="text" id="coloris" />
 		</Modal>
