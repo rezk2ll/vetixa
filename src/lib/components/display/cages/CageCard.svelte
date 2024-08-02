@@ -29,7 +29,7 @@
 	class="flex flex-col rounded {color
 		? ''
 		: isDead
-		? 'bg-red-100/80'
+		? 'bg-red-500/80'
 		: isNew
 		? 'bg-emerald-100/90'
 		: 'bg-white'} shadow-xl relative min-h-52"
@@ -98,6 +98,15 @@
 						</div>
 						<div class="w-full truncate">{cage.hospit.note}</div>
 					</div>
+				{/if}
+				{#if cage.hospit.treatment?.length}
+					{#each cage.hospit.treatment as treatment}
+						{#if treatment.traitement !== undefined}
+							<div class="my-1 p-1 bg-orange-600 text-white rounded-lg ring-1 ring-gray-200/30">
+								{treatment.traitement}
+							</div>
+						{/if}
+					{/each}
 				{/if}
 			</div>
 
