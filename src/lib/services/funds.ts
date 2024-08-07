@@ -77,13 +77,17 @@ export class FundsService {
 	 * @returns {Promise<Fund[]>} the transactions list
 	 */
 	transactions = async (startDate: string, endDate: string): Promise<Fund[]> => {
-		const start = startDate.startsWith('@') ? startDate : `"${startDate}"`;
-		const end = endDate.startsWith('@') ? endDate : `"${endDate}"`;
+		const queryFilter = startDate.startsWith('@')
+			? `created >= ${startDate} && created <= ${endDate}`
+			: this.pb.filter(`created >= {:start} && created <= {:end}`, {
+					start: startDate.startsWith('@') ? startDate : new Date(startDate),
+					end: endDate.startsWith('@') ? endDate : new Date(endDate)
+			  });
 
 		const transactionslist = await this.pb
 			.collection('fund_transactions')
 			.getFullList<FundTransactionsResponse>({
-				filter: `created >= ${start} && created <= ${end}`,
+				filter: queryFilter,
 				expand: 'user',
 				sort: '-created'
 			});
