@@ -17,6 +17,9 @@ export default {
 			screens: {
 				print: { raw: 'print' },
 				screen: { raw: 'screen' }
+			},
+			fontFamily: {
+				timesnewroman: ['Times New Roman', 'serif']
 			}
 		}
 	},
