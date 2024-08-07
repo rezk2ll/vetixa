@@ -411,7 +411,7 @@
 								<span>Breed</span>
 							</div>
 							<div
-								class="font-semibold border-2 border-black flex items-center justify-start w-2/4 px-5"
+								class="font-semibold border-2 text-sm border-black flex items-center justify-start w-1/4 px-5"
 							>
 								{animal.breed}
 							</div>
@@ -420,7 +420,7 @@
 								<span>اللون و العلامات المميزة</span>
 							</div>
 							<div
-								class="font-semibold border-2 border-black flex items-center justify-start w-1/4 p-2"
+								class="font-semibold border-2 text-sm border-black flex items-center justify-start w-1/4 p-2"
 							>
 								{animal.color}
 							</div>
