@@ -453,7 +453,6 @@ export type VisitsControlViewRecord = {
 
 export type VisitsPaidListRecord = {
 	animal?: RecordIdString;
-	control?: boolean;
 	motif?: string;
 };
 

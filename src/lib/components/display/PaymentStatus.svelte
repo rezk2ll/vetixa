@@ -17,11 +17,12 @@
 	$: done = paid && total > 0;
 	$: overpaid = total_paid > total;
 	$: processing = total == 0;
+	$: isControl = control && total === 0;
 </script>
 
 <div class="flex items-center gap-x-4 {type === 'large' ? 'w-full' : 'w-full md:w-3/4'}">
 	<span
-		class="flex font-semibold items-center justify-center text-white w-full p-1 {control
+		class="flex font-semibold items-center justify-center text-white w-full p-1 {isControl
 			? 'bg-green-600/80'
 			: done
 			? 'bg-emerald-500/80'
@@ -35,7 +36,7 @@
 			? 'bg-blue-500/80'
 			: ''} rounded shrink-0"
 	>
-		{#if control}
+		{#if isControl}
 			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
 				<Magnifier />
 
