@@ -3,10 +3,10 @@
 	import { formatDateSimple } from '$lib/utils/date';
 	import type { BillInformation, expandedAnimal, PrintableTab } from '$types';
 	import PrintPdf, { Page } from 'svelte-printpdf';
-	import PrintBill from './bill/PrintBill.svelte';
-	import PrintPrescription from './prescription/PrintPrescription.svelte';
+	import PrintBill from '$components/display/bill/PrintBill.svelte';
+	import PrintPrescription from '$components/display/prescription/PrintPrescription.svelte';
 	import currency from 'currency.js';
-	import PrintReport from './report/printReport.svelte';
+	import PrintReport from '$components/display/report/printReport.svelte';
 	import { configuration } from '$store/configuration';
 	import PrintableFooter from '$components/display/PrintableFooter.svelte';
 	import PrintableHeader from '$components/display/PrintableHeader.svelte';
