@@ -13,7 +13,7 @@
 	import BackArrow from '$components/icons/BackArrow.svelte';
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
-	import CageColorCodes from '$lib/components/display/cages/CageColorCodes.svelte';
+	import CageColorCodes from '$components/display/cages/CageColorCodes.svelte';
 
 	let search: string = $hospitPageInfo.query;
 	let page = $hospitPageInfo.page;
@@ -50,6 +50,8 @@
 
 	$: changeTab = (filter: StatusFilter) => {
 		const filterUrl = new URL(currentUrl);
+
+		filterUrl.searchParams.delete('page');
 
 		if (filter === 'all') {
 			filterUrl.searchParams.delete('filter');
