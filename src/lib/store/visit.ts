@@ -26,7 +26,8 @@ export const visitBill = writable<BillInformation>();
 export const addVisitFormStore = writable<SuperValidated<Infer<typeof addVisitSchema>>>();
 export const updateVisitFormStore = writable<SuperValidated<Infer<typeof updateVisitSchema>>>();
 export const payVisitFormStore = writable<SuperValidated<Infer<typeof payVisitSchema>>>();
-export const addVisitExamFormStore = writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
+export const addVisitToilettageFormStore =
+	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
 export const removeVisitItemFormStore =
 	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
 export const addVisitFileFormStore = writable<SuperValidated<Infer<typeof addVisitFileSchema>>>();
