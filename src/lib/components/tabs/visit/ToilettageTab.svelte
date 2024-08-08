@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {
-		addVisitExamFormStore,
+		addVisitToilettageFormStore,
 		currentVisit,
 		removeVisitItemFormStore,
 		updateVisitItemFormStore
 	} from '$store/visit';
-	import { clinicalExams } from '$store/acts';
+	import { toilettageActs } from '$store/acts';
 	import Modal from '$components/Modal.svelte';
 	import SelectActForm from '$components/forms/SelectActForm.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
@@ -21,8 +21,8 @@
 
 	let open = false;
 	let showConfirmation = false;
-	let addExamFormRef: HTMLFormElement;
-	let removeExamFormRef: HTMLFormElement;
+	let addToilettageFormRef: HTMLFormElement;
+	let removeToilettageFormRef: HTMLFormElement;
 	let updateFormRef: HTMLFormElement;
 	let metadata: Record<string, Partial<ItemMetadata>> = {};
 
@@ -30,8 +30,8 @@
 		form: addForm,
 		enhance,
 		allErrors
-	} = superForm($addVisitExamFormStore, {
-		id: 'add-exam',
+	} = superForm($addVisitToilettageFormStore, {
+		id: 'add-toilettage',
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: true,
@@ -48,7 +48,7 @@
 		allErrors: removeErrors
 	} = superForm($removeVisitItemFormStore, {
 		taintedMessage: null,
-		id: 'remove-exam',
+		id: 'remove-toilettage',
 		dataType: 'json',
 		resetForm: true,
 		onResult: ({ result }) => {
@@ -74,16 +74,16 @@
 		}
 	});
 
-	$: ({ clinical_exams, id, item_metadata } = $currentVisit);
+	$: ({ toilettage, id, item_metadata } = $currentVisit);
 
 	const handler = () => {
 		$addForm.id = id;
-		addExamFormRef.requestSubmit();
+		addToilettageFormRef.requestSubmit();
 	};
 
 	const removeHandler = () => {
 		$removeForm.id = id;
-		removeExamFormRef.requestSubmit();
+		removeToilettageFormRef.requestSubmit();
 		showConfirmation = false;
 	};
 
@@ -137,7 +137,13 @@
 	});
 </script>
 
-<form class="hidden" use:enhance action="?/addExams" method="POST" bind:this={addExamFormRef}>
+<form
+	class="hidden"
+	use:enhance
+	action="?/addToilettage"
+	method="POST"
+	bind:this={addToilettageFormRef}
+>
 	<input type="hidden" name="items" bind:value={$addForm.items} />
 	<input type="hidden" name="id" bind:value={$addForm.id} />
 </form>
@@ -146,8 +152,8 @@
 	class="hidden"
 	use:removeEnhance
 	method="POST"
-	action="?/removeExam"
-	bind:this={removeExamFormRef}
+	action="?/removeToilettage"
+	bind:this={removeToilettageFormRef}
 >
 	<input type="hidden" name="id" bind:value={$removeForm.id} />
 	<input type="hidden" name="item" bind:value={$removeForm.item} />
@@ -170,7 +176,7 @@
 	<div>
 		<div class="mt-2 text-center">
 			<p class="mt-2 text-sm text-gray-500 dark:text-gray-400 px-2">
-				Êtes-vous sûr de vouloir enlever cet examen médical ?
+				Êtes-vous sûr de vouloir enlever cet article ?
 				<br />
 				Cette action ne peut pas être annulée.
 			</p>
@@ -181,8 +187,8 @@
 <Modal bind:open size="medium">
 	<SelectActForm
 		bind:open
-		title="Ajouter un examen"
-		items={$clinicalExams}
+		title="Ajouter un acte"
+		items={$toilettageActs}
 		{handler}
 		bind:value={$addForm.items}
 	>
@@ -255,8 +261,8 @@
 							</tr>
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-							{#if clinical_exams.length}
-								{#each clinical_exams as exam}
+							{#if toilettage.length}
+								{#each toilettage as item}
 									<tr>
 										<td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
 											<div class="inline-flex items-center gap-x-3">
@@ -269,17 +275,17 @@
 
 													<div>
 														<h2 class="font-normal text-gray-800 dark:text-white">
-															{exam.code}
+															{item.code}
 														</h2>
 													</div>
 												</div>
 											</div>
 										</td>
 										<td class="px-8 py-4 text-sm font-normal text-gray-700 whitespace-nowrap">
-											{exam.name}
+											{item.name}
 										</td>
 										<td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
-											>{exam.price} DT</td
+											>{item.price} DT</td
 										>
 										<td
 											class="px-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap max-w-16"
@@ -288,8 +294,8 @@
 												label="Quantité"
 												name="quantity"
 												placeholder=""
-												onChange={(e) => setQuantity(e, exam.id)}
-												value={getQuantity(exam.id)}
+												onChange={(e) => setQuantity(e, item.id)}
+												value={getQuantity(item.id)}
 												size="small"
 											/>
 										</td>
@@ -300,8 +306,8 @@
 												label="Remise %"
 												name="discount"
 												placeholder=""
-												onChange={(e) => setDiscount(e, exam.id)}
-												value={getDiscount(exam.id)}
+												onChange={(e) => setDiscount(e, item.id)}
+												value={getDiscount(item.id)}
 												size="small"
 											/>
 										</td>
@@ -310,14 +316,14 @@
 										>
 											<button
 												type="button"
-												on:click={() => promptItemRemoval(exam.id)}
+												on:click={() => promptItemRemoval(item.id)}
 												class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none flex items-center justify-center"
 											>
 												<TrashIcon />
 											</button>
 											<button
 												type="button"
-												on:click={() => updateItem(exam.id)}
+												on:click={() => updateItem(item.id)}
 												class="text-gray-500 transition-colors duration-200 hover:text-emerald-500 focus:outline-none flex items-center justify-center"
 											>
 												<UpdateIcon />
