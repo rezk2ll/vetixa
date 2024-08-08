@@ -5,12 +5,12 @@ import type {
 	AnimalsResponse,
 	ClientsResponse,
 	BillsResponse,
-	ClinicalExamsResponse,
 	MedicalActsResponse,
 	SurgicalActsResponse,
 	HospitalisationResponse,
 	InventoryItemResponse,
-	CagesResponse
+	CagesResponse,
+	ToilettageResponse
 } from './pocketbase-types';
 
 export * from './pocketbase-types';
@@ -40,15 +40,15 @@ export interface QueueVisit extends Omit<VisitsResponse, 'animal'> {
 export interface Visit
 	extends Omit<
 		VisitsResponse<ItemMetadata[]>,
-		'animal' | 'clinical_exams' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items'
+		'animal' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items' | 'toilettage'
 	> {
 	animal: expandedAnimal;
 	bill: BillsResponse;
-	clinical_exams: ClinicalExamsResponse[];
 	medical_acts: MedicalActsResponse[];
 	surgical_acts: SurgicalActsResponse[];
 	hospit: HospitalisationResponse<Treatment[]>;
 	store_items: InventoryItemResponse[];
+	toilettage: ToilettageResponse[];
 }
 
 export interface AnimalVisit extends Omit<VisitsResponse, 'animal'> {
@@ -76,7 +76,7 @@ export interface PaymentMethod {
 
 export type VisitTabsType =
 	| 'info'
-	| 'exams'
+	| 'toilettage'
 	| 'diagnostics'
 	| 'files'
 	| 'hospit'
