@@ -120,7 +120,7 @@
 				{#if cage.hospit && cage.hospit.id}
 					<button
 						type="button"
-						title="changer le couleur"
+						title="changer la couleur"
 						on:click={() => handleColorChange(cage.hospit?.id ?? '')}
 					>
 						<PaintColors />
