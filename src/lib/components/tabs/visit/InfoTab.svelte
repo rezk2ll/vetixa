@@ -12,6 +12,8 @@
 	import Vaccination from '$components/icons/Vaccination.svelte';
 	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
 	import { toast } from 'svelte-sonner';
+	import UserCard from '$lib/components/icons/UserCard.svelte';
+	import AnimalIcon from '$lib/components/display/animal/AnimalIcon.svelte';
 
 	const { enhance, form, submitting, allErrors } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
@@ -162,6 +164,16 @@
 				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
 			>
 				Animal
+
+				<a
+					href="/animals/{animal.id}"
+					class="{animal.sex === 'male'
+						? 'bg-blue-500'
+						: 'bg-pink-400'} text-white font-semibold flex items-center justify-center gap-5 px-3 py-1 rounded-full"
+				>
+					<span> Consulter </span>
+					<AnimalIcon type={animal.type} />
+				</a>
 			</div>
 			<div class="px-4">
 				<Details details={animalDetails} />
@@ -172,6 +184,14 @@
 				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
 			>
 				Client
+
+				<a
+					href="/animals/{animal.id}"
+					class="bg-emerald-600 text-white font-semibold flex items-center justify-center gap-5 px-3 py-1 rounded-full"
+				>
+					<span> Consulter </span>
+					<UserCard />
+				</a>
 			</div>
 			<div class="px-4">
 				<Details details={clientDetails} />
