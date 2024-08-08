@@ -241,9 +241,9 @@
 				<InfoTab />
 			{/if}
 
-      {#if $activeVisitTab !== "hospit"}
-        <VisitInfo />
-      {/if}
+			{#if $activeVisitTab !== 'hospit'}
+				<VisitInfo />
+			{/if}
 		</div>
 	</div>
 </div>
