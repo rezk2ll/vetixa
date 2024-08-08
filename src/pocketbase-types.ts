@@ -28,6 +28,7 @@ export enum Collections {
 	MedicalActs = 'medical_acts',
 	Queue = 'queue',
 	SurgicalActs = 'surgical_acts',
+	Toilettage = 'toilettage',
 	Users = 'users',
 	Visits = 'visits',
 	VisitsControlList = 'visits_control_list',
@@ -416,6 +417,12 @@ export type SurgicalActsRecord = {
 	price?: number;
 };
 
+export type ToilettageRecord = {
+	code?: string;
+	name?: string;
+	price?: number;
+};
+
 export type UsersRecord = {
 	avatar?: string;
 	name?: string;
@@ -424,7 +431,6 @@ export type UsersRecord = {
 export type VisitsRecord<Titem_metadata = unknown> = {
 	actions?: HTMLString;
 	animal?: RecordIdString;
-	clinical_exams?: RecordIdString[];
 	control?: boolean;
 	date?: IsoDateString;
 	doctor?: string;
@@ -436,6 +442,7 @@ export type VisitsRecord<Titem_metadata = unknown> = {
 	observations?: HTMLString;
 	store_items?: RecordIdString[];
 	surgical_acts?: RecordIdString[];
+	toilettage?: RecordIdString[];
 	treatment?: HTMLString;
 	vaccination?: boolean;
 	visit_price?: number;
@@ -527,6 +534,8 @@ export type MedicalActsResponse<Texpand = unknown> = Required<MedicalActsRecord>
 export type QueueResponse<Texpand = unknown> = Required<QueueRecord> & BaseSystemFields<Texpand>;
 export type SurgicalActsResponse<Texpand = unknown> = Required<SurgicalActsRecord> &
 	BaseSystemFields<Texpand>;
+export type ToilettageResponse<Texpand = unknown> = Required<ToilettageRecord> &
+	BaseSystemFields<Texpand>;
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>;
 export type VisitsResponse<Titem_metadata = unknown, Texpand = unknown> = Required<
 	VisitsRecord<Titem_metadata>
@@ -574,6 +583,7 @@ export type CollectionRecords = {
 	medical_acts: MedicalActsRecord;
 	queue: QueueRecord;
 	surgical_acts: SurgicalActsRecord;
+	toilettage: ToilettageRecord;
 	users: UsersRecord;
 	visits: VisitsRecord;
 	visits_control_list: VisitsControlListRecord;
@@ -609,6 +619,7 @@ export type CollectionResponses = {
 	medical_acts: MedicalActsResponse;
 	queue: QueueResponse;
 	surgical_acts: SurgicalActsResponse;
+	toilettage: ToilettageResponse;
 	users: UsersResponse;
 	visits: VisitsResponse;
 	visits_control_list: VisitsControlListResponse;
@@ -647,6 +658,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'medical_acts'): RecordService<MedicalActsResponse>;
 	collection(idOrName: 'queue'): RecordService<QueueResponse>;
 	collection(idOrName: 'surgical_acts'): RecordService<SurgicalActsResponse>;
+	collection(idOrName: 'toilettage'): RecordService<ToilettageResponse>;
 	collection(idOrName: 'users'): RecordService<UsersResponse>;
 	collection(idOrName: 'visits'): RecordService<VisitsResponse>;
 	collection(idOrName: 'visits_control_list'): RecordService<VisitsControlListResponse>;
