@@ -3,11 +3,11 @@
 	import TabContainer from '$components/tabs/visit/VisitTabContainer.svelte';
 	import {
 		activeVisitTab,
-		addVisitExamFormStore,
 		addVisitFileFormStore,
 		addVisitMedicalActsFormStore,
 		addVisitStoreItemFormStore,
 		addVisitSurgicalActsFormStore,
+		addVisitToilettageFormStore,
 		currentVisit,
 		payVisitFormStore,
 		removeVisitFileFormStore,
@@ -23,9 +23,9 @@
 		visitBill
 	} from '$store/visit';
 	import {
-		clinicalExams as clinicalExamsStore,
 		medicalActs as medicalActsStore,
-		surgicalActs as surgicalActsStore
+		surgicalActs as surgicalActsStore,
+		toilettageActs
 	} from '$store/acts';
 	import {
 		cagesList,
@@ -43,14 +43,14 @@
 	$: ({
 		form,
 		visit,
-		clinicalExams,
+		toilettage,
 		medicalActs,
 		surgicalActs,
 		cages,
 		storeItems,
 		bill,
-		addExamForm,
-		removeExamForm,
+		addToilettageForm,
+		removeToilettageForm,
 		addFileForm,
 		removeFileForm,
 		payVisitForm,
@@ -73,10 +73,10 @@
 
 	$: currentVisit.set(visit);
 	$: updateVisitFormStore.set(form);
-	$: addVisitExamFormStore.set(addExamForm);
-	$: removeVisitItemFormStore.set(removeExamForm);
+	$: addVisitToilettageFormStore.set(addToilettageForm);
+	$: removeVisitItemFormStore.set(removeToilettageForm);
 	$: medicalActsStore.set(medicalActs);
-	$: clinicalExamsStore.set(clinicalExams);
+	$: toilettageActs.set(toilettage);
 	$: surgicalActsStore.set(surgicalActs);
 	$: payVisitFormStore.set(payVisitForm);
 	$: addVisitFileFormStore.set(addFileForm);
@@ -98,7 +98,7 @@
 	$: activeVisitTab.set(tab as VisitTabsType);
 	$: updateVisitItemFormStore.set(updateVisitItemForm);
 	$: doctorList.set(doctors);
-	$: acts = [...visit.clinical_exams, ...visit.surgical_acts, ...visit.medical_acts].map(
+	$: acts = [...visit.toilettage, ...visit.surgical_acts, ...visit.medical_acts].map(
 		(item) => item.name
 	);
 </script>

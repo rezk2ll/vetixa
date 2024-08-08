@@ -1,7 +1,6 @@
 import { redirect, error } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type {
-	ClinicalExamsResponse,
 	MedicalActsResponse,
 	SurgicalActsResponse,
 	BillsMethodOptions,
@@ -10,7 +9,8 @@ import type {
 	InventoryItemResponse,
 	Visit,
 	ItemMetadata,
-	DoctorsResponse
+	DoctorsResponse,
+	ToilettageResponse
 } from '$types';
 import {
 	addVisitFileSchema,
@@ -42,8 +42,12 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 
 	try {
 		const form = await superValidate(zod(updateVisitSchema), { id: 'update-visit' });
-		const addExamForm = await superValidate(zod(addVisitItemsSchema), { id: 'add-exam' });
-		const removeExamForm = await superValidate(zod(removeVisitItemSchema), { id: 'remove-exam' });
+		const addToilettageForm = await superValidate(zod(addVisitItemsSchema), {
+			id: 'add-toilettage'
+		});
+		const removeToilettageForm = await superValidate(zod(removeVisitItemSchema), {
+			id: 'remove-toilettage'
+		});
 		const payVisitForm = await superValidate(zod(payVisitSchema), { id: 'pay-visit' });
 		const addFileForm = await superValidate(zod(addVisitFileSchema), { id: 'add-file' });
 		const removeFileForm = await superValidate(zod(removeVisitFileSchema), { id: 'remove-file' });
@@ -85,8 +89,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		});
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
-			expand:
-				'medical_acts, clinical_exams, surgical_acts, animal, animal.client, hospit, store_items'
+			expand: 'medical_acts, toilettage, surgical_acts, animal, animal.client, hospit, store_items'
 		});
 
 		if (!visitRecord) {
@@ -103,7 +106,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 				client: (visitRecord.expand as RecordModel)?.animal?.expand?.client || unknownClient
 			},
 			medical_acts: (visitRecord.expand as RecordModel)?.medical_acts || [],
-			clinical_exams: (visitRecord.expand as RecordModel)?.clinical_exams || [],
+			toilettage: (visitRecord.expand as RecordModel)?.toilettage || [],
 			surgical_acts: (visitRecord.expand as RecordModel)?.surgical_acts || [],
 			hospit: (visitRecord.expand as RecordModel)?.hospit || {},
 			store_items: (visitRecord.expand as RecordModel)?.store_items || [],
@@ -112,9 +115,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		} as Visit;
 
 		const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
-		const clinicalExams = await pb
-			.collection('clinical_exams')
-			.getFullList<ClinicalExamsResponse>();
+		const toilettage = await pb.collection('toilettage').getFullList<ToilettageResponse>();
 		const surgicalActs = await pb.collection('surgical_acts').getFullList<SurgicalActsResponse>();
 		const storeItems = await pb.collection('inventory_item').getFullList<InventoryItemResponse>({
 			filter: 'quantity > 0'
@@ -138,14 +139,14 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			visit,
 			bill,
 			medicalActs,
-			clinicalExams,
+			toilettage,
 			surgicalActs,
 			cages,
 			doctors,
 			storeItems,
 			form,
-			addExamForm,
-			removeExamForm,
+			addToilettageForm,
+			removeToilettageForm,
 			payVisitForm,
 			addFileForm,
 			removeFileForm,
@@ -239,8 +240,8 @@ export const actions = {
 		}
 	},
 
-	addExams: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, zod(addVisitItemsSchema), { id: 'add-exam' });
+	addToilettage: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(addVisitItemsSchema), { id: 'add-toilettage' });
 
 		try {
 			if (!form.valid) {
@@ -257,7 +258,7 @@ export const actions = {
 
 			await pb.collection('visits').update(id, {
 				...visit,
-				'clinical_exams+': items
+				'toilettage+': items
 			});
 
 			await billService.update();
@@ -270,8 +271,10 @@ export const actions = {
 		}
 	},
 
-	removeExam: async ({ locals: { pb }, request }) => {
-		const form = await superValidate(request, zod(removeVisitItemSchema), { id: 'remove-exam' });
+	removeToilettage: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(removeVisitItemSchema), {
+			id: 'remove-toilettage'
+		});
 
 		try {
 			if (!form.valid) {
@@ -288,7 +291,7 @@ export const actions = {
 
 			await pb.collection('visits').update(id, {
 				...visit,
-				'clinical_exams-': item
+				'toilettage-': item
 			});
 
 			await billService.update();
