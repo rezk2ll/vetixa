@@ -1,19 +1,15 @@
 <script lang="ts">
-	import Details from '$components/Details.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { doctorList } from '$store/doctor';
 	import { currentVisit, updateVisitFormStore } from '$lib/store/visit';
-	import type { entityDetailsList } from '$types';
-	import { formatDateStringShort, formatDateString } from '$utils/date';
+	import { formatDateString } from '$utils/date';
 	import Select from 'svelte-select';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Vaccination from '$components/icons/Vaccination.svelte';
 	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
 	import { toast } from 'svelte-sonner';
-	import UserCard from '$lib/components/icons/UserCard.svelte';
-	import AnimalIcon from '$lib/components/display/animal/AnimalIcon.svelte';
 
 	const { enhance, form, submitting, allErrors } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
