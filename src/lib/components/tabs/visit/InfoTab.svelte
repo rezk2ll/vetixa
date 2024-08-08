@@ -186,7 +186,7 @@
 				Client
 
 				<a
-					href="/animals/{animal.id}"
+					href="/clients/{animal.client.id}"
 					class="bg-emerald-600 text-white font-semibold flex items-center justify-center gap-5 px-3 py-1 rounded-full"
 				>
 					<span> Consulter </span>
