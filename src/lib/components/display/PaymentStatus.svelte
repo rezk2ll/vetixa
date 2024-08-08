@@ -5,6 +5,7 @@
 	import RewindIcon from '$components/icons/RewindIcon.svelte';
 	import SurplusIcon from '$components/icons/SurplusIcon.svelte';
 	import type { BillsResponse } from '$types';
+	import currency from 'currency.js';
 	import Magnifier from '../icons/Magnifier.svelte';
 
 	export let bill: BillsResponse;
@@ -12,9 +13,9 @@
 	export let control: boolean = false;
 
 	$: ({ paid, total, total_paid } = bill);
-	$: partiallyPaid = total_paid > 0 && total_paid < total;
+	$: partiallyPaid = total_paid > 0 && currency(total).subtract(total_paid).value > 0.5;
 	$: pendingPayment = total_paid === 0 && total > 0;
-	$: done = paid && total > 0;
+	$: done = total > 0 && (paid || currency(total).subtract(total_paid).value <= 0.5);
 	$: overpaid = total_paid > total;
 	$: processing = total == 0;
 	$: isControl = control && total === 0;
