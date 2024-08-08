@@ -47,9 +47,11 @@ class BillService {
 		const bill = await this.get();
 
 		if (bill.total !== totalPrice) {
+			const paid = currency(totalPrice).subtract(bill.total_paid).value <= 0.5;
+
 			await this.pb.collection('bills').update(bill.id, {
 				total: totalPrice,
-				paid: bill.total_paid >= totalPrice
+				paid
 			} satisfies BillsRecord);
 		}
 	};
