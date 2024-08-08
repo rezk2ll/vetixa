@@ -11,11 +11,12 @@
 	import HospitTab from '$components/tabs/visit/HospitTab.svelte';
 	import StoreTab from '$components/tabs/visit/StoreTab.svelte';
 	import TreatmentTab from '$components/tabs/visit/TreatmentTab.svelte';
+	import VisitInfo from '$components/display/visit/VisitInfo.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
 
-<div class="flex flex-col items-center justify-start lg:pl-14 w-full lg:pt-10">
+<div class="flex flex-col items-center justify-start lg:pl-14 w-full lg:pt-10 pb-5">
 	<div
 		class="w-full p-1 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded-md pb-5"
 	>
@@ -217,26 +218,32 @@
 				</button>
 			</div>
 		</div>
-		{#if $activeVisitTab === 'exams'}
-			<ExamsTab />
-		{:else if $activeVisitTab === 'files'}
-			<FilesTab />
-		{:else if $activeVisitTab === 'actions'}
-			<ActionsTab />
-		{:else if $activeVisitTab === 'diagnostics'}
-			<DiagnosticsTab />
-		{:else if $activeVisitTab === 'medical_acts'}
-			<MedicalActsTab />
-		{:else if $activeVisitTab === 'surgical_acts'}
-			<SurgicalActsTab />
-		{:else if $activeVisitTab === 'hospit'}
-			<HospitTab />
-		{:else if $activeVisitTab === 'shop'}
-			<StoreTab />
-		{:else if $activeVisitTab === 'treatments'}
-			<TreatmentTab />
-		{:else}
-			<InfoTab />
-		{/if}
+		<div class="flex flex-col gap-2">
+			{#if $activeVisitTab === 'exams'}
+				<ExamsTab />
+			{:else if $activeVisitTab === 'files'}
+				<FilesTab />
+			{:else if $activeVisitTab === 'actions'}
+				<ActionsTab />
+			{:else if $activeVisitTab === 'diagnostics'}
+				<DiagnosticsTab />
+			{:else if $activeVisitTab === 'medical_acts'}
+				<MedicalActsTab />
+			{:else if $activeVisitTab === 'surgical_acts'}
+				<SurgicalActsTab />
+			{:else if $activeVisitTab === 'hospit'}
+				<HospitTab />
+			{:else if $activeVisitTab === 'shop'}
+				<StoreTab />
+			{:else if $activeVisitTab === 'treatments'}
+				<TreatmentTab />
+			{:else}
+				<InfoTab />
+			{/if}
+
+      {#if $activeVisitTab !== "hospit"}
+        <VisitInfo />
+      {/if}
+		</div>
 	</div>
 </div>
