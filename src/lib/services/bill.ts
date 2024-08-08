@@ -49,7 +49,7 @@ class BillService {
 		if (bill.total !== totalPrice) {
 			await this.pb.collection('bills').update(bill.id, {
 				total: totalPrice,
-				paid: bill.total_paid === totalPrice
+				paid: bill.total_paid >= totalPrice
 			} satisfies BillsRecord);
 		}
 	};
