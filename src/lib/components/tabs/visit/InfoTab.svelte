@@ -1,19 +1,15 @@
 <script lang="ts">
-	import Details from '$components/Details.svelte';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { doctorList } from '$store/doctor';
 	import { currentVisit, updateVisitFormStore } from '$lib/store/visit';
-	import type { entityDetailsList } from '$types';
-	import { formatDateStringShort, formatDateString } from '$utils/date';
+	import { formatDateString } from '$utils/date';
 	import Select from 'svelte-select';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Vaccination from '$components/icons/Vaccination.svelte';
 	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
 	import { toast } from 'svelte-sonner';
-	import UserCard from '$lib/components/icons/UserCard.svelte';
-	import AnimalIcon from '$lib/components/display/animal/AnimalIcon.svelte';
 
 	const { enhance, form, submitting, allErrors } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
@@ -25,29 +21,6 @@
 			}
 		}
 	});
-
-	$: ({ animal } = $currentVisit);
-
-	$: animalDetails = [
-		{ name: 'Nom', value: animal.name },
-		{ name: 'Espèce', value: animal.type },
-		{ name: 'Sexe', value: animal.sex },
-		{ name: 'Date de naissance', value: formatDateStringShort(animal.birthday) },
-		{ name: 'Age', value: animal.birthday, isAge: true },
-		{ name: 'Poids', value: animal.weight, prefix: 'Kg' },
-		{ name: 'Couleur', value: animal.color },
-		{ name: 'Race', value: animal.breed },
-		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
-	] satisfies entityDetailsList;
-
-	$: clientDetails = [
-		{ name: 'Prénom', value: animal.client.firstname },
-		{ name: 'Nom', value: animal.client.lastname },
-		{ name: 'Téléphone', value: animal.client.tel ?? '-' },
-		{ name: 'Email', value: animal.client.email ?? '-' },
-		{ name: 'Adresse', value: animal.client.address ?? '-' },
-		{ name: 'Note', value: animal.client.note ?? '-' }
-	];
 
 	currentVisit.subscribe(({ id }) => {
 		$form.id = id;
@@ -157,45 +130,4 @@
 			</div>
 		</div>
 	</form>
-
-	<div class="flex flex-col lg:flex-row px-2 lg:px-0 lg:space-x-5 w-full">
-		<div class="flex flex-col space-y-5 w-full">
-			<div
-				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
-			>
-				Animal
-
-				<a
-					href="/animals/{animal.id}"
-					class="{animal.sex === 'male'
-						? 'bg-blue-500'
-						: 'bg-pink-400'} text-white font-semibold flex items-center justify-center gap-5 px-3 py-1 rounded-full"
-				>
-					<span> Consulter </span>
-					<AnimalIcon type={animal.type} />
-				</a>
-			</div>
-			<div class="px-4">
-				<Details details={animalDetails} />
-			</div>
-		</div>
-		<div class="flex flex-col space-y-5 w-full">
-			<div
-				class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
-			>
-				Client
-
-				<a
-					href="/clients/{animal.client.id}"
-					class="bg-emerald-600 text-white font-semibold flex items-center justify-center gap-5 px-3 py-1 rounded-full"
-				>
-					<span> Consulter </span>
-					<UserCard />
-				</a>
-			</div>
-			<div class="px-4">
-				<Details details={clientDetails} />
-			</div>
-		</div>
-	</div>
 </div>
