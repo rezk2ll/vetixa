@@ -8,7 +8,6 @@ import type {
 	BillsRecord,
 	BillsResponse,
 	ClientsResponse,
-	ClinicalExamsResponse,
 	FundTransactionsMethodOptions,
 	FundTransactionsRecord,
 	FundTransactionsResponse,
@@ -18,6 +17,7 @@ import type {
 	MedicalActsResponse,
 	PaymentInformation,
 	SurgicalActsResponse,
+	ToilettageResponse,
 	Treatment,
 	TypedPocketBase,
 	Visit,
@@ -87,7 +87,7 @@ class BillService {
 		return await this.pb
 			.collection('visits')
 			.getOne<VisitsResponse<ItemMetadata[]>>(this.visit.id, {
-				expand: 'medical_acts, clinical_exams, surgical_acts, hospit, store_items'
+				expand: 'medical_acts, toilettage, surgical_acts, hospit, store_items'
 			});
 	};
 
@@ -101,7 +101,7 @@ class BillService {
 			.collection('visits')
 			.getOne<VisitsResponse<ItemMetadata[]>>(this.visit.id, {
 				expand:
-					'medical_acts, clinical_exams, surgical_acts, animal, animal.client, hospit, store_items'
+					'medical_acts, toilettage, surgical_acts, animal, animal.client, hospit, store_items'
 			});
 
 		const visit = {
@@ -114,8 +114,7 @@ class BillService {
 			},
 			medical_acts:
 				((visitRecord.expand as RecordModel)?.medical_acts as MedicalActsResponse[]) || [],
-			clinical_exams:
-				((visitRecord.expand as RecordModel)?.clinical_exams as ClinicalExamsResponse[]) || [],
+			toilettage: ((visitRecord.expand as RecordModel)?.toilettage as ToilettageResponse[]) || [],
 			surgical_acts:
 				((visitRecord.expand as RecordModel)?.surgical_acts as SurgicalActsResponse[]) || [],
 			hospit:
@@ -123,7 +122,7 @@ class BillService {
 			store_items:
 				((visitRecord.expand as RecordModel)?.store_items as InventoryItemResponse[]) || [],
 			bill: await this.get()
-		};
+		} satisfies Visit;
 
 		return visit;
 	};
@@ -197,7 +196,7 @@ class BillService {
 
 		const total = currency(visitRecord.visit_price)
 			.add(hostpitCost)
-			.add(this.getExamsCost(visitRecord))
+			.add(this.getToilettagePrice(visitRecord))
 			.add(this.getInventoryItemsCost(visitRecord))
 			.add(this.getMedicalActsCost(visitRecord))
 			.add(this.getSurgicalActsCost(visitRecord));
@@ -206,21 +205,21 @@ class BillService {
 	};
 
 	/**
-	 * Calculate the exams cost
+	 * Calculate the toilettage cost
 	 *
 	 * @param {VisitsResponse} visit - the expanded visit
-	 * @returns {number} - the exams total cost
+	 * @returns {number} - the toilettage total cost
 	 */
-	getExamsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
-		const exams: ClinicalExamsResponse[] = (visit.expand as RecordModel)?.clinical_exams || [];
+	getToilettagePrice = (visit: VisitsResponse<ItemMetadata[]>): number => {
+		const items: ToilettageResponse[] = (visit.expand as RecordModel)?.toilettage || [];
 
-		return exams.reduce((acc, exam) => {
+		return items.reduce((acc, act) => {
 			const discount =
-				(visit.item_metadata || []).find(({ item }) => item === exam.id)?.discount ?? 0;
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
 			const quantity =
-				(visit.item_metadata || []).find(({ item }) => item === exam.id)?.quantity ?? 1;
+				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
 
-			const price = currency(exam.price).multiply(1 - discount / 100).value;
+			const price = currency(act.price).multiply(1 - discount / 100).value;
 			const total = currency(price).multiply(quantity).value;
 
 			return currency(acc).add(total).value;
@@ -353,7 +352,7 @@ class BillService {
 						}
 				  ]
 				: []),
-			...visit.clinical_exams.map(({ price, name, code, id }) => {
+			...visit.toilettage.map(({ price, name, code, id }) => {
 				const metadata = visit.item_metadata?.find(({ item }) => item === id);
 				const quantity = metadata?.quantity ?? 1;
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Select from 'svelte-select';
-	import type { SurgicalActsResponse, MedicalActsResponse, ClinicalExamsResponse } from '$types';
+	import type { SurgicalActsResponse, MedicalActsResponse, ToilettageResponse } from '$types';
 
 	export let title: string;
-	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ClinicalExamsResponse[] = [];
+	export let items: SurgicalActsResponse[] | MedicalActsResponse[] | ToilettageResponse[] = [];
 	export let open = false;
 	export let value: string[];
 	export let handler: () => void = () => {};

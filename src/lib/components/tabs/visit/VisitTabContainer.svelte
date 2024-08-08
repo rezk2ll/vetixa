@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { VisitTabsType } from '$types';
 	import { activeVisitTab } from '$store/visit';
-	import ExamsTab from '$components/tabs/visit/ExamsTab.svelte';
+	import ToilettageTab from '$components/tabs/visit/ToilettageTab.svelte';
 	import FilesTab from '$components/tabs/visit/FilesTab.svelte';
 	import DiagnosticsTab from '$components/tabs/visit/DiagnosticsTab.svelte';
 	import ActionsTab from '$components/tabs/visit/ActionsTab.svelte';
@@ -12,6 +12,7 @@
 	import StoreTab from '$components/tabs/visit/StoreTab.svelte';
 	import TreatmentTab from '$components/tabs/visit/TreatmentTab.svelte';
 	import VisitInfo from '$components/display/visit/VisitInfo.svelte';
+	import ScissorsIcon from '$lib/components/icons/ScissorsIcon.svelte';
 
 	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
@@ -43,22 +44,14 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('exams')}
-					class="px-4 {isActive('exams')
+					on:click={() => activeVisitTab.set('toilettage')}
+					class="px-4 {isActive('toilettage')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 512 512"
-						class="w-4 h-4"
-						fill="currentColor"
-						><path
-							d="M160 32c0-17.7 14.3-32 32-32h32c17.7 0 32 14.3 32 32c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32c-17.7 0-32-14.3-32-32V64c0-17.7 14.3-32 32-32zM32 448H320c70.7 0 128-57.3 128-128s-57.3-128-128-128V128c106 0 192 86 192 192c0 49.2-18.5 94-48.9 128H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H320 32c-17.7 0-32-14.3-32-32s14.3-32 32-32zm80-64H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"
-						/></svg
-					>
+					<ScissorsIcon />
 
-					<span class="mx-1 text-sm">Examens</span>
+					<span class="mx-1 text-sm">Toilettage</span>
 				</button>
 
 				<button
@@ -219,8 +212,8 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-2">
-			{#if $activeVisitTab === 'exams'}
-				<ExamsTab />
+			{#if $activeVisitTab === 'toilettage'}
+				<ToilettageTab />
 			{:else if $activeVisitTab === 'files'}
 				<FilesTab />
 			{:else if $activeVisitTab === 'actions'}
