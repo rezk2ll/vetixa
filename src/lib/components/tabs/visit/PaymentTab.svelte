@@ -69,8 +69,6 @@
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
-
-	$: console.log({ form: $form.id });
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
