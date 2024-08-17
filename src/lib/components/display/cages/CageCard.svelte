@@ -42,7 +42,7 @@
 	<div class="flex flex-col justify-center pt-8 pb-2 px-5 h-full">
 		{#if cage.hospit}
 			<div
-				class="absolute top-0 left-14 text-md font-semibold py-1 px-2 {cage.hospit?.visit.animal
+				class="absolute top-0 left-14 text-md font-semibold py-1 px-2 bg-slate-800 {cage.hospit?.visit.animal
 					.sex === 'male'
 					? 'text-blue-400'
 					: 'text-pink-500'}"
