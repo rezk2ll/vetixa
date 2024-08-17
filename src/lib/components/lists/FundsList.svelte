@@ -60,7 +60,7 @@
 
 		targetUrl.searchParams.set('startDate', start);
 		targetUrl.searchParams.set('endDate', end);
-    targetUrl.searchParams.delete('page');
+		targetUrl.searchParams.delete('page');
 
 		goto(targetUrl.toString());
 	};
