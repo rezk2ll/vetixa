@@ -9,7 +9,7 @@ import type { RecordModel } from 'pocketbase';
 import type { Actions, PageServerLoad } from './$types';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { changeHospitColorsSchema } from '$lib/schemas/hospit';
+import { changeHospitColorsSchema, updateHospitCompletedStateSchema } from '$lib/schemas/hospit';
 import { cageCompare } from '$utils/cage';
 import { unknownClient } from '$utils/client';
 import { unknownAnimal } from '$utils/animal';
@@ -24,6 +24,13 @@ export const load = (async ({ locals: { pb } }) => {
 	const changeHospitColorForm = await superValidate(zod(changeHospitColorsSchema), {
 		id: 'change-color'
 	});
+
+	const updateHospitCompeltedStateForm = await superValidate(
+		zod(updateHospitCompletedStateSchema),
+		{
+			id: 'change-completed'
+		}
+	);
 
 	const cageList: CageItem[] = cages
 		.map((cage) => {
@@ -55,7 +62,8 @@ export const load = (async ({ locals: { pb } }) => {
 
 	return {
 		cageList,
-		changeHospitColorForm
+		changeHospitColorForm,
+		updateHospitCompeltedStateForm
 	};
 }) satisfies PageServerLoad;
 
@@ -87,6 +95,53 @@ export const actions = {
 			console.error(error);
 
 			return setError(form, 'Échec de la mise à jour de la couleur');
+		}
+	},
+
+	changeCompletedState: async ({ locals: { pb }, request }) => {
+		const form = await superValidate(request, zod(updateHospitCompletedStateSchema), {
+			id: 'change-completed'
+		});
+
+		try {
+			if (!form.valid) {
+				return setError(form, 'Données invalides', { status: 400 });
+			}
+
+			const { id, completed } = form.data;
+			const hospit = await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
+
+			if (!hospit || !hospit.id) {
+				return setError(form, 'Hospitalisation non trouvée');
+			}
+
+			if (!completed) {
+				if (!hospit.cage) {
+					return setError(form, 'cage invalide', { status: 500 });
+				}
+
+				try {
+					const avaibleCage = await pb
+						.collection('available_cages')
+						.getOne<CagesResponse>(hospit.cage);
+
+					if (!avaibleCage) {
+						return setError(form, 'Cage déjà occupée', { status: 500 });
+					}
+				} catch (error) {
+					return setError(form, 'Cage déjà occupée', { status: 500 });
+				}
+			}
+
+			await pb.collection('hospitalisation').update(id, {
+				completed
+			});
+
+			return { form };
+		} catch (error) {
+			console.error({ error });
+
+			return setError(form, "Une erreur s'est produite lors du vidage de la cage");
 		}
 	}
 } satisfies Actions;
