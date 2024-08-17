@@ -45,7 +45,7 @@
 		taintedMessage: null,
 		resetForm: true,
 		id: 'change-completed',
-    dataType: 'json',
+		dataType: 'json',
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				toast.success('La cage a été vidée avec succès', {
@@ -180,8 +180,8 @@
 					</h3>
 					<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 						Êtes-vous sûr de vouloir libérer cette cage ?
-            <br />
-            une fois vidée l'hospitalisation n'apparaîtra pas la vue de l'hospit
+						<br />
+						une fois vidée l'hospitalisation n'apparaîtra pas la vue de l'hospit
 					</p>
 				</div>
 			</div>
