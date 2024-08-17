@@ -2,16 +2,23 @@
 	import CageCard from '$components/display/cages/CageCard.svelte';
 	import Grid from '$components/icons/Grid.svelte';
 	import List from '$components/icons/List.svelte';
-	import { cagesInfo, hospitChangeColorFormStore } from '$store/hospit';
+	import {
+		cagesInfo,
+		hospitChangeColorFormStore,
+		hospitUpdateCompletedStateFormStore
+	} from '$store/hospit';
 	import { superForm } from 'sveltekit-superforms';
 	import Modal from '$components/Modal.svelte';
 	import { toast } from 'svelte-sonner';
-	import CageColorCodes from '$lib/components/display/cages/CageColorCodes.svelte';
+	import CageColorCodes from '$components/display/cages/CageColorCodes.svelte';
 	import '@simonwep/pickr/dist/themes/classic.min.css';
 	import { onMount } from 'svelte';
+	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 
 	let formRef: HTMLFormElement;
 	let showPicker = false;
+	let completeFormRef: HTMLFormElement;
+	let showConfirmation = false;
 
 	const { enhance, form, allErrors } = superForm($hospitChangeColorFormStore, {
 		taintedMessage: null,
@@ -30,6 +37,27 @@
 		dataType: 'json'
 	});
 
+	const {
+		enhance: completeEnhance,
+		form: completeForm,
+		allErrors: completeErrors
+	} = superForm($hospitUpdateCompletedStateFormStore, {
+		taintedMessage: null,
+		resetForm: true,
+		id: 'change-completed',
+    dataType: 'json',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success('La cage a été vidée avec succès', {
+					important: true,
+					position: 'bottom-center'
+				});
+
+				showConfirmation = false;
+			}
+		}
+	});
+
 	const handleSubmit = (color: string) => {
 		$form.color = color;
 		formRef.requestSubmit();
@@ -40,7 +68,18 @@
 		showPicker = true;
 	};
 
-	$: $allErrors.map((error) => {
+	const handleCompleted = (id: string) => {
+		$completeForm.id = id;
+		$completeForm.completed = true;
+		showConfirmation = true;
+	};
+
+	const handleCompletedSubmit = () => {
+		$completeForm.completed = true;
+		completeFormRef.requestSubmit();
+	};
+
+	$: [...$allErrors, ...$completeErrors].map((error) => {
 		toast.error(error.messages.join('. '));
 	});
 
@@ -133,14 +172,40 @@
 			<input type="text" id="coloris" />
 		</Modal>
 
+		<ConfirmationDialog bind:show={showConfirmation} handler={handleCompletedSubmit}>
+			<div>
+				<div class="mt-2 text-center">
+					<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+						Libérer la cage?
+					</h3>
+					<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+						Êtes-vous sûr de vouloir libérer cette cage ?
+            <br />
+            une fois vidée l'hospitalisation n'apparaîtra pas la vue de l'hospit
+					</p>
+				</div>
+			</div>
+		</ConfirmationDialog>
+
 		<form class="hidden" method="post" action="?/changeColor" use:enhance bind:this={formRef}>
 			<input type="hidden" name="id" bind:value={$form.id} />
 			<input type="hidden" name="color" bind:value={$form.color} />
 		</form>
 
+		<form
+			class="hidden"
+			method="post"
+			action="?/changeCompletedState"
+			use:completeEnhance
+			bind:this={completeFormRef}
+		>
+			<input type="hidden" name="id" bind:value={$completeForm.id} />
+			<input type="hidden" name="complete" bind:value={$completeForm.completed} />
+		</form>
+
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3 px-4 py-4 w-full">
 			{#each $cagesInfo as cage}
-				<CageCard {cage} {handleColorChange} />
+				<CageCard {cage} {handleColorChange} {handleCompleted} />
 			{/each}
 		</div>
 	</div>
