@@ -10,7 +10,7 @@
 </script>
 
 <div
-	class="antialiased w-full flex items-center xl:px-14 pt-10 justify-center"
+	class="antialiased w-full flex items-center xl:px-10 pt-10 justify-center"
 	data-sveltekit-preload-data="hover"
 >
 	<HospitList />
