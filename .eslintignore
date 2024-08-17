@@ -9,6 +9,8 @@ node_modules
 static
 data
 ./nginx
+site
+nginx
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml
