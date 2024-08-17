@@ -16,17 +16,10 @@
 	export let bill: PaymentInformation;
 
 	const { form, enhance, submitting, allErrors } = superForm($payVisitFormStore, {
+		id: 'pay-visit',
 		taintedMessage: null,
 		resetForm: false,
 		dataType: 'json',
-		onUpdated: () => {
-			$form.id = $currentVisit.id;
-			$form.amount = 0;
-			$form.method = 'cash';
-			$form.incash = 0;
-			$form.outcash = 0;
-			$form.description = '';
-		},
 		onResult: ({ result }) => {
 			if (result.type === 'success') {
 				toast.success('Paiement effectué avec succès', {
@@ -34,8 +27,19 @@
 					position: 'bottom-center'
 				});
 			}
+		},
+		onUpdated: () => {
+			$form.amount = 0;
+			$form.method = 'cash';
+			$form.incash = 0;
+			$form.outcash = 0;
+			$form.description = '';
 		}
 	});
+
+	$: if (!$form.id || $form.id.length) {
+		$form.id = $currentVisit.id;
+	}
 
 	const handleMethodChange = (e: CustomEvent) => {
 		if (e.detail.value !== 'cash') {
@@ -44,11 +48,10 @@
 		}
 	};
 
-	currentVisit.subscribe(({ id }) => {
-		$form.id = id;
-	});
+	$: if ($currentVisit.id && $currentVisit.id.length) {
+		$form.id = $currentVisit.id;
+	}
 
-	$: $form.id = $currentVisit.id;
 	$: disabled =
 		$form.amount <= 0 ||
 		($form.method === 'cash' &&
@@ -66,6 +69,8 @@
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
+
+	$: console.log({ form: $form.id });
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
@@ -117,7 +122,7 @@
 					class="mt-2 flex flex-col space-y-4 w-full"
 					method="POST"
 				>
-					<input type="hidden" name="id" value={$currentVisit.id} />
+					<input type="hidden" name="id" bind:value={$currentVisit.id} />
 					<NumberField label="Montant" placeholder="" bind:value={$form.amount} name="amount" />
 					<div class="w-full">
 						<Select
@@ -130,7 +135,7 @@
 							on:change={handleMethodChange}
 							class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
 						/>
-						{#if $form.method === 'cash'}
+						{#if $form.method === 'cash' && !disabledSelect}
 							<div class="flex flex-row space-x-2">
 								<NumberField
 									bind:value={$form.incash}
