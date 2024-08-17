@@ -45,11 +45,11 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	});
 
 	const pendingCount = await pb.collection('hospitalisation').getList(1, 1, {
-		filter: `(${queryFilter}) && end > @todayEnd`
+		filter: `(${queryFilter}) && completed = false`
 	});
 
 	const completedCount = await pb.collection('hospitalisation').getList(1, 1, {
-		filter: `(${queryFilter}) && end < @todayEnd`
+		filter: `(${queryFilter}) && completed = true`
 	});
 	const allCount = await pb.collection('hospitalisation').getList(1, 1);
 
