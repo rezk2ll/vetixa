@@ -29,6 +29,7 @@
 	} from '$store/acts';
 	import {
 		cagesList,
+		hospitUpdateCompletedStateFormStore,
 		removeVisitHospitalisationFormStore,
 		updateVisitHospitalisationFormStore
 	} from '$store/hospit';
@@ -68,7 +69,8 @@
 		updateVisitTreatmentForm,
 		updateVisitItemForm,
 		tab,
-		doctors
+		doctors,
+		updateHospitCompeltedStateForm
 	} = data);
 
 	$: currentVisit.set(visit);
@@ -98,6 +100,7 @@
 	$: activeVisitTab.set(tab as VisitTabsType);
 	$: updateVisitItemFormStore.set(updateVisitItemForm);
 	$: doctorList.set(doctors);
+	$: hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
 	$: acts = [...visit.toilettage, ...visit.surgical_acts, ...visit.medical_acts].map(
 		(item) => item.name
 	);
