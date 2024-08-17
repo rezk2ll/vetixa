@@ -7,6 +7,7 @@
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { currentVisit } from '$store/visit';
 	import {
+		hospitUpdateCompletedStateFormStore,
 		removeVisitHospitalisationFormStore,
 		updateVisitHospitalisationFormStore
 	} from '$store/hospit';
@@ -21,6 +22,7 @@
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import { toast } from 'svelte-sonner';
 	import { browser } from '$app/environment';
+	import SecondaryButton from '$components/buttons/SecondaryButton.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = [];
@@ -28,6 +30,7 @@
 	let invalidated: boolean = false;
 	let showConfirmation = false;
 	let loading: boolean;
+	let completedFormRef: HTMLFormElement;
 
 	const { form, enhance, submitting, allErrors } = superForm($updateVisitHospitalisationFormStore, {
 		taintedMessage: null,
@@ -68,6 +71,34 @@
 		id: 'remove-hospit'
 	});
 
+	const {
+		enhance: completeEnhance,
+		form: completeForm,
+		allErrors: completeErrors,
+		submitting: completeSubmitting
+	} = superForm($hospitUpdateCompletedStateFormStore, {
+		dataType: 'json',
+		taintedMessage: null,
+		resetForm: false,
+		id: 'change-completed',
+		onResult: ({ result }) => {
+			if (result.type === 'success') {
+				toast.success("L'animal a été remis en cage avec succès");
+
+				if (browser) {
+					const currentUrl = document.location.href;
+					const refreshUrl = new URL(currentUrl);
+
+					refreshUrl.searchParams.set('tab', 'hospit');
+
+					setTimeout(() => {
+						window.location.assign(refreshUrl);
+					}, 250);
+				}
+			}
+		}
+	});
+
 	const handleRemoveHospit = () => {
 		removeFormRef.requestSubmit();
 		showConfirmation = false;
@@ -75,6 +106,14 @@
 
 	const handleShowConfirmation = () => {
 		showConfirmation = true;
+	};
+
+	const handleCompletedChange = () => {
+		if ($currentVisit.hospit) {
+			$completeForm.id = $currentVisit.hospit.id;
+			$completeForm.completed = false;
+			completedFormRef.requestSubmit();
+		}
 	};
 
 	$: disabled = !$form.cage || !$form.start || !$form.end;
@@ -119,7 +158,7 @@
 	}
 
 	$: $form.treatment = JSON.stringify(treatments);
-	$: [...$allErrors, ...$removeErrors].map((error) => {
+	$: [...$allErrors, ...$removeErrors, ...$completeErrors].map((error) => {
 		toast.error(error.messages.join('. '));
 	});
 </script>
@@ -132,6 +171,17 @@
 	bind:this={removeFormRef}
 >
 	<input type="hidden" name="id" bind:value={$currentVisit.id} />
+</form>
+
+<form
+	action="/hospit/view/?/changeCompletedState"
+	method="post"
+	class="hidden"
+	use:completeEnhance
+	bind:this={completedFormRef}
+>
+	<input type="hidden" name="id" bind:value={$completeForm.id} />
+	<input type="hidden" name="completed" bind:value={$completeForm.completed} />
 </form>
 
 <ConfirmationDialog bind:show={showConfirmation} handler={handleRemoveHospit}>
@@ -243,7 +293,7 @@
 				class="flex flex-col lg:flex-row items-center justify-between lg:px-2 lg:py-1 border-t bg-gray-100"
 			>
 				<div class="flex flex-row gap-1 lg:space-x-5 w-full lg:w-2/3">
-					<SubmitButton small {disabled} loading={$submitting}>Payer</SubmitButton>
+					<SubmitButton small {disabled} loading={$submitting} />
 					<RemoveButton
 						small
 						loading={$removeSubmitting}
@@ -251,6 +301,14 @@
 						handler={handleShowConfirmation}>Annuler l'hospitalisation</RemoveButton
 					>
 				</div>
+				{#if $currentVisit.hospit.completed}
+					<SecondaryButton
+						small
+						loading={$completeSubmitting}
+						{disabled}
+						handler={handleCompletedChange}>Retour à la cage</SecondaryButton
+					>
+				{/if}
 				<div class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
 					{#if $currentVisit.hospit.updated}
 						Dernière mise à jour: {formatDateString($currentVisit.hospit.updated)}

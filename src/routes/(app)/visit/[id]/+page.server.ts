@@ -34,6 +34,7 @@ import { InventoryService } from '$lib/services/inventory';
 import { cageCompare } from '$utils/cage';
 import { unknownClient } from '$utils/client';
 import { unknownAnimal } from '$lib/utils/animal';
+import { updateHospitCompletedStateSchema } from '$lib/schemas/hospit';
 
 export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
@@ -87,6 +88,12 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		const updateVisitItemForm = await superValidate(zod(updateVisitItemSchema), {
 			id: 'update-visit-item'
 		});
+		const updateHospitCompeltedStateForm = await superValidate(
+			zod(updateHospitCompletedStateSchema),
+			{
+				id: 'change-completed'
+			}
+		);
 
 		const visitRecord = await pb.collection('visits').getOne<VisitsResponse>(id, {
 			expand: 'medical_acts, toilettage, surgical_acts, animal, animal.client, hospit, store_items'
@@ -162,7 +169,8 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			generatedBill,
 			removeVisitHospitForm,
 			updateVisitTreatmentForm,
-			updateVisitItemForm
+			updateVisitItemForm,
+			updateHospitCompeltedStateForm
 		};
 	} catch (err) {
 		console.error(err);

@@ -354,6 +354,7 @@ export type HospitCompletedListRecord<Ttreatment = unknown> = {
 export type HospitPendingListRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString;
 	color?: string;
+	completed?: boolean;
 	end?: IsoDateString;
 	note?: string;
 	price?: number;
@@ -365,6 +366,7 @@ export type HospitPendingListRecord<Ttreatment = unknown> = {
 export type HospitalisationRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString;
 	color?: string;
+	completed?: boolean;
 	end?: IsoDateString;
 	note?: string;
 	price?: number;

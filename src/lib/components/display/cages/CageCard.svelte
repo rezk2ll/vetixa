@@ -14,9 +14,11 @@
 	import Phone from '$components/icons/Phone.svelte';
 	import PaintColors from '$components/icons/PaintColors.svelte';
 	import { getTextColor } from '$utils/color';
+	import LeaveIcon from '$components/icons/LeaveIcon.svelte';
 
 	export let cage: CageItem;
 	export let handleColorChange: (id: string) => void = (_id: string) => {};
+	export let handleCompleted: (id: string) => void = (_id: string) => {};
 
 	$: isNew = cage.hospit && daysDiff(cage.hospit.start, formatFilterDate(new Date())) === 0;
 	$: isDead = (cage.hospit && cage.hospit.visit.animal.deceased) || false;
@@ -124,6 +126,13 @@
 						on:click={() => handleColorChange(cage.hospit?.id ?? '')}
 					>
 						<PaintColors />
+					</button>
+					<button
+						type="button"
+						title="Libérer la cage"
+						on:click={() => handleCompleted(cage.hospit?.id ?? '')}
+					>
+						<LeaveIcon />
 					</button>
 				{/if}
 			</div>
