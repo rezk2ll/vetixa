@@ -3,7 +3,10 @@ import type { HospitPageInfo, CagesResponse, HospitalisationResponse, CageItem }
 import type { removeSchema } from '$lib/schemas';
 import type { updateVisitHospitalisationSchema } from '$lib/schemas/visit';
 import type { SuperValidated, Infer } from 'sveltekit-superforms';
-import type { changeHospitColorsSchema } from '$lib/schemas/hospit';
+import type {
+	changeHospitColorsSchema,
+	updateHospitCompletedStateSchema
+} from '$lib/schemas/hospit';
 
 export const hospitList = writable<HospitalisationResponse[]>([]);
 export const cagesList = writable<CagesResponse[]>([]);
@@ -16,3 +19,5 @@ export const removeVisitHospitalisationFormStore =
 export const hospitPageInfo = writable<HospitPageInfo>();
 export const hospitChangeColorFormStore =
 	writable<SuperValidated<Infer<typeof changeHospitColorsSchema>>>();
+export const hospitUpdateCompletedStateFormStore =
+	writable<SuperValidated<Infer<typeof updateHospitCompletedStateSchema>>>();
