@@ -12,7 +12,6 @@
 	import DollarBill from '$components/icons/DollarBill.svelte';
 	import { toast } from 'svelte-sonner';
 	import { formatDateStringShortDay } from '$lib/utils/date';
-	import SuperDebug from 'sveltekit-superforms';
 
 	export let bill: PaymentInformation;
 
@@ -28,6 +27,13 @@
 					position: 'bottom-center'
 				});
 			}
+		},
+		onUpdated: () => {
+			$form.amount = 0;
+			$form.method = 'cash';
+			$form.incash = 0;
+			$form.outcash = 0;
+			$form.description = '';
 		}
 	});
 
@@ -109,7 +115,6 @@
 					{/if}
 				</div>
 			</div>
-			<SuperDebug data={$form} />
 			{#if $currentVisit.id}
 				<form
 					use:enhance
