@@ -20,7 +20,7 @@
 			<div class="mx-auto flex max-w-full flex-col items-center justify-center py-8 xl:flex-row">
 				<div class="w-full xl:pr-8">
 					<blockquote
-						class="ease flex w-full flex-col-reverse items-center justify-between rounded text-center transition-all shadow duration-200 hover:bg-white hover:shadow md:flex-row md:text-left lg:bg-gray-100 lg:px-6 lg:shadow"
+						class="ease flex w-full flex-col-reverse items-center justify-between rounded text-center transition-all lg:shadow duration-200 hover:bg-white hover:shadow md:flex-row md:text-left lg:bg-gray-100 lg:px-6 lg:shadow"
 					>
 						<div class="flex flex-col pr-8">
 							<div class="lg:relative lg:px-12">
