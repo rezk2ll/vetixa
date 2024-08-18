@@ -1,12 +1,12 @@
-<div class="mx-auto flex-row-reverse items-center md:flex">
+<div class="mx-auto flex-row-reverse items-center md:flex -my-24 lg:-my-40">
 	<div class="pb-6 md:w-2/5 md:pl-4">
 		<h2
-			class="md:leading-20 px-5 pb-2 text-center text-3xl font-extrabold leading-tight text-gray-900 md:px-4 md:text-left md:text-4xl lg:px-0 lg:pl-8 lg:text-5xl"
+			class="md:leading-20 pb-2 text-center text-2xl font-extrabold leading-tight text-gray-900 md:px-4 md:text-left md:text-4xl lg:px-0 lg:pl-8 lg:text-5xl"
 		>
-			Suivi précis de la Caisse
+			Suivi précis de la caisse
 		</h2>
 		<p
-			class="text-md px-12 pb-2 text-center leading-normal text-gray-500 md:px-4 md:text-left md:text-xl md:leading-normal lg:px-0 lg:pl-8"
+			class="text-md px-12 pb-2 leading-normal text-gray-500 md:px-4 md:text-left md:text-xl md:leading-normal lg:px-0 lg:pl-8"
 		>
 			Analysez les mouvements de trésorerie minute par minute avec des graphiques d'évolution et des
 			statistiques.

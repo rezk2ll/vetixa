@@ -32,7 +32,7 @@
 		>
 			<a
 				href="/"
-				class="relative inline-block flex h-5 h-full items-center font-black leading-none"
+				class="relative  flex h-full items-center font-black leading-none"
 			>
 				<Logo />
 				<span class="ml-3 text-3xl text-gray-800">VETIXA<span class="text-pink-500">.</span></span>
@@ -43,7 +43,7 @@
 				class="absolute left-0 top-0 z-50 mt-24 flex hidden h-64 w-full flex-col items-center justify-between border-t border-gray-200 bg-white pt-5 text-sm text-gray-800 md:relative md:mt-0 md:flex md:h-24 md:w-auto md:flex-row md:border-none md:bg-transparent md:py-0 lg:text-base"
 			>
 				<a
-					href="#"
+					href="/"
 					class="transition-color ml-0 mr-0 font-bold duration-100 hover:text-indigo-600 md:ml-12 md:mr-3 lg:mr-8"
 					>Accueil</a
 				>
@@ -52,12 +52,7 @@
 					class="transition-color mr-0 font-bold duration-100 hover:text-indigo-600 md:mr-3 lg:mr-8"
 					>Fonctionnalités</a
 				>
-				<a
-					href="#pricing"
-					class="transition-color mr-0 font-bold duration-100 hover:text-indigo-600 md:mr-3 lg:mr-8"
-					>Prix</a
-				>
-				<div class="block flex w-full flex-col border-t border-gray-200 font-medium md:hidden">
+				<div class=" flex w-full flex-col border-t border-gray-200 font-medium md:hidden">
 					<a href="#contact" class="w-full py-2 text-center font-bold text-pink-500">Contact</a>
 					<a
 						href="#features"
@@ -77,7 +72,7 @@
 				>
 				<a
 					href="#features"
-					class="fold-bold relative z-40 inline-block h-full w-auto rounded bg-indigo-700 px-5 py-3 text-sm font-bold leading-none text-white shadow-md transition transition-all duration-100 duration-300 hover:shadow-xl sm:w-full lg:bg-white lg:text-indigo-700 lg:shadow-none"
+					class="fold-bold relative z-40 inline-block h-full w-auto rounded bg-indigo-700 px-5 py-3 text-sm font-bold leading-none text-white shadow-md transition-all duration-300 hover:shadow-xl sm:w-full lg:bg-white lg:text-indigo-700 lg:shadow-none"
 					>Découvrir</a
 				>
 				<svg
@@ -161,32 +156,24 @@
 
 	<!-- BEGIN HERO SECTION -->
 	<div
-		class="relative w-full items-center justify-center overflow-x-hidden lg:pb-40 lg:pt-40 xl:pb-64 xl:pt-40"
+		class="relative w-full items-center justify-center overflow-hidden lg:pb-40 lg:pt-40 xl:pb-64 xl:pt-40"
 	>
 		<div
-			class="container mx-auto -mt-32 flex h-full max-w-6xl flex-col items-center justify-between px-8 lg:flex-row xl:px-0"
+			class="container mx-auto -mt-32 flex h-full max-w-6xl flex-col items-center justify-between lg:px-8 lg:flex-row xl:px-0"
 		>
 			<div
-				class="z-30 flex w-full max-w-xl flex-col items-center pt-48 text-center lg:w-1/2 lg:items-start lg:pt-20 lg:text-left xl:pt-40"
+				class="z-30 px-8 lg:px-0 flex w-full max-w-xl flex-col items-center pt-48 lg:w-1/2 lg:items-start lg:pt-20 text-left xl:pt-40"
 			>
-				<h1
-					class="relative mb-4 text-3xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8"
+				<div
+					class="relative mb-4 text-center text-4xl font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8"
 				>
-					Votre clinique, mieux gérée
-				</h1>
+					Votre clinique,<br /> mieux gérée
+				</div>
 				<p class="mb-8 pr-0 text-base text-gray-600 sm:text-lg lg:pr-20 xl:text-xl">
 					Commencez à gérer votre clinique vétérinaire en toute simplicité et profitez d'une
 					interface intuitive pour optimiser vos opérations au quotidien.
 				</p>
-				<a
-					href="#features"
-					class="fold-bold relative mx-auto mt-0 flex w-auto items-center justify-center gap-5 self-start rounded-md border-t border-gray-200 bg-indigo-600 px-8 py-4 text-base font-bold text-white shadow-xl sm:mt-1 lg:mx-0"
-				>
-					<span>Découvrir plus</span>
-					<ArrowDown />
-				</a>
 				<!-- Integrates with section -->
-				<div class="mt-24 h-32"></div>
 				<svg
 					class="left-svg absolute left-0 -ml-64 mt-24 max-w-md"
 					viewBox="0 0 423 423"
@@ -235,7 +222,7 @@
 				</svg>
 			</div>
 			<div
-				class="ms:pl-10 relative z-50 flex h-full w-full flex-col items-end justify-center lg:w-1/2"
+				class="sm:pl-10 relative z-50 flex h-full w-full flex-col items-end justify-center lg:w-1/2"
 			>
 				<div class="container left-0 w-full max-w-4xl lg:absolute lg:w-screen xl:max-w-6xl">
 					<img
@@ -245,22 +232,111 @@
 					/>
 				</div>
 			</div>
-		</div>
+		</div>      		
+	</div>
+	<div
+		class="relative w-full items-center justify-center overflow-hidden lg:pb-40 lg:pt-60 xl:pb-80 xl:pt-40"
+	>
+		<div
+			class="container mx-auto -mt-32 flex h-full max-w-6xl flex-col items-center justify-between px-8 lg:flex-row-reverse xl:px-0"
+		>
+			<div
+				class="z-[99] flex w-full max-w-xl flex-col items-center pt-48 lg:w-1/2 lg:items-start lg:pt-20 text-left xl:pt-40"
+			>
+				<div
+					class="relative mb-4 text-3xl text-center font-black leading-tight text-gray-900 sm:text-6xl xl:mb-8"
+				>
+					Toujours
+          à portée de main
+				</div>
+				<div class="mb-8 pr-0 text-base text-gray-600 sm:text-lg lg:pr-20 xl:text-xl">
+					Gérez votre clinique de n'importe où,
+          <br />
+          sur desktop, tablette et mobile.
+				</div>
+        <a
+					href="#features"
+					class="hidden fold-bold relative mx-auto mt-0 lg:flex w-auto items-center justify-center gap-5 self-start rounded-md border-t border-gray-200 bg-indigo-600 px-8 py-4 text-base font-bold text-white shadow-xl sm:mt-1 lg:mx-0"
+				>
+					<span>Découvrir plus</span>
+					<ArrowDown />
+				</a>
+				<svg
+					class="left-svg absolute right-0 -mr-64 mt-24 max-w-md"
+					viewBox="0 0 423 423"
+					xmlns="http://www.w3.org/2000/svg"
+					xmlns:xlink="http://www.w3.org/1999/xlink"
+				>
+					<defs>
+						<linearGradient x1="100%" y1="0%" x2="4.48%" y2="0%" id="linearGradient-2">
+							<stop stop-color="#DE3163" offset="0%" />
+							<stop stop-color="#DE3163" offset="100%" />
+						</linearGradient>
+						<filter
+							x="-9.3%"
+							y="-6.7%"
+							width="118.7%"
+							height="118.7%"
+							filterUnits="objectBoundingBox"
+							id="filter-3"
+						>
+							<feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1" />
+							<feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
+							<feColorMatrix
+								values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+								in="shadowBlurOuter1"
+							/>
+						</filter>
+						<rect id="path-2" x="63" y="504" width="300" height="300" rx="40" />
+					</defs>
+					<g
+						id="Page-1"
+						stroke="none"
+						stroke-width="1"
+						fill="none"
+						fill-rule="evenodd"
+						opacity=".9"
+					>
+						<g id="Desktop-HD" transform="translate(-39 -531)">
+							<g id="Hero" transform="translate(43 83)">
+								<g id="Rectangle-6" transform="rotate(45 213 654)">
+									<use fill="#9F2B68" filter="url(#filter-3)" xlink:href="#path-2" />
+									<use fill="url(#linearGradient-2)" xlink:href="#path-2" />
+								</g>
+							</g>
+						</g>
+					</g>
+				</svg>
+			</div>
+			<div
+				class="sm:pl-10 relative z-50 flex w-full flex-col items-start justify-center lg:w-1/3"
+			>
+				<div class="container flex items-center justify-center lg:block lg:left-0 w-full max-w-4xl lg:absolute lg:w-screen">
+					<img
+						alt="phone mockup"
+						src="/phone-mockup.png"
+						class="xl:-ml-12 lg:mb-0 lg:mt-24 xl:mt-40"
+            height="500"
+            width="300"
+					/>
+				</div>
+			</div>
+		</div>      		
 	</div>
 	<!-- HERO SECTION END -->
 
 	<!-- BEGIN FEATURES SECTION -->
 	<div
 		id="features"
-		class="relative w-full border-t border-gray-200 px-8 py-10 md:py-16 lg:py-24 xl:px-0 xl:py-40"
+		class="relative w-full px-1 lg:px-8 py-10 md:py-16 lg:py-24 xl:px-0 xl:py-20"
 	>
-		<div class=" mx-auto flex h-full flex-col items-center justify-between">
+		<div class="lg:mx-auto flex h-full flex-col items-center justify-between">
 			<h3
-				class="mt-2 px-5 text-center text-xl font-black leading-tight text-gray-900 sm:mt-0 sm:px-0 sm:text-6xl"
+				class="mt-2 lg:px-5 text-center text-3xl font-black leading-tight text-gray-900 sm:text-6xl mb-8"
 			>
 				Conçu pour répondre à vos besoins
 			</h3>
-			<div class="flex flex-col gap-80">
+			<div class="flex flex-col gap-40 lg:gap-80">
 				<VisitsCard />
 				<HospitCard />
 				<StockCard />
@@ -285,24 +361,12 @@
 					href="/"
 					class="block flex justify-start text-left sm:justify-center sm:text-center lg:justify-start lg:text-left"
 				>
-					<span class="flex items-start sm:items-center">
-						<svg
-							class="h-6 w-auto fill-current text-gray-800"
-							viewBox="0 0 194 116"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<g fill-rule="evenodd">
-								<path
-									d="M96.869 0L30 116h104l-9.88-17.134H59.64l47.109-81.736zM0 116h19.831L77 17.135 67.088 0z"
-								>
-								</path>
-								<path d="M87 68.732l9.926 17.143 29.893-51.59L174.15 116H194L126.817 0z"></path>
-							</g>
-						</svg>
+					<span class="flex items-start sm:items-center grayscale">
+            <Logo />
 					</span>
 				</a>
 				<p class="mr-4 mt-6 text-base text-gray-500">
-					Crafting the next-level of user experience and engagement.
+					Concevons des solutions complètes pour la gestion efficace de votre clinique vétérinaire
 				</p>
 			</div>
 			<div class="mt-6 block w-full pl-10 text-sm sm:flex lg:mt-0 lg:w-3/4">
@@ -310,84 +374,17 @@
 					<li
 						class="mt-5 inline-block px-3 py-2 font-bold uppercase tracking-wide text-gray-800 md:mt-0"
 					>
-						Product
+						Produit
 					</li>
 					<li>
 						<a
-							href="#_"
+							href="#features"
 							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Features</a
-						>
-					</li>
-					<li>
-						<a
-							href="#_"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Integrations</a
-						>
-					</li>
-					<li>
-						<a
-							href="#_"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Pricing</a
-						>
-					</li>
-					<li>
-						<a
-							href="#_"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">FAQ</a
+							>Fonctionnalités</a
 						>
 					</li>
 				</ul>
-				<ul class="flex w-full list-none flex-col p-0 text-left font-medium text-gray-700">
-					<li
-						class="mt-5 inline-block px-3 py-2 font-bold uppercase tracking-wide text-gray-800 md:mt-0"
-					>
-						Company
-					</li>
-					<li>
-						<a
-							href="#_"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Privacy</a
-						>
-					</li>
-					<li>
-						<a
-							href="#_"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Terms of Service</a
-						>
-					</li>
-				</ul>
-				<ul class="flex w-full list-none flex-col p-0 text-left font-medium text-gray-700">
-					<li
-						class="mt-5 inline-block px-3 py-2 font-bold uppercase tracking-wide text-gray-800 md:mt-0"
-					>
-						TailwindCSS
-					</li>
-					<li>
-						<a
-							href="https://devdojo.com/tailwindcss/components"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Tailwind Components</a
-						>
-					</li>
-					<li>
-						<a
-							href="https://devdojo.com/tailwindcss/templates"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-							>Tailwind Templates</a
-						>
-					</li>
-					<li>
-						<a
-							href="https://devdojo.com/tails"
-							class="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600">Tails</a
-						>
-					</li>
-				</ul>
+
 				<div class="flex w-full flex-col text-gray-700">
 					<div class="mt-5 inline-block px-3 py-2 font-bold uppercase text-gray-800 md:mt-0">
 						Follow Us
@@ -397,7 +394,7 @@
 							class="mr-6 block flex items-center text-gray-400 no-underline hover:text-gray-600"
 							target="_blank"
 							rel="noopener noreferrer"
-							href="https://devdojo.com"
+							href="https://facebook.com/vetixatn"
 						>
 							<svg
 								viewBox="0 0 24 24"
@@ -413,7 +410,7 @@
 							class="mr-6 block flex items-center text-gray-400 no-underline hover:text-gray-600"
 							target="_blank"
 							rel="noopener noreferrer"
-							href="https://devdojo.com"
+							href="#"
 						>
 							<svg
 								viewBox="0 0 24 24"
@@ -429,7 +426,7 @@
 							class="block flex items-center text-gray-400 no-underline hover:text-gray-600"
 							target="_blank"
 							rel="noopener noreferrer"
-							href="https://devdojo.com"
+							href="https://github.com/rezk2ll"
 						>
 							<svg
 								viewBox="0 0 24 24"
@@ -445,12 +442,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="mt-10 border-t border-gray-100 pt-4 pt-6 text-center text-gray-500">
-			© 2020 Landmark. All rights reserved.
-		</div>
-
-		<div class="mt-2 border-t border-gray-100 pt-2 pt-4 text-center text-gray-600">
-			Distributed By <a href="https://themewagon.com/">Themewagon</a>
+		<div class="mt-10 border-t border-gray-100 pt-4 lg:pt-6 text-center text-gray-500">
+			© {new Date().getFullYear()} Vetixa. All rights reserved.
 		</div>
 	</footer>
 </div>
