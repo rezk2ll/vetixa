@@ -12,16 +12,16 @@
 			plus encore.
 		</p>
 	</div>
-	<div class="md:w-3/6 relative flex rounded-xl">
-		<div class=" absolute inset-0 z-20 translate-x-[15%] lg:translate-x-[27%] translate-y-1/3 rounded-xl">
+	<div class="md:w-3/6 relative flex rounded">
+		<div class=" absolute inset-0 z-20 translate-x-[15%] lg:translate-x-[27%] translate-y-2/4 rounded">
 			<img
-				class="shadow-all-2xl relative z-20 rounded-xl"
+				class="shadow-all-2xl relative z-20 rounded"
 				src="/animals.png"
 				alt="visits payment"
 				loading="lazy"
 			/>
 		</div>
-		<div class="shadow-all-2xl z-10 rounded-xl">
+		<div class="shadow-all-2xl z-10 rounded">
 			<div class="p-0 md:p-2">
 				<div class="overflow-hidden">
 					<img class="relative z-10" src="/clients.png" alt="vists list" loading="lazy" />
