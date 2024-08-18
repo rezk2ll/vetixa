@@ -43,7 +43,7 @@
 	$: removeInventoryFormStore.set(deleteForm);
 </script>
 
-<div class="flex flex-row xl:pl-14 w-full">
+<div class="flex flex-col lg:flex-row xl:pl-14 w-full">
 	<div class="flex-grow flex flex-col-reverse lg:flex-col w-full">
 		<StockStats
 			total={$inventoryItems.length}
@@ -52,7 +52,7 @@
 		/>
 		<StoreList />
 	</div>
-	<div class="flex-shrink w-4/12 flex flex-col px-10 gap-0">
+	<div class="flex-shrink w-full lg:w-4/12 flex flex-col lg:px-10 gap-0 pb-5">
 		<StockStatusChart bind:data={stats} />
 		<StockSalesRank data={bestSellers} total={totalSoldItems} />
 	</div>
