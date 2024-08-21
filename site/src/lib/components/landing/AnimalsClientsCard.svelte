@@ -54,14 +54,14 @@
 			<img
 				class="relative z-20 rounded shadow-all-2xl"
 				src="/animals.png"
-				alt="visits payment"
+				alt="liste des animaux"
 				loading="lazy"
 			/>
 		</div>
 		<div class="z-10 rounded shadow-all-2xl">
 			<div class="p-0 md:p-2">
 				<div class="overflow-hidden">
-					<img class="relative z-10" src="/clients.png" alt="vists list" loading="lazy" />
+					<img class="relative z-10" src="/clients.png" alt="liste des clients" loading="lazy" />
 				</div>
 			</div>
 		</div>

@@ -55,7 +55,7 @@
 					<img
 						class="relative z-10 rounded-lg shadow-all-2xl"
 						src="/caisse.png"
-						alt="Edit Creatives Feature"
+						alt="caisse"
 						loading="lazy"
 					/>
 				</div>

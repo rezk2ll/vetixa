@@ -51,7 +51,7 @@
 		<div class="z-10 rounded-xl">
 			<div class="" bind:this={imageRef}>
 				<div class="overflow-hidden">
-					<img class="relative z-10" src="/stock.png" alt="vists list" loading="lazy" />
+					<img class="relative z-10" src="/stock.png" alt="stock" loading="lazy" />
 				</div>
 			</div>
 		</div>

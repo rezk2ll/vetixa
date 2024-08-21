@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 	import Header from '$lib/components/Header.svelte';
 	import Hero from '$lib/components/Hero.svelte';
+	import VisitManagementCard from '$lib/components/landing/VisitManagementCard.svelte';
 
 	onMount(() => {
 		if (document.getElementById('nav-mobile-btn')) {
@@ -40,6 +41,7 @@
 			</h3>
 			<div class="flex flex-col gap-40 lg:gap-80">
 				<VisitsCard />
+        <VisitManagementCard />
 				<HospitCard />
 				<StockCard />
 				<CaisseCard />

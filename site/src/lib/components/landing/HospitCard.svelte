@@ -51,7 +51,7 @@
 			<img
 				class="relative z-20 rounded shadow-all-2xl"
 				src="/hospit-2.png"
-				alt="Edit Creatives Feature"
+				alt="hospit list"
 				loading="lazy"
 			/>
 		</div>
@@ -61,7 +61,7 @@
 					<img
 						class="relative z-10 rounded shadow-all-2xl"
 						src="/hospit-1.png"
-						alt="Edit Creatives Feature"
+						alt="vue d'hospit"
 						loading="lazy"
 					/>
 				</div>

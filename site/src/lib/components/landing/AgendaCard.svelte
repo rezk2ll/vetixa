@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="mx-auto items-center md:flex pt-24 lg:pt-0">
+<div class="mx-auto items-center pt-24 md:flex lg:pt-0">
 	<div
 		class="pb-6 md:w-2/5 md:pl-4 {$agendaTextVisible
 			? 'opacity-100'
@@ -53,14 +53,14 @@
 			<img
 				class="relative z-20 h-64 rounded-xl shadow-all-2xl lg:h-auto"
 				src="/agenda-1.png"
-				alt="visits payment"
+				alt="ajout agenda"
 				loading="lazy"
 			/>
 		</div>
 		<div class="z-10 rounded-xl shadow-all-2xl">
 			<div class="p-0 md:p-2">
 				<div class="overflow-hidden">
-					<img class="relative z-10" src="/agenda-2.png" alt="vists list" loading="lazy" />
+					<img class="relative z-10" src="/agenda-2.png" alt="agenda" loading="lazy" />
 				</div>
 			</div>
 		</div>
