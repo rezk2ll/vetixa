@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="mx-auto items-center px-1 md:flex flex-row-reverse lg:pt-20">
+<div class="mx-auto flex-row-reverse items-center px-1 md:flex lg:pt-20">
 	<div
 		class="pb-6 md:w-5/12 {$managementTextVisible
 			? 'opacity-100'
@@ -38,18 +38,30 @@
 		<div
 			class="text-md px-12 pb-2 text-center leading-normal text-gray-500 md:px-4 md:text-left md:text-xl md:leading-normal lg:px-0 lg:pl-8"
 		>
-			Gérez chaque consultation avec précision en ajoutant des actes, traitant les paiements, et en administrant factures, certificats, rapports, ordonnances, et fichiers tels que radiographies et documents PDF.
+			Gérez chaque consultation avec précision en ajoutant des actes, traitant les paiements, et en
+			administrant factures, certificats, rapports, ordonnances, et fichiers tels que radiographies
+			et documents PDF.
 		</div>
 	</div>
 	<div
-		class="relative flex rounded-xl md:w-6/12 {$managementImageVisible
+		class="relative flex flex-col items-center justify-center gap-5 rounded-xl md:w-6/12 lg:flex-row lg:gap-0 {$managementImageVisible
 			? 'opacity-100'
 			: 'opacity-0'} transition-all duration-700 ease-in"
 		bind:this={imageRef}
 	>
-		<div
-			class="absolute inset-0 z-20 -translate-x-[8%] translate-y-1/3 rounded-xl"
-		>
+		<div class="z-10 rounded-xl shadow-all-2xl">
+			<div class="p-0 md:p-2">
+				<div class="overflow-hidden">
+					<img
+						class="relative z-10"
+						src="/interface-visite.png"
+						alt="vists list"
+						loading="lazy"
+					/>
+				</div>
+			</div>
+		</div>
+		<div class="inset-0 z-20 rounded-xl lg:absolute lg:-translate-x-[8%] lg:translate-y-1/3">
 			<img
 				class="relative z-20 rounded-xl shadow-all-2xl"
 				src="/payment.png"
@@ -59,31 +71,15 @@
 				width="300"
 			/>
 		</div>
-		<div
-			class="absolute inset-0 z-20 translate-x-3/4 translate-y-3/4 rounded-xl"
-		>
+		<div class="inset-0 z-20 rounded-xl lg:absolute lg:translate-x-3/4 lg:translate-y-3/4">
 			<img
-				class="relative z-21 rounded-xl shadow-all-2xl"
+				class="z-21 relative rounded-xl shadow-all-2xl"
 				src="/acts.png"
 				alt="visits acts"
 				loading="lazy"
 				height="600"
 				width="400"
 			/>
-		</div>
-		<div class="z-10 rounded-xl shadow-all-2xl">
-			<div class="p-0 md:p-2">
-				<div class="overflow-hidden">
-					<img
-						class="relative z-10"
-						src="/interface-visite.png"
-						alt="vists list"
-						loading="lazy"
-						height="200"
-						width="800"
-					/>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
