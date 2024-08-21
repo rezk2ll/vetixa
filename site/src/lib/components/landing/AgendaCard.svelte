@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="mx-auto items-center md:flex pt-40 lg:pt-0">
+<div class="mx-auto items-center md:flex pt-24 lg:pt-0">
 	<div
 		class="pb-6 md:w-2/5 md:pl-4 {$agendaTextVisible
 			? 'opacity-100'
