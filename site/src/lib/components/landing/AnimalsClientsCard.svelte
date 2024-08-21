@@ -23,11 +23,11 @@
 	});
 </script>
 
-<div class="mx-auto items-center md:flex pt-40">
+<div class="mx-auto items-center pt-40 md:flex lg:pt-0">
 	<div
 		class="pb-6 md:w-3/6 md:pl-4 {$animalsTextVisible
 			? 'opacity-100'
-			: '-translate-x-y/4 opacity-0'} transition-all duration-700 ease-in"
+			: 'translate-y-8 opacity-0 '} transition-all duration-700 ease-in"
 		bind:this={textRef}
 	>
 		<div
@@ -45,7 +45,7 @@
 	<div
 		class="relative flex rounded md:w-3/6 {$animalsImageVisible
 			? 'opacity-100'
-			: 'translate-x-1/4 opacity-0'} transition-all duration-700 ease-in"
+			: 'opacity-0'} transition-all duration-700 ease-in"
 		bind:this={imageRef}
 	>
 		<div

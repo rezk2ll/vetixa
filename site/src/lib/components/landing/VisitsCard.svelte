@@ -27,7 +27,7 @@
 	<div
 		class="pb-6 md:w-3/6 {$visitsTextVisible
 			? 'opacity-100'
-			: 'opacity-0'} transition-all duration-700 ease-in"
+			: 'translate-y-8 opacity-0 '} transition-all duration-700 ease-in"
 		bind:this={textRef}
 	>
 		<h2
@@ -44,7 +44,7 @@
 	<div
 		class="relative flex rounded-xl md:w-3/6 {$visitsImageVisible
 			? 'opacity-100'
-			: 'translate-x-1/4 opacity-0 translate-y-1/3 skew-y-12'} transition-all duration-700 ease-in"
+			: 'opacity-0'} transition-all duration-700 ease-in"
 		bind:this={imageRef}
 	>
 		<div

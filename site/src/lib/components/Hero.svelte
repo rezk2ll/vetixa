@@ -167,7 +167,7 @@
 					src="/phone-mockup.png"
 					class="transition-all duration-700 ease-in lg:mb-0 lg:mt-24 xl:-ml-12 xl:mt-40 {$isPhoneVisible
 						? 'opacity-100'
-						: '-translate-x-1/4 opacity-0'}"
+						: 'opacity-0'}"
 					height="500"
 					width="300"
 				/>
