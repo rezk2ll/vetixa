@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="mx-auto items-center md:flex">
+<div class="mx-auto items-center md:flex pt-40">
 	<div
 		class="pb-6 md:w-2/5 md:pl-4 {$stockTextVisible
 			? 'opacity-100'

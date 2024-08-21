@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="mx-auto flex-row-reverse items-center px-1 pt-10 md:flex lg:pt-0">
+<div class="mx-auto flex-row-reverse items-center px-1 pt-40 md:flex lg:pt-0">
 	<div
 		class="pb-6 md:w-2/5 md:pl-4 {$hospitTextVisible
 			? 'opacity-100'

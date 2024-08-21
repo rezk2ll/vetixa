@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="mx-auto items-center md:flex">
+<div class="mx-auto items-center md:flex pt-40">
 	<div
 		class="pb-6 md:w-3/6 md:pl-4 {$animalsTextVisible
 			? 'opacity-100'

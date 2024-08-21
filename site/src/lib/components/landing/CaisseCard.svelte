@@ -23,7 +23,7 @@
 	});
 </script>
 
-<div class="-my-24 mx-auto flex-row-reverse items-center md:flex lg:-my-40">
+<div class="mx-auto flex-row-reverse items-center md:flex">
 	<div
 		class="pb-6 md:w-2/5 md:pl-4 {$caisseTextVisible
 			? 'opacity-100'
