@@ -1,13 +1,43 @@
-<!-- format the code its messy  -->
+<script lang="ts">
+	import { contactTextVisible, contactContainerVisible } from '$lib/store';
+	import { isIntersecting } from '$lib/utils/observer';
+	import { onDestroy, onMount } from 'svelte';
+
+	let containerRef: Element;
+	let textRef: Element;
+
+	let imageObserver: IntersectionObserver | undefined;
+	let textObserver: IntersectionObserver | undefined;
+
+	onMount(() => {
+		imageObserver = isIntersecting(contactContainerVisible);
+		textObserver = isIntersecting(contactTextVisible);
+
+		imageObserver?.observe(containerRef);
+		textObserver?.observe(textRef);
+	});
+
+	onDestroy(() => {
+		imageObserver?.unobserve(containerRef);
+		textObserver?.unobserve(textRef);
+	});
+</script>
 
 <div id="contact">
-	<!-- {/* top container with tagline and backgroundImage  */} -->
 	<div class="relative">
-		<!-- {/* image section  */} -->
-		<div class="h-[38vh] w-full bg-slate-700 bg-cover bg-center lg:h-[55vh]"></div>
+		<div
+			class="h-[38vh] w-full bg-slate-700 bg-cover bg-center lg:h-[55vh] {$contactContainerVisible
+				? 'opacity-100'
+				: 'opacity-0'} transition-all duration-1000 ease-in"
+			bind:this={containerRef}
+		></div>
 
-		<!-- {/* tagline division  */} -->
-		<div class="absolute left-[5%] top-1/2 -translate-y-1/2 text-white md:left-[10%]">
+		<div
+			class="absolute left-[5%] top-1/2 -translate-y-1/2 text-white md:left-[10%] {$contactTextVisible
+				? 'opacity-100'
+				: 'opacity-0'} transition-all duration-700 ease-in"
+			bind:this={textRef}
+		>
 			<h1 class="text-3xl font-bold md:text-5xl">Prenez contact.</h1>
 			<p class="text-sm md:text-lg">
 				Nous sommes à votre écoute pour répondre à toutes vos questions.
@@ -49,5 +79,4 @@
 		</div>
 	</div>
 
-	<!-- {/* bottom relative container  */} -->
 </div>

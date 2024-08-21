@@ -1,7 +1,4 @@
-<div
-	id="testimonials"
-	class="flex w-full items-center justify-center border-t border-gray-200 px-8 md:py-16 xl:px-0"
->
+<div id="testimonials" class="flex w-full items-center justify-center px-8 md:py-16 xl:px-0">
 	<div class="mx-auto w-full lg:max-w-6xl">
 		<div class="flex-col items-center">
 			<div class="mx-auto flex h-full w-full flex-col items-center justify-center pr-8 text-center">
@@ -20,7 +17,7 @@
 			<div class="mx-auto flex max-w-full flex-col items-center justify-center py-8 xl:flex-row">
 				<div class="w-full xl:pr-8">
 					<blockquote
-						class="ease flex w-full flex-col-reverse items-center justify-between rounded text-center transition-all lg:shadow duration-200 hover:bg-white hover:shadow md:flex-row md:text-left lg:bg-gray-100 lg:px-6 lg:shadow"
+						class="ease flex w-full flex-col-reverse items-center justify-between rounded text-center transition-all duration-200 hover:bg-white hover:shadow md:flex-row md:text-left lg:bg-gray-100 lg:px-6 lg:shadow lg:shadow"
 					>
 						<div class="flex flex-col pr-8">
 							<div class="lg:relative lg:px-12">
@@ -39,23 +36,22 @@
 									beaucoup plus fluide. Les fonctionnalités de suivi des visites et de gestion des
 									stocks nous permettent de rester organisés et de mieux servir nos clients.
 								</div>
-								<div class="md:hidden py-5">
-								</div>
+								<div class="py-5 md:hidden"></div>
 							</div>
 
 							<div
 								class="mt-2 flex flex-col gap-2 truncate px-12 pl-12 text-base font-medium leading-5 text-gray-800 lg:flex-row"
 							>
-								Dr Seifeddine Issaoui 
-                <div class="hidden lg:block">-</div>
-                <div class="pt-0.5 truncate text-sm leading-5 text-gray-500">
+								Dr Seifeddine Issaoui
+								<div class="hidden lg:block">-</div>
+								<div class="truncate pt-0.5 text-sm leading-5 text-gray-500">
 									Clinique Vétérinaire DR Seifeddine Issaoui Le Bardo
 								</div>
 							</div>
 							<p class="mt-1 truncate text-sm leading-5 text-gray-500"></p>
 						</div>
 						<img
-							class="mb-5 lg:h-24 lg:w-24 flex-shrink-0 rounded-full bg-gray-300 object-cover md:mb-0"
+							class="mb-5 flex-shrink-0 rounded-full bg-gray-300 object-cover md:mb-0 lg:h-24 lg:w-24"
 							src="/client-1.jpg"
 							alt=""
 						/>
