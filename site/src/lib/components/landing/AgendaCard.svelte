@@ -48,7 +48,7 @@
 		bind:this={imageRef}
 	>
 		<div
-			class=" absolute inset-0 z-20 translate-x-[30%] translate-y-1/3 rounded-xl lg:translate-x-2/4"
+			class=" absolute inset-0 z-20 translate-x-[30%] translate-y-1/3 rounded-xl lg:translate-x-1/3 xl:translate-x-2/4"
 		>
 			<img
 				class="relative z-20 h-64 rounded-xl shadow-all-2xl lg:h-auto"

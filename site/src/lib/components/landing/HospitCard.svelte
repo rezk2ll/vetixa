@@ -47,7 +47,7 @@
 			: 'opacity-0'} transition-all duration-700 ease-in"
 		bind:this={imageRef}
 	>
-		<div class="absolute inset-0 z-20 translate-x-[8%] translate-y-2/3 lg:translate-x-1/4">
+		<div class="absolute inset-0 z-20 translate-x-[8%] translate-y-3/4 lg:translate-x-1/4">
 			<img
 				class="relative z-20 rounded shadow-all-2xl"
 				src="/hospit-2.png"

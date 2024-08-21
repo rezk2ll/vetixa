@@ -52,12 +52,7 @@
 		<div class="z-10 rounded-xl shadow-all-2xl">
 			<div class="p-0 md:p-2">
 				<div class="overflow-hidden">
-					<img
-						class="relative z-10"
-						src="/interface-visite.png"
-						alt="vists list"
-						loading="lazy"
-					/>
+					<img class="relative z-10" src="/interface-visite.png" alt="vists list" loading="lazy" />
 				</div>
 			</div>
 		</div>
@@ -71,7 +66,7 @@
 				width="300"
 			/>
 		</div>
-		<div class="inset-0 z-20 rounded-xl lg:absolute lg:translate-x-3/4 lg:translate-y-3/4">
+		<div class="inset-0 z-20 rounded-xl lg:absolute lg:translate-x-3/4 lg:translate-y-80 xl:translate-y-3/4">
 			<img
 				class="z-21 relative rounded-xl shadow-all-2xl"
 				src="/acts.png"
