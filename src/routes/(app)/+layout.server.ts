@@ -8,7 +8,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	}
 
 	let configuration: ConfigurationResponse | undefined;
-	let logo = '/logo.svg';
+	let logo = '/logo.png';
 
 	try {
 		configuration = await locals.pb
