@@ -2,5 +2,5 @@ import { type ConfigurationResponse } from '$types';
 import { writable } from 'svelte/store';
 
 export const configuration = writable<Partial<ConfigurationResponse>>({
-	logo: '/logo.png'
+	logo: '/logo.svg'
 });
