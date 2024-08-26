@@ -4,7 +4,7 @@
  * @param {string} url - the file url
  * @returns {string} - the file name
  */
-export const getFileNameFromUrl = (url: string): string => url.substring(url.lastIndexOf('/') + 1);
+export const getFileNameFromUrl = (url: string): string => url.substring(url.lastIndexOf('=') + 1);
 
 /**
  * returns a human readable file size
@@ -32,6 +32,12 @@ export const getOriginalFileName = (url: string): string => {
 	return `${fileName.substring(0, fileName.lastIndexOf('_'))}${extension}`;
 };
 
+/**
+ * Get the dimensions of an image from its URL
+ *
+ * @param {string} url - The URL of the image
+ * @returns {Promise<{ width: number; height: number }>} - A promise that resolves to an object containing the width and height of the image
+ */
 export const getImageDimensions = async (
 	url: string
 ): Promise<{ width: number; height: number }> => {
@@ -44,3 +50,17 @@ export const getImageDimensions = async (
 
 	return { width: img.naturalWidth, height: img.naturalHeight };
 };
+
+/**
+ * Builds a proxy URL for a file
+ *
+ * @param {string} collectionId - The ID of the collection
+ * @param {string} recordId - The ID of the record
+ * @param {string} fileName - The name of the file
+ * @returns {string} - The proxy URL for the file
+ */
+export const buildFileProxyUrl = (
+	collectionId: string,
+	recordId: string,
+	fileName: string
+): string => `/files?collection=${collectionId}&record=${recordId}&file=${fileName}`;
