@@ -208,7 +208,6 @@
 									.toLocaleLowerCase()}
 							</span>
 						</div>
-						<!-- End Flex -->
 					</div>
 					{#if $configuration}
 						<PrintableFooter config={$configuration} />
