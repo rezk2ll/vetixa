@@ -8,23 +8,16 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	}
 
 	let configuration: ConfigurationResponse | undefined;
-	let logo = '/logo.svg';
 
 	try {
 		configuration = await locals.pb
 			.collection('configuration')
 			.getFirstListItem<ConfigurationResponse>('');
-		if (configuration && configuration.logo) {
-			logo = locals.pb.files.getUrl(configuration, configuration.logo);
-		}
 	} catch (error) {
 		console.error(error);
 	}
 
 	return {
-		config: {
-			...configuration,
-			logo
-		}
+		configuration
 	};
 };

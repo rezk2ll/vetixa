@@ -11,7 +11,7 @@
 
 	export let data: PageData;
 
-	$: ({ user, config } = data);
+	$: ({ user, configuration: config } = data);
 
 	$: currentUser.set(user);
 	$: configuration.set(config);

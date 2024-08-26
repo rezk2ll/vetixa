@@ -1,4 +1,5 @@
 import { createInstance } from '$lib/pocketbase';
+import { handleProxy, PROXY_PATH } from '$utils/proxy';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -16,6 +17,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.pb.autoCancellation(false);
 	event.locals.user = event.locals.pb.authStore.model;
+
+	if (event.url.pathname.startsWith(PROXY_PATH)) {
+		return handleProxy({ event, resolve });
+	}
 
 	const response = await resolve(event);
 

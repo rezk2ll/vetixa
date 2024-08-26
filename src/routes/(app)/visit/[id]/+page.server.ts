@@ -35,6 +35,7 @@ import { cageCompare } from '$utils/cage';
 import { unknownClient } from '$utils/client';
 import { unknownAnimal } from '$lib/utils/animal';
 import { updateHospitCompletedStateSchema } from '$lib/schemas/hospit';
+import { buildFileProxyUrl } from '$utils/file';
 
 export const load = (async ({ params, locals: { pb }, url: { searchParams } }) => {
 	const { id } = params;
@@ -118,7 +119,9 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			hospit: (visitRecord.expand as RecordModel)?.hospit || {},
 			store_items: (visitRecord.expand as RecordModel)?.store_items || [],
 			bill,
-			files: (visitRecord.files || []).map((file) => pb.files.getUrl(visitRecord, file))
+			files: (visitRecord.files || []).map((file) =>
+				buildFileProxyUrl(visitRecord.collectionId, visitRecord.id, file)
+			)
 		} as Visit;
 
 		const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
