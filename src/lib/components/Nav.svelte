@@ -11,10 +11,13 @@
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import SliderIcon from '$components/icons/SliderIcon.svelte';
 	import { configuration } from '$lib/store/configuration';
+	import { buildFileProxyUrl } from '$lib/utils/file';
 
 	let open = false;
 
-	$: avatarUrl = $currentUser && pb.files.getUrl($currentUser, $currentUser?.avatar);
+	$: avatarUrl =
+		$currentUser &&
+		buildFileProxyUrl($currentUser.collectionId, $currentUser.id, $currentUser.avatar);
 
 	onMount(() => {
 		window.addEventListener('keydown', (event) => {
@@ -30,6 +33,11 @@
 	const openSearch = () => {
 		searchOpen.set(true);
 	};
+
+	$: logoSrc =
+		$configuration && $configuration.logo
+			? buildFileProxyUrl($configuration.collectionId, $configuration.id, $configuration.logo)
+			: '/logo.svg';
 </script>
 
 <Modal open={$searchOpen} size="bigmedium">
@@ -327,7 +335,7 @@
 	class="z-20 text-slate-700 bg-white w-full fixed flex flex-col overflow-hidden px-4 py-2 lg:flex-row shadow-lg"
 >
 	<a href="/" class="flex items-center whitespace-nowrap text-2xl font-black">
-		<img src={$configuration.logo} alt="logo" class="h-10 xl:h-12" />
+		<img src={logoSrc} alt="logo" class="h-10 xl:h-12" />
 	</a>
 	<input type="checkbox" class="peer hidden" id="navbar-open" />
 	<label class="absolute top-5 right-5 cursor-pointer lg:hidden" for="navbar-open">

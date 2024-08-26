@@ -98,7 +98,9 @@
 				<div class="w-full">
 					<div class="flex flex-col p-2 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
-							<PrintableHeader config={$configuration} />
+							{#if $configuration}
+								<PrintableHeader config={$configuration} />
+							{/if}
 
 							<div class="text-end">
 								{#if doctor && doctor.length}
@@ -208,13 +210,17 @@
 						</div>
 						<!-- End Flex -->
 					</div>
-					<PrintableFooter config={$configuration} />
+					{#if $configuration}
+						<PrintableFooter config={$configuration} />
+					{/if}
 				</div>
 			{:else if showPrescription}
 				<div class="sm:w-11/12 lg:w-full">
 					<div class="flex flex-col p-4 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
-							<PrintableHeader config={$configuration} />
+							{#if $configuration}
+								<PrintableHeader config={$configuration} />
+							{/if}
 							<h2 class="text-2xl md:text-3xl font-semibold text-gray-800 underline">Ordonnance</h2>
 							<div class="text-lg text-gray-500">
 								{#if doctor && doctor.length}
@@ -249,13 +255,17 @@
 							{@html treatment}
 						</div>
 					</div>
-					<PrintableFooter config={$configuration} />
+					{#if $configuration}
+						<PrintableFooter config={$configuration} />
+					{/if}
 				</div>
 			{:else if showReport}
 				<div class="sm:w-11/12 lg:w-full">
 					<div class="flex flex-col p-2 bg-white rounded-xl h-full">
 						<div class="flex justify-between">
-							<PrintableHeader config={$configuration} />
+							{#if $configuration}
+								<PrintableHeader config={$configuration} />
+							{/if}
 
 							<h2
 								class="text-2xl md:text-3xl font-semibold text-gray-800 underline first-letter:capitalize text-center"
@@ -314,7 +324,9 @@
 							{/if}
 						</div>
 					</div>
-					<PrintableFooter config={$configuration} />
+					{#if $configuration}
+						<PrintableFooter config={$configuration} />
+					{/if}
 				</div>
 			{:else if showCertificate}
 				<div class="w-full font-timesnewroman flex flex-col gap-1 p-2 border border-black">
@@ -353,7 +365,7 @@
 							<div
 								class="font-semibold border-2 border-black flex items-center justify-start w-full p-2"
 							>
-								{$configuration.adress ?? ''}
+								{$configuration ? $configuration.adress ?? '' : ''}
 							</div>
 						</div>
 						<div class="flex gap-5">
