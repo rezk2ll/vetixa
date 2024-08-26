@@ -1,5 +1,4 @@
 <script lang="ts">
-	import pb from '$lib/pocketbase';
 	import UserAvatar from './UserAvatar.svelte';
 	import { enhance } from '$app/forms';
 	import { currentUser } from '$lib/store/user';
