@@ -9,7 +9,7 @@ export const handleProxy = (async ({ event }) => {
 		locals: { pb }
 	} = event;
 
-  console.log('PROXYING FILE')
+	console.log('PROXYING FILE');
 
 	const collection = url.searchParams.get('collection') as string;
 	const record = url.searchParams.get('record') as string;

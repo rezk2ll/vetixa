@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const form = await superValidate(zod(loginSchema));
 
-  let configuration: ConfigurationResponse | undefined;
+	let configuration: ConfigurationResponse | undefined;
 
 	try {
 		configuration = await locals.pb
