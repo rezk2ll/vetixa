@@ -3,6 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { superValidate, setError } from 'sveltekit-superforms/server';
 import { loginSchema } from '$lib/schemas';
 import { zod } from 'sveltekit-superforms/adapters';
+import { ConfigurationResponse } from '$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.pb.authStore.isValid) {
@@ -11,7 +12,17 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	const form = await superValidate(zod(loginSchema));
 
-	return { form };
+  let configuration: ConfigurationResponse | undefined;
+
+	try {
+		configuration = await locals.pb
+			.collection('configuration')
+			.getFirstListItem<ConfigurationResponse>('');
+	} catch (error) {
+		console.error(error);
+	}
+
+	return { form, configuration };
 };
 
 export const actions: Actions = {

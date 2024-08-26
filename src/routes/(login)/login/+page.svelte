@@ -3,7 +3,7 @@
 	import { toast, Toaster } from 'svelte-sonner';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms/client';
-	import { configuration } from '$store/configuration';
+	import { buildFileProxyUrl } from '$utils/file';
 
 	let imageNumber = 1;
 
@@ -13,6 +13,8 @@
 
 	export let data: PageData;
 
+	$: ({ configuration } = data);
+
 	const { form, submitting, enhance, allErrors } = superForm(data.form, {
 		resetForm: false
 	});
@@ -20,6 +22,11 @@
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
+
+	$: logoSrc =
+		configuration && configuration.logo
+			? buildFileProxyUrl(configuration.collectionId, configuration.id, configuration.logo)
+			: '/logo.svg';
 </script>
 
 <div class="bg-white dark:bg-gray-900">
@@ -42,7 +49,7 @@
 			<div class="flex-1">
 				<div class="text-center">
 					<div class="flex justify-center mx-auto">
-						<img class="w-auto h-7 sm:h-8" src={$configuration.logo} alt="" />
+						<img class="w-auto h-7 sm:h-8" src={logoSrc} alt="logo" />
 					</div>
 
 					<p class="mt-3 text-gray-500 dark:text-gray-300">
