@@ -382,7 +382,7 @@
 		</ul>
 		<hr class="mt-4 w-full lg:hidden" />
 		{#if avatarUrl}
-			<div class="my-4 flex items-center lg:my-0 lg:ml-auto lg:space-y-0">
+			<div class="my-4 flex items-center lg:my-0 lg:ml-auto lg:space-y-0 lg:min-w-72">
 				<div class="flex md:justify-end md:items-center">
 					<div class="flex md:items-center">
 						<div class="block relative">
