@@ -13,7 +13,7 @@ export const handleProxy = (async ({ event }) => {
 	const record = url.searchParams.get('record') as string;
 	const file = url.searchParams.get('file') as string;
 
-	if (!collection || !record || !file) {    
+	if (!collection || !record || !file) {
 		return new Response('Missing parameters', { status: 404 });
 	}
 

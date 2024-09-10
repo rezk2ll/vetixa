@@ -258,11 +258,13 @@
 											>{formatDateStringShortDay(item.end)}</td
 										>
 										<td
-											class="px-4 text-sm truncate lg:overflow-hidden  font-semibold max-w-sm {item
+											class="px-4 text-sm truncate lg:overflow-hidden font-semibold max-w-sm {item
 												.visit.animal.sex === 'male'
 												? 'text-blue-500 '
-												: 'text-pink-500 '} whitespace-nowrap">
-                        <span class="bg-slate-800 py-1 px-2 rounded-lg ">{item.visit.animal.name}</span></td
+												: 'text-pink-500 '} whitespace-nowrap"
+										>
+											<span class="bg-slate-800 py-1 px-2 rounded-lg">{item.visit.animal.name}</span
+											></td
 										>
 										<td
 											class="px-4 py-2.5 text-sm {item.color
