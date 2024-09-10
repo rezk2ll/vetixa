@@ -9,13 +9,11 @@ export const handleProxy = (async ({ event }) => {
 		locals: { pb }
 	} = event;
 
-	console.log('PROXYING FILE');
-
 	const collection = url.searchParams.get('collection') as string;
 	const record = url.searchParams.get('record') as string;
 	const file = url.searchParams.get('file') as string;
 
-	if (!collection || !record || !file) {
+	if (!collection || !record || !file) {    
 		return new Response('Missing parameters', { status: 404 });
 	}
 
