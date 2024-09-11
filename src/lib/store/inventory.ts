@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { InventoryItemResponse } from '$types';
+import type { InventoryItemResponse, SalesPageInfo } from '$types';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type {
 	addInventoryItemSchema,
@@ -19,3 +19,4 @@ export const updateInventoryFormStore =
 export const sellInventoryFormStore =
 	writable<SuperValidated<Infer<typeof sellInventoryItemSchema>>>();
 export const removeInventoryFormStore = writable<SuperValidated<Infer<typeof removeSchema>>>();
+export const inventorySalesPageInfo = writable<SalesPageInfo>();

@@ -1,3 +1,4 @@
+import { type BaseModel } from 'pocketbase';
 import type {
 	FundTransactionsResponse,
 	QueueResponse,
@@ -283,3 +284,26 @@ export interface PaymentInformation extends BillsResponse {
 	history: FundTransactionsResponse[];
 }
 export type PrintableTab = 'documents' | 'certificates';
+
+export interface InventorySaleItem extends BaseModel {
+	id: string;
+	item: InventoryItemResponse;
+	quantity: number;
+	total: number;
+	discount?: number;
+	visit?: string;
+}
+
+export interface SalesPageInfo {
+	items: InventorySaleItem[];
+	startDate: string;
+	endDate: string;
+}
+
+export interface ActStats {
+	medical: number;
+	surgical: number;
+	toilettage: number;
+}
+
+export type ActsType = SurgicalActsResponse | MedicalActsResponse | ToilettageResponse;
