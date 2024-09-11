@@ -2,7 +2,7 @@
 	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import fr from 'date-fns/locale/fr/index';
-	import { format, setHours, setMinutes } from 'date-fns';
+	import { format, setHours, setMinutes, startOfMonth, endOfMonth } from 'date-fns';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
@@ -16,10 +16,10 @@
 	let page = 0;
 
 	let startDate: Date = $inventorySalesPageInfo.startDate.startsWith('@')
-		? setMinutes(setHours(new Date(), 0), 0)
+		? startOfMonth(setMinutes(setHours(new Date(), 0), 0))
 		: new Date($inventorySalesPageInfo.startDate);
 	let endDate: Date = $inventorySalesPageInfo.endDate.startsWith('@')
-		? setMinutes(setHours(new Date(), 23), 0)
+		? endOfMonth(setMinutes(setHours(new Date(), 23), 0))
 		: new Date($inventorySalesPageInfo.endDate);
 
 	$: currentUrl = browser ? document.location.href : '';
