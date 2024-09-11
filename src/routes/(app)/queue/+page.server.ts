@@ -3,6 +3,7 @@ import type {
 	AnimalsResponse,
 	BillsResponse,
 	ClientsResponse,
+	Queue,
 	QueueResponse,
 	VisitsResponse
 } from '$types';
@@ -61,7 +62,7 @@ export const load = (async ({ locals: { pb } }) => {
 		})
 	);
 
-	const queue = list.filter(Boolean);
+	const queue = list.filter((item) => item !== undefined) as Queue;
 
 	return { queue, form };
 }) satisfies PageServerLoad;
