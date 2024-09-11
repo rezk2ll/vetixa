@@ -290,8 +290,8 @@ export interface InventorySaleItem extends BaseModel {
 	item: InventoryItemResponse;
 	quantity: number;
 	total: number;
-  discount?: number;
-  visit?: string;
+	discount?: number;
+	visit?: string;
 }
 
 export interface SalesPageInfo {
@@ -299,3 +299,11 @@ export interface SalesPageInfo {
 	startDate: string;
 	endDate: string;
 }
+
+export interface ActStats {
+	medical: number;
+	surgical: number;
+	toilettage: number;
+}
+
+export type ActsType = SurgicalActsResponse | MedicalActsResponse | ToilettageResponse;
