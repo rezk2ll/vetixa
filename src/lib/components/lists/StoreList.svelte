@@ -32,8 +32,7 @@
 	let deleteFormRef: HTMLFormElement;
 	let selectedUpdateItem: InventoryItemResponse | null;
 
-	const totalPages = Math.ceil($inventoryItems.length / 10);
-
+	$: totalPages = Math.ceil(items.length / 10);
 	$: items = $inventoryItems.filter((item) => {
 		if (search && search.length) {
 			if (
