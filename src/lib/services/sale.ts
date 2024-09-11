@@ -20,15 +20,8 @@ export class SalesService {
 	 * @returns {Promise<InventorySaleItem[]>} - a list of inventory sales.
 	 */
 	inventorySaleList = async (startDate: string, endDate: string): Promise<InventorySaleItem[]> => {
-		const queryFilter = startDate.startsWith('@')
-			? `created >= ${startDate} && created <= ${endDate}`
-			: this.pb.filter(`created >= {:start} && created <= {:end}`, {
-					start: startDate.startsWith('@') ? startDate : new Date(startDate),
-					end: endDate.startsWith('@') ? endDate : new Date(endDate)
-			  });
-
 		const list = await this.pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
-			filter: queryFilter,
+			filter: this.getQueryFilter(startDate, endDate),
 			sort: '-created',
 			expand: 'item'
 		});
@@ -51,53 +44,46 @@ export class SalesService {
 	 * @returns {Promise<InventorySaleItem[]>} - a list of inventory sales.
 	 */
 	visitInventorySale = async (startDate: string, endDate: string): Promise<InventorySaleItem[]> => {
-		const queryFilter = startDate.startsWith('@')
-			? `created >= ${startDate} && created <= ${endDate}`
-			: this.pb.filter(`created >= {:start} && created <= {:end}`, {
-					start: startDate.startsWith('@') ? startDate : new Date(startDate),
-					end: endDate.startsWith('@') ? endDate : new Date(endDate)
-			  });
-
 		const list = await this.pb.collection('visits').getFullList<VisitsResponse<ItemMetadata[]>>({
-			filter: queryFilter,
+			filter: this.getQueryFilter(startDate, endDate),
 			sort: '-created',
 			expand: 'store_items'
 		});
 
-		const visitStoreItems = list.map((item) => {
-			const inventoryItems = (item.expand as RecordModel)?.store_items as InventoryItemResponse[];
+		return list
+			.map((item) => {
+				const inventoryItems = (item.expand as RecordModel)?.store_items as InventoryItemResponse[];
 
-			if (!inventoryItems || inventoryItems.length === 0) return [];
+				if (!inventoryItems || inventoryItems.length === 0) return [];
 
-			return inventoryItems.map((visitItem) => {
-				const itemInfo = item.item_metadata?.find((metadata) => metadata.item === visitItem.id);
+				return inventoryItems.map((visitItem) => {
+					const itemInfo = item.item_metadata?.find((metadata) => metadata.item === visitItem.id);
 
-				if (!item.item_metadata || !itemInfo) {
-					return {
-						...item,
-						item: visitItem,
-						quantity: 1,
-						total: visitItem.price
-					} satisfies InventorySaleItem;
-				} else {
-					const quantity = itemInfo.quantity;
-					const discount = itemInfo.discount || 0;
-					const price = currency(visitItem.price).multiply(1 - discount / 100).value;
-					const total = currency(price).multiply(quantity).value;
+					if (!item.item_metadata || !itemInfo) {
+						return {
+							...item,
+							item: visitItem,
+							quantity: 1,
+							total: visitItem.price
+						} satisfies InventorySaleItem;
+					} else {
+						const quantity = itemInfo.quantity;
+						const discount = itemInfo.discount || 0;
+						const price = currency(visitItem.price).multiply(1 - discount / 100).value;
+						const total = currency(price).multiply(quantity).value;
 
-					return {
-						...item,
-						item: visitItem,
-						quantity,
-						total,
-						discount,
-            visit: item.id
-					} satisfies InventorySaleItem;
-				}
-			});
-		});
-
-		return visitStoreItems.flat();
+						return {
+							...item,
+							item: visitItem,
+							quantity,
+							total,
+							discount,
+							visit: item.id
+						} satisfies InventorySaleItem;
+					}
+				});
+			})
+			.flat();
 	};
 
 	/**
@@ -116,5 +102,21 @@ export class SalesService {
 		]);
 
 		return [...inventorySales, ...visitSales].sort((a, b) => b.created.localeCompare(a.created));
+	};
+
+	/**
+	 * Returns the adequate query filter
+	 *
+	 * @param {string} startDate The start date
+	 * @param {string} endDate The end date
+	 * @returns The query filter
+	 */
+	private getQueryFilter = (startDate: string, endDate: string) => {
+		return startDate.startsWith('@')
+			? `created >= ${startDate} && created <= ${endDate}`
+			: this.pb.filter(`created >= {:start} && created <= {:end}`, {
+					start: startDate.startsWith('@') ? startDate : new Date(startDate),
+					end: endDate.startsWith('@') ? endDate : new Date(endDate)
+			  });
 	};
 }
