@@ -6,13 +6,13 @@
 
 	export let data: PageData;
 
-	$: ({ page, stats } = data);
+	$: ({ page } = data);
 	$: inventorySalesPageInfo.set(page);
 </script>
 
-<div class="flex flex-col xl:flex-row lg:pl-14 w-full">
+<div class="flex flex-col xl:flex-row lg:pl-5 w-full">
 	<InventorySaleList />
-	<div class="w-full lg:w-5/12 flex flex-col lg:px-10 lg:gap-3 lg:pt-10">
-		<ActStatsTab {stats} />
+	<div class="w-full lg:w-4/12 flex flex-col lg:px-5 lg:gap-3 lg:pt-10">
+		<ActStatsTab items={page.items} />
 	</div>
 </div>

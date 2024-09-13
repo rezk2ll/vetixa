@@ -10,10 +10,15 @@
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import DoubleArrow from '$components/icons/DoubleArrow.svelte';
 	import { inventorySalesPageInfo } from '$store/inventory';
+	import { getSaleType } from '$utils/sales';
+	import Store from '$components/icons/Store.svelte';
+	import DiagnosticIcon from '$components/icons/DiagnosticIcon.svelte';
+	import { type SalesStatusFilter } from '$types';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let search: string = '';
 	let page = 0;
+	let statusFilter: SalesStatusFilter = 'all';
 
 	let startDate: Date = $inventorySalesPageInfo.startDate.startsWith('@')
 		? startOfMonth(setMinutes(setHours(new Date(), 0), 0))
@@ -26,10 +31,39 @@
 
 	$: items = $inventorySalesPageInfo.items.filter((item) => {
 		if (search && search.length) {
-			return (
-				item.item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-				item.item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-			);
+			if (
+				!item.item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
+				!item.item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+			) {
+				return false;
+			}
+		}
+
+		if (statusFilter === 'hospit') {
+			return item.type === 'hospit';
+		}
+
+		if (statusFilter === 'medical_act') {
+			return item.type === 'medical_act';
+		}
+		if (statusFilter === 'surgical_act') {
+			return item.type === 'surgical_act';
+		}
+		if (statusFilter === 'toilettage') {
+			return item.type === 'toilettage';
+		}
+
+		if (statusFilter === 'sale') {
+			return item.type === 'sale';
+		}
+		if (statusFilter === 'store_sale') {
+			return item.type === 'sale' && !item.visit;
+		}
+		if (statusFilter === 'visit_sale') {
+			return item.type === 'sale' && item.visit;
+		}
+		if (statusFilter === 'visit') {
+			return item.type === 'visit';
 		}
 
 		return true;
@@ -59,11 +93,13 @@
 			>
 				<div class="flex flex-col">
 					<div class="flex flex-col justify-start lg:items-start items-center gap-x-3">
-						<h2 class="text-lg font-medium text-gray-700 dark:text-white">Ventes d'inventaire</h2>
+						<h2 class="text-lg font-medium text-gray-700 dark:text-white">
+							Résumé des activités et ventes
+						</h2>
 					</div>
 
 					<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
-						La liste des ventes d'inventaire pendant la durée sélectionnée
+						Tableau récapitulatif des opérations et des ventes au cours de la période sélectionnée
 					</p>
 				</div>
 			</div>
@@ -114,6 +150,7 @@
 						</svg>
 					</button>
 				</div>
+
 				<div class="w-full lg:w-auto">
 					<div class="flex relative items-center mt-0 h-6">
 						<button class="absolute right-0 focus:outline-none">
@@ -127,6 +164,118 @@
 						/>
 					</div>
 				</div>
+			</div>
+			<div
+				class="flex flex-wrap lg:flex-nowrap flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse w-auto"
+			>
+				<button
+					on:click={() => {
+						statusFilter = 'all';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'all'
+						? 'bg-gray-100'
+						: ''} sm:text-sm"
+				>
+					Tout
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'medical_act';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'medical_act'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Actes médicaux
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'surgical_act';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'surgical_act'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Actes chirurgicaux
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'toilettage';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'toilettage'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Toilettages
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'hospit';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'hospit'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Hospitalisations
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'sale';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'sale'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Ventes
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'store_sale';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'store_sale'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Ventes en boutique
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'visit_sale';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'visit_sale'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Ventes en consultations
+				</button>
+				<button
+					on:click={() => {
+						statusFilter = 'visit';
+						page = 0;
+					}}
+					class="px-3 lg:px-5 py-2 text-xs flex-grow font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					'visit'
+						? 'bg-gray-100'
+						: ''} sm:text-sm hover:bg-gray-100"
+				>
+					Consultations
+				</button>
 			</div>
 			<div class="flex flex-col mt-6 px-4 lg:px-0">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -157,7 +306,13 @@
 											scope="col"
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
 										>
-											code
+											Type
+										</th>
+										<th
+											scope="col"
+											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+										>
+											Code
 										</th>
 
 										<th
@@ -191,49 +346,69 @@
 									{#each pageItems as item}
 										<tr>
 											<td class="px-4 py-3 text-sm font-medium whitespace-nowrap">
-												<h2 class="font-medium text-gray-800 dark:text-white capitalize">
+												<h2 class="font-medium text-gray-800 dark:text-white capitalize min-h-7">
 													{formatDateStringShort(item.created)}
 												</h2>
 											</td>
 											<td class="px-4 py-3 text-sm font-medium whitespace-nowrap">
-												<h2 class="font-medium text-gray-600 dark:text-white capitalize">
+												<h2 class="font-medium text-gray-600 dark:text-white capitalize min-h-7">
 													{formatDateStringToTime(item.created)}
 												</h2>
 											</td>
-											<td class="px-4 py-3 text-sm font-medium">
+											<td class="px-1 py-3 text-sm font-medium">
 												<p
-													class="text-sm font-normal text-black first-letter:capitalize whitespace-pre-line"
+													class="text-sm font-normal text-black first-letter:capitalize whitespace-pre-line min-h-7"
 												>
 													{item.item.name}
 												</p>
 												<p
 													class="text-xs font-normal text-gray-600 first-letter:capitalize whitespace-pre-line"
 												>
-													{@html item.item.description}
+													{@html item.item.description ?? ''}
 												</p>
 											</td>
-											<td class="px-4 py-3 text-sm font-medium">
+											<td class="px-2 py-3 text-sm font-medium">
 												<p
-													class="text-sm font-normal text-gray-600 first-letter:capitalize whitespace-pre-line"
+													class="text-sm font-normal text-gray-600 first-letter:capitalize whitespace-pre-line min-h-7"
 												>
-													{item.item.code}
+													{getSaleType(item.type)}
+												</p>
+											</td>
+											<td class="px-4 py-3 text-sm font-medium min-h-28">
+												<p
+													class="text-sm font-normal text-gray-600 first-letter:capitalize whitespace-pre-line min-h-7"
+												>
+													{item.item.code ?? ''}
 												</p>
 											</td>
 											<td class="px-4 py-3 text-sm font-medium whitespace-nowrap">
-												<p class="text-sm font-normal text-gray-600 first-letter:capitalize">
+												<p
+													class="text-sm font-normal text-gray-600 first-letter:capitalize min-h-7"
+												>
 													{item.quantity}
 												</p>
 											</td>
 											<td class="px-4 py-3 text-sm font-medium whitespace-nowrap">
-												<p class="text-sm font-normal text-gray-600 first-letter:capitalize">
+												<p
+													class="text-sm font-normal text-gray-600 first-letter:capitalize min-h-7"
+												>
 													{item.discount ?? 0}
 												</p>
 											</td>
 											<td class="px-4 py-3 text-sm font-medium whitespace-nowrap">
 												{#if item.visit}
-													<a class="text-blue-500" href="/visit/{item.visit}">Visite</a>
+													<a
+														class="flex gap-1 items-center justify-center text-blue-500"
+														href="/visit/{item.visit}"
+													>
+														<DiagnosticIcon />
+														<span class="first-letter:capitalize"> Visite </span>
+													</a>
 												{:else}
-													<span class="text-sm first-letter:capitalize">vente</span>
+													<div class="flex gap-1 items-center justify-center">
+														<Store size="small" />
+														<span class="first-letter:capitalize">Boutique</span>
+													</div>
 												{/if}
 											</td>
 

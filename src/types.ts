@@ -22,6 +22,16 @@ export type QueueStatusFilter = 'pending' | 'completed';
 export type AnimalStatusFilter = 'all' | 'chat' | 'chien' | 'male' | 'female';
 export type VisitStatusFilter = 'all' | 'pending' | 'partial' | 'completed' | 'control';
 export type HospitStatusFilter = 'all' | 'pending' | 'complete';
+export type SalesStatusFilter =
+	| 'all'
+	| 'sale'
+	| 'medical_act'
+	| 'surgical_act'
+	| 'toilettage'
+	| 'visit'
+	| 'hospit'
+	| 'store_sale'
+	| 'visit_sale';
 export type BillStatusFilter = VisitStatusFilter;
 
 export interface Fund extends FundTransactionsResponse {
@@ -287,11 +297,18 @@ export type PrintableTab = 'documents' | 'certificates';
 
 export interface InventorySaleItem extends BaseModel {
 	id: string;
-	item: InventoryItemResponse;
+	item:
+		| InventoryItemResponse
+		| (SurgicalActsResponse & { description: string })
+		| (MedicalActsResponse & { description: string })
+		| (ToilettageResponse & { description: string })
+		| (HospitalisationResponse & { name: string; code: string; description: string })
+		| (VisitsResponse & { name: string; code: string; description: string });
 	quantity: number;
 	total: number;
 	discount?: number;
 	visit?: string;
+	type: 'sale' | 'medical_act' | 'surgical_act' | 'toilettage' | 'visit' | 'hospit';
 }
 
 export interface SalesPageInfo {

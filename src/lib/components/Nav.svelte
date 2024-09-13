@@ -282,20 +282,23 @@
 			href="/stats"
 			class="p-1.5 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
 		>
-			<svg
-				data-slot="icon"
-				fill="none"
-				class="w-7 h-6"
-				stroke-width="1.5"
-				stroke="currentColor"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-				aria-hidden="true"
-			>
+			<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
+					d="M4 16.937L10 9.43701L15 13.437L20.5 6.93701"
+					stroke="currentColor"
+					stroke-width="2"
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
+				/>
+				<circle cx="10" cy="8.93701" r="2" fill="currentColor" />
+				<path
+					d="M16.8125 14C16.8125 15.1046 15.9171 16 14.8125 16C13.7079 16 12.8125 15.1046 12.8125 14C12.8125 12.8954 13.7079 12 14.8125 12C15.9171 12 16.8125 12.8954 16.8125 14Z"
+					fill="currentColor"
+				/>
+				<circle cx="4" cy="16.937" r="2" fill="currentColor" />
+				<path
+					d="M22.5 7.00002C22.5 8.10459 21.6046 9.00002 20.5 9.00002C19.3954 9.00002 18.5 8.10459 18.5 7.00002C18.5 5.89545 19.3954 5.00002 20.5 5.00002C21.6046 5.00002 22.5 5.89545 22.5 7.00002Z"
+					fill="currentColor"
 				/>
 			</svg>
 		</a>

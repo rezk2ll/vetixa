@@ -1,7 +1,6 @@
 import { isValid, parse } from 'date-fns';
 import type { PageServerLoad } from './$types';
 import { SalesService } from '$lib/services/sale';
-import { StatsService } from '$lib/services/stats';
 
 export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	let startDate = '@monthStart';
@@ -21,10 +20,8 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	}
 
 	const salesService = new SalesService(pb);
-	const statsService = new StatsService(pb);
 
 	const items = await salesService.list(startDate, endDate);
-	const stats = await statsService.getActsStats(startDate, endDate);
 
-	return { page: { items, startDate, endDate }, stats };
+	return { page: { items, startDate, endDate } };
 }) satisfies PageServerLoad;
