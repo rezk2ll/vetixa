@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let size: 'small' | 'normal' = 'normal';
+	export let size: 'small' | 'normal' = 'normal';
 </script>
 
 <svg
@@ -7,7 +7,7 @@
 	stroke="currentColor"
 	stroke-width="1.5"
 	viewBox="0 0 24 24"
-	class="{ size ? 'w-5' : 'w-10' }"
+	class={size ? 'w-5' : 'w-10'}
 	xmlns="http://www.w3.org/2000/svg"
 	aria-hidden="true"
 >
