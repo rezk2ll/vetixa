@@ -93,11 +93,13 @@
 			>
 				<div class="flex flex-col">
 					<div class="flex flex-col justify-start lg:items-start items-center gap-x-3">
-						<h2 class="text-lg font-medium text-gray-700 dark:text-white">Ventes d'inventaire</h2>
+						<h2 class="text-lg font-medium text-gray-700 dark:text-white">
+							Résumé des activités et ventes
+						</h2>
 					</div>
 
 					<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
-						La liste des ventes d'inventaire pendant la durée sélectionnée
+						Tableau récapitulatif des opérations et des ventes au cours de la période sélectionnée
 					</p>
 				</div>
 			</div>
