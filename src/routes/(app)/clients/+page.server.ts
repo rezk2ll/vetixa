@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 
 	const clientsPage = await pb.collection('clients').getList<ClientsResponse>(page, 10, {
 		expand: 'animals(client)',
-		filter: `name ~ "${query}" || tel ~ "${query}" || address ~ "${query}" || email ~ "${query}" || animals_via_client.name ?~ "${query}"`,
+		filter: `name ~ "${query}" || tel ~ "${query}" || address ~ "${query}" || email ~ "${query}"`,
 		sort: '-created'
 	});
 
