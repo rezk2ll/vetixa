@@ -56,7 +56,7 @@
 		"mimeit": "^1.0.4",
 		"moment": "^2.30.1",
 		"photoswipe": "^5.4.4",
-		"pocketbase": "^0.21.3",
+		"pocketbase": "^0.24.0",
 		"remove": "^0.1.5",
 		"svelte-printpdf": "^1.0.2-metadata",
 		"svelte-select": "^5.8.3",
