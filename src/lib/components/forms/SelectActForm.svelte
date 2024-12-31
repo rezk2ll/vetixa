@@ -10,7 +10,7 @@
 
 	$: data = items.map((item) => ({
 		value: item.id,
-		label: item.name
+		label: `${item.name} - ${item.price} DT`
 	}));
 
 	const handleChane = (e: CustomEvent) => {
