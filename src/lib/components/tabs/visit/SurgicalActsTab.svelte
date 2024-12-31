@@ -184,7 +184,7 @@
 	</div>
 </ConfirmationDialog>
 
-<Modal bind:open size="medium">
+<Modal bind:open size="bigmedium">
 	<SelectActForm
 		bind:open
 		title="Sélectionner un ou plusieurs actes chirurgicaux"
