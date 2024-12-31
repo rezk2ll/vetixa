@@ -10,8 +10,10 @@
 	import { toast } from 'svelte-sonner';
 	import DoubleArrow from '$components/icons/DoubleArrow.svelte';
 	import CalendarIcon from '$components/icons/CalendarIcon.svelte';
+	import { getMaxSelectionDate } from '$lib/utils/date';
 
 	let locale = localeFromDateFnsLocale(fr);
+  let maxDate = getMaxSelectionDate();
 
 	export let open = false;
 	export let start: Date;
@@ -56,6 +58,7 @@
 		<DateInput
 			id="startPicker"
 			class="rounded-full"
+      max={maxDate}
 			bind:value={start}
 			dynamicPositioning={true}
 			timePrecision="minute"
@@ -68,6 +71,7 @@
 		<DateInput
 			id="endPicker"
 			bind:value={end}
+      max={maxDate}
 			min={start}
 			format="yyyy-MM-dd HH:mm"
 			closeOnSelection={true}

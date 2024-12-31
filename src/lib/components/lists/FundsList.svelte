@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AddExpenseForm from '$components/forms/funds/AddExpenseForm.svelte';
 	import AddFundsForm from '$components/forms/funds/AddFundsForm.svelte';
-	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
+	import { formatDateStringShort, formatDateStringToTime, getMaxSelectionDate } from '$utils/date';
 	import Modal from '$components/Modal.svelte';
 	import { fundsPageInfo } from '$store/funds';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
@@ -23,6 +23,7 @@
 	let openAddFundsForm = false;
 	let openAddExpensesForm = false;
 	let search: string = $fundsPageInfo.query;
+  let maxDate = getMaxSelectionDate();
 
 	let startDate: Date = $fundsPageInfo.startDate.startsWith('@')
 		? setMinutes(setHours(new Date(), 0), 0)
@@ -188,6 +189,7 @@
 				<div class="flex items-center space-x-2 mt-0 h-6">
 					<DateInput
 						class="rounded-full"
+            max={maxDate}
 						bind:value={startDate}
 						timePrecision="minute"
 						closeOnSelection={true}
@@ -199,6 +201,7 @@
 					</div>
 					<DateInput
 						bind:value={endDate}
+            max={maxDate}
 						min={startDate}
 						format="yyyy-MM-dd HH:mm"
 						closeOnSelection={true}
