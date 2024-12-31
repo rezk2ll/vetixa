@@ -13,7 +13,7 @@
 	import { getMaxSelectionDate } from '$lib/utils/date';
 
 	let locale = localeFromDateFnsLocale(fr);
-  let maxDate = getMaxSelectionDate();
+	let maxDate = getMaxSelectionDate();
 
 	export let open = false;
 	export let start: Date;
@@ -58,7 +58,7 @@
 		<DateInput
 			id="startPicker"
 			class="rounded-full"
-      max={maxDate}
+			max={maxDate}
 			bind:value={start}
 			dynamicPositioning={true}
 			timePrecision="minute"
@@ -71,7 +71,7 @@
 		<DateInput
 			id="endPicker"
 			bind:value={end}
-      max={maxDate}
+			max={maxDate}
 			min={start}
 			format="yyyy-MM-dd HH:mm"
 			closeOnSelection={true}

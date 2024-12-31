@@ -14,7 +14,7 @@
 	import { getMaxSelectionDate } from '$lib/utils/date';
 
 	let locale = localeFromDateFnsLocale(fr);
-  let maxDate = getMaxSelectionDate();
+	let maxDate = getMaxSelectionDate();
 
 	export let open = false;
 	export let item: AgendaResponse;
@@ -67,7 +67,7 @@
 <form use:enhance action="?/updateEvent" class="mt-4 flex flex-col space-y-8" method="POST">
 	<div class="flex items-center justify-between z-50 space-x-2 mt-0 h-6 w-full px-14">
 		<DateInput
-      max={maxDate}
+			max={maxDate}
 			id="startPicker"
 			class="rounded-full"
 			bind:value={start}
@@ -82,7 +82,7 @@
 		<DateInput
 			id="endPicker"
 			bind:value={end}
-      max={maxDate}
+			max={maxDate}
 			min={start}
 			format="yyyy-MM-dd HH:mm"
 			closeOnSelection={true}

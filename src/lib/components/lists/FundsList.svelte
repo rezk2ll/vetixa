@@ -23,7 +23,7 @@
 	let openAddFundsForm = false;
 	let openAddExpensesForm = false;
 	let search: string = $fundsPageInfo.query;
-  let maxDate = getMaxSelectionDate();
+	let maxDate = getMaxSelectionDate();
 
 	let startDate: Date = $fundsPageInfo.startDate.startsWith('@')
 		? setMinutes(setHours(new Date(), 0), 0)
@@ -189,7 +189,7 @@
 				<div class="flex items-center space-x-2 mt-0 h-6">
 					<DateInput
 						class="rounded-full"
-            max={maxDate}
+						max={maxDate}
 						bind:value={startDate}
 						timePrecision="minute"
 						closeOnSelection={true}
@@ -201,7 +201,7 @@
 					</div>
 					<DateInput
 						bind:value={endDate}
-            max={maxDate}
+						max={maxDate}
 						min={startDate}
 						format="yyyy-MM-dd HH:mm"
 						closeOnSelection={true}

@@ -11,7 +11,13 @@
 		removeVisitHospitalisationFormStore,
 		updateVisitHospitalisationFormStore
 	} from '$store/hospit';
-	import { formatDateShort, formatDateString, getDaysBetween, getMaxSelectionDate, getPreviousDays } from '$utils/date';
+	import {
+		formatDateShort,
+		formatDateString,
+		getDaysBetween,
+		getMaxSelectionDate,
+		getPreviousDays
+	} from '$utils/date';
 	import { cagesList } from '$store/hospit';
 	import type { Treatment } from '$types';
 	import CollapsibleFormSection from '$components/CollapsibleFormSection.svelte';
@@ -31,7 +37,7 @@
 	let showConfirmation = false;
 	let loading: boolean;
 	let completedFormRef: HTMLFormElement;
-  let maxDate = getMaxSelectionDate();
+	let maxDate = getMaxSelectionDate();
 
 	const { form, enhance, submitting, allErrors } = superForm($updateVisitHospitalisationFormStore, {
 		taintedMessage: null,
@@ -225,7 +231,7 @@
 						<DateInput
 							id="startdate"
 							class="rounded-full"
-              max={maxDate}
+							max={maxDate}
 							bind:value={$form.start}
 							timePrecision="minute"
 							closeOnSelection={true}
@@ -258,7 +264,7 @@
 						<DateInput
 							bind:value={$form.end}
 							id="enddate"
-              max={maxDate}
+							max={maxDate}
 							min={$form.start}
 							format="yyyy-MM-dd HH:mm"
 							closeOnSelection={true}
