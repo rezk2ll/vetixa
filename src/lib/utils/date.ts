@@ -192,3 +192,11 @@ export const daysDiff = (start: string, end: string): number => {
 
 	return differenceInDays(endDate, startDate);
 };
+
+export const getMaxSelectionDate = (): Date => {
+	const date = new Date();
+
+	date.setFullYear(date.getFullYear() + 100);
+
+	return date;
+};

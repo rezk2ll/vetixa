@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatDateStringShort, formatDateStringToTime } from '$utils/date';
+	import { formatDateStringShort, formatDateStringToTime, getMaxSelectionDate } from '$utils/date';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
 	import fr from 'date-fns/locale/fr/index';
 	import { format, setHours, setMinutes, startOfMonth, endOfMonth } from 'date-fns';
@@ -19,6 +19,7 @@
 	let search: string = '';
 	let page = 0;
 	let statusFilter: SalesStatusFilter = 'all';
+	let maxDate = getMaxSelectionDate();
 
 	let startDate: Date = $inventorySalesPageInfo.startDate.startsWith('@')
 		? startOfMonth(setMinutes(setHours(new Date(), 0), 0))
@@ -109,6 +110,7 @@
 				<div class="flex items-center space-x-2 mt-0 h-6">
 					<DateInput
 						class="rounded-full"
+						max={maxDate}
 						bind:value={startDate}
 						timePrecision="minute"
 						closeOnSelection={true}
@@ -120,6 +122,7 @@
 					</div>
 					<DateInput
 						bind:value={endDate}
+						max={maxDate}
 						min={startDate}
 						format="yyyy-MM-dd HH:mm"
 						closeOnSelection={true}
