@@ -20,6 +20,7 @@
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
 	import BagIcon from '$components/icons/BagIcon.svelte';
 	import { toast } from 'svelte-sonner';
+	import { currentUser } from '$lib/store/user';
 
 	let openAddInventoryItemModal = false;
 	let openSellInventoryItemModal = false;
@@ -100,42 +101,48 @@
 	$: $allErrors.map((error) => {
 		toast.error(error.messages.join('. '));
 	});
+
+	$: canEdit = $currentUser && $currentUser.role && $currentUser.role === 'editor';
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-4">
-	<Modal bind:open={openAddInventoryItemModal} size="bigmedium">
-		<AddInventoryItemForm bind:open={openAddInventoryItemModal} />
-	</Modal>
-
 	<Modal bind:open={openSellInventoryItemModal} size="bigmedium">
 		<SellInventoryItemForm bind:open={openSellInventoryItemModal} />
 	</Modal>
+	{#if canEdit}
+		<Modal bind:open={openAddInventoryItemModal} size="bigmedium">
+			<AddInventoryItemForm bind:open={openAddInventoryItemModal} />
+		</Modal>
 
-	<Modal bind:open={openUpdateInventoryItemModal} size="bigmedium">
-		{#if selectedUpdateItem}
-			<UpdateInventoryItemForm bind:open={openUpdateInventoryItemModal} item={selectedUpdateItem} />
-		{/if}
-	</Modal>
+		<Modal bind:open={openUpdateInventoryItemModal} size="bigmedium">
+			{#if selectedUpdateItem}
+				<UpdateInventoryItemForm
+					bind:open={openUpdateInventoryItemModal}
+					item={selectedUpdateItem}
+				/>
+			{/if}
+		</Modal>
 
-	<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
-		{#if selectedItem}
-			<input type="hidden" name="id" bind:value={selectedItem.id} />
-		{/if}
-	</form>
+		<form use:enhance action="?/delete" method="POST" class="hidden" bind:this={deleteFormRef}>
+			{#if selectedItem}
+				<input type="hidden" name="id" bind:value={selectedItem.id} />
+			{/if}
+		</form>
 
-	<ConfirmationDialog bind:show={showConfirmation} {handler}>
-		<div>
-			<div class="mt-2 text-center">
-				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
-					Supprimer {selectedItem?.name}
-				</h3>
-				<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-					Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront définitivement
-					supprimé. Cette action ne peut pas être annulée.
-				</p>
+		<ConfirmationDialog bind:show={showConfirmation} {handler}>
+			<div>
+				<div class="mt-2 text-center">
+					<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
+						Supprimer {selectedItem?.name}
+					</h3>
+					<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+						Êtes-vous sûr de vouloir supprimer cet article ? Toutes vos données seront
+						définitivement supprimé. Cette action ne peut pas être annulée.
+					</p>
+				</div>
 			</div>
-		</div>
-	</ConfirmationDialog>
+		</ConfirmationDialog>
+	{/if}
 	<div
 		class="w-full px-2 lg:px-5 pt-10 lg:p-5 bg-white shadow lg:shadow-2xl border-gray-200 xl:rounded"
 	>
@@ -158,14 +165,16 @@
 				</div>
 
 				<div class="flex items-center mt-4 gap-x-2 w-full lg:w-auto px-2 lg:px-0">
-					<button
-						on:click={() => (openAddInventoryItemModal = true)}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
-					>
-						<PlusIcon />
+					{#if canEdit}
+						<button
+							on:click={() => (openAddInventoryItemModal = true)}
+							class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+						>
+							<PlusIcon />
 
-						<span>Ajouter</span>
-					</button>
+							<span>Ajouter</span>
+						</button>
+					{/if}
 					<button
 						on:click={() => (openSellInventoryItemModal = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600 dark:hover:bg-emerald-500 dark:bg-emerald-600"
@@ -312,10 +321,11 @@
 											class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Prix en TTC</th
 										>
-
-										<th scope="col" class="relative py-3.5 px-4">
-											<span class="sr-only">Edit</span>
-										</th>
+										{#if canEdit}
+											<th scope="col" class="relative py-3.5 px-4">
+												<span class="sr-only">Edit</span>
+											</th>
+										{/if}
 									</tr>
 								</thead>
 								<tbody
@@ -363,23 +373,24 @@
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.tva} %</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.gain} %</td>
 											<td class="px-4 py-4 text-sm whitespace-nowrap"> {item.price} DT</td>
-
-											<td class="px-4 py-4 text-sm whitespace-nowrap">
-												<button
-													type="button"
-													on:click={() => update(item)}
-													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
-												>
-													<EditIcon />
-												</button>
-												<button
-													type="button"
-													on:click={() => remove(item)}
-													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
-												>
-													<TrashIcon />
-												</button>
-											</td>
+											{#if canEdit}
+												<td class="px-4 py-4 text-sm whitespace-nowrap">
+													<button
+														type="button"
+														on:click={() => update(item)}
+														class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
+													>
+														<EditIcon />
+													</button>
+													<button
+														type="button"
+														on:click={() => remove(item)}
+														class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
+													>
+														<TrashIcon />
+													</button>
+												</td>
+											{/if}
 										</tr>
 									{/each}
 								</tbody>
