@@ -343,6 +343,7 @@ export type FundTransactionsRecord = {
 export type HospitCompletedListRecord<Ttreatment = unknown> = {
 	cage?: RecordIdString;
 	color?: string;
+	completed?: boolean;
 	end?: IsoDateString;
 	note?: string;
 	price?: number;
@@ -425,14 +426,20 @@ export type ToilettageRecord = {
 	price?: number;
 };
 
+export enum UsersRoleOptions {
+	'operator' = 'operator',
+	'editor' = 'editor'
+}
 export type UsersRecord = {
 	avatar?: string;
 	name?: string;
+	role?: UsersRoleOptions;
 };
 
 export type VisitsRecord<Titem_metadata = unknown> = {
 	actions?: HTMLString;
 	animal?: RecordIdString;
+	clinical_exams?: RecordIdString[];
 	control?: boolean;
 	date?: IsoDateString;
 	doctor?: string;
