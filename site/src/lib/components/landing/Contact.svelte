@@ -44,7 +44,7 @@
 			</p>
 			<div class="flex items-center justify-start gap-6 pt-10">
 				<a
-					href="https://wa.me/21658682279?text="
+					href="https://wa.me/21652128155?text="
 					target="_blank"
 					class="p-2 [&>svg]:h-20 [&>svg]:w-14 lg:[&>svg]:h-14 lg:[&>svg]:w-20"
 				>
