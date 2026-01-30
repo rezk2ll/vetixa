@@ -61,6 +61,6 @@
 		"svelte-printpdf": "^1.0.2-metadata",
 		"svelte-select": "^5.8.3",
 		"svelte-sonner": "^0.3.26",
-		"to-words": "^4.0.1"
+		"to-words": "^5.0.0"
 	}
 }
