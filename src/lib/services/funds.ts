@@ -24,48 +24,55 @@ export class FundsService {
 	constructor(private readonly pb: TypedPocketBase) {}
 
 	/**
-	 * returns the balance for a given date
+	 * returns the balance for a given date from pre-fetched transactions
 	 *
+	 * @param {Fund[]} transactions - all transactions in the date range
 	 * @param {Date} date - the date to get the balance for
-	 *
-	 * @returns {Promise<number>} - the total balance
+	 * @returns {BalanceData} - the balance data for the date
 	 */
-	getDateBalanceData = async (date: Date): Promise<BalanceData> => {
-		const startDate = setHours(date, 0);
-		const endDate = setHours(date, 23);
+	private calculateDateBalance = (transactions: Fund[], date: Date): BalanceData => {
+		const startOfDay = setHours(date, 0, 0, 0, 0).getTime();
+		const endOfDay = setHours(date, 23, 59, 59, 999).getTime();
 
-		const transactions = await this.transactions(
-			formatFilterDate(startDate),
-			formatFilterDate(endDate)
-		);
+		const dayTransactions = transactions.filter((t) => {
+			const txDate = new Date(t.created).getTime();
+			return txDate >= startOfDay && txDate <= endOfDay;
+		});
 
 		return {
-			income: transactions.reduce(
+			income: dayTransactions.reduce(
 				(acc, curr) => currency(acc).add(curr.amount > 0 ? curr.amount : 0).value,
 				0
 			),
-			expense: transactions.reduce(
+			expense: dayTransactions.reduce(
 				(acc, curr) => currency(acc).add(curr.amount < 0 ? Math.abs(curr.amount) : 0).value,
 				0
 			),
-			balance: transactions.reduce((acc, curr) => currency(acc).add(curr.amount).value, 0)
+			balance: dayTransactions.reduce((acc, curr) => currency(acc).add(curr.amount).value, 0)
 		};
 	};
 
 	/**
-	 * returns the balance for a given list of dates
+	 * returns the balance for a given list of dates using a single query
 	 *
 	 * @param {Date[]} dates - the list of dates to get the balance for
 	 * @returns {Promise<BalanceData[]>} - the total balance for each date
 	 */
 	getDatesBalance = async (dates: Date[]): Promise<BalanceData[]> => {
-		const list = [];
+		if (dates.length === 0) return [];
 
-		for (const date of dates) {
-			list.push(await this.getDateBalanceData(date));
-		}
+		// Find the full date range and fetch all transactions in a single query
+		const sortedDates = [...dates].sort((a, b) => a.getTime() - b.getTime());
+		const startDate = setHours(sortedDates[0], 0, 0, 0, 0);
+		const endDate = setHours(sortedDates[sortedDates.length - 1], 23, 59, 59, 999);
 
-		return list;
+		const allTransactions = await this.transactions(
+			formatFilterDate(startDate),
+			formatFilterDate(endDate)
+		);
+
+		// Calculate balance for each date from the cached transactions
+		return dates.map((date) => this.calculateDateBalance(allTransactions, date));
 	};
 
 	/**

@@ -37,17 +37,17 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 		}
 	}
 
-	const pageTransactions = await fundsService.transactionPage(
-		startDate,
-		endDate,
-		page,
-		filter,
-		query
-	);
+	// Fetch all transactions once and reuse for stats/totals
+	const [pageTransactions, transactions] = await Promise.all([
+		fundsService.transactionPage(startDate, endDate, page, filter, query),
+		fundsService.transactions(startDate, endDate)
+	]);
 
-	const transactions = await fundsService.transactions(startDate, endDate);
-	const stats = await fundsService.paymentMethodStats(transactions);
-	const total = await fundsService.transactionsTotals(transactions, startDate, endDate);
+	// Calculate stats and totals from the same transaction data
+	const [stats, total] = await Promise.all([
+		fundsService.paymentMethodStats(transactions),
+		fundsService.transactionsTotals(transactions, startDate, endDate)
+	]);
 
 	return {
 		addFundsForm,

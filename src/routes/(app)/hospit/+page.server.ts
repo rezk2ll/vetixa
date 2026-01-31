@@ -44,14 +44,16 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 		} satisfies Hospit;
 	});
 
-	const pendingCount = await pb.collection('hospitalisation').getList(1, 1, {
-		filter: `(${queryFilter}) && completed = false`
-	});
-
-	const completedCount = await pb.collection('hospitalisation').getList(1, 1, {
-		filter: `(${queryFilter}) && completed = true`
-	});
-	const allCount = await pb.collection('hospitalisation').getList(1, 1);
+	// Fetch all counts in parallel
+	const [pendingCount, completedCount, allCount] = await Promise.all([
+		pb.collection('hospitalisation').getList(1, 1, {
+			filter: `(${queryFilter}) && completed = false`
+		}),
+		pb.collection('hospitalisation').getList(1, 1, {
+			filter: `(${queryFilter}) && completed = true`
+		}),
+		pb.collection('hospitalisation').getList(1, 1)
+	]);
 
 	return {
 		pageInfo: {

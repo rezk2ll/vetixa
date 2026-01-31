@@ -453,9 +453,7 @@ export const actions = {
 				'store_items+': items
 			});
 
-			items.forEach(async (itemId) => {
-				await inventoryService.decreaseItemQuantity(itemId, 1);
-			});
+			await Promise.all(items.map((itemId) => inventoryService.decreaseItemQuantity(itemId, 1)));
 
 			await billService.update();
 

@@ -205,6 +205,18 @@ class BillService {
 	};
 
 	/**
+	 * Build a metadata map for O(1) lookups
+	 *
+	 * @param {ItemMetadata[]} metadata - the item metadata array
+	 * @returns {Map<string, ItemMetadata>} - a map of item id to metadata
+	 */
+	private buildMetadataMap = (
+		metadata: ItemMetadata[] | null | undefined
+	): Map<string, ItemMetadata> => {
+		return new Map((metadata ?? []).map((m) => [m.item, m]));
+	};
+
+	/**
 	 * Calculate the toilettage cost
 	 *
 	 * @param {VisitsResponse} visit - the expanded visit
@@ -212,12 +224,12 @@ class BillService {
 	 */
 	getToilettagePrice = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const items: ToilettageResponse[] = (visit.expand as RecordModel)?.toilettage || [];
+		const metadataMap = this.buildMetadataMap(visit.item_metadata);
 
 		return items.reduce((acc, act) => {
-			const discount =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const quantity =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
+			const metadata = metadataMap.get(act.id);
+			const discount = metadata?.discount ?? 0;
+			const quantity = metadata?.quantity ?? 1;
 
 			const price = currency(act.price).multiply(1 - discount / 100).value;
 			const total = currency(price).multiply(quantity).value;
@@ -234,12 +246,12 @@ class BillService {
 	 */
 	getMedicalActsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const medicalActs: MedicalActsResponse[] = (visit.expand as RecordModel)?.medical_acts || [];
+		const metadataMap = this.buildMetadataMap(visit.item_metadata);
 
 		return medicalActs.reduce((acc, act) => {
-			const discount =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const quantity =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
+			const metadata = metadataMap.get(act.id);
+			const discount = metadata?.discount ?? 0;
+			const quantity = metadata?.quantity ?? 1;
 
 			const price = currency(act.price).multiply(1 - discount / 100).value;
 			const total = currency(price).multiply(quantity).value;
@@ -256,12 +268,12 @@ class BillService {
 	 */
 	getSurgicalActsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const surgicalActs: SurgicalActsResponse[] = (visit.expand as RecordModel)?.surgical_acts || [];
+		const metadataMap = this.buildMetadataMap(visit.item_metadata);
 
 		return surgicalActs.reduce((acc, act) => {
-			const discount =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const quantity =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
+			const metadata = metadataMap.get(act.id);
+			const discount = metadata?.discount ?? 0;
+			const quantity = metadata?.quantity ?? 1;
 
 			const price = currency(act.price).multiply(1 - discount / 100).value;
 			const total = currency(price).multiply(quantity).value;
@@ -279,12 +291,12 @@ class BillService {
 	getInventoryItemsCost = (visit: VisitsResponse<ItemMetadata[]>): number => {
 		const inventoryItems: InventoryItemResponse[] =
 			(visit.expand as RecordModel)?.store_items || [];
+		const metadataMap = this.buildMetadataMap(visit.item_metadata);
 
 		return inventoryItems.reduce((acc, act) => {
-			const discount =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.discount ?? 0;
-			const quantity =
-				(visit.item_metadata || []).find(({ item }) => item === act.id)?.quantity ?? 1;
+			const metadata = metadataMap.get(act.id);
+			const discount = metadata?.discount ?? 0;
+			const quantity = metadata?.quantity ?? 1;
 
 			const price = currency(act.price).multiply(1 - discount / 100).value;
 			const total = currency(price).multiply(quantity).value;
@@ -339,6 +351,9 @@ class BillService {
 	 * @returns {Promise<BillItem[]>} - the bill items
 	 */
 	getBillItems = async (visit: Visit): Promise<BillItem[]> => {
+		// Build metadata map for O(1) lookups instead of O(n) find operations
+		const metadataMap = this.buildMetadataMap(visit.item_metadata);
+
 		let items: BillItem[] = [
 			...(visit.visit_price
 				? [
@@ -353,7 +368,7 @@ class BillService {
 				  ]
 				: []),
 			...visit.toilettage.map(({ price, name, code, id }) => {
-				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const metadata = metadataMap.get(id);
 				const quantity = metadata?.quantity ?? 1;
 
 				return {
@@ -366,7 +381,7 @@ class BillService {
 				} satisfies BillItem;
 			}),
 			...visit.medical_acts.map(({ price, name, code, id }) => {
-				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const metadata = metadataMap.get(id);
 				const quantity = metadata?.quantity ?? 1;
 
 				return {
@@ -379,7 +394,7 @@ class BillService {
 				} satisfies BillItem;
 			}),
 			...visit.surgical_acts.map(({ price, name, code, id }) => {
-				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const metadata = metadataMap.get(id);
 				const quantity = metadata?.quantity ?? 1;
 
 				return {
@@ -392,7 +407,7 @@ class BillService {
 				} satisfies BillItem;
 			}),
 			...visit.store_items.map(({ price, name, code, id }) => {
-				const metadata = visit.item_metadata?.find(({ item }) => item === id);
+				const metadata = metadataMap.get(id);
 				const quantity = metadata?.quantity ?? 1;
 
 				return {

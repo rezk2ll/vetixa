@@ -18,22 +18,30 @@ import { zod } from 'sveltekit-superforms/adapters';
 import currency from 'currency.js';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {
-	const addForm = await superValidate(zod(addInventoryItemSchema), { id: 'addForm' });
-	const sellForm = await superValidate(zod(sellInventoryItemSchema), { id: 'sellForm' });
-	const updateForm = await superValidate(zod(updateInventoryItemSchema), { id: 'updateForm' });
-	const deleteForm = await superValidate(zod(removeSchema), { id: 'deleteForm' });
+	// Initialize forms in parallel
+	const [addForm, sellForm, updateForm, deleteForm] = await Promise.all([
+		superValidate(zod(addInventoryItemSchema), { id: 'addForm' }),
+		superValidate(zod(sellInventoryItemSchema), { id: 'sellForm' }),
+		superValidate(zod(updateInventoryItemSchema), { id: 'updateForm' }),
+		superValidate(zod(removeSchema), { id: 'deleteForm' })
+	]);
 
-	const items = await pb.collection('inventory_item').getFullList<InventoryItemResponse>();
-	const monthlySales = await pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
-		filter: 'created >= @monthStart && created <= @monthEnd'
-	});
-	const dailySales = await pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
-		filter: 'created >= @todayStart && created <= @todayEnd'
-	});
-
-	const totalSales = await pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
-		expand: 'item'
-	});
+	// Fetch data in parallel
+	const [items, monthlySales, dailySales, totalSales] = await Promise.all([
+		pb.collection('inventory_item').getFullList<InventoryItemResponse>(),
+		pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
+			filter: 'created >= @monthStart && created <= @monthEnd',
+			fields: 'id,total,quantity'
+		}),
+		pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
+			filter: 'created >= @todayStart && created <= @todayEnd',
+			fields: 'id,total,quantity'
+		}),
+		pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
+			expand: 'item',
+			fields: 'id,quantity,expand.item.name'
+		})
+	]);
 
 	const dailyRevenu = dailySales.reduce((acc, curr) => {
 		return currency(acc).add(curr.total).value;
@@ -109,14 +117,21 @@ export const actions: Actions = {
 				return setError(form, 'Données invalides');
 			}
 
-			let total = 0;
-			let description = 'VENTE: ';
 			const { items, method, incash, outcash } = form.data;
 
+			// Batch fetch all inventory items in a single query
+			const itemIds = items.map((i) => i.id);
+			const itemsFilter = itemIds.map((id) => `id = "${id}"`).join(' || ');
+			const existingItems = await pb
+				.collection('inventory_item')
+				.getFullList<InventoryItemResponse>({
+					filter: itemsFilter
+				});
+			const itemsMap = new Map(existingItems.map((item) => [item.id, item]));
+
+			// Validate all items first
 			for (const item of items) {
-				const existingItem = await pb
-					.collection('inventory_item')
-					.getOne<InventoryItemResponse>(item.id);
+				const existingItem = itemsMap.get(item.id);
 
 				if (!existingItem) {
 					return setError(form, 'Article non trouvé');
@@ -125,23 +140,38 @@ export const actions: Actions = {
 				if (existingItem.quantity - item.quantity < 0) {
 					return setError(form, 'Quantité insuffisante dans le stock');
 				}
+			}
 
+			// Calculate totals and description first
+			let total = 0;
+			let description = 'VENTE: ';
+
+			for (const item of items) {
+				const existingItem = itemsMap.get(item.id)!;
 				const itemTotalPrice = currency(existingItem.price).multiply(item.quantity).value;
 				description = `${description}\n ${item.quantity}x ${existingItem.name}`;
-
-				await pb.collection('inventory_sale').create<InventorySaleRecord>({
-					total: itemTotalPrice,
-					quantity: item.quantity,
-					item: item.id,
-					seller: user?.id
-				});
-
 				total = currency(total).add(itemTotalPrice).value;
-
-				await pb.collection('inventory_item').update(item.id, {
-					quantity: existingItem.quantity - item.quantity
-				});
 			}
+
+			// Process all sales in parallel
+			const salePromises = items.map((item) => {
+				const existingItem = itemsMap.get(item.id)!;
+				const itemTotalPrice = currency(existingItem.price).multiply(item.quantity).value;
+
+				return Promise.all([
+					pb.collection('inventory_sale').create<InventorySaleRecord>({
+						total: itemTotalPrice,
+						quantity: item.quantity,
+						item: item.id,
+						seller: user?.id
+					}),
+					pb.collection('inventory_item').update(item.id, {
+						quantity: existingItem.quantity - item.quantity
+					})
+				]);
+			});
+
+			await Promise.all(salePromises);
 
 			await pb.collection('fund_transactions').create<FundTransactionsRecord>({
 				amount: total,
