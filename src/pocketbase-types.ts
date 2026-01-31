@@ -280,7 +280,8 @@ export type AvailableCagesRecord = {
 export enum BillsMethodOptions {
 	'cash' = 'cash',
 	'tpe' = 'tpe',
-	'cheque' = 'cheque'
+	'cheque' = 'cheque',
+	'virement' = 'virement'
 }
 export type BillsRecord = {
 	method?: BillsMethodOptions;
@@ -328,7 +329,8 @@ export type DoctorsRecord = {
 export enum FundTransactionsMethodOptions {
 	'cash' = 'cash',
 	'tpe' = 'tpe',
-	'cheque' = 'cheque'
+	'cheque' = 'cheque',
+	'virement' = 'virement'
 }
 export type FundTransactionsRecord = {
 	amount?: number;
@@ -391,7 +393,8 @@ export type InventoryItemRecord = {
 export enum InventorySaleMethodOptions {
 	'cash' = 'cash',
 	'tpe' = 'tpe',
-	'cheque' = 'cheque'
+	'cheque' = 'cheque',
+	'virement' = 'virement'
 }
 export type InventorySaleRecord = {
 	incash?: number;
@@ -427,8 +430,8 @@ export type ToilettageRecord = {
 };
 
 export enum UsersRoleOptions {
-	'operator' = 'operator',
-	'editor' = 'editor'
+	'editor' = 'editor',
+	'operator' = 'operator'
 }
 export type UsersRecord = {
 	avatar?: string;

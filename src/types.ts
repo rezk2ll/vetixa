@@ -79,7 +79,7 @@ export interface IClient extends Omit<ClientsResponse, 'animals'> {
 	animals: AnimalsResponse[];
 }
 
-export type PaymentMethodType = 'cash' | 'tpe' | 'cheque';
+export type PaymentMethodType = 'cash' | 'tpe' | 'cheque' | 'virement';
 export interface PaymentMethod {
 	value: PaymentMethodType;
 	label: string;

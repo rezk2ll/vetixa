@@ -18,6 +18,7 @@
 	import MoneyBagIcon from '$components/icons/MoneyBagIcon.svelte';
 	import MoneyOutIcon from '$components/icons/MoneyOutIcon.svelte';
 	import DoubleArrow from '$components/icons/DoubleArrow.svelte';
+	import { getPaymentMethodLabel } from '$utils/payment';
 
 	let locale = localeFromDateFnsLocale(fr);
 	let openAddFundsForm = false;
@@ -351,10 +352,8 @@
 											</td>
 											<td class="px-4 py-3 text-sm whitespace-nowrap">
 												<div class="flex gap-2">
-													<div
-														class="text-sm pt-1 font-normal text-gray-600 dark:text-gray-400 uppercase"
-													>
-														{item.method}
+													<div class="text-sm pt-1 font-normal text-gray-600 dark:text-gray-400">
+														{getPaymentMethodLabel(item.method)}
 													</div>
 													{#if item.method === 'cash'}
 														<div class="flex flex-row gap-1">
