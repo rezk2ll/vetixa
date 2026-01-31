@@ -58,19 +58,14 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-animal' });
 	const updateForm = await superValidate(zod(updateAnimalSchema), { id: 'update-animal' });
 
-	const dogsCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && type = "chien"` });
-	const catsCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && type = "chat"` });
-	const maleCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && sex = "male"` });
-	const femaleCount = await pb
-		.collection('animals')
-		.getList(1, 1, { filter: `(${queryFilter}) && sex = "female"` });
-	const allCount = await pb.collection('animals').getList(1, 1);
+	// Fetch all counts in parallel
+	const [dogsCount, catsCount, maleCount, femaleCount, allCount] = await Promise.all([
+		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && type = "chien"` }),
+		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && type = "chat"` }),
+		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && sex = "male"` }),
+		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && sex = "female"` }),
+		pb.collection('animals').getList(1, 1, { filter: queryFilter })
+	]);
 
 	return {
 		removeForm,
