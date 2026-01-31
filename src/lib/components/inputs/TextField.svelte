@@ -17,13 +17,13 @@
 		{placeholder}
 		{disabled}
 		type="text"
-		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
+		class="h-14 rounded-[4px] ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 {isInValid
 			? 'ring-red-500 focus:ring-red-500'
-			: 'ring-gray-200 focus:ring-blue-500'}"
+			: 'ring-gray-200 dark:ring-gray-600 focus:ring-blue-500 dark:focus:ring-blue-400'}"
 	/>
 	<label
 		for={name}
-		class="absolute left-0 bg-white px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs font-medium leading-4 {isInValid
+		class="absolute left-0 bg-white dark:bg-gray-800 px-1 duration-100 ease-linear ml-1 -translate-y-2.5 translate-x-2 text-xs font-medium leading-4 text-gray-700 dark:text-gray-300 {isInValid
 			? 'text-red-500'
 			: ''}">{label}</label
 	>

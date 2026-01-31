@@ -63,7 +63,7 @@
 	};
 </script>
 
-<div class="flex flex-col items-start justify-start xl:pl-14 w-full">
+<div class="flex flex-col items-start justify-start xl:pl-14 w-full overflow-hidden">
 	<div class="flex items-start justify-start w-full">
 		<div class="flex gap-2 bg-slate-100/50 h-12 w-full md:w-[500px] pl-5">
 			<div
@@ -161,12 +161,12 @@
 				</div>
 			</form>
 		</div>
-		<div class="flex flex-col px-5 md:px-0">
-			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-				<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+		<div class="flex flex-col">
+			<div class="overflow-x-auto">
+				<div class="inline-block min-w-full py-2 align-middle">
 					<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
 						<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-							<thead class="bg-gray-50 dark:bg-gray-800 table-fixed">
+							<thead class="bg-gray-50 dark:bg-gray-800">
 								<tr>
 									<th
 										scope="col"
@@ -217,7 +217,7 @@
 
 									<th
 										scope="col"
-										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+										class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400 w-64"
 										>Note</th
 									>
 
@@ -313,7 +313,7 @@
 										<td
 											class="px-4 py-3 text-sm {item.color
 												? getTextColor(item.color)
-												: 'text-gray-500'} truncate lg:overflow-hidden max-w-sm">{item.note}</td
+												: 'text-gray-500'} truncate max-w-[16rem]">{item.note}</td
 										>
 
 										<td class="px-4 py-3 text-sm whitespace-nowrap">

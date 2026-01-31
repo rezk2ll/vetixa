@@ -7,6 +7,252 @@ body {
 	--date-picker-foreground: rgb(107 114 128);
 }
 
+/* Dark mode color scheme */
+:root {
+	color-scheme: light;
+}
+
+.dark {
+	color-scheme: dark;
+	--date-picker-foreground: rgb(229 231 235); /* gray-200 */
+	--date-picker-background: rgb(31 41 55); /* gray-800 */
+	--date-picker-highlight-border: rgb(59 130 246); /* blue-500 */
+	--date-picker-highlight-shadow: rgba(59, 130, 246, 0.3);
+	--date-picker-selected-color: rgb(255 255 255);
+	--date-picker-selected-background: rgb(59 130 246); /* blue-500 */
+}
+
+/* Global dark mode overrides for common card/container patterns */
+@layer utilities {
+	/* Card/container dark mode utility */
+	.dark-card {
+		@apply dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/50;
+	}
+}
+
+/* Override common bg-white containers in dark mode */
+.dark .bg-white {
+	--tw-bg-opacity: 1;
+	background-color: rgb(31 41 55 / var(--tw-bg-opacity)); /* gray-800 */
+}
+
+/* Override shadow colors in dark mode */
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-2xl {
+	--tw-shadow-color: rgb(17 24 39 / 0.5); /* gray-900/50 */
+}
+
+/* Override common text colors in dark mode */
+.dark .text-gray-800 {
+	--tw-text-opacity: 1;
+	color: rgb(243 244 246 / var(--tw-text-opacity)); /* gray-100 */
+}
+
+.dark .text-gray-700 {
+	--tw-text-opacity: 1;
+	color: rgb(209 213 219 / var(--tw-text-opacity)); /* gray-300 */
+}
+
+.dark .text-gray-600 {
+	--tw-text-opacity: 1;
+	color: rgb(156 163 175 / var(--tw-text-opacity)); /* gray-400 */
+}
+
+.dark .text-gray-500 {
+	--tw-text-opacity: 1;
+	color: rgb(156 163 175 / var(--tw-text-opacity)); /* gray-400 */
+}
+
+/* Override border colors in dark mode */
+.dark .border-gray-200 {
+	--tw-border-opacity: 1;
+	border-color: rgb(55 65 81 / var(--tw-border-opacity)); /* gray-700 */
+}
+
+.dark .border-gray-300 {
+	--tw-border-opacity: 1;
+	border-color: rgb(75 85 99 / var(--tw-border-opacity)); /* gray-600 */
+}
+
+.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+	--tw-divide-opacity: 1;
+	border-color: rgb(55 65 81 / var(--tw-divide-opacity)); /* gray-700 */
+}
+
+/* Override bg-gray-50 and bg-slate-50 (often used for table headers, footers) */
+.dark .bg-gray-50 {
+	--tw-bg-opacity: 1;
+	background-color: rgb(55 65 81 / var(--tw-bg-opacity)); /* gray-700 */
+}
+
+.dark .bg-slate-50 {
+	--tw-bg-opacity: 1;
+	background-color: rgb(51 65 85 / var(--tw-bg-opacity)); /* slate-700 */
+}
+
+/* Override ring colors */
+.dark .ring-gray-200 {
+	--tw-ring-color: rgb(75 85 99); /* gray-600 */
+}
+
+.dark .ring-gray-300 {
+	--tw-ring-color: rgb(75 85 99); /* gray-600 */
+}
+
+/* Override custom blueGray colors in dark mode */
+.dark .text-blueGray-600 {
+	--tw-text-opacity: 1;
+	color: rgb(156 163 175 / var(--tw-text-opacity)); /* gray-400 */
+}
+
+.dark .text-blueGray-700 {
+	--tw-text-opacity: 1;
+	color: rgb(229 231 235 / var(--tw-text-opacity)); /* gray-200 */
+}
+
+.dark .bg-blueGray-50 {
+	--tw-bg-opacity: 1;
+	background-color: rgb(55 65 81 / var(--tw-bg-opacity)); /* gray-700 */
+}
+
+.dark .border-blueGray-100 {
+	--tw-border-opacity: 1;
+	border-color: rgb(75 85 99 / var(--tw-border-opacity)); /* gray-600 */
+}
+
+/* Override slate colors in dark mode */
+.dark .text-slate-800 {
+	--tw-text-opacity: 1;
+	color: rgb(226 232 240 / var(--tw-text-opacity)); /* slate-200 */
+}
+
+.dark .bg-slate-200 {
+	--tw-bg-opacity: 1;
+	background-color: rgb(51 65 85 / var(--tw-bg-opacity)); /* slate-700 */
+}
+
+/* FullCalendar dark mode theming */
+.dark .fc {
+	--fc-page-bg-color: rgb(31 41 55); /* gray-800 */
+	--fc-neutral-bg-color: rgb(55 65 81); /* gray-700 */
+	--fc-border-color: rgb(75 85 99); /* gray-600 */
+	--fc-button-bg-color: rgb(55 65 81); /* gray-700 */
+	--fc-button-border-color: rgb(75 85 99); /* gray-600 */
+	--fc-button-hover-bg-color: rgb(75 85 99); /* gray-600 */
+	--fc-button-hover-border-color: rgb(107 114 128); /* gray-500 */
+	--fc-button-active-bg-color: rgb(59 130 246); /* blue-500 */
+	--fc-button-active-border-color: rgb(59 130 246); /* blue-500 */
+	--fc-event-bg-color: rgb(59 130 246); /* blue-500 */
+	--fc-event-border-color: rgb(59 130 246); /* blue-500 */
+	--fc-today-bg-color: rgb(55 65 81 / 0.5); /* gray-700/50 */
+	--fc-list-event-hover-bg-color: rgb(55 65 81); /* gray-700 */
+}
+
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th,
+.dark .fc-theme-standard .fc-scrollgrid {
+	border-color: rgb(75 85 99); /* gray-600 */
+}
+
+.dark .fc-col-header-cell-cushion,
+.dark .fc-daygrid-day-number,
+.dark .fc-list-day-text,
+.dark .fc-list-day-side-text {
+	color: rgb(229 231 235); /* gray-200 */
+}
+
+.dark .fc-timegrid-slot-label-cushion,
+.dark .fc-list-event-title,
+.dark .fc-list-event-time {
+	color: rgb(209 213 219); /* gray-300 */
+}
+
+.dark .fc-button {
+	color: rgb(229 231 235) !important; /* gray-200 */
+}
+
+.dark .fc-toolbar-title {
+	color: rgb(243 244 246); /* gray-100 */
+}
+
+/* svelte-select dark mode theming */
+.dark .svelte-select {
+	--background: rgb(31 41 55); /* gray-800 */
+	--list-background: rgb(31 41 55); /* gray-800 */
+	--item-hover-bg: rgb(55 65 81); /* gray-700 */
+	--item-is-active-bg: rgb(55 65 81); /* gray-700 */
+	--border: rgb(75 85 99); /* gray-600 */
+	--border-hover: rgb(96 165 250); /* blue-400 */
+	--border-focused: rgb(96 165 250); /* blue-400 */
+	--input-color: rgb(229 231 235); /* gray-200 */
+	--placeholder-color: rgb(156 163 175); /* gray-400 */
+	--item-color: rgb(229 231 235); /* gray-200 */
+	--list-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+	--disabled-background: rgb(55 65 81); /* gray-700 */
+	--disabled-border-color: rgb(75 85 99); /* gray-600 */
+	--disabled-color: rgb(156 163 175); /* gray-400 */
+}
+
+/* date-picker-svelte dark mode additional overrides */
+.dark .picker {
+	background: rgb(31 41 55) !important; /* gray-800 */
+	border-color: rgb(75 85 99) !important; /* gray-600 */
+	color: rgb(229 231 235) !important; /* gray-200 */
+}
+
+.dark .picker .header {
+	background: rgb(31 41 55) !important;
+	color: rgb(229 231 235) !important;
+}
+
+.dark .picker select {
+	background: rgb(55 65 81) !important; /* gray-700 */
+	color: rgb(229 231 235) !important; /* gray-200 */
+	border-color: rgb(75 85 99) !important; /* gray-600 */
+}
+
+.dark .picker .month-controls button,
+.dark .picker .header button {
+	color: rgb(229 231 235) !important;
+}
+
+.dark .picker .month-controls button:hover,
+.dark .picker .header button:hover {
+	background: rgb(55 65 81) !important;
+}
+
+.dark .picker .week-days th {
+	color: rgb(156 163 175) !important; /* gray-400 */
+}
+
+.dark .picker .week td {
+	color: rgb(229 231 235) !important;
+}
+
+.dark .picker .week td:hover {
+	background: rgb(55 65 81) !important;
+}
+
+.dark .picker .week td.disabled {
+	color: rgb(107 114 128) !important; /* gray-500 */
+}
+
+.dark .picker .week td.selected {
+	background: rgb(59 130 246) !important; /* blue-500 */
+	color: white !important;
+}
+
+.dark .picker .week td.today {
+	border-color: rgb(59 130 246) !important;
+}
+
+.dark .picker .time-input input {
+	background: rgb(55 65 81) !important;
+	color: rgb(229 231 235) !important;
+	border-color: rgb(75 85 99) !important;
+}
+
 .date-time-field > input {
 	@apply px-4 py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg w-full lg:w-44 placeholder-gray-400/70 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 !important;
 }
