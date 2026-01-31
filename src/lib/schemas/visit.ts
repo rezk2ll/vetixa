@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+const numericString = z.union([
+	z.number(),
+	z.string().transform((val) => (val === '' ? 0 : Number(val)))
+]);
+
 export const addVisitSchema = z.object({
 	motif: z.string().min(1, { message: 'Motif invalide' }),
 	control: z.boolean().optional().default(false),
@@ -8,26 +13,18 @@ export const addVisitSchema = z.object({
 
 export const updateVisitSchema = addVisitSchema.extend({
 	id: z.string().min(1),
-	visit_price: z
-		.number()
-		.min(0)
-		.default(0)
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0),
+	visit_price: numericString.pipe(z.number().min(0)).default(0),
 	doctor: z.string().min(1, { message: 'Veuillez choisir un médecin' }).optional()
 });
 
 export const payVisitSchema = z.object({
 	id: z.string().min(1),
-	amount: z
-		.number()
-		.default(0)
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n > 0, { message: 'Montant invalide' }),
+	amount: numericString
+		.pipe(z.number().min(0.01, { message: 'Montant invalide' }))
+		.default(0),
 	method: z.string().min(1).default('cash'),
-	incash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0),
-	outcash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0),
+	incash: numericString.pipe(z.number().min(0)).default(0),
+	outcash: numericString.pipe(z.number().min(0)).default(0),
 	description: z.string()
 });
 
@@ -73,7 +70,7 @@ export const updateVisitHospitalisationSchema = z.object({
 	end: z.date({ message: 'Date de sortie invalide' }),
 	treatment: z.string().optional(),
 	cage: z.string().min(1, { message: 'cage invalide' }),
-	price: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0)
+	price: numericString.pipe(z.number().min(0)).default(0)
 });
 
 export const updateVisitTreatmentSchema = z.object({
@@ -84,7 +81,7 @@ export const updateVisitTreatmentSchema = z.object({
 export const updateVisitItemSchema = z.object({
 	id: z.string().min(1),
 	item: z.string().min(1),
-	discount: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0),
-	quantity: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(1),
+	discount: numericString.pipe(z.number().min(0)).default(0),
+	quantity: numericString.pipe(z.number().min(0)).default(1),
 	type: z.string().optional()
 });

@@ -1,60 +1,44 @@
 import z from 'zod';
 
+const numericString = z.union([
+	z.number(),
+	z.string().transform((val) => (val === '' ? 0 : Number(val)))
+]);
+
 export const addInventoryItemSchema = z.object({
 	name: z.string().min(3, { message: 'Nom invalide, minimum 3 caractères' }),
-	quantity: z
-		.number()
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n >= 0, { message: 'Quantité invalide' }),
-	price: z
-		.number()
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n > 0, { message: 'Prix invalide' }),
-	cost: z
-		.number()
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n > 0, { message: "Prix d'achat invalide" }),
-	alert: z
-		.number()
-		.min(1, { message: 'Alerte invalide' })
-		.default(10)
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n > 0, { message: '' }),
-	tva: z
-		.number()
-		.min(0)
-		.default(0)
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n >= 0, { message: 'TVA invalide' }),
-	gain: z
-		.number()
-		.min(0)
-		.default(0)
-		.or(z.string().regex(/\d+/).transform(Number))
-		.default(0)
-		.refine((n) => n >= 0, { message: 'Marge de gain invalide' }),
+	quantity: numericString
+		.pipe(z.number().min(0, { message: 'Quantité invalide' }))
+		.default(0),
+	price: numericString
+		.pipe(z.number().min(0.01, { message: 'Prix invalide' }))
+		.default(0),
+	cost: numericString
+		.pipe(z.number().min(0.01, { message: "Prix d'achat invalide" }))
+		.default(0),
+	alert: numericString
+		.pipe(z.number().min(1, { message: 'Alerte invalide' }))
+		.default(10),
+	tva: numericString
+		.pipe(z.number().min(0, { message: 'TVA invalide' }))
+		.default(0),
+	gain: numericString
+		.pipe(z.number().min(0, { message: 'Marge de gain invalide' }))
+		.default(0),
 	description: z.string().optional(),
 	code: z.string().min(1, { message: 'Code invalide' })
 });
 
 const inventoryItemSchema = z.object({
 	id: z.string().min(1),
-	quantity: z
-		.number()
-		.or(z.string().regex(/\d+/).transform(Number))
-		.refine((n) => n > 0, { message: 'Quantité invalide' })
+	quantity: numericString.pipe(z.number().min(1, { message: 'Quantité invalide' }))
 });
 
 export const sellInventoryItemSchema = z.object({
 	items: z.array(inventoryItemSchema).nonempty(),
 	method: z.string().min(1).default('cash'),
-	incash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)),
-	outcash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number))
+	incash: numericString.pipe(z.number().min(0)).default(0),
+	outcash: numericString.pipe(z.number().min(0)).default(0)
 });
 
 export const updateInventoryItemSchema = addInventoryItemSchema.extend({
