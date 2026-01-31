@@ -12,6 +12,7 @@
 	import DollarBill from '$components/icons/DollarBill.svelte';
 	import { toast } from 'svelte-sonner';
 	import { formatDateStringShortDay } from '$lib/utils/date';
+	import { getPaymentMethodLabel } from '$lib/utils/payment';
 
 	export let bill: PaymentInformation;
 
@@ -176,8 +177,8 @@
 							>{formatDateStringShortDay(history.created)}
 						</button>
 						<span class="font-bold text-gray-800 dark:text-gray-200">{history.amount} DT</span>
-						<span class="font-bold text-gray-800 dark:text-gray-200 uppercase"
-							>{history.method}</span
+						<span class="font-bold text-gray-800 dark:text-gray-200"
+							>{getPaymentMethodLabel(history.method)}</span
 						>
 					</div>
 					{#if history.description.length > 0}

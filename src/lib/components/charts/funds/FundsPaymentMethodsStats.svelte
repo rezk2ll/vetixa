@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { FundPaymentMethodsStats } from '$types';
 	import currency from 'currency.js';
+	import { getPaymentMethodLabel } from '$utils/payment';
 
 	export let stats: FundPaymentMethodsStats;
 
@@ -50,8 +51,8 @@
 					{#each items as item}
 						<tr
 							><th
-								class="max-w-lg border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-left uppercase"
-								>{item.method}</th
+								class="max-w-lg border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-left"
+								>{getPaymentMethodLabel(item.method)}</th
 							>
 							<td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center"
 								>{item.count}</td
