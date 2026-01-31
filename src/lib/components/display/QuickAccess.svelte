@@ -9,7 +9,7 @@
 </script>
 
 <div
-	class="relative mt-6 flex w-full xl:w-10/12 flex-col xl:rounded-2xl bg-white bg-clip-border text-gray-700 xl:shadow-lg"
+	class="relative mt-6 flex w-full xl:w-10/12 flex-col xl:rounded-2xl bg-white dark:bg-gray-800 bg-clip-border text-gray-700 dark:text-gray-200 xl:shadow-lg dark:shadow-gray-900/50"
 >
 	<div class="p-4 px-6 pb-2">
 		<div
@@ -22,7 +22,7 @@
 			<slot />
 		</div>
 		<h5
-			class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased"
+			class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 dark:text-white antialiased"
 		>
 			{title}
 		</h5>

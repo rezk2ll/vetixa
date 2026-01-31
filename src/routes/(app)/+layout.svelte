@@ -38,7 +38,7 @@
 </svelte:head>
 
 <Nav />
-<div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col pt-10 xl:pt-16">
+<div class="min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden gradiant flex flex-col pt-10 xl:pt-16">
 	{#if $globalLoading}
 		<LoadingSpinner />
 	{:else}
@@ -57,6 +57,17 @@
 					rgba(65, 4, 233, 0.2) 100%
 				),
 				linear-gradient(0deg, #ffffff, #ffffff);
+		}
+	}
+	:global(.dark) .gradiant {
+		@media screen(md) {
+			background: linear-gradient(
+					105.88deg,
+					rgba(238, 5, 82, 0.15) 0%,
+					rgba(235, 219, 2, 0.1) 43.6%,
+					rgba(65, 4, 233, 0.1) 100%
+				),
+				linear-gradient(0deg, #111827, #111827);
 		}
 	}
 </style>

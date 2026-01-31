@@ -345,8 +345,7 @@
 												<td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
 													<div class="flex items-center gap-x-2">
 														<p
-															class="px-3 py-1 text-xs
-																 'text-blue-500 bg-blue-100/60 rounded-full"
+															class="px-3 py-1 text-xs text-blue-600 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/60 rounded-full"
 														>
 															{animal.client}
 														</p>
@@ -355,8 +354,8 @@
 											{/if}
 											<td
 												class="px-4 py-2.5 text-sm {animal.sex === 'male'
-													? 'text-blue-500 '
-													: 'text-pink-500 '}  whitespace-nowrap"
+													? 'text-blue-500 dark:text-blue-400'
+													: 'text-pink-500 dark:text-pink-400'}  whitespace-nowrap"
 											>
 												<AnimalIcon type={animal.type} />
 											</td>

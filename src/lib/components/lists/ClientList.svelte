@@ -116,17 +116,17 @@
 	<ConfirmationDialog bind:show={showConfirmation} handler={deleteHandler}>
 		<div>
 			<div class="mt-2 text-center">
-				<h3 class="text-lg font-medium leading-6 text-gray-800" id="modal-title">
+				<h3 class="text-lg font-medium leading-6 text-gray-800 dark:text-white" id="modal-title">
 					Supprimer {selectedItem?.name}
 				</h3>
-				<p class="mt-2 text-sm text-gray-500">
+				<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
 					Êtes-vous sûr de vouloir supprimer cet animal ? Toutes vos données seront définitivement
 					supprimé. Cette action ne peut pas être annulée.
 				</p>
 			</div>
 		</div>
 	</ConfirmationDialog>
-	<div class="w-full px-3 lg:px-5 lg:p-5 lg:py-3 bg-white md:shadow-2xl border-gray-200 xl:rounded">
+	<div class="w-full px-3 lg:px-5 lg:p-5 lg:py-3 bg-white dark:bg-gray-800 md:shadow-2xl dark:shadow-gray-900/50 border-gray-200 dark:border-gray-700 xl:rounded">
 		<div class="flex flex-col space-y-4 w-full">
 			<div
 				class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full lg:pr-5"
@@ -135,13 +135,13 @@
 					class="flex items-center justify-center lg:justify-start lg:items-start flex-col w-full"
 				>
 					<div class="flex items-center gap-x-3">
-						<h2 class="text-lg font-medium text-gray-800">Clients</h2>
-						<span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full"
+						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Clients</h2>
+						<span class="px-3 py-1 text-xs text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/50 rounded-full"
 							>{$clientsPageInfo.totalItems}</span
 						>
 					</div>
 
-					<p class="mt-1 text-sm text-gray-500">La liste des clients</p>
+					<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">La liste des clients</p>
 				</div>
 				<div class="flex items-center mt-4 gap-x-2 w-full md:w-auto">
 					<button
@@ -167,7 +167,7 @@
 							bind:value={search}
 							type="text"
 							placeholder="Chercher par nom, email, téléphone..."
-							class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-4/12 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+							class="block w-full py-1.5 pr-5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg md:w-4/12 placeholder-gray-400/70 dark:placeholder-gray-500 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 dark:focus:border-blue-500 focus:ring-blue-300 dark:focus:ring-blue-500 focus:outline-none focus:ring focus:ring-opacity-40"
 						/>
 					</div>
 				</form>
@@ -175,13 +175,13 @@
 			<div class="flex flex-col mt-6">
 				<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="min-w-full py-2 align-middle md:px-6 lg:px-8">
-						<div class="border border-gray-200 md:rounded-lg">
-							<table class="min-w-full divide-y divide-gray-200">
-								<thead class="bg-gray-50">
+						<div class="border border-gray-200 dark:border-gray-700 md:rounded-lg">
+							<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+								<thead class="bg-gray-50 dark:bg-gray-700">
 									<tr>
 										<th
 											scope="col"
-											class="py-2.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="py-2.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>
 											<div class="flex items-center gap-x-3">
 												<span>Nom</span>
@@ -190,27 +190,27 @@
 
 										<th
 											scope="col"
-											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Email</th
 										>
 										<th
 											scope="col"
-											class="px-4 w-auto py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 w-auto py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Téléphone</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Adresse</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 											>Note</th
 										>
 										<th
 											scope="col"
-											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
 										>
 											Animaux
 										</th>
@@ -220,31 +220,31 @@
 										</th>
 									</tr>
 								</thead>
-								<tbody class="bg-white divide-y divide-gray-200">
+								<tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
 									{#each $clientsPageInfo.items as item}
 										<tr>
-											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
+											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
 												<div class="inline-flex items-center gap-x-3">
 													<a href="/clients/{item.id}" class="flex items-center gap-x-2">
 														<Avatar name={item.name} />
 														<div>
-															<h2 class="font-medium text-gray-800 hover:underline">
+															<h2 class="font-medium text-gray-800 dark:text-gray-200 hover:underline">
 																{item.name}
 															</h2>
 														</div>
 													</a>
 												</div>
 											</td>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.email ?? '-'}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.tel ?? '-'}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.address ?? '-'}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
+											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.note ?? '-'}</td
 											>
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
@@ -252,8 +252,8 @@
 													{#each item.animals.slice(0, 8) as animal}
 														<p
 															class="px-3 py-1 text-xs {animal.sex === 'male'
-																? 'text-blue-500 bg-blue-100/60'
-																: 'text-pink-500 bg-pink-100/60'} rounded-full"
+																? 'text-blue-600 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/60'
+																: 'text-pink-600 bg-pink-100 dark:text-pink-300 dark:bg-pink-900/60'} rounded-full"
 														>
 															{animal.name}
 														</p>
@@ -288,8 +288,8 @@
 			</div>
 
 			<div class="mt-6 sm:flex sm:items-center sm:justify-between px-5 pb-10 lg:pb-0">
-				<div class="text-sm text-gray-500">
-					Page <span class="font-medium text-gray-700"
+				<div class="text-sm text-gray-500 dark:text-gray-400">
+					Page <span class="font-medium text-gray-700 dark:text-gray-200"
 						>{$clientsPageInfo.page} sur {$clientsPageInfo.totalPages}</span
 					>
 				</div>
@@ -298,12 +298,12 @@
 					<button
 						on:click={() => previousPage()}
 						disabled={$clientsPageInfo.page <= 1}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$clientsPageInfo.page <=
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 dark:text-gray-200 capitalize transition-colors duration-200 {$clientsPageInfo.page <=
 						1
-							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page <= 1
-							? 'hover:bg-slate-200'
-							: 'hover:bg-gray-100'}"
+							? 'bg-slate-200 dark:bg-gray-700'
+							: 'bg-white dark:bg-gray-800'} border dark:border-gray-600 rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page <= 1
+							? 'hover:bg-slate-200 dark:hover:bg-gray-700'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'}"
 					>
 						<BackArrow />
 
@@ -313,13 +313,13 @@
 					<button
 						disabled={$clientsPageInfo.page >= $clientsPageInfo.totalPages}
 						on:click={() => nextPage()}
-						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$clientsPageInfo.page >=
+						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 dark:text-gray-200 capitalize transition-colors duration-200 {$clientsPageInfo.page >=
 						$clientsPageInfo.totalPages
-							? 'bg-slate-200'
-							: 'bg-white'} border rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page >=
+							? 'bg-slate-200 dark:bg-gray-700'
+							: 'bg-white dark:bg-gray-800'} border dark:border-gray-600 rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page >=
 						$clientsPageInfo.totalPages
-							? 'hover:bg-slate-200'
-							: 'hover:bg-gray-100'}"
+							? 'hover:bg-slate-200 dark:hover:bg-gray-700'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'}"
 					>
 						<span> Suivant </span>
 

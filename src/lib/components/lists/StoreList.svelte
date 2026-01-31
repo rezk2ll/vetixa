@@ -198,7 +198,7 @@
 						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'all'
-							? 'bg-gray-100'
+							? 'bg-gray-100 dark:!bg-gray-600'
 							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
 					>
 						Tout
@@ -210,8 +210,8 @@
 						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'available'
-							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							? 'bg-gray-100 dark:!bg-gray-600'
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
 					>
 						En Stock
 						<span
@@ -227,8 +227,8 @@
 						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'alert'
-							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							? 'bg-gray-100 dark:!bg-gray-600'
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
 					>
 						En Alerte
 						<span
@@ -245,8 +245,8 @@
 						}}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 						'unavailable'
-							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							? 'bg-gray-100 dark:!bg-gray-600'
+							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
 					>
 						En Rupture
 						<span

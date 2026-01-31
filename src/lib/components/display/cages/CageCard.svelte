@@ -27,14 +27,14 @@
 </script>
 
 <div
-	style="background-color: {color};"
+	style={color ? `background-color: ${color};` : ''}
 	class="flex flex-col rounded {color
 		? ''
 		: isDead
-		? 'bg-red-500/80'
+		? 'bg-red-500/80 dark:bg-red-900/80'
 		: isNew
-		? 'bg-emerald-100/90'
-		: 'bg-white'} shadow-xl relative min-h-52"
+		? 'bg-emerald-100/90 dark:bg-emerald-900/50'
+		: '!bg-white dark:!bg-gray-700'} shadow-xl relative min-h-52"
 >
 	<span class="absolute top-0 left-0 bg-black text-slate-200 text-md font-semibold py-1 px-2">
 		{cage.code}
@@ -56,7 +56,7 @@
 			>
 				<AnimalIcon type={cage.hospit?.visit.animal.type} />
 			</div>
-			<div class="flex flex-col grow {textColor}">
+			<div class="flex flex-col grow {color ? textColor : 'text-gray-700 dark:text-gray-200'}">
 				<div class="flex flex-row w-full text-sm gap-2 pt-2">
 					<Time />
 					<div>{formatDateStringShort(cage.hospit?.start)}</div>
