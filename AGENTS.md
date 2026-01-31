@@ -99,7 +99,10 @@ Main entities: clients, animals, visits, bills, hospitalisation, fund_transactio
 1. **Research** - Understand existing patterns and architecture
 2. **Plan** - Propose approach and verify with user
 3. **Implement** - Build with tests and error handling
-4. **Validate** - ALWAYS run formatters, linters, and tests after implementation
+4. **Validate** - After implementation, ALWAYS run in this order:
+   - `npm run format` - Format code with Prettier
+   - `npm run check` - Run svelte-check for type errors
+   - `npm run lint` - Run ESLint checks
 
 ## Code Organization Principles
 

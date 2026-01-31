@@ -71,7 +71,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		const removeMedicalActForm = await superValidate(zod(removeVisitItemSchema), {
 			id: 'remove-medical-act'
 		});
-		const addSurgicaActsForm = await superValidate(zod(addVisitItemsSchema), {
+		const addSurgicalActsForm = await superValidate(zod(addVisitItemsSchema), {
 			id: 'add-surgical-acts'
 		});
 		const removeSurgicalActForm = await superValidate(zod(removeVisitItemSchema), {
@@ -124,15 +124,21 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			)
 		} as Visit;
 
-		const medicalActs = await pb.collection('medical_acts').getFullList<MedicalActsResponse>();
-		const toilettage = await pb.collection('toilettage').getFullList<ToilettageResponse>();
-		const surgicalActs = await pb.collection('surgical_acts').getFullList<SurgicalActsResponse>();
-		const storeItems = await pb.collection('inventory_item').getFullList<InventoryItemResponse>({
-			filter: 'quantity > 0'
-		});
+		// Parallelize independent queries for better performance
+		const [medicalActs, toilettage, surgicalActs, storeItems, cagesResult, doctors, generatedBill] =
+			await Promise.all([
+				pb.collection('medical_acts').getFullList<MedicalActsResponse>(),
+				pb.collection('toilettage').getFullList<ToilettageResponse>(),
+				pb.collection('surgical_acts').getFullList<SurgicalActsResponse>(),
+				pb.collection('inventory_item').getFullList<InventoryItemResponse>({
+					filter: 'quantity > 0'
+				}),
+				pb.collection('available_cages').getFullList<CagesResponse>(),
+				pb.collection('doctors').getFullList<DoctorsResponse>(),
+				billService.generateBill()
+			]);
 
-		let cages = await pb.collection('available_cages').getFullList<CagesResponse>();
-		cages = cages.sort(cageCompare);
+		let cages = cagesResult.sort(cageCompare);
 
 		if (visit.hospit && visit.hospit.cage) {
 			currentCage = await pb.collection('cages').getOne<CagesResponse>(visit.hospit.cage);
@@ -140,9 +146,6 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 				cages = [currentCage, ...cages];
 			}
 		}
-
-		const generatedBill = await billService.generateBill();
-		const doctors = await pb.collection('doctors').getFullList<DoctorsResponse>();
 
 		return {
 			tab,
@@ -166,7 +169,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			removeVisitStoreItemForm,
 			addMedicalActsForm,
 			removeMedicalActForm,
-			addSurgicaActsForm,
+			addSurgicalActsForm,
 			removeSurgicalActForm,
 			updateVisitHospitForm,
 			generatedBill,

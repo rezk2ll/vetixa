@@ -5,17 +5,14 @@
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import type { AnimalsResponse } from '$types';
 	import { superForm } from 'sveltekit-superforms/client';
-	import AgeDisplay from '$components/display/AgeDisplay.svelte';
 	import AddAnimalForm from '$components/forms/animals/AddAnimalForm.svelte';
 	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
-	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
 	import BackArrow from '$components/icons/BackArrow.svelte';
 	import ForwardArrow from '../icons/ForwardArrow.svelte';
-	import EditIcon from '$components/icons/EditIcon.svelte';
-	import TrashIcon from '$components/icons/TrashIcon.svelte';
 	import { toast } from 'svelte-sonner';
+	import AnimalTableRow from './AnimalTableRow.svelte';
 
 	export let canAdd: boolean = true;
 	export let isNew: boolean = false;
@@ -334,84 +331,12 @@
 								</thead>
 								<tbody class="bg-white divide-y divide-gray-200">
 									{#each pageItems as animal}
-										<tr class={animal.deceased ? 'bg-red-100/80' : ''}>
-											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 whitespace-nowrap">
-												<div class="inline-flex items-center gap-x-3">
-													<div class="flex items-center gap-x-2">
-														<a
-															href="/animals/{animal.id}"
-															class="hover:underline font-semibold capitalize text-gray-800 dark:text-white"
-														>
-															{animal.name}
-														</a>
-													</div>
-												</div>
-											</td>
-											{#if canAdd === false}
-												<td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-													<div class="flex items-center gap-x-2">
-														<p
-															class="px-3 py-1 text-xs text-blue-600 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/60 rounded-full"
-														>
-															{animal.client}
-														</p>
-													</div>
-												</td>
-											{/if}
-											<td
-												class="px-4 py-2.5 text-sm {animal.sex === 'male'
-													? 'text-blue-500 dark:text-blue-400'
-													: 'text-pink-500 dark:text-pink-400'}  whitespace-nowrap"
-											>
-												<AnimalIcon type={animal.type} />
-											</td>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-												>{animal.type}</td
-											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-												>{animal.sex}</td
-											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-												>{animal.weight}</td
-											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap">
-												<AgeDisplay
-													date={animal.birthday}
-													death={animal.deathdate}
-													dead={animal.deceased}
-												/>
-											</td>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-												>{animal.color}</td
-											>
-
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-												>{animal.breed}</td
-											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 whitespace-nowrap"
-												>{animal.identifier}</td
-											>
-
-											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
-												<div class="flex items-end justify-end gap-x-6 w-full">
-													<button
-														on:click={() => remove(animal)}
-														class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
-													>
-														<TrashIcon />
-													</button>
-
-													<button
-														type="button"
-														on:click={() => update(animal)}
-														title="Modifier le client"
-														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 hover:text-yellow-500 focus:outline-none"
-													>
-														<EditIcon />
-													</button>
-												</div>
-											</td>
-										</tr>
+										<AnimalTableRow
+											{animal}
+											showOwner={!canAdd}
+											on:remove={(e) => remove(e.detail)}
+											on:update={(e) => update(e.detail)}
+										/>
 									{/each}
 								</tbody>
 							</table>
