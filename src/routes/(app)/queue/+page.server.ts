@@ -21,12 +21,22 @@ export const load = (async ({ locals: { pb } }) => {
 		expand: 'visit, visit.animal, visit.animal.client'
 	});
 
-	const list = await Promise.all(
-		queueList.map(async (item) => {
+	// Batch fetch all bills for queue items in a single query
+	const visitIds = queueList.map((item) => item.visit).filter(Boolean);
+	const billsMap = new Map<string, BillsResponse>();
+
+	if (visitIds.length > 0) {
+		const billsFilter = visitIds.map((id) => `visit = "${id}"`).join(' || ');
+		const bills = await pb.collection('bills').getFullList<BillsResponse>({
+			filter: billsFilter
+		});
+		bills.forEach((bill) => billsMap.set(bill.visit, bill));
+	}
+
+	const list = queueList
+		.map((item) => {
 			try {
-				const bill = await pb
-					.collection('bills')
-					.getFirstListItem<BillsResponse>(`visit = "${item.visit}"`);
+				const bill = billsMap.get(item.visit);
 
 				const expansion = item.expand as RecordModel;
 				if (!expansion || !expansion.visit) {
@@ -58,13 +68,12 @@ export const load = (async ({ locals: { pb } }) => {
 				};
 			} catch (error) {
 				console.error(error);
+				return undefined;
 			}
 		})
-	);
+		.filter((item) => item !== undefined) as Queue;
 
-	const queue = list.filter((item) => item !== undefined) as Queue;
-
-	return { queue, form };
+	return { queue: list, form };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
