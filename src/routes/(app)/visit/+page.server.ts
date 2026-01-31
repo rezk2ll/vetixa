@@ -70,9 +70,11 @@ export const load = (async ({ locals: { pb }, url }) => {
 		const billIds = bills.map((b) => b.id);
 		if (billIds.length > 0) {
 			const historyFilter = billIds.map((id) => `bill = "${id}"`).join(' || ');
-			const histories = await pb.collection('fund_transactions').getFullList<FundTransactionsResponse>({
-				filter: historyFilter
-			});
+			const histories = await pb
+				.collection('fund_transactions')
+				.getFullList<FundTransactionsResponse>({
+					filter: historyFilter
+				});
 			histories.forEach((h) => {
 				const existing = billHistoryMap.get(h.bill) || [];
 				existing.push(h);
@@ -139,7 +141,10 @@ export const load = (async ({ locals: { pb }, url }) => {
 /**
  * Calculate visit total from expanded data without additional queries
  */
-function calculateVisitTotal(visit: VisitsResponse<ItemMetadata[]>, expansion: RecordModel): number {
+function calculateVisitTotal(
+	visit: VisitsResponse<ItemMetadata[]>,
+	expansion: RecordModel
+): number {
 	const metadataMap = new Map((visit.item_metadata ?? []).map((m) => [m.item, m]));
 
 	const calculateItemsTotal = (items: { id: string; price: number }[] = []) =>
