@@ -126,7 +126,9 @@
 			</div>
 		</div>
 	</ConfirmationDialog>
-	<div class="w-full px-3 lg:px-5 lg:p-5 lg:py-3 bg-white dark:bg-gray-800 md:shadow-2xl dark:shadow-gray-900/50 border-gray-200 dark:border-gray-700 xl:rounded">
+	<div
+		class="w-full px-3 lg:px-5 lg:p-5 lg:py-3 bg-white dark:bg-gray-800 md:shadow-2xl dark:shadow-gray-900/50 border-gray-200 dark:border-gray-700 xl:rounded"
+	>
 		<div class="flex flex-col space-y-4 w-full">
 			<div
 				class="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full lg:pr-5"
@@ -136,7 +138,8 @@
 				>
 					<div class="flex items-center gap-x-3">
 						<h2 class="text-lg font-medium text-gray-800 dark:text-white">Clients</h2>
-						<span class="px-3 py-1 text-xs text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/50 rounded-full"
+						<span
+							class="px-3 py-1 text-xs text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/50 rounded-full"
 							>{$clientsPageInfo.totalItems}</span
 						>
 					</div>
@@ -220,31 +223,41 @@
 										</th>
 									</tr>
 								</thead>
-								<tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+								<tbody
+									class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+								>
 									{#each $clientsPageInfo.items as item}
 										<tr>
-											<td class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+											<td
+												class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap"
+											>
 												<div class="inline-flex items-center gap-x-3">
 													<a href="/clients/{item.id}" class="flex items-center gap-x-2">
 														<Avatar name={item.name} />
 														<div>
-															<h2 class="font-medium text-gray-800 dark:text-gray-200 hover:underline">
+															<h2
+																class="font-medium text-gray-800 dark:text-gray-200 hover:underline"
+															>
 																{item.name}
 															</h2>
 														</div>
 													</a>
 												</div>
 											</td>
-											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
+											<td
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.email ?? '-'}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
+											<td
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.tel ?? '-'}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
+											<td
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.address ?? '-'}</td
 											>
-											<td class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
+											<td
+												class="px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap"
 												>{item.note ?? '-'}</td
 											>
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
@@ -301,7 +314,8 @@
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 dark:text-gray-200 capitalize transition-colors duration-200 {$clientsPageInfo.page <=
 						1
 							? 'bg-slate-200 dark:bg-gray-700'
-							: 'bg-white dark:bg-gray-800'} border dark:border-gray-600 rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page <= 1
+							: 'bg-white dark:bg-gray-800'} border dark:border-gray-600 rounded-md sm:w-auto gap-x-2 {$clientsPageInfo.page <=
+						1
 							? 'hover:bg-slate-200 dark:hover:bg-gray-700'
 							: 'hover:bg-gray-100 dark:hover:bg-gray-700'}"
 					>

@@ -38,7 +38,9 @@
 </svelte:head>
 
 <Nav />
-<div class="min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden gradiant flex flex-col pt-10 xl:pt-16">
+<div
+	class="min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden gradiant flex flex-col pt-10 xl:pt-16"
+>
 	{#if $globalLoading}
 		<LoadingSpinner />
 	{:else}
