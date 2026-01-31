@@ -31,16 +31,18 @@ export class SalesService {
 			expand: 'item'
 		});
 
-		return list.map((item) => {
-			const inventoryItem = (item.expand as RecordModel).item as InventoryItemResponse;
+		return list
+			.filter((item) => item.expand && (item.expand as RecordModel).item)
+			.map((item) => {
+				const inventoryItem = (item.expand as RecordModel).item as InventoryItemResponse;
 
-			return {
-				...item,
-				item: inventoryItem,
-				type: 'sale',
-				discount: 0
-			} satisfies InventorySaleItem;
-		});
+				return {
+					...item,
+					item: inventoryItem,
+					type: 'sale',
+					discount: 0
+				} satisfies InventorySaleItem;
+			});
 	};
 
 	/**
@@ -54,9 +56,7 @@ export class SalesService {
 		const list = await this.pb.collection('visits').getFullList<VisitsResponse<ItemMetadata[]>>({
 			filter: this.getQueryFilter(startDate, endDate),
 			sort: '-created',
-			expand: 'store_items, medical_acts, surgical_acts, toilettage, hospit',
-			fields:
-				'id,created,visit_price,item_metadata,expand.store_items.id,expand.store_items.name,expand.store_items.code,expand.store_items.price,expand.store_items.description,expand.medical_acts.id,expand.medical_acts.name,expand.medical_acts.code,expand.medical_acts.price,expand.surgical_acts.id,expand.surgical_acts.name,expand.surgical_acts.code,expand.surgical_acts.price,expand.toilettage.id,expand.toilettage.name,expand.toilettage.code,expand.toilettage.price,expand.hospit.id,expand.hospit.start,expand.hospit.end,expand.hospit.price'
+			expand: 'store_items, medical_acts, surgical_acts, toilettage, hospit'
 		});
 
 		return list
