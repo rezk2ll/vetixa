@@ -4,6 +4,9 @@
 	export let isInValid: boolean = false;
 	export let name: string;
 	export let options: string[];
+	export let errorMessage: string = 'Valeur invalide';
+
+	$: errorId = `${name}-error`;
 </script>
 
 <div class="relative mt-6 w-full">
@@ -12,6 +15,8 @@
 		id={name}
 		bind:value
 		required
+		aria-invalid={isInValid}
+		aria-describedby={isInValid ? errorId : undefined}
 		class="h-14 rounded-[4px] bg-white ring-2 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
 			: 'ring-gray-300 focus:ring-blue-500'}"
@@ -26,4 +31,9 @@
 			? 'text-red-500'
 			: ''}">{label}</label
 	>
+	{#if isInValid}
+		<p id={errorId} role="alert" class="mt-1 text-xs text-red-500">
+			{errorMessage}
+		</p>
+	{/if}
 </div>

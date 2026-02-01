@@ -61,7 +61,7 @@
 		removeVisitStoreItemForm,
 		addMedicalActsForm,
 		removeMedicalActForm,
-		addSurgicaActsForm,
+		addSurgicalActsForm,
 		removeSurgicalActForm,
 		updateVisitHospitForm,
 		generatedBill,
@@ -89,7 +89,7 @@
 	$: removeVisitStoreItemFormStore.set(removeVisitStoreItemForm);
 	$: addVisitMedicalActsFormStore.set(addMedicalActsForm);
 	$: removeVisitMedicalActFormStore.set(removeMedicalActForm);
-	$: addVisitSurgicalActsFormStore.set(addSurgicaActsForm);
+	$: addVisitSurgicalActsFormStore.set(addSurgicalActsForm);
 	$: removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
 	$: updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
 	$: cagesList.set(cages);
