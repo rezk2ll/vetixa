@@ -1,4 +1,4 @@
-FROM node:20-slim AS builder
+FROM node:24-slim AS builder
 
 ENV ADAPTER=node
 WORKDIR /app
@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 RUN npm prune --production
 
-FROM node:20-slim
+FROM node:24-slim
 WORKDIR /app
 COPY --from=builder /app/build build/
 COPY --from=builder /app/node_modules node_modules/
