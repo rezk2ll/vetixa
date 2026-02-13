@@ -98,16 +98,18 @@
 		<div
 			class="flex px-1 py-2 pb-4 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-5 lg:space-y-0 justify-between w-full"
 		>
-			<div class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg">
+			<div
+				class="flex flex-row overflow-hidden bg-white dark:bg-gray-800 border dark:border-gray-600 divide-x dark:divide-gray-600 rounded-lg"
+			>
 				<button
 					type="button"
 					on:click={() => {
 						changeTab('all');
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'all'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 				>
 					Tout
 				</button>
@@ -116,10 +118,10 @@
 					on:click={() => {
 						changeTab('pending');
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'pending'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 				>
 					En cours
 					<span
@@ -134,10 +136,10 @@
 					on:click={() => {
 						changeTab('complete');
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'complete'
-						? 'bg-gray-100'
-						: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 				>
 					Terminé
 					<span

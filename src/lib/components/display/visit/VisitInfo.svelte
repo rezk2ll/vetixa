@@ -33,7 +33,7 @@
 <div class="flex flex-col lg:flex-row px-2 lg:px-0 lg:space-x-5 w-full">
 	<div class="flex flex-col space-y-5 w-full">
 		<div
-			class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
+			class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 w-full"
 		>
 			Animal
 
@@ -53,7 +53,7 @@
 	</div>
 	<div class="flex flex-col space-y-5 w-full">
 		<div
-			class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 w-full"
+			class="flex justify-between px-5 py-4 border-b rounded-lg border-gray-100 bg-blueGray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 w-full"
 		>
 			Client
 

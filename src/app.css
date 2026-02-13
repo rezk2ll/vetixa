@@ -30,104 +30,147 @@ body {
 	}
 }
 
-/* Override common bg-white containers in dark mode */
-.dark .bg-white {
+/* Force light mode for printable content - ensures print remains readable in dark mode */
+.dark .print-content {
+	color-scheme: light;
+	color: rgb(0 0 0);
+	background-color: rgb(255 255 255);
+}
+
+.dark .print-content * {
+	color: inherit;
+}
+
+.dark .print-content .text-gray-500 {
+	color: rgb(107 114 128) !important;
+}
+
+.dark .print-content .text-gray-800 {
+	color: rgb(31 41 55) !important;
+}
+
+.dark .print-content .text-gray-700 {
+	color: rgb(55 65 81) !important;
+}
+
+.dark .print-content .text-blue-600 {
+	color: rgb(37 99 235) !important;
+}
+
+.dark .print-content .text-blue-800 {
+	color: rgb(30 64 175) !important;
+}
+
+.dark .print-content .bg-white {
+	background-color: rgb(255 255 255) !important;
+}
+
+.dark .print-content .border-gray-200 {
+	border-color: rgb(229 231 235) !important;
+}
+
+.dark .print-content .border-black {
+	border-color: rgb(0 0 0) !important;
+}
+
+/* Override common bg-white containers in dark mode (exclude print content) */
+.dark .bg-white:not(.print-content *) {
 	--tw-bg-opacity: 1;
 	background-color: rgb(31 41 55 / var(--tw-bg-opacity)); /* gray-800 */
 }
 
 /* Override shadow colors in dark mode */
-.dark .shadow-lg,
-.dark .shadow-xl,
-.dark .shadow-2xl {
+.dark .shadow-lg:not(.print-content *),
+.dark .shadow-xl:not(.print-content *),
+.dark .shadow-2xl:not(.print-content *) {
 	--tw-shadow-color: rgb(17 24 39 / 0.5); /* gray-900/50 */
 }
 
-/* Override common text colors in dark mode */
-.dark .text-gray-800 {
+/* Override common text colors in dark mode (exclude print content) */
+.dark .text-gray-800:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(243 244 246 / var(--tw-text-opacity)); /* gray-100 */
 }
 
-.dark .text-gray-700 {
+.dark .text-gray-700:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(209 213 219 / var(--tw-text-opacity)); /* gray-300 */
 }
 
-.dark .text-gray-600 {
+.dark .text-gray-600:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(156 163 175 / var(--tw-text-opacity)); /* gray-400 */
 }
 
-.dark .text-gray-500 {
+.dark .text-gray-500:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(156 163 175 / var(--tw-text-opacity)); /* gray-400 */
 }
 
-/* Override border colors in dark mode */
-.dark .border-gray-200 {
+/* Override border colors in dark mode (exclude print content) */
+.dark .border-gray-200:not(.print-content *) {
 	--tw-border-opacity: 1;
 	border-color: rgb(55 65 81 / var(--tw-border-opacity)); /* gray-700 */
 }
 
-.dark .border-gray-300 {
+.dark .border-gray-300:not(.print-content *) {
 	--tw-border-opacity: 1;
 	border-color: rgb(75 85 99 / var(--tw-border-opacity)); /* gray-600 */
 }
 
-.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+.dark .divide-gray-200:not(.print-content *) > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-opacity: 1;
 	border-color: rgb(55 65 81 / var(--tw-divide-opacity)); /* gray-700 */
 }
 
-/* Override bg-gray-50 and bg-slate-50 (often used for table headers, footers) */
-.dark .bg-gray-50 {
+/* Override bg-gray-50 and bg-slate-50 (often used for table headers, footers, exclude print content) */
+.dark .bg-gray-50:not(.print-content *) {
 	--tw-bg-opacity: 1;
 	background-color: rgb(55 65 81 / var(--tw-bg-opacity)); /* gray-700 */
 }
 
-.dark .bg-slate-50 {
+.dark .bg-slate-50:not(.print-content *) {
 	--tw-bg-opacity: 1;
 	background-color: rgb(51 65 85 / var(--tw-bg-opacity)); /* slate-700 */
 }
 
-/* Override ring colors */
-.dark .ring-gray-200 {
+/* Override ring colors (exclude print content) */
+.dark .ring-gray-200:not(.print-content *) {
 	--tw-ring-color: rgb(75 85 99); /* gray-600 */
 }
 
-.dark .ring-gray-300 {
+.dark .ring-gray-300:not(.print-content *) {
 	--tw-ring-color: rgb(75 85 99); /* gray-600 */
 }
 
-/* Override custom blueGray colors in dark mode */
-.dark .text-blueGray-600 {
+/* Override custom blueGray colors in dark mode (exclude print content) */
+.dark .text-blueGray-600:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(156 163 175 / var(--tw-text-opacity)); /* gray-400 */
 }
 
-.dark .text-blueGray-700 {
+.dark .text-blueGray-700:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(229 231 235 / var(--tw-text-opacity)); /* gray-200 */
 }
 
-.dark .bg-blueGray-50 {
+.dark .bg-blueGray-50:not(.print-content *) {
 	--tw-bg-opacity: 1;
 	background-color: rgb(55 65 81 / var(--tw-bg-opacity)); /* gray-700 */
 }
 
-.dark .border-blueGray-100 {
+.dark .border-blueGray-100:not(.print-content *) {
 	--tw-border-opacity: 1;
 	border-color: rgb(75 85 99 / var(--tw-border-opacity)); /* gray-600 */
 }
 
-/* Override slate colors in dark mode */
-.dark .text-slate-800 {
+/* Override slate colors in dark mode (exclude print content) */
+.dark .text-slate-800:not(.print-content *) {
 	--tw-text-opacity: 1;
 	color: rgb(226 232 240 / var(--tw-text-opacity)); /* slate-200 */
 }
 
-.dark .bg-slate-200 {
+.dark .bg-slate-200:not(.print-content *) {
 	--tw-bg-opacity: 1;
 	background-color: rgb(51 65 85 / var(--tw-bg-opacity)); /* slate-700 */
 }

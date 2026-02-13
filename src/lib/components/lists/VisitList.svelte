@@ -89,7 +89,7 @@
 			class="flex py-2 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full"
 		>
 			<div
-				class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg w-full lg:w-auto"
+				class="flex flex-row overflow-hidden bg-white dark:bg-gray-800 border dark:border-gray-600 divide-x dark:divide-gray-600 rounded-lg w-full lg:w-auto"
 			>
 				<button
 					on:click={() => {
@@ -98,8 +98,8 @@
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
 					'all'
-						? 'bg-gray-100'
-						: ''} sm:text-sm"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: ''} sm:text-sm dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					Tout
 				</button>
@@ -108,14 +108,14 @@
 						statusFilter = 'completed';
 						page = 0;
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'completed'
-						? 'bg-gray-100'
-						: ''} sm:text-sm hover:bg-gray-100"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: ''} sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					payés
 					<span
-						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-200 dark:bg-slate-700 rounded-full"
 					>
 						{paidCount}
 					</span>
@@ -125,14 +125,14 @@
 						statusFilter = 'partial';
 						page = 0;
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'partial'
-						? 'bg-gray-100'
-						: ''} sm:text-sm hover:bg-gray-100"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: ''} sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					Arriérés
 					<span
-						class="inline-flex items-center justify-center w-8 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						class="inline-flex items-center justify-center w-8 h-5 ms-2 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-200 dark:bg-slate-700 rounded-full"
 					>
 						{partialCount}
 					</span>
@@ -142,14 +142,14 @@
 						statusFilter = 'pending';
 						page = 0;
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'pending'
-						? 'bg-gray-100'
-						: ''} sm:text-sm hover:bg-gray-100"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: ''} sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					En attente
 					<span
-						class="inline-flex items-center justify-center w-8 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						class="inline-flex items-center justify-center w-8 h-5 ms-2 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-200 dark:bg-slate-700 rounded-full"
 					>
 						{pendingCount}
 					</span>
@@ -159,14 +159,14 @@
 						statusFilter = 'control';
 						page = 0;
 					}}
-					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 					'control'
-						? 'bg-gray-100'
-						: ''} sm:text-sm hover:bg-gray-100"
+						? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+						: ''} sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
 				>
 					contrôle
 					<span
-						class="inline-flex items-center justify-center w-8 h-5 ms-2 text-xs font-semibold text-slate-800 bg-slate-200 rounded-full"
+						class="inline-flex items-center justify-center w-8 h-5 ms-2 text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-200 dark:bg-slate-700 rounded-full"
 					>
 						{controlCount}
 					</span>

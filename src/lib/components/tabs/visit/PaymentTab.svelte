@@ -78,9 +78,11 @@
 			<div class="flex flex-col w-full">
 				<div class="flex flex-row space-x-5 items-center justify-start">
 					<DollarBill />
-					<h2 class="text-xl font-semibold text-gray-800">Paiement</h2>
+					<h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Paiement</h2>
 				</div>
-				<span class="text-slate-800 font-normal">Saisissez les détails du paiement.</span>
+				<span class="text-slate-800 dark:text-slate-200 font-normal"
+					>Saisissez les détails du paiement.</span
+				>
 				<div class="py-2 flex flex-col gap-1">
 					<PaymentStatus {bill} control={$currentVisit.control} />
 					<div class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700">
@@ -182,7 +184,9 @@
 						>
 					</div>
 					{#if history.description.length > 0}
-						<div class="px-5 py-1 bg-gray-100 text-gray-800 whitespace-pre-line">
+						<div
+							class="px-5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 whitespace-pre-line"
+						>
 							{@html history.description}
 						</div>
 					{/if}
