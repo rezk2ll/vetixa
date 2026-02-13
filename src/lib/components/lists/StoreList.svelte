@@ -196,10 +196,10 @@
 							statusFilter = 'all';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 						'all'
-							? 'bg-gray-100 dark:!bg-gray-600'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+							? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 					>
 						Tout
 					</button>
@@ -208,10 +208,10 @@
 							statusFilter = 'available';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 						'available'
-							? 'bg-gray-100 dark:!bg-gray-600'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+							? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 					>
 						En Stock
 						<span
@@ -225,10 +225,10 @@
 							statusFilter = 'alert';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 						'alert'
-							? 'bg-gray-100 dark:!bg-gray-600'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+							? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 					>
 						En Alerte
 						<span
@@ -243,10 +243,10 @@
 							statusFilter = 'unavailable';
 							page = 0;
 						}}
-						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 						'unavailable'
-							? 'bg-gray-100 dark:!bg-gray-600'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+							? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 					>
 						En Rupture
 						<span

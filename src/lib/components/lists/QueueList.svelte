@@ -89,17 +89,17 @@
 				class="flex px-1 lg:px-0 flex-col lg:flex-row items-start lg:items-center space-y-10 lg:space-y-0 justify-between w-full lg:w-auto"
 			>
 				<div
-					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg w-full lg:w-96"
+					class="flex flex-row overflow-hidden bg-white dark:bg-gray-800 border dark:border-gray-600 divide-x dark:divide-gray-600 rounded-lg w-full lg:w-96"
 				>
 					<button
 						on:click={() => {
 							statusFilter = 'pending';
 							page = 0;
 						}}
-						class="px-5 w-full py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 w-full py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 						'pending'
-							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300"
+							? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 					>
 						En attente
 						<span
@@ -113,10 +113,10 @@
 							statusFilter = 'completed';
 							page = 0;
 						}}
-						class="px-5 py-2 w-full text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
+						class="px-5 py-2 w-full text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
 						'completed'
-							? 'bg-gray-100'
-							: ''} sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
+							? 'bg-gray-100 dark:bg-blue-600 dark:text-white'
+							: 'hover:bg-gray-100 dark:hover:bg-gray-700'} sm:text-sm"
 					>
 						Servis
 						<span

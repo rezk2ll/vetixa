@@ -67,7 +67,7 @@
 						listOffset={10}
 						placeholder="Docteur"
 						bind:justValue={$form.doctor}
-						class="h-[57px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
+						class="h-[57px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 dark:ring-gray-600 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
 					/>
 				</div>
 				<div class="flex items-center justify-center flex-col w-full pb-0.5">
@@ -89,7 +89,7 @@
 					/>
 					<label
 						for="control"
-						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50"
+						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-gray-200"
 					>
 						<div class="flex gap-2">
 							<MagnifierGlass />
@@ -107,7 +107,7 @@
 					/>
 					<label
 						for="vaccination"
-						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50"
+						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-gray-200"
 					>
 						<div class="flex gap-2">
 							<Vaccination />
@@ -118,7 +118,9 @@
 			</div>
 		</div>
 
-		<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-100">
+		<div
+			class="flex items-center justify-between px-3 py-2 border-t bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+		>
 			<SubmitButton small loading={$submitting} />
 			<div
 				class="flex flex-col gap-1 lg:flex-row px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"

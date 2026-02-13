@@ -15,14 +15,15 @@
 >
 	<button
 		type="button"
-		class="flex justify-between px-5 py-4 border-b border-gray-100 {color === 'primary'
-			? 'bg-blueGray-200'
+		class="flex justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-600 {color ===
+		'primary'
+			? 'bg-blueGray-200 dark:bg-gray-700'
 			: color === 'secondary'
-			? 'bg-gray-300'
-			: 'bg-gray-100'} w-full"
+			? 'bg-gray-300 dark:bg-gray-600'
+			: 'bg-gray-100 dark:bg-gray-700'} w-full"
 		on:click={() => (show = !show)}
 	>
-		<h2 class="font-semibold text-gray-800">{title}</h2>
+		<h2 class="font-semibold text-gray-800 dark:text-gray-200">{title}</h2>
 		<span class="transition {show ? '' : '-rotate-90	'}">
 			<svg
 				fill="none"
