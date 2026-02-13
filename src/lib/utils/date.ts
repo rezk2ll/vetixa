@@ -1,4 +1,4 @@
-import { format, addDays, setHours, setMinutes, differenceInDays } from 'date-fns';
+import { format, addDays, startOfDay, differenceInDays } from 'date-fns';
 import locale from 'date-fns/locale/fr/index';
 
 /**
@@ -173,8 +173,8 @@ export const formatDateTime = (date: string): string =>
  * @returns {number} the number of days between the two dates
  */
 export const getDaysBetween = (start: string, end: string): number => {
-	const startDate = setHours(setMinutes(new Date(start), 0), 0);
-	const endDate = setHours(setMinutes(new Date(end), 0), 24);
+	const startDate = startOfDay(new Date(start));
+	const endDate = addDays(startOfDay(new Date(end)), 1);
 
 	return Math.max(differenceInDays(endDate, startDate) - 1, 0);
 };
@@ -187,8 +187,8 @@ export const getDaysBetween = (start: string, end: string): number => {
  * @returns {number} the number of days between the two dates
  */
 export const daysDiff = (start: string, end: string): number => {
-	const startDate = setHours(setMinutes(new Date(start), 0), 0);
-	const endDate = setHours(setMinutes(new Date(end), 0), 0);
+	const startDate = startOfDay(new Date(start));
+	const endDate = startOfDay(new Date(end));
 
 	return differenceInDays(endDate, startDate);
 };
