@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import { currentVisit, payVisitFormStore } from '$lib/store/visit';
 	import { paymentMethods } from '$lib/utils/payment';
@@ -51,12 +49,12 @@
 		}
 	};
 
-	run(() => {
+	$effect(() => {
 		if (!$form.id || $form.id.length) {
 			$form.id = $currentVisit.id;
 		}
 	});
-	run(() => {
+	$effect(() => {
 		if ($currentVisit.id && $currentVisit.id.length) {
 			$form.id = $currentVisit.id;
 		}
@@ -78,7 +76,7 @@
 			? Math.abs(currency(bill.total).subtract(bill.total_paid).value)
 			: 0
 	);
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

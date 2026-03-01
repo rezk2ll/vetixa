@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Select from 'svelte-select';
 	import fr from 'date-fns/locale/fr/index';
 	import { superForm } from 'sveltekit-superforms';
@@ -126,24 +124,24 @@
 	};
 
 	let disabled = $derived(!$form.cage || !$form.start || !$form.end);
-	run(() => {
+	$effect(() => {
 		$form.id = $currentVisit.id;
 	});
-	run(() => {
+	$effect(() => {
 		$form.start = $currentVisit.hospit.start?.length
 			? new Date($currentVisit.hospit.start)
 			: new Date();
 	});
-	run(() => {
+	$effect(() => {
 		$form.end = $currentVisit.hospit.end?.length ? new Date($currentVisit.hospit.end) : new Date();
 	});
-	run(() => {
+	$effect(() => {
 		$form.cage = $currentVisit.hospit.cage;
 	});
-	run(() => {
+	$effect(() => {
 		$form.note = $currentVisit.hospit.note;
 	});
-	run(() => {
+	$effect(() => {
 		$form.price = $currentVisit.hospit.price;
 	});
 	let cages = $derived(
@@ -157,7 +155,7 @@
 			? getDaysBetween($currentVisit.hospit?.start, $currentVisit.hospit.end)
 			: 0
 	);
-	run(() => {
+	$effect(() => {
 		if (invalidated || treatments.length !== daysCount) {
 			treatments = getPreviousDays(new Date($currentVisit.hospit.end), daysCount).map((day) => {
 				if ($currentVisit.hospit.treatment) {
@@ -183,10 +181,10 @@
 		}
 	});
 
-	run(() => {
+	$effect(() => {
 		$form.treatment = JSON.stringify(treatments);
 	});
-	run(() => {
+	$effect(() => {
 		[...$allErrors, ...$removeErrors, ...$completeErrors].map((error) => {
 			toast.error(error.messages.join('. '));
 		});

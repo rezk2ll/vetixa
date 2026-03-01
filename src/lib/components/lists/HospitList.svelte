@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import { daysDiff, formatDateStringShortDay, formatFilterDate } from '$lib/utils/date';
 	import type { HospitStatusFilter as StatusFilter } from '$types';
 	import { hospitPageInfo } from '$store/hospit';
@@ -25,10 +23,10 @@
 	let page = $hospitPageInfo.page;
 	let statusFilter: StatusFilter = $hospitPageInfo.filter;
 
-	let nextPage = $derived(() => goNextPage($hospitPageInfo.page, $hospitPageInfo.totalPages));
-	let previousPage = $derived(() => goPreviousPage($hospitPageInfo.page));
-	let dispatchSearch = $derived(() => doSearch(search));
-	let changeTab = $derived((filter: StatusFilter) => doChangeTab(filter));
+	const nextPage = () => goNextPage($hospitPageInfo.page, $hospitPageInfo.totalPages);
+	const previousPage = () => goPreviousPage($hospitPageInfo.page);
+	const dispatchSearch = () => doSearch(search);
+	const changeTab = (filter: StatusFilter) => doChangeTab(filter);
 </script>
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full overflow-hidden">
@@ -117,7 +115,13 @@
 					</span>
 				</button>
 			</div>
-			<form onsubmit={preventDefault(dispatchSearch)} class="w-full md:w-auto md:pb-0">
+			<form
+				onsubmit={(e) => {
+					e.preventDefault();
+					dispatchSearch();
+				}}
+				class="w-full md:w-auto md:pb-0"
+			>
 				<div class="flex items-center mt-0 h-6 relative w-full">
 					<button class="absolute right-0 focus:outline-none">
 						<SearchIcon />

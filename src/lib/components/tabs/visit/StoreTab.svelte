@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import {
 		addVisitStoreItemFormStore,
 		currentVisit,
@@ -136,7 +134,7 @@
 	};
 
 	let combinedErrors = $derived([...$allErrors, ...$removeErrors, ...$updateErrors]);
-	run(() => {
+	$effect(() => {
 		combinedErrors.length &&
 			toast.error(combinedErrors.map((error) => error.messages.join('. ')).join('. '));
 	});

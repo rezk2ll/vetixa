@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import ClientAnimalsList from '$components/lists/ClientAnimalsList.svelte';
 	import CollapsibleSection from '$components/CollapsibleSection.svelte';
 	import Details from '$components/Details.svelte';
@@ -37,25 +35,25 @@
 		{ name: 'Note', value: client.note ?? '-' }
 	]);
 
-	run(() => {
+	$effect(() => {
 		addAnimalFormStore.set(addForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateAnimalFormStore.set(updateForm);
 	});
-	run(() => {
+	$effect(() => {
 		deleteAnimalFormStore.set(removeForm);
 	});
-	run(() => {
+	$effect(() => {
 		animals.set(client.animals);
 	});
-	run(() => {
+	$effect(() => {
 		updateClientFormStore.set(form);
 	});
-	run(() => {
+	$effect(() => {
 		clientBills.set(bills);
 	});
-	run(() => {
+	$effect(() => {
 		currentClient.set(client);
 	});
 </script>

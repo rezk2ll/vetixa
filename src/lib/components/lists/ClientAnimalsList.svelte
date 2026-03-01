@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Modal from '$components/Modal.svelte';
 	import { animals, currentAnimal, deleteAnimalFormStore } from '$lib/store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
@@ -65,17 +63,17 @@
 
 	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 
-	let catCount = $derived($animals.filter((item) => item.type === 'chat').length);
-	let dogCount = $derived($animals.filter((item) => item.type === 'chien').length);
-	let maleCount = $derived($animals.filter((item) => item.sex === 'male').length);
-	let femaleCOunt = $derived($animals.filter((item) => item.sex === 'female').length);
+	const catCount = $animals.filter((item) => item.type === 'chat').length;
+	const dogCount = $animals.filter((item) => item.type === 'chien').length;
+	const maleCount = $animals.filter((item) => item.sex === 'male').length;
+	const femaleCOunt = $animals.filter((item) => item.sex === 'female').length;
 
-	let handler = $derived(() => {
+	const handler = () => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;
-	});
+	};
 
 	const remove = (item: AnimalsResponse) => {
 		$deleteForm.id = item.id;
@@ -83,11 +81,11 @@
 		showConfirmation = true;
 	};
 
-	let update = $derived((item: AnimalsResponse) => {
+	const update = (item: AnimalsResponse) => {
 		currentAnimal.set(item);
 		selectedUpdateItem = item;
 		openUpdateAnimalModal = true;
-	});
+	};
 
 	const {
 		enhance,
@@ -107,7 +105,7 @@
 		dataType: 'json'
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

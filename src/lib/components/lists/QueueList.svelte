@@ -46,20 +46,20 @@
 		const id = setInterval(() => (currentTime = new Date().getTime()), 1000);
 		return () => clearInterval(id);
 	});
-	let waitingCount = $derived($queue.filter(({ served }) => !served).length);
+	const waitingCount = $queue.filter(({ served }) => !served).length;
 	let servedCount = $derived($queue.length - waitingCount);
 
-	let waitingTime = $derived((date: string, time: string | null = null) => {
+	const waitingTime = (date: string, time: string | null = null) => {
 		const finalTime = time ? new Date(time).getTime() : currentTime;
 
 		return calculateDiff(date, finalTime);
-	});
+	};
 
-	let open = $derived((id: string) => {
+	const open = (id: string) => {
 		$form.id = id;
 
 		formRef?.requestSubmit();
-	});
+	};
 
 	$effect(() => {
 		$allErrors.map((error) => {

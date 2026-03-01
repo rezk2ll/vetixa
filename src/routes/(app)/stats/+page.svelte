@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import InventorySaleList from '$components/lists/InventorySaleList.svelte';
 	import ActStatsTab from '$lib/components/display/stats/ActStatsTab.svelte';
 	import { inventorySalesPageInfo } from '$store/inventory';
@@ -13,7 +11,7 @@
 	let { data }: Props = $props();
 
 	let { page } = $derived(data);
-	run(() => {
+	$effect(() => {
 		inventorySalesPageInfo.set(page);
 	});
 </script>

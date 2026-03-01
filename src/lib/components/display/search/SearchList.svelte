@@ -14,7 +14,7 @@
 
 	let currentUrl = $derived(browser ? document.location.href : '');
 
-	let nextPage = $derived(() => {
+	const nextPage = () => {
 		if ($searchPage.page === $searchPage.totalPages) return;
 
 		const nextUrl = new URL(currentUrl);
@@ -22,16 +22,16 @@
 		nextUrl.searchParams.set('page', `${$searchPage.page + 1}`);
 
 		goto(nextUrl);
-	});
+	};
 
-	let previousPage = $derived(() => {
+	const previousPage = () => {
 		if ($searchPage.page === 1) return;
 
 		const prevUrl = new URL(currentUrl);
 
 		prevUrl.searchParams.set('page', `${$searchPage.page - 1}`);
 		goto(prevUrl);
-	});
+	};
 
 	let { page } = $derived($searchPage);
 </script>

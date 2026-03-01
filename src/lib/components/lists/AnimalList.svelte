@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import Modal from '$components/Modal.svelte';
 	import { animalsPageInfo, currentAnimal, deleteAnimalFormStore } from '$store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
@@ -40,29 +38,29 @@
 	let deleteFormRef: HTMLFormElement = $state();
 	let selectedUpdateItem: AnimalsResponse | null = $state();
 
-	let removeHandler = $derived(() => {
+	const removeHandler = () => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;
-	});
+	};
 
-	let remove = $derived((item: AnimalsResponse) => {
+	const remove = (item: AnimalsResponse) => {
 		$deleteForm.id = item.id;
 		selectedItem = item;
 		showConfirmation = true;
-	});
+	};
 
-	let update = $derived((item: AnimalsResponse) => {
+	const update = (item: AnimalsResponse) => {
 		currentAnimal.set(item);
 		selectedUpdateItem = item;
 		openUpdateAnimalModal = true;
-	});
+	};
 
-	let nextPage = $derived(() => goNextPage($animalsPageInfo.page, $animalsPageInfo.totalPages));
-	let previousPage = $derived(() => goPreviousPage($animalsPageInfo.page));
-	let dispatchSearch = $derived(() => doSearch(search));
-	let changeTab = $derived((tab: StatusFilter) => doChangeTab(tab));
+	const nextPage = () => goNextPage($animalsPageInfo.page, $animalsPageInfo.totalPages);
+	const previousPage = () => goPreviousPage($animalsPageInfo.page);
+	const dispatchSearch = () => doSearch(search);
+	const changeTab = (tab: StatusFilter) => doChangeTab(tab);
 
 	const {
 		enhance,
@@ -81,7 +79,7 @@
 		dataType: 'json'
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});
@@ -219,7 +217,13 @@
 						</span>
 					</button>
 				</div>
-				<form onsubmit={preventDefault(dispatchSearch)} class="w-full lg:w-1/3">
+				<form
+					onsubmit={(e) => {
+						e.preventDefault();
+						dispatchSearch();
+					}}
+					class="w-full lg:w-1/3"
+				>
 					<div class="flex items-center mt-0 h-6">
 						<button class="absolute">
 							<SearchIcon />

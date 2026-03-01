@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import type { VisitStatusFilter as StatusFilter } from '$types';
 	import { formatDateStringShort, formatDateStringToTime } from '$lib/utils/date';
 	import { activityPage } from '$store/activity';
@@ -21,10 +19,10 @@
 	let search: string = $state($activityPage.query);
 	let page = $activityPage.page;
 
-	let nextPage = $derived(() => goNextPage($activityPage.page, $activityPage.totalPages));
-	let previousPage = $derived(() => goPreviousPage($activityPage.page));
-	let dispatchSearch = $derived(() => doSearch(search));
-	let changeTab = $derived((filter: StatusFilter) => doChangeTab(filter));
+	const nextPage = () => goNextPage($activityPage.page, $activityPage.totalPages);
+	const previousPage = () => goPreviousPage($activityPage.page);
+	const dispatchSearch = () => doSearch(search);
+	const changeTab = (filter: StatusFilter) => doChangeTab(filter);
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
@@ -120,7 +118,13 @@
 					</span>
 				</button>
 			</div>
-			<form onsubmit={preventDefault(dispatchSearch)} class="w-full md:w-auto md:pb-0">
+			<form
+				onsubmit={(e) => {
+					e.preventDefault();
+					dispatchSearch();
+				}}
+				class="w-full md:w-auto md:pb-0"
+			>
 				<div class="flex items-center mt-0 h-6 relative w-full">
 					<button class="absolute right-0 focus:outline-none">
 						<SearchIcon />

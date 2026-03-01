@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import Modal from '$components/Modal.svelte';
 	import type { IClient } from '$types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
@@ -36,9 +34,9 @@
 	let deleteFormRef: HTMLFormElement = $state();
 	let selectedUpdateItem: IClient | null = $state();
 
-	let nextPage = $derived(() => goNextPage($clientsPageInfo.page, $clientsPageInfo.totalPages));
-	let previousPage = $derived(() => goPreviousPage($clientsPageInfo.page));
-	let dispatchSearch = $derived(() => doSearch(search));
+	const nextPage = () => goNextPage($clientsPageInfo.page, $clientsPageInfo.totalPages);
+	const previousPage = () => goPreviousPage($clientsPageInfo.page);
+	const dispatchSearch = () => doSearch(search);
 
 	const deleteHandler = () => {
 		deleteFormRef.requestSubmit();
@@ -76,7 +74,7 @@
 		dataType: 'json'
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});
@@ -146,7 +144,13 @@
 			<div
 				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
 			>
-				<form onsubmit={preventDefault(dispatchSearch)} class="w-full">
+				<form
+					onsubmit={(e) => {
+						e.preventDefault();
+						dispatchSearch();
+					}}
+					class="w-full"
+				>
 					<div class="flex items-center mt-0 h-6 relative w-full">
 						<button class="absolute focus:outline-none">
 							<SearchIcon />

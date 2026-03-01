@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import PaymentTab from '$components/tabs/visit/PaymentTab.svelte';
 	import TabContainer from '$components/tabs/visit/VisitTabContainer.svelte';
 	import {
@@ -79,88 +77,88 @@
 		updateHospitCompeltedStateForm
 	} = $derived(data);
 
-	run(() => {
+	$effect(() => {
 		currentVisit.set(visit);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitFormStore.set(form);
 	});
-	run(() => {
+	$effect(() => {
 		addVisitToilettageFormStore.set(addToilettageForm);
 	});
-	run(() => {
+	$effect(() => {
 		removeVisitItemFormStore.set(removeToilettageForm);
 	});
-	run(() => {
+	$effect(() => {
 		medicalActsStore.set(medicalActs);
 	});
-	run(() => {
+	$effect(() => {
 		toilettageActs.set(toilettage);
 	});
-	run(() => {
+	$effect(() => {
 		surgicalActsStore.set(surgicalActs);
 	});
-	run(() => {
+	$effect(() => {
 		payVisitFormStore.set(payVisitForm);
 	});
-	run(() => {
+	$effect(() => {
 		addVisitFileFormStore.set(addFileForm);
 	});
-	run(() => {
+	$effect(() => {
 		removeVisitFileFormStore.set(removeFileForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitDiagnosticFormStore.set(updateDiagnosticForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitActionsFormStore.set(updateActionsForm);
 	});
-	run(() => {
+	$effect(() => {
 		addVisitStoreItemFormStore.set(addVisitStoreItemForm);
 	});
-	run(() => {
+	$effect(() => {
 		removeVisitStoreItemFormStore.set(removeVisitStoreItemForm);
 	});
-	run(() => {
+	$effect(() => {
 		addVisitMedicalActsFormStore.set(addMedicalActsForm);
 	});
-	run(() => {
+	$effect(() => {
 		removeVisitMedicalActFormStore.set(removeMedicalActForm);
 	});
-	run(() => {
+	$effect(() => {
 		addVisitSurgicalActsFormStore.set(addSurgicalActsForm);
 	});
-	run(() => {
+	$effect(() => {
 		removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
 	});
-	run(() => {
+	$effect(() => {
 		cagesList.set(cages);
 	});
-	run(() => {
+	$effect(() => {
 		inventoryItems.set(storeItems);
 	});
-	run(() => {
+	$effect(() => {
 		generatedBill && visitBill.set(generatedBill);
 	});
-	run(() => {
+	$effect(() => {
 		removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
 	});
-	run(() => {
+	$effect(() => {
 		activeVisitTab.set(tab as VisitTabsType);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitItemFormStore.set(updateVisitItemForm);
 	});
-	run(() => {
+	$effect(() => {
 		doctorList.set(doctors);
 	});
-	run(() => {
+	$effect(() => {
 		hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
 	});
 	let acts = $derived(

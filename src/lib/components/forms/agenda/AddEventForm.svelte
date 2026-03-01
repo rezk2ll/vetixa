@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import TextField from '$components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addEventFormStore } from '$store/agenda';
@@ -36,13 +34,13 @@
 		resetForm: true
 	});
 
-	run(() => {
+	$effect(() => {
 		$form.start = formatISO(start);
 	});
-	run(() => {
+	$effect(() => {
 		$form.end = formatISO(end);
 	});
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

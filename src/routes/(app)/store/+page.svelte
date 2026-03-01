@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import StockStats from '$components/charts/stock/StockStats.svelte';
 	import StockSalesRank from '$components/charts/stock/StockSalesRank.svelte';
 	import StockStatusChart from '$components/charts/stock/StockStatusChart.svelte';
@@ -31,7 +29,7 @@
 		totalSoldItems
 	} = $derived(data);
 
-	run(() => {
+	$effect(() => {
 		inventoryItems.set(
 			items.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
 		);
@@ -45,16 +43,16 @@
 		$inventoryItems.filter((item) => item.quantity <= item.alert && item.quantity > 0).length
 	]);
 
-	run(() => {
+	$effect(() => {
 		addInventoryFormStore.set(addForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateInventoryFormStore.set(updateForm);
 	});
-	run(() => {
+	$effect(() => {
 		sellInventoryFormStore.set(sellForm);
 	});
-	run(() => {
+	$effect(() => {
 		removeInventoryFormStore.set(deleteForm);
 	});
 </script>

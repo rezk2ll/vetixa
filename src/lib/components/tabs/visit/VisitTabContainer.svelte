@@ -14,7 +14,7 @@
 	import VisitInfo from '$components/display/visit/VisitInfo.svelte';
 	import ScissorsIcon from '$lib/components/icons/ScissorsIcon.svelte';
 
-	let isActive = $derived((tab: VisitTabsType): boolean => tab === $activeVisitTab);
+	const isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
 </script>
 
 <div class="flex flex-col items-center justify-start lg:pl-14 w-full lg:pt-10 pb-5">

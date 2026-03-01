@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import TextField from '$components/inputs/TextField.svelte';
 	import { inventoryItems, sellInventoryFormStore } from '$lib/store/inventory';
 	import { superForm } from 'sveltekit-superforms/client';
@@ -130,7 +128,7 @@
 	);
 	let invalidCash = $derived(total > 1 && (cashBalance >= 1 || cashBalance < -1));
 	let disabled = $derived(total < 1 || ($form.method === 'cash' && invalidCash));
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

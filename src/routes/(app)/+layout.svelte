@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import '../../app.css';
 	import Nav from '$components/Nav.svelte';
 	import { currentUser } from '$store/user';
@@ -20,10 +18,10 @@
 
 	let { user, configuration: config } = $derived(data);
 
-	run(() => {
+	$effect(() => {
 		currentUser.set(user);
 	});
-	run(() => {
+	$effect(() => {
 		configuration.set(config);
 	});
 

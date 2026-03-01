@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Editor from '@tinymce/tinymce-svelte';
 	import { superForm } from 'sveltekit-superforms';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
@@ -21,14 +19,14 @@
 		}
 	});
 
-	run(() => {
+	$effect(() => {
 		$form.id = $currentVisit.id;
 	});
-	run(() => {
+	$effect(() => {
 		$form.actions = $currentVisit.actions;
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

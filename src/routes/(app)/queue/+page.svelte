@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import LastVisit from '$components/display/LastVisit.svelte';
 	import QueueList from '$components/lists/QueueList.svelte';
 	import { queue, updateQueueFormStore } from '$lib/store/queue';
@@ -13,10 +11,10 @@
 
 	let { data }: Props = $props();
 
-	run(() => {
+	$effect(() => {
 		updateQueueFormStore.set(data.form);
 	});
-	run(() => {
+	$effect(() => {
 		queue.set(data.queue);
 	});
 
