@@ -107,7 +107,7 @@ export const actions: Actions = {
 		} catch (error) {
 			console.error(error);
 
-			setError(form, "Erreur lors de l'ajout de dépenses", { status: 500 });
+			return setError(form, "Erreur lors de l'ajout de dépenses", { status: 500 });
 		}
 	}
 };
