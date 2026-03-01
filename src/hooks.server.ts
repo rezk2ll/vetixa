@@ -24,12 +24,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	const response = await resolve(event);
 
+	const isSecure = event.url.protocol === 'https:';
+
 	response.headers.append(
 		'set-cookie',
 		event.locals.pb.authStore.exportToCookie({
-			httpOnly: false,
+			httpOnly: true,
 			sameSite: 'Lax',
-			secure: false
+			secure: isSecure
 		})
 	);
 
