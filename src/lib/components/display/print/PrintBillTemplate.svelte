@@ -14,7 +14,7 @@
 		? bill.items.reduce((acc, curr) => {
 				const price = currency(curr.total).multiply(1 - curr.discount / 100);
 				return currency(acc).add(price).value;
-		  }, 0)
+			}, 0)
 		: 0;
 </script>
 

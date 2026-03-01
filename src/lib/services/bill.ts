@@ -35,7 +35,10 @@ class BillService {
 	 * @example
 	 *  const billService = new BillService(pb, visit);
 	 */
-	constructor(private readonly pb: TypedPocketBase, private readonly visit: VisitsResponse) {}
+	constructor(
+		private readonly pb: TypedPocketBase,
+		private readonly visit: VisitsResponse
+	) {}
 
 	/**
 	 * Update the bill total automatically
@@ -365,7 +368,7 @@ class BillService {
 							quantity: 1,
 							discount: 0
 						}
-				  ]
+					]
 				: []),
 			...visit.toilettage.map(({ price, name, code, id }) => {
 				const metadata = metadataMap.get(id);

@@ -9,7 +9,7 @@ const createMockVisit = (overrides = {}): VisitsResponse<ItemMetadata[]> =>
 		item_metadata: [],
 		expand: {},
 		...overrides
-	} as unknown as VisitsResponse<ItemMetadata[]>);
+	}) as unknown as VisitsResponse<ItemMetadata[]>;
 
 const mockPb = {} as never;
 const mockVisitRef = { id: 'visit1' } as never;

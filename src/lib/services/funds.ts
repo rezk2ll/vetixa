@@ -89,7 +89,7 @@ export class FundsService {
 			: this.pb.filter(`created >= {:start} && created <= {:end}`, {
 					start: startDate.startsWith('@') ? startDate : new Date(startDate),
 					end: endDate.startsWith('@') ? endDate : new Date(endDate)
-			  });
+				});
 
 		const transactionslist = await this.pb
 			.collection('fund_transactions')
@@ -126,7 +126,7 @@ export class FundsService {
 			? this.pb.filter(
 					`created >= ${startDate} && created <= ${endDate} && (description ~ {:q} || amount ~ {:q}) ${filterString}`,
 					{ q: query }
-			  )
+				)
 			: this.pb.filter(
 					`created >= {:start} && created <= {:end} && (description ~ {:q} || amount ~ {:q}) ${filterString}`,
 					{
@@ -134,7 +134,7 @@ export class FundsService {
 						end: new Date(endDate),
 						q: query
 					}
-			  );
+				);
 
 		const transactionslist = await this.pb
 			.collection('fund_transactions')

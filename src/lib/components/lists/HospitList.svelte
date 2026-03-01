@@ -203,10 +203,10 @@
 										class={item.color
 											? ''
 											: item.visit.animal.deceased
-											? 'bg-red-100/80'
-											: daysDiff(item.start, formatFilterDate(new Date())) === 0
-											? 'bg-emerald-100/90'
-											: 'bg-white'}
+												? 'bg-red-100/80'
+												: daysDiff(item.start, formatFilterDate(new Date())) === 0
+													? 'bg-emerald-100/90'
+													: 'bg-white'}
 									>
 										<td
 											class="px-4 py-3 text-sm font-semibold {item.color

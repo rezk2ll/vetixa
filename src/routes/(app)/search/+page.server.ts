@@ -12,10 +12,10 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 		target === 'animal'
 			? pb.filter('name ~ {:q} || identifier ~ {:q} || type ~ {:q} || breed ~ {:q}', {
 					q: query
-			  })
+				})
 			: pb.filter('name ~ {:q} || tel ~ {:q} || email ~ {:q} || address ~ {:q}', {
 					q: query
-			  });
+				});
 	const searchExpand = target === 'animal' ? `client` : `animals(client)`;
 
 	const results = await pb

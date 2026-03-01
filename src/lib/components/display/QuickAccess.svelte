@@ -16,8 +16,8 @@
 			class="{color === 'pink'
 				? 'text-pink-500'
 				: color === 'blue'
-				? 'text-blue-500'
-				: 'text-blueGray-600'} mb-4"
+					? 'text-blue-500'
+					: 'text-blueGray-600'} mb-4"
 		>
 			<slot />
 		</div>
@@ -35,8 +35,8 @@
 			class="!font-medium !text-blue-gray-900 !transition-colors hover:!{color === 'pink'
 				? 'text-pink-500'
 				: color === 'blue'
-				? 'text-blue-500'
-				: 'text-blueGray-600'}"
+					? 'text-blue-500'
+					: 'text-blueGray-600'}"
 			{href}
 		>
 			<button
@@ -44,16 +44,16 @@
 				'pink'
 					? 'text-pink-500'
 					: color === 'blue'
-					? 'text-blue-500'
-					: 'text-blueGray-600'} transition-all {color === 'pink'
+						? 'text-blue-500'
+						: 'text-blueGray-600'} transition-all {color === 'pink'
 					? 'hover:bg-pink-500/10'
 					: color === 'blue'
-					? 'hover:bg-blue-500/10'
-					: 'hover:bg-blueGray-600/10'} {color === 'pink'
+						? 'hover:bg-blue-500/10'
+						: 'hover:bg-blueGray-600/10'} {color === 'pink'
 					? 'active:bg-pink-500/30'
 					: color === 'blue'
-					? 'active:bg-blue-500/30'
-					: 'active:bg-blueGray-600/30'} disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+						? 'active:bg-blue-500/30'
+						: 'active:bg-blueGray-600/30'} disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
 				type="button"
 				data-ripple-dark="true"
 			>

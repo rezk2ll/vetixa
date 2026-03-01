@@ -48,11 +48,10 @@ export interface QueueVisit extends Omit<VisitsResponse, 'animal'> {
 	bill: BillsResponse;
 }
 
-export interface Visit
-	extends Omit<
-		VisitsResponse<ItemMetadata[]>,
-		'animal' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items' | 'toilettage'
-	> {
+export interface Visit extends Omit<
+	VisitsResponse<ItemMetadata[]>,
+	'animal' | 'medical_acts' | 'surgical_acts' | 'hospit' | 'store_items' | 'toilettage'
+> {
 	animal: expandedAnimal;
 	bill: BillsResponse;
 	medical_acts: MedicalActsResponse[];

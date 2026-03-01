@@ -51,17 +51,20 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 		return currency(acc).add(curr.total).value;
 	}, 0);
 
-	const bestSellers = totalSales.reduce((acc, curr) => {
-		if (!curr.expand) return acc;
-		const itemMetadata = (curr.expand as RecordModel).item as unknown as InventoryItemResponse;
+	const bestSellers = totalSales.reduce(
+		(acc, curr) => {
+			if (!curr.expand) return acc;
+			const itemMetadata = (curr.expand as RecordModel).item as unknown as InventoryItemResponse;
 
-		if (acc[itemMetadata.name]) {
-			acc[itemMetadata.name] += curr.quantity;
-		} else {
-			acc[itemMetadata.name] = curr.quantity;
-		}
-		return acc;
-	}, {} as Record<string, number>);
+			if (acc[itemMetadata.name]) {
+				acc[itemMetadata.name] += curr.quantity;
+			} else {
+				acc[itemMetadata.name] = curr.quantity;
+			}
+			return acc;
+		},
+		{} as Record<string, number>
+	);
 
 	const totalSoldItems = totalSales.reduce((acc, curr) => {
 		return acc + curr.quantity;

@@ -28,8 +28,8 @@
 		class="{size === 'small'
 			? 'h-7 text-sm ring-1 min-w-16'
 			: size === 'medium'
-			? 'h-[46.4px] text-[17px] font-medium ring-2'
-			: 'h-14 text-[17px] font-medium ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
+				? 'h-[46.4px] text-[17px] font-medium ring-2'
+				: 'h-14 text-[17px] font-medium ring-2'} rounded-[4px] focus:outline-none px-4 leading-6 tracking-tight text-left peer w-full placeholder:text-transparent {isInValid
 			? 'ring-red-500 focus:ring-red-500'
 			: 'ring-gray-300 focus:ring-blue-500'} {disabled ? 'bg-gray-200' : ''}"
 	/>

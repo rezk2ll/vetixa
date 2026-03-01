@@ -41,7 +41,7 @@
 				<span class="font-normal">Veterinary surgeon practising at</span>
 			</div>
 			<div class="font-semibold border-2 border-black flex items-center justify-start w-full p-2">
-				{$configuration ? $configuration.adress ?? '' : ''}
+				{$configuration ? ($configuration.adress ?? '') : ''}
 			</div>
 		</div>
 		<div class="flex gap-5">

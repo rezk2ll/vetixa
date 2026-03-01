@@ -21,7 +21,8 @@
 <style lang="postcss">
 	.gradiant {
 		@media screen(md) {
-			background: linear-gradient(
+			background:
+				linear-gradient(
 					105.88deg,
 					rgba(238, 5, 82, 0.3) 0%,
 					rgba(235, 219, 2, 0.2) 43.6%,
