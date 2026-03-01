@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Modal from '$components/Modal.svelte';
 	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
 	import {
@@ -86,20 +84,20 @@
 	let alertCount = $derived(
 		$inventoryItems.filter((item) => item.quantity <= item.alert && item.quantity > 0).length
 	);
-	let unavailableCount = $derived($inventoryItems.filter((item) => item.quantity === 0).length);
-	let handler = $derived(() => {
+	const unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
+	const handler = () => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;
-	});
-	let update = $derived((item: InventoryItemResponse) => {
+	};
+	const update = (item: InventoryItemResponse) => {
 		selectedUpdateItem = item;
 
 		updatedInventoryItem.set(item);
 		openUpdateInventoryItemModal = true;
-	});
-	run(() => {
+	};
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import HospitList from '$components/lists/HospitList.svelte';
 	import { hospitPageInfo } from '$store/hospit';
 	import type { PageData } from './$types';
@@ -12,7 +10,7 @@
 	let { data }: Props = $props();
 
 	let { pageInfo } = $derived(data);
-	run(() => {
+	$effect(() => {
 		hospitPageInfo.set(pageInfo);
 	});
 </script>

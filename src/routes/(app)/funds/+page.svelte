@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import FundsEvolution from '$components/charts/funds/FundsEvolution.svelte';
 	import FundsPaymentMethodsStats from '$components/charts/funds/FundsPaymentMethodsStats.svelte';
 	import IncomeEvolution from '$components/charts/funds/IncomeEvolution.svelte';
@@ -16,13 +14,13 @@
 
 	let { labels, balanceData, stats, pageInfo, addExpenses, addFundsForm } = $derived(data);
 
-	run(() => {
+	$effect(() => {
 		addFundsFormStore.set(addFundsForm);
 	});
-	run(() => {
+	$effect(() => {
 		addExpenseFormStore.set(addExpenses);
 	});
-	run(() => {
+	$effect(() => {
 		fundsPageInfo.set(pageInfo);
 	});
 

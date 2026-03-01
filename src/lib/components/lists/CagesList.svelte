@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import CageCard from '$components/display/cages/CageCard.svelte';
 	import Grid from '$components/icons/Grid.svelte';
 	import List from '$components/icons/List.svelte';
@@ -81,7 +79,7 @@
 		completeFormRef.requestSubmit();
 	};
 
-	run(() => {
+	$effect(() => {
 		[...$allErrors, ...$completeErrors].map((error) => {
 			toast.error(error.messages.join('. '));
 		});

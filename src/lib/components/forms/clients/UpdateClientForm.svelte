@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { superForm } from 'sveltekit-superforms/client';
 	import { toast } from 'svelte-sonner';
 	import { currentClient, updateClientFormStore } from '$store/clients';
@@ -27,29 +25,29 @@
 		resetForm: false
 	});
 
-	run(() => {
+	$effect(() => {
 		$form.id = $currentClient.id;
 	});
-	run(() => {
+	$effect(() => {
 		$form.firstname = $currentClient.firstname;
 	});
-	run(() => {
+	$effect(() => {
 		$form.lastname = $currentClient.lastname;
 	});
-	run(() => {
+	$effect(() => {
 		$form.address = $currentClient.address;
 	});
-	run(() => {
+	$effect(() => {
 		$form.tel = $currentClient.tel;
 	});
-	run(() => {
+	$effect(() => {
 		$form.email = $currentClient.email;
 	});
-	run(() => {
+	$effect(() => {
 		$form.note = $currentClient.note;
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

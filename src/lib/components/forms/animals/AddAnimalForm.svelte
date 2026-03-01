@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import DateField from '$components/inputs/DateField.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import SelectField from '$components/inputs/SelectField.svelte';
@@ -30,10 +28,10 @@
 		}
 	});
 
-	run(() => {
+	$effect(() => {
 		$form.birthday = new Date(birthday);
 	});
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

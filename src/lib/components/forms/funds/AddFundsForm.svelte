@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { superForm } from 'sveltekit-superforms/client';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
@@ -42,7 +40,7 @@
 		$form.amount < 1 || ($form.method === 'cash' && $form.incash - $form.outcash !== $form.amount)
 	);
 	let invalidCash = $derived($form.amount > 1 && $form.incash - $form.outcash !== $form.amount);
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

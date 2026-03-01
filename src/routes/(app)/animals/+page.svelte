@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import AnimalList from '$components/lists/AnimalList.svelte';
 	import { animalsPageInfo, deleteAnimalFormStore, updateAnimalFormStore } from '$store/animals';
 	import type { PageData } from './$types';
@@ -12,13 +10,13 @@
 	let { data }: Props = $props();
 
 	let { pageInfo, removeForm, updateForm } = $derived(data);
-	run(() => {
+	$effect(() => {
 		deleteAnimalFormStore.set(removeForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateAnimalFormStore.set(updateForm);
 	});
-	run(() => {
+	$effect(() => {
 		animalsPageInfo.set(pageInfo);
 	});
 </script>

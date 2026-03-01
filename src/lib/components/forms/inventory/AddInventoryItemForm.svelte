@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$components/inputs/NumberField.svelte';
@@ -35,11 +33,11 @@
 		currency($form.cost, { precision: 3 }).divide(currency($form.tva).divide(100).add(1)).value
 	);
 
-	let handleCostChange = $derived((e: Event) => {
+	const handleCostChange = (e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
 		$form.cost = currency(value, { precision: 3 }).multiply(1 + $form.tva / 100).value;
-	});
+	};
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
@@ -50,10 +48,10 @@
 			.multiply(100).value;
 	};
 
-	run(() => {
+	$effect(() => {
 		$form.price = currency($form.cost, { precision: 3 }).multiply(1 + $form.gain / 100).value;
 	});
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

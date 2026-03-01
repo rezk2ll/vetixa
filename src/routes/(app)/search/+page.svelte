@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import SearchList from '$components/display/search/SearchList.svelte';
 	import { searchPage } from '$lib/store/search';
 	import type { PageData } from './$types';
@@ -11,7 +9,7 @@
 
 	let { data }: Props = $props();
 
-	run(() => {
+	$effect(() => {
 		searchPage.set(data);
 	});
 </script>

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import DateField from '$components/inputs/DateField.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import SelectField from '$components/inputs/SelectField.svelte';
@@ -37,41 +35,41 @@
 	);
 	let deceased = $state($currentAnimal.deceased);
 
-	run(() => {
+	$effect(() => {
 		$form.id = $currentAnimal.id;
 	});
-	run(() => {
+	$effect(() => {
 		$form.birthday = new Date(birthday);
 	});
-	run(() => {
+	$effect(() => {
 		$form.name = $currentAnimal.name;
 	});
-	run(() => {
+	$effect(() => {
 		$form.sex = $currentAnimal.sex;
 	});
-	run(() => {
+	$effect(() => {
 		$form.type = $currentAnimal.type;
 	});
-	run(() => {
+	$effect(() => {
 		$form.weight = $currentAnimal.weight;
 	});
-	run(() => {
+	$effect(() => {
 		$form.color = $currentAnimal.color;
 	});
-	run(() => {
+	$effect(() => {
 		$form.breed = $currentAnimal.breed;
 	});
-	run(() => {
+	$effect(() => {
 		$form.deceased = deceased;
 	});
-	run(() => {
+	$effect(() => {
 		$form.identifier = $currentAnimal.identifier;
 	});
-	run(() => {
+	$effect(() => {
 		$form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

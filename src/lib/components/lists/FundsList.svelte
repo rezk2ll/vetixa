@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import AddExpenseForm from '$components/forms/funds/AddExpenseForm.svelte';
 	import AddFundsForm from '$components/forms/funds/AddFundsForm.svelte';
 	import { formatDateStringShort, formatDateStringToTime, getMaxSelectionDate } from '$utils/date';
@@ -45,12 +43,12 @@
 			: new Date($fundsPageInfo.endDate)
 	);
 
-	let previousPage = $derived(() => goPreviousPage($fundsPageInfo.page));
-	let nextPage = $derived(() => goNextPage($fundsPageInfo.page, $fundsPageInfo.totalPages));
-	let dispatchSearch = $derived(() => doSearch(search));
-	let changeTab = $derived((filter: StatusFilter) => doChangeTab(filter));
+	const previousPage = () => goPreviousPage($fundsPageInfo.page);
+	const nextPage = () => goNextPage($fundsPageInfo.page, $fundsPageInfo.totalPages);
+	const dispatchSearch = () => doSearch(search);
+	const changeTab = (filter: StatusFilter) => doChangeTab(filter);
 
-	let changeDuration = $derived(() => {
+	const changeDuration = () => {
 		const start = format(startDate, 'yyyy-MM-dd HH:mm');
 		const end = format(endDate, 'yyyy-MM-dd HH:mm');
 
@@ -61,7 +59,7 @@
 		targetUrl.searchParams.delete('page');
 
 		goto(targetUrl.toString());
-	});
+	};
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
@@ -207,7 +205,13 @@
 						</svg>
 					</button>
 				</div>
-				<form onsubmit={preventDefault(dispatchSearch)} class="w-full lg:w-auto">
+				<form
+					onsubmit={(e) => {
+						e.preventDefault();
+						dispatchSearch();
+					}}
+					class="w-full lg:w-auto"
+				>
 					<div class="flex relative items-center mt-0 h-6">
 						<button class="absolute right-0 focus:outline-none">
 							<SearchIcon />

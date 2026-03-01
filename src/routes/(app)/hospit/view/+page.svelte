@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import CagesList from '$components/lists/CagesList.svelte';
 	import {
 		cagesInfo,
@@ -16,13 +14,13 @@
 	let { data }: Props = $props();
 
 	let { cageList, changeHospitColorForm, updateHospitCompeltedStateForm } = $derived(data);
-	run(() => {
+	$effect(() => {
 		cagesInfo.set(cageList);
 	});
-	run(() => {
+	$effect(() => {
 		hospitChangeColorFormStore.set(changeHospitColorForm);
 	});
-	run(() => {
+	$effect(() => {
 		hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
 	});
 </script>

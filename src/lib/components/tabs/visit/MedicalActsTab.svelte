@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import {
 		addVisitMedicalActsFormStore,
 		currentVisit,
@@ -139,7 +137,7 @@
 		return (item_metadata || []).find(({ item }) => item === itemId)?.quantity ?? 1;
 	};
 
-	run(() => {
+	$effect(() => {
 		[...$allErrors, ...$removeErrors, ...$updateErrors].map((error) => {
 			toast.error(error.messages.join('. '));
 		});

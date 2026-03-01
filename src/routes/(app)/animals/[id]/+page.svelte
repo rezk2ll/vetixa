@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import VisitList from '$components/lists/VisitList.svelte';
 	import CollapsibleSection from '$components/CollapsibleSection.svelte';
 	import Details from '$components/Details.svelte';
@@ -43,22 +41,22 @@
 		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
 	] satisfies entityDetailsList);
 
-	run(() => {
+	$effect(() => {
 		updateAnimalFormStore.set(data.form);
 	});
-	run(() => {
+	$effect(() => {
 		addVisitFormStore.set(data.addForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateVisitFormStore.set(data.updateForm);
 	});
-	run(() => {
+	$effect(() => {
 		visitItems.set(visits);
 	});
-	run(() => {
+	$effect(() => {
 		currentAnimal.set({ ...animal, client: animal.client.name });
 	});
-	run(() => {
+	$effect(() => {
 		vaccinationVisitList.set(vaccinationVisits);
 	});
 </script>

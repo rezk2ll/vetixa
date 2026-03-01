@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import type { AgendaResponse } from '$types';
 	import { Calendar } from '@fullcalendar/core';
 	import dayGridPlugin from '@fullcalendar/daygrid';
@@ -26,10 +24,10 @@
 	let { data }: Props = $props();
 	let { events, addForm, updateForm } = $derived(data);
 
-	run(() => {
+	$effect(() => {
 		addEventFormStore.set(addForm);
 	});
-	run(() => {
+	$effect(() => {
 		updateEventFormStore.set(updateForm);
 	});
 
@@ -89,10 +87,10 @@
 		calendar.render();
 	});
 
-	run(() => {
+	$effect(() => {
 		events && calendar && calendar.refetchEvents();
 	});
-	let getEventById = $derived((id: string) => events.find((event) => event.id === id) ?? null);
+	const getEventById = (id: string) => events.find((event) => event.id === id) ?? null;
 
 	const handler = () => {
 		deleteFormRef.requestSubmit();
@@ -119,7 +117,7 @@
 		}
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.length &&
 			toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
 	});

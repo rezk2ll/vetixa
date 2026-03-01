@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { superForm } from 'sveltekit-superforms/client';
 	import { toast } from 'svelte-sonner';
 	import { addClientFormStore } from '$store/clients';
@@ -26,7 +24,7 @@
 		dataType: 'json'
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

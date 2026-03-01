@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import ActivityList from '$components/lists/ActivityList.svelte';
 	import { activityPage } from '$store/activity';
 	import type { PageData } from './$types';
@@ -11,7 +9,7 @@
 
 	let { data }: Props = $props();
 
-	run(() => {
+	$effect(() => {
 		activityPage.set(data);
 	});
 </script>

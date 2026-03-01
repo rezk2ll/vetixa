@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { calculateDiff, formatDateString } from '$lib/utils/date';
 	import { queue, updateQueueFormStore } from '$lib/store/queue';
 	import type { QueueStatusFilter as StatusFilter } from '$types';
@@ -44,25 +42,25 @@
 	);
 
 	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
-	run(() => {
+	$effect(() => {
 		setInterval(() => (currentTime = new Date().getTime()), 1000);
 	});
-	let waitingCount = $derived($queue.filter(({ served }) => !served).length);
+	const waitingCount = $queue.filter(({ served }) => !served).length;
 	let servedCount = $derived($queue.length - waitingCount);
 
-	let waitingTime = $derived((date: string, time: string | null = null) => {
+	const waitingTime = (date: string, time: string | null = null) => {
 		const finalTime = time ? new Date(time).getTime() : currentTime;
 
 		return calculateDiff(date, finalTime);
-	});
+	};
 
-	let open = $derived((id: string) => {
+	const open = (id: string) => {
 		$form.id = id;
 
 		formRef?.requestSubmit();
-	});
+	};
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

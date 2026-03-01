@@ -77,7 +77,7 @@
 	let totalPages = $derived(Math.ceil(items.length / 10));
 	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 
-	let changeDuration = $derived(() => {
+	const changeDuration = () => {
 		const start = format(startDate, 'yyyy-MM-dd HH:mm');
 		const end = format(endDate, 'yyyy-MM-dd HH:mm');
 
@@ -87,7 +87,7 @@
 		targetUrl.searchParams.set('endDate', end);
 
 		goto(targetUrl.toString());
-	});
+	};
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
