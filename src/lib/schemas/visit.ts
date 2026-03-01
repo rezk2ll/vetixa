@@ -41,12 +41,27 @@ export const removeVisitItemSchema = z.object({
 	item: z.string().min(1, { message: 'Id invalide' })
 });
 
+const ALLOWED_MIME_TYPES = [
+	'image/jpeg',
+	'image/png',
+	'image/gif',
+	'image/webp',
+	'application/pdf',
+	'video/mp4',
+	'video/quicktime',
+	'video/webm'
+];
+
 export const addVisitFileSchema = z.object({
 	id: z.string().min(1, { message: 'Id invalide' }),
 	files: z
 		.instanceof(File, { message: 'Veuillez télécharger un fichier' })
 		.refine((file) => file.size <= 100 * 1024 * 1024, {
 			message: 'Fichier invalide, Taille maximale 100Mo'
+		})
+		.refine((file) => ALLOWED_MIME_TYPES.includes(file.type), {
+			message:
+				'Type de fichier non autorisé. Formats acceptés : JPEG, PNG, GIF, WebP, PDF, MP4, WebM'
 		})
 		.array()
 });
