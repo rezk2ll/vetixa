@@ -169,7 +169,7 @@ export const actions: Actions = {
 						seller: user?.id
 					}),
 					pb.collection('inventory_item').update(item.id, {
-						quantity: existingItem.quantity - item.quantity
+						'quantity-': item.quantity
 					})
 				]);
 			});
