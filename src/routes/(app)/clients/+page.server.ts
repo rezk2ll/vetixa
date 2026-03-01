@@ -3,7 +3,7 @@ import type { ClientsPageInfo, ClientsResponse } from '$types';
 import type { RecordModel } from 'pocketbase';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
-import { redirect, type Redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
@@ -44,14 +44,16 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 export const actions: Actions = {
 	addClient: async ({ request, locals: { pb } }) => {
 		const form = await superValidate(request, zod(addClientSchema), { id: 'add-client' });
-		try {
-			if (!form.valid) {
-				return setError(form, 'Données invalides', { status: 400 });
-			}
 
+		if (!form.valid) {
+			return setError(form, 'Données invalides', { status: 400 });
+		}
+
+		let client;
+		try {
 			const { firstname, lastname } = form.data;
 
-			const client = await pb.collection('clients').create({
+			client = await pb.collection('clients').create({
 				...form.data,
 				name: `${firstname} ${lastname}`
 			});
@@ -59,16 +61,13 @@ export const actions: Actions = {
 			if (!client || !client.id) {
 				throw new Error('Failed to create client');
 			}
-
-			throw redirect(303, `/clients/${client.id}/?new=true`);
 		} catch (error) {
-			if ((error as Redirect).location) {
-				throw error;
-			}
 			console.error(error);
 
 			return setError(form, "Échec de l'ajout du client", { status: 500 });
 		}
+
+		redirect(303, `/clients/${client.id}/?new=true`);
 	},
 
 	removeClient: async ({ request, locals: { pb } }) => {
