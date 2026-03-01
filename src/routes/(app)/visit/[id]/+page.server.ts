@@ -140,15 +140,26 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		// Parallelize independent queries for better performance
 		const [medicalActs, toilettage, surgicalActs, storeItems, cagesResult, doctors, generatedBill] =
 			await Promise.all([
-				pb.collection('medical_acts').getFullList<MedicalActsResponse>(),
-				pb.collection('toilettage').getFullList<ToilettageResponse>(),
-				pb.collection('surgical_acts').getFullList<SurgicalActsResponse>(),
-				pb.collection('inventory_item').getFullList<InventoryItemResponse>({
-					filter: 'quantity > 0'
+				pb.collection('medical_acts').getFullList<MedicalActsResponse>({
+					fields: 'id,name,price,code'
 				}),
-				pb.collection('available_cages').getFullList<CagesResponse>(),
-				pb.collection('doctors').getFullList<DoctorsResponse>(),
-				billService.generateBill()
+				pb.collection('toilettage').getFullList<ToilettageResponse>({
+					fields: 'id,name,price,code'
+				}),
+				pb.collection('surgical_acts').getFullList<SurgicalActsResponse>({
+					fields: 'id,name,price,code'
+				}),
+				pb.collection('inventory_item').getFullList<InventoryItemResponse>({
+					filter: 'quantity > 0',
+					fields: 'id,name,price,code,description'
+				}),
+				pb.collection('available_cages').getFullList<CagesResponse>({
+					fields: 'id,code'
+				}),
+				pb.collection('doctors').getFullList<DoctorsResponse>({
+					fields: 'id,name'
+				}),
+				billService.generateBill(visit)
 			]);
 
 		let cages = cagesResult.sort(cageCompare);
