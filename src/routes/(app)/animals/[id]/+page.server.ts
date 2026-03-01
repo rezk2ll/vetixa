@@ -37,7 +37,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 			async (visit: VisitsResponse) => {
 				const bill = await pb
 					.collection('bills')
-					.getFirstListItem<BillsResponse>(`visit="${visit.id}"`);
+					.getFirstListItem<BillsResponse>(pb.filter('visit = {:visit}', { visit: visit.id }));
 
 				return {
 					...visit,

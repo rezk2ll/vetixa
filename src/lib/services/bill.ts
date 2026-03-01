@@ -69,11 +69,15 @@ class BillService {
 	get = async (): Promise<PaymentInformation> => {
 		const bill = await this.pb
 			.collection('bills')
-			.getFirstListItem<BillsResponse>(`visit = "${this.visit.id}"`);
+			.getFirstListItem<BillsResponse>(
+				this.pb.filter('visit = {:visit}', { visit: this.visit.id })
+			);
 
 		const history = await this.pb
 			.collection('fund_transactions')
-			.getFullList<FundTransactionsResponse>({ filter: `bill = '${bill.id}'` });
+			.getFullList<FundTransactionsResponse>({
+				filter: this.pb.filter('bill = {:bill}', { bill: bill.id })
+			});
 
 		return {
 			...bill,
