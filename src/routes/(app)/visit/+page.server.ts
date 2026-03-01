@@ -35,7 +35,10 @@ export const load = (async ({ locals: { pb }, url }) => {
 		sort: '-updated',
 		...(query?.length
 			? {
-					filter: `animal.name ~ "${query}" || motif ~ "${query}" || animal.client.name ~ "${query}" || animal.client.tel ~ "${query}"`
+					filter: pb.filter(
+						'animal.name ~ {:q} || motif ~ {:q} || animal.client.name ~ {:q} || animal.client.tel ~ {:q}',
+						{ q: query }
+					)
 			  }
 			: {})
 	} satisfies RecordListOptions;

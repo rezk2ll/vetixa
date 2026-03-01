@@ -123,12 +123,16 @@ export class FundsService {
 			filter === 'income' ? '&& amount > 0' : filter === 'expense' ? '&& amount < 0' : '';
 
 		const queryFilter = startDate.startsWith('@')
-			? `created >= ${startDate} && created <= ${endDate} && (description ~ "${query}" || amount ~ "${query}") ${filterString}`
+			? this.pb.filter(
+					`created >= ${startDate} && created <= ${endDate} && (description ~ {:q} || amount ~ {:q}) ${filterString}`,
+					{ q: query }
+			  )
 			: this.pb.filter(
-					`created >= {:start} && created <= {:end} && (description ~ "${query}" || amount ~ "${query}") ${filterString}`,
+					`created >= {:start} && created <= {:end} && (description ~ {:q} || amount ~ {:q}) ${filterString}`,
 					{
-						start: startDate.startsWith('@') ? startDate : new Date(startDate),
-						end: endDate.startsWith('@') ? endDate : new Date(endDate)
+						start: new Date(startDate),
+						end: new Date(endDate),
+						q: query
 					}
 			  );
 
@@ -226,7 +230,10 @@ export class FundsService {
 		const balance = currency(income).subtract(expense).value;
 
 		const unpaidBills = await this.pb.collection('bills').getFullList<BillsResponse>({
-			filter: `total_paid < total && created >= "${startDate}" && created <= "${endDate}"`
+			filter: this.pb.filter('total_paid < total && created >= {:start} && created <= {:end}', {
+				start: new Date(startDate),
+				end: new Date(endDate)
+			})
 		});
 
 		const remaining = unpaidBills.reduce(

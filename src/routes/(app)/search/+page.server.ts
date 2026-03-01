@@ -10,8 +10,12 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	const searchCollection = target === 'animal' ? 'animals' : 'clients';
 	const searchFilter =
 		target === 'animal'
-			? `name ~ "${query}" || identifier ~ "${query}" || type ~ "${query}" || breed ~ "${query}"`
-			: `name ~ "${query}" || tel ~ "${query}" || email ~ "${query}" || address ~ "${query}"`;
+			? pb.filter('name ~ {:q} || identifier ~ {:q} || type ~ {:q} || breed ~ {:q}', {
+					q: query
+			  })
+			: pb.filter('name ~ {:q} || tel ~ {:q} || email ~ {:q} || address ~ {:q}', {
+					q: query
+			  });
 	const searchExpand = target === 'animal' ? `client` : `animals(client)`;
 
 	const results = await pb

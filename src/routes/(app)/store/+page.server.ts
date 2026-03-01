@@ -94,7 +94,7 @@ export const actions: Actions = {
 
 			const item = await pb
 				.collection('inventory_item')
-				.getList(1, 1, { filter: `code = '${addForm.data.code}'` });
+				.getList(1, 1, { filter: pb.filter('code = {:code}', { code: addForm.data.code }) });
 
 			if (item.totalItems != 0) {
 				return setError(addForm, 'Code déjà utilisé');
