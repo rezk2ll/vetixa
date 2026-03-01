@@ -128,7 +128,7 @@ export const actions = {
 					if (!avaibleCage) {
 						return setError(form, 'Cage déjà occupée', { status: 500 });
 					}
-				} catch (error) {
+				} catch (_error) {
 					return setError(form, 'Cage déjà occupée', { status: 500 });
 				}
 			}
