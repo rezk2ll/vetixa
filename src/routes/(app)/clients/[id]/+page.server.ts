@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { AnimalsResponse, ClientsResponse } from '$types';
 import { setError, superValidate } from 'sveltekit-superforms/server';
@@ -24,10 +24,12 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 
 	try {
 		client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
-	} catch (_error) {
-		if (!client) {
+	} catch (e) {
+		if (e && typeof e === 'object' && 'status' in e && e.status === 404) {
 			redirect(301, '/404');
 		}
+
+		throw error(500, 'Erreur lors du chargement du client');
 	}
 
 	const clientService = new ClientService(pb);
