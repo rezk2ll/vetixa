@@ -12,3 +12,5 @@ export const addFundsSchema = z.object({
 	outcash: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(0),
 	description: z.string()
 });
+
+export type AddFundsData = z.infer<typeof addFundsSchema>;

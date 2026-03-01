@@ -9,3 +9,6 @@ export const updateHospitCompletedStateSchema = z.object({
 	id: z.string().min(1),
 	completed: z.boolean().default(true)
 });
+
+export type ChangeHospitColorsData = z.infer<typeof changeHospitColorsSchema>;
+export type UpdateHospitCompletedStateData = z.infer<typeof updateHospitCompletedStateSchema>;
