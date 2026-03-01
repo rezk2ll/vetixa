@@ -31,10 +31,10 @@
 	class="flex flex-col rounded {color
 		? ''
 		: isDead
-		? 'bg-red-500/80 dark:bg-red-900/80'
-		: isNew
-		? 'bg-emerald-100/90 dark:bg-emerald-900/50'
-		: '!bg-white dark:!bg-gray-700'} shadow-xl relative min-h-52"
+			? 'bg-red-500/80 dark:bg-red-900/80'
+			: isNew
+				? 'bg-emerald-100/90 dark:bg-emerald-900/50'
+				: '!bg-white dark:!bg-gray-700'} shadow-xl relative min-h-52"
 >
 	<span class="absolute top-0 left-0 bg-black text-slate-200 text-md font-semibold py-1 px-2">
 		{cage.code}

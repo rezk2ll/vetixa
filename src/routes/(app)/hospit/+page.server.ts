@@ -19,8 +19,8 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 		filter === 'pending'
 			? 'hospit_pending_list'
 			: filter === 'complete'
-			? 'hospit_completed_list'
-			: 'hospitalisation';
+				? 'hospit_completed_list'
+				: 'hospitalisation';
 	const queryFilter = pb.filter(
 		'note ~ {:q} || cage.code ~ {:q} || visit.animal.name ~ {:q} || visit.animal.identifier ~ {:q} || visit.animal.client.name ~ {:q} || visit.animal.client.tel ~ {:q}',
 		{ q: query }

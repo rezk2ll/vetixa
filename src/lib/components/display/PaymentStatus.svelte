@@ -26,16 +26,16 @@
 		class="flex font-semibold items-center justify-center text-white w-full p-1 {isControl
 			? 'bg-green-600/80'
 			: done
-			? 'bg-emerald-500/80'
-			: pendingPayment
-			? 'bg-red-500/80'
-			: processing
-			? 'bg-gray-500/80'
-			: partiallyPaid
-			? 'bg-orange-500/80'
-			: overpaid
-			? 'bg-blue-500/80'
-			: ''} rounded shrink-0"
+				? 'bg-emerald-500/80'
+				: pendingPayment
+					? 'bg-red-500/80'
+					: processing
+						? 'bg-gray-500/80'
+						: partiallyPaid
+							? 'bg-orange-500/80'
+							: overpaid
+								? 'bg-blue-500/80'
+								: ''} rounded shrink-0"
 	>
 		{#if isControl}
 			<div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">

@@ -88,15 +88,18 @@
 		return $form.items.filter((formItem) => formItem.id === item.value).length === 0;
 	});
 
-	$: itemRecords = $inventoryItems.reduce((acc, curr) => {
-		acc[curr.id] = {
-			name: curr.name,
-			quantity: curr.quantity,
-			price: curr.price
-		};
+	$: itemRecords = $inventoryItems.reduce(
+		(acc, curr) => {
+			acc[curr.id] = {
+				name: curr.name,
+				quantity: curr.quantity,
+				price: curr.price
+			};
 
-		return acc;
-	}, {} as Record<string, InventoryItemInfo>);
+			return acc;
+		},
+		{} as Record<string, InventoryItemInfo>
+	);
 
 	$: total = $form.items.reduce((acc, curr) => {
 		const record = itemRecords[curr.id];

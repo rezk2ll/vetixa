@@ -14,12 +14,12 @@
 	class="w-full {size === 'small'
 		? 'xl:w-1/2'
 		: size === 'big'
-		? 'xl:w-10/12'
-		: ''} p-5 xl:py-5 bg-white {color === 'info'
+			? 'xl:w-10/12'
+			: ''} p-5 xl:py-5 bg-white {color === 'info'
 		? 'border border-teal-400'
 		: shadow
-		? 'lg:shadow-2xl shadow'
-		: ''} border-gray-200 xl:rounded-lg h-fit mb-2"
+			? 'lg:shadow-2xl shadow'
+			: ''} border-gray-200 xl:rounded-lg h-fit mb-2"
 >
 	<div class="flex flex-row space-x-5">
 		<div
@@ -27,8 +27,8 @@
 			'primary'
 				? 'bg-blueGray-200 dark:bg-gray-700'
 				: color === 'secondary'
-				? 'bg-gray-300 dark:bg-gray-600'
-				: 'bg-teal-300 dark:bg-teal-700'} w-full"
+					? 'bg-gray-300 dark:bg-gray-600'
+					: 'bg-teal-300 dark:bg-teal-700'} w-full"
 		>
 			<h2 class="font-semibold text-gray-800 dark:text-gray-200">{title}</h2>
 			<div class="flex flex-row space-x-2">

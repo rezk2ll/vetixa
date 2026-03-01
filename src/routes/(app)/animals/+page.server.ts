@@ -15,12 +15,12 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 		filter === 'chat'
 			? 'animals_cats_list'
 			: filter === 'chien'
-			? 'animals_dogs_list'
-			: filter === 'male'
-			? 'animals_male_list'
-			: filter === 'female'
-			? 'animals_female_list'
-			: 'animals';
+				? 'animals_dogs_list'
+				: filter === 'male'
+					? 'animals_male_list'
+					: filter === 'female'
+						? 'animals_female_list'
+						: 'animals';
 	const queryFilter = pb.filter('name ~ {:q} || type ~ {:q} || breed ~ {:q} || identifier ~ {:q}', {
 		q: query
 	});

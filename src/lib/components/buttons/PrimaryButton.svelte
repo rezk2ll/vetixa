@@ -21,8 +21,8 @@
 		: 'focus:ring-emerald-300'} focus:ring-opacity-40 {full
 		? 'lg:w-full lg:mx-0'
 		: small
-		? 'lg:max-w-xs'
-		: ''}"
+			? 'lg:max-w-xs'
+			: ''}"
 >
 	{#if loading}
 		<svg

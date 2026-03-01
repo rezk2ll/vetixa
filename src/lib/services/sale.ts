@@ -128,7 +128,7 @@ export class SalesService {
 			: this.pb.filter(`created >= {:start} && created <= {:end}`, {
 					start: startDate.startsWith('@') ? startDate : new Date(startDate),
 					end: endDate.startsWith('@') ? endDate : new Date(endDate)
-			  });
+				});
 	};
 
 	/**

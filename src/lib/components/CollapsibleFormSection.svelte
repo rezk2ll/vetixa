@@ -10,8 +10,8 @@
 	class="w-full px-1 {size === 'small'
 		? 'xl:w-1/2'
 		: size === 'big'
-		? 'xl:w-10/12'
-		: ''} bg-white {color === 'info' ? '' : shadow ? 'shadow-2xl' : ''} pb-1"
+			? 'xl:w-10/12'
+			: ''} bg-white {color === 'info' ? '' : shadow ? 'shadow-2xl' : ''} pb-1"
 >
 	<button
 		type="button"
@@ -19,8 +19,8 @@
 		'primary'
 			? 'bg-blueGray-200 dark:bg-gray-700'
 			: color === 'secondary'
-			? 'bg-gray-300 dark:bg-gray-600'
-			: 'bg-gray-100 dark:bg-gray-700'} w-full"
+				? 'bg-gray-300 dark:bg-gray-600'
+				: 'bg-gray-100 dark:bg-gray-700'} w-full"
 		on:click={() => (show = !show)}
 	>
 		<h2 class="font-semibold text-gray-800 dark:text-gray-200">{title}</h2>

@@ -25,10 +25,10 @@
 				'big'
 					? 'xl:max-w-screen-xl'
 					: size === 'medium'
-					? 'xl:max-w-xl'
-					: size === 'bigmedium'
-					? 'xl:max-w-3xl'
-					: ''} sm:p-6 sm:align-middle"
+						? 'xl:max-w-xl'
+						: size === 'bigmedium'
+							? 'xl:max-w-3xl'
+							: ''} sm:p-6 sm:align-middle"
 			>
 				<slot />
 			</div>

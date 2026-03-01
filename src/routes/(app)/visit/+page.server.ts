@@ -23,12 +23,12 @@ export const load = (async ({ locals: { pb }, url }) => {
 		filter === 'pending'
 			? 'visits_pending_list'
 			: filter === 'completed'
-			? 'visits_paid_list'
-			: filter === 'partial'
-			? 'visits_partial_list'
-			: filter === 'control'
-			? 'visits_control_list'
-			: 'visits';
+				? 'visits_paid_list'
+				: filter === 'partial'
+					? 'visits_partial_list'
+					: filter === 'control'
+						? 'visits_control_list'
+						: 'visits';
 
 	const listOptions = {
 		expand: 'animal, animal.client, medical_acts, toilettage, surgical_acts, hospit, store_items',
@@ -39,7 +39,7 @@ export const load = (async ({ locals: { pb }, url }) => {
 						'animal.name ~ {:q} || motif ~ {:q} || animal.client.name ~ {:q} || animal.client.tel ~ {:q}',
 						{ q: query }
 					)
-			  }
+				}
 			: {})
 	} satisfies RecordListOptions;
 
@@ -106,7 +106,7 @@ export const load = (async ({ locals: { pb }, url }) => {
 					? {
 							...billRecord,
 							history: billHistoryMap.get(billRecord.id) || []
-					  }
+						}
 					: undefined;
 
 				// Calculate total price from expanded data (no additional queries)
