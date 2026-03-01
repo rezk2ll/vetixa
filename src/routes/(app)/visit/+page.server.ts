@@ -63,20 +63,32 @@ export const load = (async ({ locals: { pb }, url }) => {
 	const billHistoryMap = new Map<string, FundTransactionsResponse[]>();
 
 	if (visitIds.length > 0) {
-		const billsFilter = visitIds.map((id) => `visit = "${id}"`).join(' || ');
+		const billsParams: Record<string, string> = {};
+		const billsFilter = visitIds
+			.map((id, i) => {
+				billsParams[`v${i}`] = id;
+				return `visit = {:v${i}}`;
+			})
+			.join(' || ');
 		const bills = await pb.collection('bills').getFullList<BillsResponse>({
-			filter: billsFilter
+			filter: pb.filter(billsFilter, billsParams)
 		});
 		bills.forEach((bill) => billsMap.set(bill.visit, bill));
 
 		// Batch fetch transaction histories for all bills
 		const billIds = bills.map((b) => b.id);
 		if (billIds.length > 0) {
-			const historyFilter = billIds.map((id) => `bill = "${id}"`).join(' || ');
+			const historyParams: Record<string, string> = {};
+			const historyFilter = billIds
+				.map((id, i) => {
+					historyParams[`b${i}`] = id;
+					return `bill = {:b${i}}`;
+				})
+				.join(' || ');
 			const histories = await pb
 				.collection('fund_transactions')
 				.getFullList<FundTransactionsResponse>({
-					filter: historyFilter
+					filter: pb.filter(historyFilter, historyParams)
 				});
 			histories.forEach((h) => {
 				const existing = billHistoryMap.get(h.bill) || [];

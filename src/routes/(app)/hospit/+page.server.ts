@@ -50,10 +50,10 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	// Fetch all counts in parallel
 	const [pendingCount, completedCount, allCount] = await Promise.all([
 		pb.collection('hospitalisation').getList(1, 1, {
-			filter: `(${queryFilter}) && completed = false`
+			filter: `(${queryFilter}) && ${pb.filter('completed = {:completed}', { completed: false })}`
 		}),
 		pb.collection('hospitalisation').getList(1, 1, {
-			filter: `(${queryFilter}) && completed = true`
+			filter: `(${queryFilter}) && ${pb.filter('completed = {:completed}', { completed: true })}`
 		}),
 		pb.collection('hospitalisation').getList(1, 1)
 	]);

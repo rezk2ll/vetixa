@@ -124,11 +124,17 @@ export const actions: Actions = {
 
 			// Batch fetch all inventory items in a single query
 			const itemIds = items.map((i) => i.id);
-			const itemsFilter = itemIds.map((id) => `id = "${id}"`).join(' || ');
+			const itemsParams: Record<string, string> = {};
+			const itemsFilter = itemIds
+				.map((id, idx) => {
+					itemsParams[`id${idx}`] = id;
+					return `id = {:id${idx}}`;
+				})
+				.join(' || ');
 			const existingItems = await pb
 				.collection('inventory_item')
 				.getFullList<InventoryItemResponse>({
-					filter: itemsFilter
+					filter: pb.filter(itemsFilter, itemsParams)
 				});
 			const itemsMap = new Map(existingItems.map((item) => [item.id, item]));
 
