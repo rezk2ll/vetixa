@@ -180,7 +180,8 @@
 	</div>
 </div>
 
-<style lang="postcss">
+<style>
+	@reference "tailwindcss";
 	:global(.fc-toolbar-title) {
 		@apply text-sm;
 	}

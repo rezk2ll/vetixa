@@ -1,6 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@source "../src/**/*.{html,js,svelte,ts}";
+
+@theme {
+	--color-blueGray-50: rgba(248, 250, 252, 1);
+	--color-blueGray-100: rgba(241, 245, 249, 1);
+	--color-blueGray-200: rgba(226, 232, 240, 1);
+	--color-blueGray-600: rgba(71, 85, 105, 1);
+	--color-blueGray-700: rgba(51, 65, 85, 1);
+	--color-blueGray-800: rgba(30, 41, 59, 1);
+	--font-timesnewroman: 'Times New Roman', serif;
+}
 
 body {
 	overflow-y: scroll;
@@ -23,11 +33,8 @@ body {
 }
 
 /* Global dark mode overrides for common card/container patterns */
-@layer utilities {
-	/* Card/container dark mode utility */
-	.dark-card {
-		@apply dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/50;
-	}
+@utility dark-card {
+	@apply dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/50;
 }
 
 /* Force light mode for printable content - ensures print remains readable in dark mode */
@@ -297,7 +304,7 @@ body {
 }
 
 .date-time-field > input {
-	@apply px-4 py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg w-full lg:w-44 placeholder-gray-400/70 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 !important;
+	@apply !px-4 !py-1.5 !text-gray-700 !bg-white !border !border-gray-200 !rounded-lg !w-full lg:!w-44 !placeholder-gray-400/70 dark:!bg-gray-900 dark:!text-gray-300 dark:!border-gray-600 focus:!border-blue-400 dark:focus:!border-blue-300 focus:!ring-blue-300/40 focus:!outline-none focus:!ring;
 }
 
 .tox.tox-tinymce {
