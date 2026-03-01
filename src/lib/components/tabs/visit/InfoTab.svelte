@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
@@ -24,26 +22,22 @@
 		}
 	});
 
-	currentVisit.subscribe(({ id }) => {
-		$form.id = id;
-	});
-
-	run(() => {
+	$effect(() => {
 		$form.motif = $currentVisit.motif;
 	});
-	run(() => {
+	$effect(() => {
 		$form.id = $currentVisit.id;
 	});
-	run(() => {
+	$effect(() => {
 		$form.doctor = $currentVisit.doctor;
 	});
-	run(() => {
+	$effect(() => {
 		$form.visit_price = $currentVisit.visit_price;
 	});
-	run(() => {
+	$effect(() => {
 		$form.control = $currentVisit.control;
 	});
-	run(() => {
+	$effect(() => {
 		$form.vaccination = $currentVisit.vaccination;
 	});
 	let doctors = $derived(
@@ -53,7 +47,7 @@
 		}))
 	);
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});

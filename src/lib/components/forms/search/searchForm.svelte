@@ -16,9 +16,10 @@
 	let clientPlaceholder = 'Rechercher par nom, email, téléphone, addresse...';
 	let animalPlaceholder = 'Rechercher par nom, identifiant unique, race, espèce...';
 
-	searchOpen.subscribe((value) => {
+	$effect(() => {
+		const isOpen = $searchOpen;
 		setTimeout(() => {
-			if (value && inputRef) {
+			if (isOpen && inputRef) {
 				inputRef.focus();
 			}
 		}, 250);

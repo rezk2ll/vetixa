@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import type { PageData } from './$types';
@@ -9,9 +7,12 @@
 
 	let imageNumber = $state(1);
 
-	setInterval(() => {
-		imageNumber = Math.floor(Math.random() * 7) + 1;
-	}, 20000);
+	$effect(() => {
+		const id = setInterval(() => {
+			imageNumber = Math.floor(Math.random() * 7) + 1;
+		}, 20000);
+		return () => clearInterval(id);
+	});
 
 	interface Props {
 		data: PageData;
@@ -25,7 +26,7 @@
 		resetForm: false
 	});
 
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});
