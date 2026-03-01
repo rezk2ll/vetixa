@@ -85,7 +85,8 @@
 	</div>
 </div>
 
-<style lang="css">
+<style>
+	@reference "tailwindcss";
 	:global(.svelte-select-list) {
 		overflow-y: scroll;
 		@apply pb-5;
