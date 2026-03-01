@@ -1,4 +1,4 @@
-import { Redirect, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { superValidate, setError } from 'sveltekit-superforms/server';
 import { loginSchema } from '$lib/schemas';
@@ -7,7 +7,7 @@ import { ConfigurationResponse } from '$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.pb.authStore.isValid) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const form = await superValidate(zod(loginSchema));
@@ -35,18 +35,14 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
-
-			throw redirect(303, '/');
 		} catch (error) {
-			if ((error as Redirect).location) {
-				throw error;
-			}
-
 			console.error({ error });
 
 			form.data.password = '';
 
 			return setError(form, 'Identifiants invalides', { status: 400 });
 		}
+
+		redirect(303, '/');
 	}
 };

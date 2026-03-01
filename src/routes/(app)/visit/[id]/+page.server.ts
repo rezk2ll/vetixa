@@ -1,4 +1,4 @@
-import { redirect, error } from '@sveltejs/kit';
+import { redirect, error, isRedirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type {
 	MedicalActsResponse,
@@ -114,7 +114,7 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 		});
 
 		if (!visitRecord) {
-			throw redirect(301, '/404');
+			redirect(301, '/404');
 		}
 
 		const billService = new BillService(pb, visitRecord);
@@ -192,9 +192,12 @@ export const load = (async ({ params, locals: { pb }, url: { searchParams } }) =
 			updateHospitCompeltedStateForm
 		};
 	} catch (err) {
+		if (isRedirect(err)) {
+			throw err;
+		}
 		console.error(err);
 
-		throw error(500, 'Impossible de charger la visite');
+		error(500, 'Impossible de charger la visite');
 	}
 }) satisfies PageServerLoad;
 

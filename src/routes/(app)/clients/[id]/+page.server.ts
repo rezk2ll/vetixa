@@ -1,4 +1,4 @@
-import { redirect, type Redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { AnimalsResponse, ClientsResponse } from '$types';
 import { setError, superValidate } from 'sveltekit-superforms/server';
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 		client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
 	} catch (error) {
 		if (!client) {
-			throw redirect(301, '/404');
+			redirect(301, '/404');
 		}
 	}
 
@@ -55,18 +55,19 @@ export const actions: Actions = {
 
 		const form = await superValidate(request, zod(addAnimalSchema), { id: 'add-animal' });
 
-		try {
-			if (!form.valid) {
-				return setError(form, 'Données invalides', { status: 400 });
-			}
+		if (!form.valid) {
+			return setError(form, 'Données invalides', { status: 400 });
+		}
 
+		let animal;
+		try {
 			const client = await pb.collection('clients').getOne<ClientsResponse>(id);
 
 			if (!client || !client.id) {
 				return setError(form, 'Client introuvable', { status: 404 });
 			}
 
-			const animal = await pb.collection('animals').create({
+			animal = await pb.collection('animals').create({
 				...form.data,
 				client: id
 			});
@@ -74,16 +75,13 @@ export const actions: Actions = {
 			if (!animal || !animal.id) {
 				return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
 			}
-
-			throw redirect(303, `/animals/${animal.id}/?new=true`);
 		} catch (error) {
-			if ((error as Redirect).location) {
-				throw error;
-			}
 			console.error(error);
 
 			return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
 		}
+
+		redirect(303, `/animals/${animal.id}/?new=true`);
 	},
 
 	removeAnimal: async ({ request, locals: { pb } }) => {

@@ -4,7 +4,7 @@ import { type ConfigurationResponse } from '$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!locals.user) {
-		throw redirect(303, '/login');
+		redirect(303, '/login');
 	}
 
 	let configuration: ConfigurationResponse | undefined;

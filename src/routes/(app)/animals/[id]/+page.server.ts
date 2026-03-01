@@ -1,4 +1,4 @@
-import { redirect, type Redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type {
 	AnimalsResponse,
@@ -29,7 +29,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 	});
 
 	if (!animal) {
-		throw redirect(301, '/404');
+		redirect(301, '/404');
 	}
 
 	const visits = await Promise.all(
@@ -73,8 +73,9 @@ export const actions: Actions = {
 	addVisit: async ({ request, params, locals: { pb } }) => {
 		const form = await superValidate(request, zod(addVisitSchema), { id: 'add-visit' });
 
+		const { id } = params;
+
 		try {
-			const { id } = params;
 			const animal = await pb.collection('animals').getOne(id);
 
 			if (!animal || !animal.id) {
@@ -109,17 +110,13 @@ export const actions: Actions = {
 				paid: false,
 				total_paid: 0
 			});
-
-			throw redirect(303, `/queue`);
 		} catch (error) {
-			if ((error as Redirect).location) {
-				throw error;
-			}
-
 			console.error(error);
 
 			return setError(form, 'Échec de la création de la visite');
 		}
+
+		redirect(303, `/queue`);
 	},
 
 	updateAnimal: async ({ request, locals: { pb } }) => {

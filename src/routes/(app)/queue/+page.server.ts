@@ -10,7 +10,7 @@ import type {
 import type { Actions, PageServerLoad } from './$types';
 import { updateQueueSchema } from '$lib/schemas';
 import type { RecordModel } from 'pocketbase';
-import { redirect, type Redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async ({ locals: { pb } }) => {
@@ -80,30 +80,25 @@ export const actions: Actions = {
 	default: async ({ request, locals: { pb } }) => {
 		const form = await superValidate(request, zod(updateQueueSchema));
 
-		try {
-			if (!form.valid) {
-				return setError(form, 'Données invalides', { status: 400 });
-			}
+		if (!form.valid) {
+			return setError(form, 'Données invalides', { status: 400 });
+		}
 
-			const item = await pb
-				.collection('queue')
-				.getFirstListItem<QueueResponse>(`id = "${form.data.id}"`);
+		let item;
+		try {
+			item = await pb.collection('queue').getFirstListItem<QueueResponse>(`id = "${form.data.id}"`);
 
 			if (!item.served) {
 				await pb.collection('queue').update(form.data.id, {
 					served: true
 				});
 			}
-
-			throw redirect(301, `/visit/${item.visit}`);
 		} catch (error) {
-			if ((error as Redirect).location) {
-				throw error;
-			}
-
 			console.error(error);
 
 			return setError(form, "Échec de la mise à jour de la file d'attente", { status: 500 });
 		}
+
+		redirect(301, `/visit/${item.visit}`);
 	}
 };
