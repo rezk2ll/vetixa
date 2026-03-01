@@ -30,9 +30,16 @@
 		<h2 class="mt-1 font-medium tracking-wide text-gray-700 dark:text-gray-200">{description}</h2>
 
 		<p class="mt-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">
-			Téléchargez ou glissez-déposez votre fichier PNG, JPG ou PDF.
+			Téléchargez ou glissez-déposez votre fichier PNG, JPG, PDF ou vidéo.
 		</p>
 
-		<input id="dropzone-file" type="file" class="hidden" {name} multiple />
+		<input
+			id="dropzone-file"
+			type="file"
+			class="hidden"
+			{name}
+			multiple
+			accept="image/jpeg,image/png,image/gif,image/webp,application/pdf,video/mp4,video/quicktime,video/webm"
+		/>
 	</label>
 </div>
