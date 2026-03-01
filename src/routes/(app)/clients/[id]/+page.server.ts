@@ -61,20 +61,12 @@ export const actions: Actions = {
 
 		let animal;
 		try {
-			const client = await pb.collection('clients').getOne<ClientsResponse>(id);
-
-			if (!client || !client.id) {
-				return setError(form, 'Client introuvable', { status: 404 });
-			}
+			await pb.collection('clients').getOne<ClientsResponse>(id);
 
 			animal = await pb.collection('animals').create({
 				...form.data,
 				client: id
 			});
-
-			if (!animal || !animal.id) {
-				return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
-			}
 		} catch (error) {
 			console.error(error);
 
@@ -93,12 +85,7 @@ export const actions: Actions = {
 
 			const { id } = form.data;
 
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').delete(id);
 
 			return { form };
@@ -118,12 +105,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').update(id, form.data);
 
 			return { form };
@@ -143,12 +125,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const client = await pb.collection('clients').getOne(id);
-
-			if (!client || !client.id) {
-				return setError(form, 'Client introuvable', { status: 404 });
-			}
-
+			await pb.collection('clients').getOne(id);
 			await pb.collection('clients').update(form.data.id, form.data);
 
 			return { form };

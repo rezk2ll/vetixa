@@ -57,10 +57,6 @@ export const actions: Actions = {
 				...form.data,
 				name: `${firstname} ${lastname}`
 			});
-
-			if (!client || !client.id) {
-				throw new Error('Failed to create client');
-			}
 		} catch (error) {
 			console.error(error);
 
@@ -80,10 +76,6 @@ export const actions: Actions = {
 			const { id } = form.data;
 
 			const client = await pb.collection('clients').getOne(id);
-
-			if (!client || !client.id) {
-				return setError(form, 'Client introuvable', { status: 404 });
-			}
 
 			if (client.animals && client.animals.length > 0) {
 				return setError(form, 'Client has animals assigned', { status: 400 });
@@ -109,12 +101,7 @@ export const actions: Actions = {
 
 			const { firstname, lastname, id } = form.data;
 
-			const client = await pb.collection('clients').getOne(id);
-
-			if (!client || !client.id) {
-				return setError(form, 'Client introuvable', { status: 404 });
-			}
-
+			await pb.collection('clients').getOne(id);
 			await pb.collection('clients').update(id, {
 				...form.data,
 				name: `${firstname} ${lastname}`
