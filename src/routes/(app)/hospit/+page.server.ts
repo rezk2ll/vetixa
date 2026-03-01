@@ -21,7 +21,10 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 			: filter === 'complete'
 			? 'hospit_completed_list'
 			: 'hospitalisation';
-	const queryFilter = `note ~ "${query}" || cage.code ~ "${query}" || visit.animal.name ~ "${query}" || visit.animal.identifier ~ "${query}" || visit.animal.client.name ~ "${query}" || visit.animal.client.tel ~ "${query}"`;
+	const queryFilter = pb.filter(
+		'note ~ {:q} || cage.code ~ {:q} || visit.animal.name ~ {:q} || visit.animal.identifier ~ {:q} || visit.animal.client.name ~ {:q} || visit.animal.client.tel ~ {:q}',
+		{ q: query }
+	);
 
 	const hospit = await pb.collection(collection).getList<HospitalisationResponse>(page, 10, {
 		sort: '-updated',

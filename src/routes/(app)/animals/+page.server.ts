@@ -21,7 +21,9 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 			: filter === 'female'
 			? 'animals_female_list'
 			: 'animals';
-	const queryFilter = `name ~ "${query}" || type ~ "${query}" ||  breed ~ "${query}" || identifier ~ "${query}"`;
+	const queryFilter = pb.filter('name ~ {:q} || type ~ {:q} || breed ~ {:q} || identifier ~ {:q}', {
+		q: query
+	});
 
 	const animalsPage = await pb.collection(collection).getList<AnimalsResponse>(page, 10, {
 		sort: '-created',
