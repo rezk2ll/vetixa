@@ -11,3 +11,6 @@ export const addAgendaEventSchema = z.object({
 export const updateAgendaEventSchema = addAgendaEventSchema.extend({
 	id: z.string().min(1, { message: 'Id agenda invalide' })
 });
+
+export type AddAgendaEventData = z.infer<typeof addAgendaEventSchema>;
+export type UpdateAgendaEventData = z.infer<typeof updateAgendaEventSchema>;

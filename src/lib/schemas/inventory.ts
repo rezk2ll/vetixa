@@ -60,3 +60,7 @@ export const sellInventoryItemSchema = z.object({
 export const updateInventoryItemSchema = addInventoryItemSchema.extend({
 	id: z.string().min(1, { message: 'Id invalide' })
 });
+
+export type AddInventoryItemData = z.infer<typeof addInventoryItemSchema>;
+export type SellInventoryItemData = z.infer<typeof sellInventoryItemSchema>;
+export type UpdateInventoryItemData = z.infer<typeof updateInventoryItemSchema>;

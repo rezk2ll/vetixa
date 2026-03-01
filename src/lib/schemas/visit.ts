@@ -103,3 +103,16 @@ export const updateVisitItemSchema = z.object({
 	quantity: z.number().min(0).default(0).or(z.string().regex(/\d+/).transform(Number)).default(1),
 	type: z.string().optional()
 });
+
+export type AddVisitData = z.infer<typeof addVisitSchema>;
+export type UpdateVisitData = z.infer<typeof updateVisitSchema>;
+export type PayVisitData = z.infer<typeof payVisitSchema>;
+export type AddVisitItemsData = z.infer<typeof addVisitItemsSchema>;
+export type RemoveVisitItemData = z.infer<typeof removeVisitItemSchema>;
+export type AddVisitFileData = z.infer<typeof addVisitFileSchema>;
+export type RemoveVisitFileData = z.infer<typeof removeVisitFileSchema>;
+export type UpdateVisitDiagnosticData = z.infer<typeof updateVisitDiagnosticSchema>;
+export type UpdateVisitActionsData = z.infer<typeof updateVisitActionsSchema>;
+export type UpdateVisitHospitalisationData = z.infer<typeof updateVisitHospitalisationSchema>;
+export type UpdateVisitTreatmentData = z.infer<typeof updateVisitTreatmentSchema>;
+export type UpdateVisitItemData = z.infer<typeof updateVisitItemSchema>;

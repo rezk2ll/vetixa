@@ -14,3 +14,6 @@ export const addClientSchema = clientSchema;
 export const updateClientSchema = clientSchema.extend({
 	id: z.string().min(1, { message: 'Id client invalide' })
 });
+
+export type AddClientData = z.infer<typeof addClientSchema>;
+export type UpdateClientData = z.infer<typeof updateClientSchema>;

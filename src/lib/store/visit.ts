@@ -1,20 +1,19 @@
 import { writable } from 'svelte/store';
 import type { SuperValidated } from 'sveltekit-superforms';
 import type {
-	addVisitFileSchema,
-	addVisitItemsSchema,
-	addVisitSchema,
-	payVisitSchema,
-	removeVisitFileSchema,
-	removeVisitItemSchema,
-	updateVisitSchema,
-	updateVisitDiagnosticSchema,
-	updateVisitActionsSchema,
-	updateVisitTreatmentSchema,
-	updateVisitItemSchema
+	AddVisitData,
+	UpdateVisitData,
+	PayVisitData,
+	AddVisitItemsData,
+	RemoveVisitItemData,
+	AddVisitFileData,
+	RemoveVisitFileData,
+	UpdateVisitDiagnosticData,
+	UpdateVisitActionsData,
+	UpdateVisitTreatmentData,
+	UpdateVisitItemData
 } from '$lib/schemas/visit';
 import type { AnimalVisit, BillInformation, Visit, VisitTabsType } from '$types';
-import type { Infer } from 'sveltekit-superforms';
 
 export const visitItems = writable<AnimalVisit[]>([]);
 export const vaccinationVisitList = writable<AnimalVisit[]>([]);
@@ -23,33 +22,20 @@ export const activeVisitTab = writable<VisitTabsType>('info');
 export const currentVisit = writable<Visit>();
 export const visitBill = writable<BillInformation>();
 
-export const addVisitFormStore = writable<SuperValidated<Infer<typeof addVisitSchema>>>();
-export const updateVisitFormStore = writable<SuperValidated<Infer<typeof updateVisitSchema>>>();
-export const payVisitFormStore = writable<SuperValidated<Infer<typeof payVisitSchema>>>();
-export const addVisitToilettageFormStore =
-	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
-export const removeVisitItemFormStore =
-	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
-export const addVisitFileFormStore = writable<SuperValidated<Infer<typeof addVisitFileSchema>>>();
-export const removeVisitFileFormStore =
-	writable<SuperValidated<Infer<typeof removeVisitFileSchema>>>();
-export const updateVisitDiagnosticFormStore =
-	writable<SuperValidated<Infer<typeof updateVisitDiagnosticSchema>>>();
-export const updateVisitActionsFormStore =
-	writable<SuperValidated<Infer<typeof updateVisitActionsSchema>>>();
-export const addVisitStoreItemFormStore =
-	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
-export const removeVisitStoreItemFormStore =
-	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
-export const addVisitMedicalActsFormStore =
-	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
-export const removeVisitMedicalActFormStore =
-	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
-export const addVisitSurgicalActsFormStore =
-	writable<SuperValidated<Infer<typeof addVisitItemsSchema>>>();
-export const removeVisitSurgicalActFormStore =
-	writable<SuperValidated<Infer<typeof removeVisitItemSchema>>>();
-export const updateVisitTreatmentFormStore =
-	writable<SuperValidated<Infer<typeof updateVisitTreatmentSchema>>>();
-export const updateVisitItemFormStore =
-	writable<SuperValidated<Infer<typeof updateVisitItemSchema>>>();
+export const addVisitFormStore = writable<SuperValidated<AddVisitData>>();
+export const updateVisitFormStore = writable<SuperValidated<UpdateVisitData>>();
+export const payVisitFormStore = writable<SuperValidated<PayVisitData>>();
+export const addVisitToilettageFormStore = writable<SuperValidated<AddVisitItemsData>>();
+export const removeVisitItemFormStore = writable<SuperValidated<RemoveVisitItemData>>();
+export const addVisitFileFormStore = writable<SuperValidated<AddVisitFileData>>();
+export const removeVisitFileFormStore = writable<SuperValidated<RemoveVisitFileData>>();
+export const updateVisitDiagnosticFormStore = writable<SuperValidated<UpdateVisitDiagnosticData>>();
+export const updateVisitActionsFormStore = writable<SuperValidated<UpdateVisitActionsData>>();
+export const addVisitStoreItemFormStore = writable<SuperValidated<AddVisitItemsData>>();
+export const removeVisitStoreItemFormStore = writable<SuperValidated<RemoveVisitItemData>>();
+export const addVisitMedicalActsFormStore = writable<SuperValidated<AddVisitItemsData>>();
+export const removeVisitMedicalActFormStore = writable<SuperValidated<RemoveVisitItemData>>();
+export const addVisitSurgicalActsFormStore = writable<SuperValidated<AddVisitItemsData>>();
+export const removeVisitSurgicalActFormStore = writable<SuperValidated<RemoveVisitItemData>>();
+export const updateVisitTreatmentFormStore = writable<SuperValidated<UpdateVisitTreatmentData>>();
+export const updateVisitItemFormStore = writable<SuperValidated<UpdateVisitItemData>>();

@@ -19,3 +19,6 @@ export const updateAnimalSchema = addAnimalSchema.extend({
 	deceased: z.boolean().optional(),
 	deathdate: z.date().optional()
 });
+
+export type AddAnimalData = z.infer<typeof addAnimalSchema>;
+export type UpdateAnimalData = z.infer<typeof updateAnimalSchema>;

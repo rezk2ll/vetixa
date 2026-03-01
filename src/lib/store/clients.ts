@@ -1,11 +1,10 @@
 import { writable } from 'svelte/store';
-import type { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
 import type { SuperValidated } from 'sveltekit-superforms';
+import type { AddClientData, RemoveData, UpdateClientData } from '$lib/schemas';
 import type { ClientsPageInfo, IClient } from '$types';
-import type { Infer } from 'sveltekit-superforms';
 
 export const currentClient = writable<IClient>();
-export const addClientFormStore = writable<SuperValidated<Infer<typeof addClientSchema>>>();
-export const updateClientFormStore = writable<SuperValidated<Infer<typeof updateClientSchema>>>();
-export const removeClientFormStore = writable<SuperValidated<Infer<typeof removeSchema>>>();
+export const addClientFormStore = writable<SuperValidated<AddClientData>>();
+export const updateClientFormStore = writable<SuperValidated<UpdateClientData>>();
+export const removeClientFormStore = writable<SuperValidated<RemoveData>>();
 export const clientsPageInfo = writable<ClientsPageInfo>();
