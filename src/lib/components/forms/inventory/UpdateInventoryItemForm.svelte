@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
@@ -29,7 +27,8 @@
 		}
 	});
 
-	updatedInventoryItem.subscribe((value) => {
+	$effect(() => {
+		const value = $updatedInventoryItem;
 		$form.alert = value.alert;
 		$form.code = value.code;
 		$form.cost = value.cost;
@@ -61,10 +60,10 @@
 			.multiply(100).value;
 	};
 
-	run(() => {
+	$effect(() => {
 		$form.price = currency($form.cost, { precision: 3 }).multiply(1 + $form.gain / 100).value;
 	});
-	run(() => {
+	$effect(() => {
 		$allErrors.map((error) => {
 			toast.error(error.messages.join('. '));
 		});
