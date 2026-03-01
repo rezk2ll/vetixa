@@ -20,10 +20,6 @@ export const updateHospit = async ({ locals: { pb }, request }: RequestEvent) =>
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
 
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
-
 		if (visit.hospit) {
 			await pb.collection('hospitalisation').update(visit.hospit, {
 				cage,
@@ -71,10 +67,6 @@ export const removeHospit = async ({ locals: { pb }, request }: RequestEvent) =>
 		const { id } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
-
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
 
 		if (visit.hospit) {
 			await pb.collection('hospitalisation').delete(visit.hospit);

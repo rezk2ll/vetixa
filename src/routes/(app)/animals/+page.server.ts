@@ -105,12 +105,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').delete(form.data.id);
 
 			return { form };
@@ -130,12 +125,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').update(form.data.id, form.data);
 
 			return { form };

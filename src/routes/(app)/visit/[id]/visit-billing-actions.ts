@@ -15,11 +15,6 @@ export const addPayment = async ({ locals: { pb, user }, request }: RequestEvent
 
 		const { amount, id, incash, method, outcash, description: desc } = form.data;
 		const item = await pb.collection('visits').getOne<VisitsResponse>(id);
-
-		if (!item) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
 		const billService = new BillService(pb, item);
 		const expandedVisit = await billService.getClientExpandedVisit();
 
