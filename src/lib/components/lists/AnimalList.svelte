@@ -9,8 +9,12 @@
 	import AddAnimalForm from '$components/forms/animals/AddAnimalForm.svelte';
 	import UpdateAnimalForm from '$components/forms/animals/updateAnimalForm.svelte';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	import {
+		nextPage as goNextPage,
+		previousPage as goPreviousPage,
+		dispatchSearch as doSearch,
+		changeTab as doChangeTab
+	} from '$utils/pagination';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
 	import BackArrow from '$components/icons/BackArrow.svelte';
@@ -29,8 +33,6 @@
 	let selectedItem: AnimalsResponse | null;
 	let deleteFormRef: HTMLFormElement;
 	let selectedUpdateItem: AnimalsResponse | null;
-
-	$: currentUrl = browser ? document.location.href : '';
 
 	$: removeHandler = () => {
 		deleteFormRef.requestSubmit();
@@ -51,45 +53,10 @@
 		openUpdateAnimalModal = true;
 	};
 
-	$: nextPage = () => {
-		if ($animalsPageInfo.page >= $animalsPageInfo.totalPages) return;
-
-		const nextUrl = new URL(currentUrl);
-
-		nextUrl.searchParams.set('page', `${$animalsPageInfo.page + 1}`);
-		goto(nextUrl);
-	};
-
-	$: previousPage = () => {
-		if ($animalsPageInfo.page <= 1) return;
-
-		const previousUrl = new URL(currentUrl);
-
-		previousUrl.searchParams.set('page', `${$animalsPageInfo.page - 1}`);
-		goto(previousUrl);
-	};
-
-	$: dispatchSearch = () => {
-		const searchUrl = new URL(currentUrl);
-
-		searchUrl.searchParams.set('query', search);
-		searchUrl.searchParams.delete('page');
-		goto(searchUrl);
-	};
-
-	$: changeTab = (tab: StatusFilter) => {
-		const filterUrl = new URL(currentUrl);
-
-		filterUrl.searchParams.delete('page');
-
-		if (tab === 'all') {
-			filterUrl.searchParams.delete('filter');
-		} else {
-			filterUrl.searchParams.set('filter', tab);
-		}
-
-		goto(filterUrl);
-	};
+	$: nextPage = () => goNextPage($animalsPageInfo.page, $animalsPageInfo.totalPages);
+	$: previousPage = () => goPreviousPage($animalsPageInfo.page);
+	$: dispatchSearch = () => doSearch(search);
+	$: changeTab = (tab: StatusFilter) => doChangeTab(tab);
 
 	const {
 		enhance,

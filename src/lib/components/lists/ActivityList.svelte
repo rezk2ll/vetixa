@@ -3,8 +3,12 @@
 	import { formatDateStringShort, formatDateStringToTime } from '$lib/utils/date';
 	import { activityPage } from '$store/activity';
 	import PaymentStatus from '$components/display/PaymentStatus.svelte';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
+	import {
+		nextPage as goNextPage,
+		previousPage as goPreviousPage,
+		dispatchSearch as doSearch,
+		changeTab as doChangeTab
+	} from '$utils/pagination';
 	import currency from 'currency.js';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import BackArrow from '$components/icons/BackArrow.svelte';
@@ -15,48 +19,10 @@
 	let search: string = $activityPage.query;
 	let page = $activityPage.page;
 
-	$: currentUrl = browser ? document.location.href : '';
-
-	$: nextPage = () => {
-		if ($activityPage.page >= $activityPage.totalPages) return;
-
-		const nextUrl = new URL(currentUrl);
-
-		nextUrl.searchParams.set('page', `${$activityPage.page + 1}`);
-
-		goto(nextUrl);
-	};
-
-	$: previousPage = () => {
-		if ($activityPage.page <= 1) return;
-
-		const prevUrl = new URL(currentUrl);
-
-		prevUrl.searchParams.set('page', `${$activityPage.page - 1}`);
-		goto(prevUrl);
-	};
-
-	$: dispatchSearch = () => {
-		const searchUrl = new URL(currentUrl);
-
-		searchUrl.searchParams.set('query', search);
-		searchUrl.searchParams.delete('page');
-		goto(searchUrl);
-	};
-
-	$: changeTab = (filter: StatusFilter) => {
-		const filterUrl = new URL(currentUrl);
-
-		filterUrl.searchParams.delete('page');
-
-		if (filter === 'all') {
-			filterUrl.searchParams.delete('filter');
-		} else {
-			filterUrl.searchParams.set('filter', filter);
-		}
-
-		goto(filterUrl);
-	};
+	$: nextPage = () => goNextPage($activityPage.page, $activityPage.totalPages);
+	$: previousPage = () => goPreviousPage($activityPage.page);
+	$: dispatchSearch = () => doSearch(search);
+	$: changeTab = (filter: StatusFilter) => doChangeTab(filter);
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
