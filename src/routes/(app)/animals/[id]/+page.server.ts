@@ -32,24 +32,33 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 		redirect(301, '/404');
 	}
 
-	const visits = await Promise.all(
-		(((animal.expand as RecordModel)?.['visits_via_animal'] as VisitsResponse[]) || []).map(
-			async (visit: VisitsResponse) => {
-				const bill = await pb
-					.collection('bills')
-					.getFirstListItem<BillsResponse>(pb.filter('visit = {:visit}', { visit: visit.id }));
+	const rawVisits: VisitsResponse[] =
+		((animal.expand as RecordModel)?.['visits_via_animal'] as VisitsResponse[]) || [];
 
-				return {
-					...visit,
-					animal: {
-						...animal,
-						client: ((animal.expand as RecordModel)?.client as ClientsResponse) || unknownClient
-					},
-					bill
-				} satisfies AnimalVisit;
-			}
-		)
-	);
+	// Batch fetch all bills in a single query instead of N+1
+	let billsMap = new Map<string, BillsResponse>();
+	if (rawVisits.length > 0) {
+		const billsParams: Record<string, string> = {};
+		const billsFilter = rawVisits
+			.map((v, i) => {
+				billsParams[`v${i}`] = v.id;
+				return `visit = {:v${i}}`;
+			})
+			.join(' || ');
+		const bills = await pb.collection('bills').getFullList<BillsResponse>({
+			filter: pb.filter(billsFilter, billsParams)
+		});
+		billsMap = new Map(bills.map((b) => [b.visit, b]));
+	}
+
+	const visits: AnimalVisit[] = rawVisits.map((visit) => ({
+		...visit,
+		animal: {
+			...animal,
+			client: ((animal.expand as RecordModel)?.client as ClientsResponse) || unknownClient
+		},
+		bill: billsMap.get(visit.id)!
+	}));
 
 	const expandedAnimal = {
 		...(animal as AnimalsResponse),

@@ -332,9 +332,9 @@ class BillService {
 	/**
 	 * Generate the bill information
 	 */
-	generateBill = async (): Promise<BillInformation | undefined> => {
+	generateBill = async (preloadedVisit?: Visit): Promise<BillInformation | undefined> => {
 		try {
-			const visit = await this.getClientExpandedVisit();
+			const visit = preloadedVisit ?? (await this.getClientExpandedVisit());
 
 			if (visit.bill.total === 0) {
 				return;
