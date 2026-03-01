@@ -1,13 +1,27 @@
 <script lang="ts">
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
-	export let title: string;
-	export let color: 'primary' | 'secondary' | 'info' = 'secondary';
-	export let size: 'small' | 'big' | 'full' = 'big';
-	export let show: boolean = true;
-	export let shadow: boolean = true;
-	export let editable: boolean = false;
-	export let edit: boolean = false;
+	interface Props {
+		title: string;
+		color?: 'primary' | 'secondary' | 'info';
+		size?: 'small' | 'big' | 'full';
+		show?: boolean;
+		shadow?: boolean;
+		editable?: boolean;
+		edit?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		title,
+		color = 'secondary',
+		size = 'big',
+		show = $bindable(true),
+		shadow = true,
+		editable = false,
+		edit = $bindable(false),
+		children
+	}: Props = $props();
 </script>
 
 <div
@@ -34,7 +48,7 @@
 			<div class="flex flex-row space-x-2">
 				{#if editable}
 					<button
-						on:click={() => (edit = true)}
+						onclick={() => (edit = true)}
 						type="button"
 						title="Modifier le client"
 						class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
@@ -45,7 +59,7 @@
 				<button
 					type="button"
 					class="transition {show ? '' : 'rotate-180	'}"
-					on:click={() => (show = !show)}
+					onclick={() => (show = !show)}
 				>
 					<svg
 						fill="none"
@@ -64,6 +78,6 @@
 	</div>
 
 	<div class="py-3 xl:px-5 {show ? '' : 'hidden'}">
-		<slot />
+		{@render children?.()}
 	</div>
 </div>

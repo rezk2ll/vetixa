@@ -1,9 +1,13 @@
 <script lang="ts">
 	import moment from 'moment';
 
-	export let date: string;
-	export let death: string | undefined;
-	export let dead: boolean = false;
+	interface Props {
+		date: string;
+		death: string | undefined;
+		dead?: boolean;
+	}
+
+	let { date, death, dead = false }: Props = $props();
 
 	const calculateAge = (date: string, deathDate?: string) => {
 		const now = deathDate && dead ? moment(deathDate) : moment();
@@ -16,7 +20,7 @@
 		return { years, months, days };
 	};
 
-	$: ({ years, months, days } = calculateAge(date, death));
+	let { years, months, days } = $derived(calculateAge(date, death));
 </script>
 
 <div

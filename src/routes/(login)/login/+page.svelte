@@ -1,32 +1,41 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import { toast, Toaster } from 'svelte-sonner';
 	import type { PageData } from './$types';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { buildFileProxyUrl } from '$utils/file';
 
-	let imageNumber = 1;
+	let imageNumber = $state(1);
 
 	setInterval(() => {
 		imageNumber = Math.floor(Math.random() * 7) + 1;
 	}, 20000);
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ configuration } = data);
+	let { data }: Props = $props();
+
+	let { configuration } = $derived(data);
 
 	const { form, submitting, enhance, allErrors } = superForm(data.form, {
 		resetForm: false
 	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 
-	$: logoSrc =
+	let logoSrc = $derived(
 		configuration && configuration.logo
 			? buildFileProxyUrl(configuration.collectionId, configuration.id, configuration.logo)
-			: '/logo.svg';
+			: '/logo.svg'
+	);
 </script>
 
 <div class="bg-white dark:bg-gray-900">

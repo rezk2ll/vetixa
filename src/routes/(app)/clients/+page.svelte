@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { PageData } from './$types';
 	import ClientList from '$components/lists/ClientList.svelte';
 	import {
@@ -8,13 +10,25 @@
 		updateClientFormStore
 	} from '$store/clients';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ shortCut, pageInfo, addForm, updateForm, deleteForm } = data);
-	$: clientsPageInfo.set(pageInfo);
-	$: addClientFormStore.set(addForm);
-	$: updateClientFormStore.set(updateForm);
-	$: removeClientFormStore.set(deleteForm);
+	let { data }: Props = $props();
+
+	let { shortCut, pageInfo, addForm, updateForm, deleteForm } = $derived(data);
+	run(() => {
+		clientsPageInfo.set(pageInfo);
+	});
+	run(() => {
+		addClientFormStore.set(addForm);
+	});
+	run(() => {
+		updateClientFormStore.set(updateForm);
+	});
+	run(() => {
+		removeClientFormStore.set(deleteForm);
+	});
 </script>
 
 <div

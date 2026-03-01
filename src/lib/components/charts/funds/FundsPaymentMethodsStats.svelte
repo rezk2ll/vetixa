@@ -3,17 +3,23 @@
 	import currency from 'currency.js';
 	import { getPaymentMethodLabel } from '$utils/payment';
 
-	export let stats: FundPaymentMethodsStats;
+	interface Props {
+		stats: FundPaymentMethodsStats;
+	}
 
-	$: items = Object.entries(stats)
-		.map(([method, { count, total }]) => ({
-			method,
-			count,
-			total
-		}))
-		.sort((a, b) => b.count - a.count);
+	let { stats }: Props = $props();
 
-	$: total = items.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let items = $derived(
+		Object.entries(stats)
+			.map(([method, { count, total }]) => ({
+				method,
+				count,
+				total
+			}))
+			.sort((a, b) => b.count - a.count)
+	);
+
+	let total = $derived(items.reduce((acc, curr) => currency(acc).add(curr.total).value, 0));
 </script>
 
 <div class="flex flex-col items-center justify-start w-full pb-10">
@@ -69,7 +75,7 @@
 											<div
 												style="width: {((item.total / total) * 100).toFixed(2)}%;"
 												class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-											/>
+											></div>
 										</div>
 									</div>
 								</div></td

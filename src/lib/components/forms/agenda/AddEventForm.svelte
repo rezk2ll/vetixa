@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import TextField from '$components/inputs/TextField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { addEventFormStore } from '$store/agenda';
@@ -15,9 +17,13 @@
 	let locale = localeFromDateFnsLocale(fr);
 	let maxDate = getMaxSelectionDate();
 
-	export let open = false;
-	export let start: Date;
-	export let end: Date;
+	interface Props {
+		open?: boolean;
+		start: Date;
+		end: Date;
+	}
+
+	let { open = $bindable(false), start = $bindable(), end = $bindable() }: Props = $props();
 
 	const { enhance, form, allErrors } = superForm($addEventFormStore, {
 		onResult: ({ result }) => {
@@ -30,10 +36,16 @@
 		resetForm: true
 	});
 
-	$: $form.start = formatISO(start);
-	$: $form.end = formatISO(end);
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$form.start = formatISO(start);
+	});
+	run(() => {
+		$form.end = formatISO(end);
+	});
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -93,7 +105,7 @@
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"
-			on:click={() => (open = false)}
+			onclick={() => (open = false)}
 			class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
 		>
 			Annuler

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import StockStats from '$components/charts/stock/StockStats.svelte';
 	import StockSalesRank from '$components/charts/stock/StockSalesRank.svelte';
 	import StockStatusChart from '$components/charts/stock/StockStatusChart.svelte';
@@ -12,9 +14,13 @@
 		updateInventoryFormStore
 	} from '$lib/store/inventory';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({
+	let { data }: Props = $props();
+
+	let {
 		items,
 		totalSales,
 		monthlyRevenu,
@@ -23,24 +29,34 @@
 		dailySales,
 		bestSellers,
 		totalSoldItems
-	} = data);
+	} = $derived(data);
 
-	$: inventoryItems.set(
-		items.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
-	);
+	run(() => {
+		inventoryItems.set(
+			items.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+		);
+	});
 
-	$: ({ addForm, updateForm, sellForm, deleteForm } = data);
+	let { addForm, updateForm, sellForm, deleteForm } = $derived(data);
 
-	$: stats = [
+	let stats = $derived([
 		$inventoryItems.filter((item) => item.quantity === 0).length,
 		$inventoryItems.filter((item) => item.quantity > item.alert).length,
 		$inventoryItems.filter((item) => item.quantity <= item.alert && item.quantity > 0).length
-	];
+	]);
 
-	$: addInventoryFormStore.set(addForm);
-	$: updateInventoryFormStore.set(updateForm);
-	$: sellInventoryFormStore.set(sellForm);
-	$: removeInventoryFormStore.set(deleteForm);
+	run(() => {
+		addInventoryFormStore.set(addForm);
+	});
+	run(() => {
+		updateInventoryFormStore.set(updateForm);
+	});
+	run(() => {
+		sellInventoryFormStore.set(sellForm);
+	});
+	run(() => {
+		removeInventoryFormStore.set(deleteForm);
+	});
 </script>
 
 <div class="flex flex-col lg:flex-row xl:pl-14 w-full">

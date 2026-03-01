@@ -4,9 +4,13 @@
 	import type { Observation } from '$types';
 	import Select from 'svelte-select';
 
-	export let entity: Observation;
-	export let index: number = 0;
-	export let title: string | undefined;
+	interface Props {
+		entity: Observation;
+		index?: number;
+		title: string | undefined;
+	}
+
+	let { entity = $bindable(), index = 0, title }: Props = $props();
 
 	const booleanValue = [
 		{ label: 'oui', value: true },

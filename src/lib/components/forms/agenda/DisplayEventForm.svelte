@@ -5,10 +5,19 @@
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import CrossIcon from '$components/icons/CrossIcon.svelte';
 
-	export let item: AgendaResponse;
-	export let open = false;
-	export let update = false;
-	export let remove = false;
+	interface Props {
+		item: AgendaResponse;
+		open?: boolean;
+		update?: boolean;
+		remove?: boolean;
+	}
+
+	let {
+		item,
+		open = $bindable(false),
+		update = $bindable(false),
+		remove = $bindable(false)
+	}: Props = $props();
 </script>
 
 <div class="flex flex-col overflow-hidden bg-white w-full whitespace-normal">
@@ -101,7 +110,7 @@
 		<div class="grid grid-cols-3 border-t divide-x text-slate-700 dark:bg-transparent py-3">
 			<button
 				type="button"
-				on:click={() => {
+				onclick={() => {
 					open = false;
 					update = true;
 				}}
@@ -114,7 +123,7 @@
 			</button>
 			<button
 				type="button"
-				on:click={() => {
+				onclick={() => {
 					remove = true;
 				}}
 				class="cursor-pointer uppercase text-xs flex flex-row items-center justify-center text-red-500 font-semibold"
@@ -126,7 +135,7 @@
 			</button>
 			<button
 				type="button"
-				on:click={() => (open = false)}
+				onclick={() => (open = false)}
 				class="cursor-pointer uppercase text-xs flex flex-row items-center justify-center font-semibold"
 			>
 				<div class="mr-2">

@@ -1,14 +1,26 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import AnimalList from '$components/lists/AnimalList.svelte';
 	import { animalsPageInfo, deleteAnimalFormStore, updateAnimalFormStore } from '$store/animals';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ pageInfo, removeForm, updateForm } = data);
-	$: deleteAnimalFormStore.set(removeForm);
-	$: updateAnimalFormStore.set(updateForm);
-	$: animalsPageInfo.set(pageInfo);
+	let { data }: Props = $props();
+
+	let { pageInfo, removeForm, updateForm } = $derived(data);
+	run(() => {
+		deleteAnimalFormStore.set(removeForm);
+	});
+	run(() => {
+		updateAnimalFormStore.set(updateForm);
+	});
+	run(() => {
+		animalsPageInfo.set(pageInfo);
+	});
 </script>
 
 <div

@@ -1,11 +1,19 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import SearchList from '$components/display/search/SearchList.svelte';
 	import { searchPage } from '$lib/store/search';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: searchPage.set(data);
+	let { data }: Props = $props();
+
+	run(() => {
+		searchPage.set(data);
+	});
 </script>
 
 <div

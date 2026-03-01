@@ -4,7 +4,11 @@
 	import VideoIcon from '$components/icons/VideoIcon.svelte';
 	import { fetchFileInfo } from '$utils/mime';
 
-	export let url: string;
+	interface Props {
+		url: string;
+	}
+
+	let { url }: Props = $props();
 </script>
 
 <div

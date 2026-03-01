@@ -1,12 +1,20 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import HospitList from '$components/lists/HospitList.svelte';
 	import { hospitPageInfo } from '$store/hospit';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ pageInfo } = data);
-	$: hospitPageInfo.set(pageInfo);
+	let { data }: Props = $props();
+
+	let { pageInfo } = $derived(data);
+	run(() => {
+		hospitPageInfo.set(pageInfo);
+	});
 </script>
 
 <div

@@ -2,7 +2,11 @@
 	import type { entityDetailsList } from '$types';
 	import AgeDisplay from '$components/display/AgeDisplay.svelte';
 
-	export let details: entityDetailsList;
+	interface Props {
+		details: entityDetailsList;
+	}
+
+	let { details }: Props = $props();
 </script>
 
 <div class="border-t border-gray-100 dark:border-gray-700">

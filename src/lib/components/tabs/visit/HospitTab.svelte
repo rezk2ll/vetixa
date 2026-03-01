@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Select from 'svelte-select';
 	import fr from 'date-fns/locale/fr/index';
 	import { superForm } from 'sveltekit-superforms';
@@ -31,12 +33,12 @@
 	import SecondaryButton from '$components/buttons/SecondaryButton.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
-	let treatments: Treatment[] = [];
-	let removeFormRef: HTMLFormElement;
-	let invalidated: boolean = false;
-	let showConfirmation = false;
-	let loading: boolean;
-	let completedFormRef: HTMLFormElement;
+	let treatments: Treatment[] = $state([]);
+	let removeFormRef: HTMLFormElement = $state();
+	let invalidated: boolean = $state(false);
+	let showConfirmation = $state(false);
+	let loading: boolean = $state();
+	let completedFormRef: HTMLFormElement = $state();
 	let maxDate = getMaxSelectionDate();
 
 	const { form, enhance, submitting, allErrors } = superForm($updateVisitHospitalisationFormStore, {
@@ -123,50 +125,71 @@
 		}
 	};
 
-	$: disabled = !$form.cage || !$form.start || !$form.end;
-	$: $form.id = $currentVisit.id;
-	$: $form.start = $currentVisit.hospit.start?.length
-		? new Date($currentVisit.hospit.start)
-		: new Date();
-	$: $form.end = $currentVisit.hospit.end?.length ? new Date($currentVisit.hospit.end) : new Date();
-	$: $form.cage = $currentVisit.hospit.cage;
-	$: $form.note = $currentVisit.hospit.note;
-	$: $form.price = $currentVisit.hospit.price;
-	$: cages = $cagesList.map((cage) => ({
-		label: cage.code,
-		value: cage.id
-	}));
-	$: daysCount =
+	let disabled = $derived(!$form.cage || !$form.start || !$form.end);
+	run(() => {
+		$form.id = $currentVisit.id;
+	});
+	run(() => {
+		$form.start = $currentVisit.hospit.start?.length
+			? new Date($currentVisit.hospit.start)
+			: new Date();
+	});
+	run(() => {
+		$form.end = $currentVisit.hospit.end?.length ? new Date($currentVisit.hospit.end) : new Date();
+	});
+	run(() => {
+		$form.cage = $currentVisit.hospit.cage;
+	});
+	run(() => {
+		$form.note = $currentVisit.hospit.note;
+	});
+	run(() => {
+		$form.price = $currentVisit.hospit.price;
+	});
+	let cages = $derived(
+		$cagesList.map((cage) => ({
+			label: cage.code,
+			value: cage.id
+		}))
+	);
+	let daysCount = $derived(
 		$currentVisit.hospit?.start && $currentVisit.hospit?.end
 			? getDaysBetween($currentVisit.hospit?.start, $currentVisit.hospit.end)
-			: 0;
-	$: if (invalidated || treatments.length !== daysCount) {
-		treatments = getPreviousDays(new Date($currentVisit.hospit.end), daysCount).map((day) => {
-			if ($currentVisit.hospit.treatment) {
-				const existingDay = $currentVisit.hospit.treatment.find(
-					(treatment) => treatment.date === formatDateShort(day)
-				);
+			: 0
+	);
+	run(() => {
+		if (invalidated || treatments.length !== daysCount) {
+			treatments = getPreviousDays(new Date($currentVisit.hospit.end), daysCount).map((day) => {
+				if ($currentVisit.hospit.treatment) {
+					const existingDay = $currentVisit.hospit.treatment.find(
+						(treatment) => treatment.date === formatDateShort(day)
+					);
 
-				if (existingDay) {
-					return {
-						...existingDay,
-						observations: [{}, ...(existingDay.observations || []).filter((obs) => obs.time)]
-					};
+					if (existingDay) {
+						return {
+							...existingDay,
+							observations: [{}, ...(existingDay.observations || []).filter((obs) => obs.time)]
+						};
+					}
 				}
-			}
 
-			invalidated = false;
+				invalidated = false;
 
-			return {
-				date: formatDateShort(day),
-				observations: [{}]
-			} satisfies Treatment;
+				return {
+					date: formatDateShort(day),
+					observations: [{}]
+				} satisfies Treatment;
+			});
+		}
+	});
+
+	run(() => {
+		$form.treatment = JSON.stringify(treatments);
+	});
+	run(() => {
+		[...$allErrors, ...$removeErrors, ...$completeErrors].map((error) => {
+			toast.error(error.messages.join('. '));
 		});
-	}
-
-	$: $form.treatment = JSON.stringify(treatments);
-	$: [...$allErrors, ...$removeErrors, ...$completeErrors].map((error) => {
-		toast.error(error.messages.join('. '));
 	});
 </script>
 

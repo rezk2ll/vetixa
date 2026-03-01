@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import DateField from '$components/inputs/DateField.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import SelectField from '$components/inputs/SelectField.svelte';
@@ -11,7 +13,11 @@
 	import { toast } from 'svelte-sonner';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
-	export let open = false;
+	interface Props {
+		open?: boolean;
+	}
+
+	let { open = $bindable(false) }: Props = $props();
 
 	const { enhance, form, submitting, allErrors } = superForm($updateAnimalFormStore, {
 		onResult: ({ result }) => {
@@ -25,27 +31,50 @@
 		taintedMessage: null
 	});
 
-	let birthday = format(new Date($currentAnimal.birthday), 'yyyy-MM-dd');
-	let deathdate = format(
-		$currentAnimal.deathdate ? new Date($currentAnimal.deathdate) : new Date(),
-		'yyyy-MM-dd'
+	let birthday = $state(format(new Date($currentAnimal.birthday), 'yyyy-MM-dd'));
+	let deathdate = $state(
+		format($currentAnimal.deathdate ? new Date($currentAnimal.deathdate) : new Date(), 'yyyy-MM-dd')
 	);
-	let deceased = $currentAnimal.deceased;
+	let deceased = $state($currentAnimal.deceased);
 
-	$: $form.id = $currentAnimal.id;
-	$: $form.birthday = new Date(birthday);
-	$: $form.name = $currentAnimal.name;
-	$: $form.sex = $currentAnimal.sex;
-	$: $form.type = $currentAnimal.type;
-	$: $form.weight = $currentAnimal.weight;
-	$: $form.color = $currentAnimal.color;
-	$: $form.breed = $currentAnimal.breed;
-	$: $form.deceased = deceased;
-	$: $form.identifier = $currentAnimal.identifier;
-	$: $form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
+	run(() => {
+		$form.id = $currentAnimal.id;
+	});
+	run(() => {
+		$form.birthday = new Date(birthday);
+	});
+	run(() => {
+		$form.name = $currentAnimal.name;
+	});
+	run(() => {
+		$form.sex = $currentAnimal.sex;
+	});
+	run(() => {
+		$form.type = $currentAnimal.type;
+	});
+	run(() => {
+		$form.weight = $currentAnimal.weight;
+	});
+	run(() => {
+		$form.color = $currentAnimal.color;
+	});
+	run(() => {
+		$form.breed = $currentAnimal.breed;
+	});
+	run(() => {
+		$form.deceased = deceased;
+	});
+	run(() => {
+		$form.identifier = $currentAnimal.identifier;
+	});
+	run(() => {
+		$form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
+	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -148,7 +177,7 @@
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"
-			on:click={() => (open = false)}
+			onclick={() => (open = false)}
 			class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
 		>
 			Annuler

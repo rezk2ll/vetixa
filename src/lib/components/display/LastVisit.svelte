@@ -5,9 +5,13 @@
 	import { formatDateTime } from '$lib/utils/date';
 	import type { QueueItem } from '$types';
 
-	export let data: QueueItem | null = null;
+	interface Props {
+		data?: QueueItem | null;
+	}
 
-	$: visit = data ? data.visit : null;
+	let { data = null }: Props = $props();
+
+	let visit = $derived(data ? data.visit : null);
 </script>
 
 <div class="w-full xl:max-w-md overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">

@@ -1,12 +1,23 @@
 <script lang="ts">
-	export let label: string;
-	export let value: string;
-	export let isInValid: boolean = false;
-	export let name: string;
-	export let options: string[];
-	export let errorMessage: string = 'Valeur invalide';
+	interface Props {
+		label: string;
+		value: string;
+		isInValid?: boolean;
+		name: string;
+		options: string[];
+		errorMessage?: string;
+	}
 
-	$: errorId = `${name}-error`;
+	let {
+		label,
+		value = $bindable(),
+		isInValid = false,
+		name,
+		options,
+		errorMessage = 'Valeur invalide'
+	}: Props = $props();
+
+	let errorId = $derived(`${name}-error`);
 </script>
 
 <div class="relative mt-6 w-full">

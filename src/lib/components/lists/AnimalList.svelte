@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import Modal from '$components/Modal.svelte';
 	import { animalsPageInfo, currentAnimal, deleteAnimalFormStore } from '$store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
@@ -23,40 +25,44 @@
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
 	import { toast } from 'svelte-sonner';
 
-	export let canAdd: boolean = true;
-	export let isNew: boolean = false;
+	interface Props {
+		canAdd?: boolean;
+		isNew?: boolean;
+	}
 
-	let openAddAnimalModal = isNew;
-	let openUpdateAnimalModal = false;
-	let search: string = $animalsPageInfo.query;
-	let showConfirmation = false;
-	let selectedItem: AnimalsResponse | null;
-	let deleteFormRef: HTMLFormElement;
-	let selectedUpdateItem: AnimalsResponse | null;
+	let { canAdd = true, isNew = false }: Props = $props();
 
-	$: removeHandler = () => {
+	let openAddAnimalModal = $state(isNew);
+	let openUpdateAnimalModal = $state(false);
+	let search: string = $state($animalsPageInfo.query);
+	let showConfirmation = $state(false);
+	let selectedItem: AnimalsResponse | null = $state();
+	let deleteFormRef: HTMLFormElement = $state();
+	let selectedUpdateItem: AnimalsResponse | null = $state();
+
+	let removeHandler = $derived(() => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;
-	};
+	});
 
-	$: remove = (item: AnimalsResponse) => {
+	let remove = $derived((item: AnimalsResponse) => {
 		$deleteForm.id = item.id;
 		selectedItem = item;
 		showConfirmation = true;
-	};
+	});
 
-	$: update = (item: AnimalsResponse) => {
+	let update = $derived((item: AnimalsResponse) => {
 		currentAnimal.set(item);
 		selectedUpdateItem = item;
 		openUpdateAnimalModal = true;
-	};
+	});
 
-	$: nextPage = () => goNextPage($animalsPageInfo.page, $animalsPageInfo.totalPages);
-	$: previousPage = () => goPreviousPage($animalsPageInfo.page);
-	$: dispatchSearch = () => doSearch(search);
-	$: changeTab = (tab: StatusFilter) => doChangeTab(tab);
+	let nextPage = $derived(() => goNextPage($animalsPageInfo.page, $animalsPageInfo.totalPages));
+	let previousPage = $derived(() => goPreviousPage($animalsPageInfo.page));
+	let dispatchSearch = $derived(() => doSearch(search));
+	let changeTab = $derived((tab: StatusFilter) => doChangeTab(tab));
 
 	const {
 		enhance,
@@ -75,8 +81,10 @@
 		dataType: 'json'
 	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -129,7 +137,7 @@
 				{#if canAdd}
 					<div class="flex items-center mt-4 gap-x-2">
 						<button
-							on:click={() => (openAddAnimalModal = true)}
+							onclick={() => (openAddAnimalModal = true)}
 							class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 						>
 							<PlusIcon />
@@ -146,7 +154,7 @@
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse"
 				>
 					<button
-						on:click={() => changeTab('all')}
+						onclick={() => changeTab('all')}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'all'
 							? 'bg-gray-100'
@@ -155,7 +163,7 @@
 						Tout
 					</button>
 					<button
-						on:click={() => changeTab('chat')}
+						onclick={() => changeTab('chat')}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'chat'
 							? 'bg-gray-100'
@@ -169,7 +177,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => changeTab('chien')}
+						onclick={() => changeTab('chien')}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'chien'
 							? 'bg-gray-100'
@@ -183,7 +191,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => changeTab('male')}
+						onclick={() => changeTab('male')}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'male'
 							? 'bg-gray-100'
@@ -197,7 +205,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => changeTab('female')}
+						onclick={() => changeTab('female')}
 						class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {$animalsPageInfo.filter ===
 						'female'
 							? 'bg-gray-100'
@@ -211,7 +219,7 @@
 						</span>
 					</button>
 				</div>
-				<form on:submit|preventDefault={dispatchSearch} class="w-full lg:w-1/3">
+				<form onsubmit={preventDefault(dispatchSearch)} class="w-full lg:w-1/3">
 					<div class="flex items-center mt-0 h-6">
 						<button class="absolute">
 							<SearchIcon />
@@ -256,7 +264,7 @@
 										<th
 											scope="col"
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-										/>
+										></th>
 										<th
 											scope="col"
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -356,7 +364,7 @@
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<button
-														on:click={() => remove(animal)}
+														onclick={() => remove(animal)}
 														class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 													>
 														<TrashIcon />
@@ -364,7 +372,7 @@
 
 													<button
 														type="button"
-														on:click={() => update(animal)}
+														onclick={() => update(animal)}
 														title="Modifier le client"
 														class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 hover:text-yellow-500 focus:outline-none"
 													>
@@ -390,7 +398,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => previousPage()}
+						onclick={() => previousPage()}
 						disabled={$animalsPageInfo.page <= 1}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$animalsPageInfo.page <=
 						1
@@ -406,7 +414,7 @@
 
 					<button
 						disabled={$animalsPageInfo.page >= $animalsPageInfo.totalPages}
-						on:click={() => nextPage()}
+						onclick={() => nextPage()}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$animalsPageInfo.page >=
 						$animalsPageInfo.totalPages
 							? 'bg-slate-200'

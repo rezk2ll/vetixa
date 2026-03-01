@@ -5,7 +5,11 @@
 	import DiagnosticIcon from '$components/icons/DiagnosticIcon.svelte';
 	import type { InventorySaleItem } from '$types';
 
-	export let item: InventorySaleItem;
+	interface Props {
+		item: InventorySaleItem;
+	}
+
+	let { item }: Props = $props();
 </script>
 
 <tr>

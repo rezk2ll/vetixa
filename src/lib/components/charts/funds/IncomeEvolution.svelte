@@ -2,9 +2,13 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
-	export let income: number[];
-	export let expense: number[];
-	export let labels: string[];
+	interface Props {
+		income: number[];
+		expense: number[];
+		labels: string[];
+	}
+
+	let { income, expense, labels }: Props = $props();
 
 	onMount(async () => {
 		const ctx = (document.getElementById('income-evolution-chart') as HTMLCanvasElement).getContext(
@@ -47,6 +51,6 @@
 
 <div class="flex flex-col items-center justify-start w-full">
 	<div class="w-full px-5 pt-10 lg:py-5 bg-white shadow-2xl border-gray-200 xl:rounded">
-		<canvas id="income-evolution-chart" />
+		<canvas id="income-evolution-chart"></canvas>
 	</div>
 </div>

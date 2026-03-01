@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import Modal from '$components/Modal.svelte';
 	import type { IClient } from '$types';
 	import ConfirmationDialog from '../ConfirmationDialog.svelte';
@@ -20,19 +22,23 @@
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
 	import { toast } from 'svelte-sonner';
 
-	export let open: boolean = false;
+	interface Props {
+		open?: boolean;
+	}
 
-	let openAddModal = open;
-	let openUpdateModal = false;
-	let search: string = $clientsPageInfo.query;
-	let showConfirmation = false;
-	let selectedItem: IClient | null;
-	let deleteFormRef: HTMLFormElement;
-	let selectedUpdateItem: IClient | null;
+	let { open = false }: Props = $props();
 
-	$: nextPage = () => goNextPage($clientsPageInfo.page, $clientsPageInfo.totalPages);
-	$: previousPage = () => goPreviousPage($clientsPageInfo.page);
-	$: dispatchSearch = () => doSearch(search);
+	let openAddModal = $state(open);
+	let openUpdateModal = $state(false);
+	let search: string = $state($clientsPageInfo.query);
+	let showConfirmation = $state(false);
+	let selectedItem: IClient | null = $state();
+	let deleteFormRef: HTMLFormElement = $state();
+	let selectedUpdateItem: IClient | null = $state();
+
+	let nextPage = $derived(() => goNextPage($clientsPageInfo.page, $clientsPageInfo.totalPages));
+	let previousPage = $derived(() => goPreviousPage($clientsPageInfo.page));
+	let dispatchSearch = $derived(() => doSearch(search));
 
 	const deleteHandler = () => {
 		deleteFormRef.requestSubmit();
@@ -70,8 +76,10 @@
 		dataType: 'json'
 	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -126,7 +134,7 @@
 				</div>
 				<div class="flex items-center mt-4 gap-x-2 w-full md:w-auto">
 					<button
-						on:click={() => (openAddModal = true)}
+						onclick={() => (openAddModal = true)}
 						class="flex items-center justify-center w-full px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 					>
 						<PlusIcon />
@@ -138,7 +146,7 @@
 			<div
 				class="flex flex-col lg:flex-row items-start gap-4 lg:gap-0 lg:items-center justify-between"
 			>
-				<form on:submit|preventDefault={dispatchSearch} class="w-full">
+				<form onsubmit={preventDefault(dispatchSearch)} class="w-full">
 					<div class="flex items-center mt-0 h-6 relative w-full">
 						<button class="absolute focus:outline-none">
 							<SearchIcon />
@@ -254,14 +262,14 @@
 											<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 												<div class="flex items-end justify-end gap-x-6 w-full">
 													<button
-														on:click={() => remove(item)}
+														onclick={() => remove(item)}
 														class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 													>
 														<TrashIcon />
 													</button>
 
 													<button
-														on:click={() => update(item)}
+														onclick={() => update(item)}
 														title="Modifier le client"
 														class="text-gray-500 transition-colors duration-200 hover:text-yellow-500 focus:outline-none"
 													>
@@ -287,7 +295,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => previousPage()}
+						onclick={() => previousPage()}
 						disabled={$clientsPageInfo.page <= 1}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 dark:text-gray-200 capitalize transition-colors duration-200 {$clientsPageInfo.page <=
 						1
@@ -304,7 +312,7 @@
 
 					<button
 						disabled={$clientsPageInfo.page >= $clientsPageInfo.totalPages}
-						on:click={() => nextPage()}
+						onclick={() => nextPage()}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 dark:text-gray-200 capitalize transition-colors duration-200 {$clientsPageInfo.page >=
 						$clientsPageInfo.totalPages
 							? 'bg-slate-200 dark:bg-gray-700'

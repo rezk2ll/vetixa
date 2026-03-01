@@ -3,7 +3,11 @@
 	import PrintIcon from '$lib/components/icons/PrintIcon.svelte';
 	import type { PrintableTab } from '$types';
 
-	export let tab: PrintableTab = 'documents';
+	interface Props {
+		tab?: PrintableTab;
+	}
+
+	let { tab = $bindable('documents') }: Props = $props();
 
 	const changeTab = (payload: PrintableTab) => {
 		tab = payload;
@@ -13,7 +17,7 @@
 <div class="flex overflow-x-auto whitespace-nowrap w-full">
 	<button
 		type="button"
-		on:click={() => changeTab('documents')}
+		onclick={() => changeTab('documents')}
 		class="inline-flex items-center w-full h-12 px-2 py-2 text-center text-gray-700 {tab ===
 		'documents'
 			? 'border border-b-0'
@@ -26,7 +30,7 @@
 
 	<button
 		type="button"
-		on:click={() => changeTab('certificates')}
+		onclick={() => changeTab('certificates')}
 		class="inline-flex items-center w-full h-12 px-2 py-2 text-center text-gray-700 {tab ===
 		'certificates'
 			? 'border border-b-0'

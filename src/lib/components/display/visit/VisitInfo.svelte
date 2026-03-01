@@ -6,9 +6,9 @@
 	import { formatDateString, formatDateStringShort } from '$utils/date';
 	import { type entityDetailsList } from '$types';
 
-	$: ({ animal } = $currentVisit);
+	let { animal } = $derived($currentVisit);
 
-	$: animalDetails = [
+	let animalDetails = $derived([
 		{ name: 'Nom', value: animal.name },
 		{ name: 'Espèce', value: animal.type },
 		{ name: 'Sexe', value: animal.sex },
@@ -18,16 +18,16 @@
 		{ name: 'Couleur', value: animal.color },
 		{ name: 'Race', value: animal.breed },
 		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
-	] satisfies entityDetailsList;
+	] satisfies entityDetailsList);
 
-	$: clientDetails = [
+	let clientDetails = $derived([
 		{ name: 'Prénom', value: animal.client.firstname },
 		{ name: 'Nom', value: animal.client.lastname },
 		{ name: 'Téléphone', value: animal.client.tel ?? '-' },
 		{ name: 'Email', value: animal.client.email ?? '-' },
 		{ name: 'Adresse', value: animal.client.address ?? '-' },
 		{ name: 'Note', value: animal.client.note ?? '-' }
-	];
+	]);
 </script>
 
 <div class="flex flex-col lg:flex-row px-2 lg:px-0 lg:space-x-5 w-full">

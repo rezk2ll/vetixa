@@ -13,11 +13,12 @@
 	import { configuration } from '$lib/store/configuration';
 	import { buildFileProxyUrl } from '$lib/utils/file';
 
-	let open = false;
+	let open = $state(false);
 
-	$: avatarUrl =
+	let avatarUrl = $derived(
 		$currentUser &&
-		buildFileProxyUrl($currentUser.collectionId, $currentUser.id, $currentUser.avatar);
+			buildFileProxyUrl($currentUser.collectionId, $currentUser.id, $currentUser.avatar)
+	);
 
 	onMount(() => {
 		window.addEventListener('keydown', (event) => {
@@ -34,10 +35,11 @@
 		searchOpen.set(true);
 	};
 
-	$: logoSrc =
+	let logoSrc = $derived(
 		$configuration && $configuration.logo
 			? buildFileProxyUrl($configuration.collectionId, $configuration.id, $configuration.logo)
-			: '/logo.svg';
+			: '/logo.svg'
+	);
 </script>
 
 <Modal open={$searchOpen} size="bigmedium">
@@ -53,7 +55,7 @@
 			type="button"
 			title="Affichier"
 			class="p-1.5 text-gray-700 focus:outline-nones transition-all duration-200 rounded-lg xl:font-bold"
-			on:click={() => (open = !open)}
+			onclick={() => (open = !open)}
 		>
 			<SliderIcon />
 		</button>
@@ -70,7 +72,7 @@
 			type="button"
 			title="Accueil"
 			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-all duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 xl:hidden"
-			on:click={() => (open = !open)}
+			onclick={() => (open = !open)}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -387,7 +389,7 @@
 			class="flex w-full flex-col items-center space-y-2 lg:flex-row lg:justify-center lg:space-y-0"
 		>
 			<li class="lg:mr-12">
-				<button type="button" class="relative flex items-center" on:click={openSearch}>
+				<button type="button" class="relative flex items-center" onclick={openSearch}>
 					<span class="absolute text-gray-400 left-3">
 						<SearchIcon />
 					</span>

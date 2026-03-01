@@ -2,12 +2,17 @@
 	import { buildFileProxyUrl } from '$utils/file';
 	import { type ConfigurationResponse } from '$types';
 
-	export let config: ConfigurationResponse;
+	interface Props {
+		config: ConfigurationResponse;
+	}
 
-	$: src =
+	let { config }: Props = $props();
+
+	let src = $derived(
 		config && config.logo
 			? buildFileProxyUrl(config.collectionId, config.id, config.logo)
-			: '/logo.svg';
+			: '/logo.svg'
+	);
 </script>
 
 <div>

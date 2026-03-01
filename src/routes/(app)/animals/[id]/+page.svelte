@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import VisitList from '$components/lists/VisitList.svelte';
 	import CollapsibleSection from '$components/CollapsibleSection.svelte';
 	import Details from '$components/Details.svelte';
@@ -16,14 +18,18 @@
 	import type { entityDetailsList } from '$types';
 	import VaccinationList from '$components/lists/vaccinationList.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	let openUpdateModal = false;
+	let { data }: Props = $props();
 
-	$: ({ animal, isNew, vaccinationVisits } = data);
-	$: ({ visits } = animal);
+	let openUpdateModal = $state(false);
 
-	$: animalDetails = [
+	let { animal, isNew, vaccinationVisits } = $derived(data);
+	let { visits } = $derived(animal);
+
+	let animalDetails = $derived([
 		{ name: 'Nom', value: animal.name },
 		{ name: 'Propriétaire', value: animal.client.name },
 		{ name: 'Espèce', value: animal.type },
@@ -35,14 +41,26 @@
 		{ name: 'Race', value: animal.breed },
 		{ name: 'Identifiant', value: animal.identifier },
 		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
-	] satisfies entityDetailsList;
+	] satisfies entityDetailsList);
 
-	$: updateAnimalFormStore.set(data.form);
-	$: addVisitFormStore.set(data.addForm);
-	$: updateVisitFormStore.set(data.updateForm);
-	$: visitItems.set(visits);
-	$: currentAnimal.set({ ...animal, client: animal.client.name });
-	$: vaccinationVisitList.set(vaccinationVisits);
+	run(() => {
+		updateAnimalFormStore.set(data.form);
+	});
+	run(() => {
+		addVisitFormStore.set(data.addForm);
+	});
+	run(() => {
+		updateVisitFormStore.set(data.updateForm);
+	});
+	run(() => {
+		visitItems.set(visits);
+	});
+	run(() => {
+		currentAnimal.set({ ...animal, client: animal.client.name });
+	});
+	run(() => {
+		vaccinationVisitList.set(vaccinationVisits);
+	});
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">

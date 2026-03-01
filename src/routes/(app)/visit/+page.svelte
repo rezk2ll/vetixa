@@ -1,11 +1,19 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import ActivityList from '$components/lists/ActivityList.svelte';
 	import { activityPage } from '$store/activity';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: activityPage.set(data);
+	let { data }: Props = $props();
+
+	run(() => {
+		activityPage.set(data);
+	});
 </script>
 
 <div

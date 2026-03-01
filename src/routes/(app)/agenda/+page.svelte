@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { AgendaResponse } from '$types';
 	import { Calendar } from '@fullcalendar/core';
 	import dayGridPlugin from '@fullcalendar/daygrid';
@@ -17,31 +19,41 @@
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import { toast } from 'svelte-sonner';
 
-	export let data: PageData;
-	$: ({ events, addForm, updateForm } = data);
+	interface Props {
+		data: PageData;
+	}
 
-	$: addEventFormStore.set(addForm);
-	$: updateEventFormStore.set(updateForm);
+	let { data }: Props = $props();
+	let { events, addForm, updateForm } = $derived(data);
 
-	let calendarRef: HTMLElement;
-	let openAddModal = false;
-	let openUpdateModal = false;
-	let openDisplayModal = false;
-	let deleteFormRef: HTMLFormElement;
-	let openRemoveModal = false;
+	run(() => {
+		addEventFormStore.set(addForm);
+	});
+	run(() => {
+		updateEventFormStore.set(updateForm);
+	});
 
-	let start: Date;
-	let end: Date;
-	let calendar: Calendar;
-	let selectedEvent: AgendaResponse | null;
+	let calendarRef: HTMLElement = $state();
+	let openAddModal = $state(false);
+	let openUpdateModal = $state(false);
+	let openDisplayModal = $state(false);
+	let deleteFormRef: HTMLFormElement = $state();
+	let openRemoveModal = $state(false);
 
-	$: getEvents = (
-		_fetchInfo: unknown,
-		successCallback: (arg0: AgendaResponse[]) => void,
-		_failureCallback: unknown
-	) => {
-		successCallback(events);
-	};
+	let start: Date = $state();
+	let end: Date = $state();
+	let calendar: Calendar = $state();
+	let selectedEvent: AgendaResponse | null = $state();
+
+	let getEvents = $derived(
+		(
+			_fetchInfo: unknown,
+			successCallback: (arg0: AgendaResponse[]) => void,
+			_failureCallback: unknown
+		) => {
+			successCallback(events);
+		}
+	);
 
 	onMount(() => {
 		calendar = new Calendar(calendarRef, {
@@ -77,8 +89,10 @@
 		calendar.render();
 	});
 
-	$: events && calendar && calendar.refetchEvents();
-	$: getEventById = (id: string) => events.find((event) => event.id === id) ?? null;
+	run(() => {
+		events && calendar && calendar.refetchEvents();
+	});
+	let getEventById = $derived((id: string) => events.find((event) => event.id === id) ?? null);
 
 	const handler = () => {
 		deleteFormRef.requestSubmit();
@@ -105,8 +119,10 @@
 		}
 	});
 
-	$: $allErrors.length &&
-		toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	run(() => {
+		$allErrors.length &&
+			toast.error($allErrors.map((error) => error.messages.join('. ')).join('. '));
+	});
 </script>
 
 <Modal bind:open={openAddModal} size="medium">
@@ -159,7 +175,7 @@
 		<div
 			class="w-full lg:pt-10 border-gray-200 xl:rounded-2xl relative flex min-w-0 xl:p-3 break-words bg-white border-0 shadow-xl rounded-2xl bg-clip-border"
 		>
-			<div bind:this={calendarRef} class="xl:p-5 pt-10 xl:pt-0 h-auto w-full" />
+			<div bind:this={calendarRef} class="xl:p-5 pt-10 xl:pt-0 h-auto w-full"></div>
 		</div>
 	</div>
 </div>

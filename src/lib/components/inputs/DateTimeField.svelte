@@ -1,9 +1,13 @@
 <script lang="ts">
-	export let label: string;
-	export let placeholder: string;
-	export let value: string;
-	export let name: string;
-	export let isInValid: boolean = false;
+	interface Props {
+		label: string;
+		placeholder: string;
+		value: string;
+		name: string;
+		isInValid?: boolean;
+	}
+
+	let { label, placeholder, value = $bindable(), name, isInValid = false }: Props = $props();
 </script>
 
 <div class="relative mt-6 w-full">

@@ -11,20 +11,33 @@
 	import PrintReportTemplate from '$components/display/print/PrintReportTemplate.svelte';
 	import PrintCertificateTemplate from '$components/display/print/PrintCertificateTemplate.svelte';
 
-	export let bill: BillInformation | undefined;
-	export let doctor: string | undefined;
-	export let treatment: string | undefined;
-	export let report: string | undefined;
-	export let actions: string | undefined;
-	export let animal: expandedAnimal;
-	export let acts: string[] | undefined;
-	export let tab: PrintableTab = 'documents';
+	interface Props {
+		bill: BillInformation | undefined;
+		doctor: string | undefined;
+		treatment: string | undefined;
+		report: string | undefined;
+		actions: string | undefined;
+		animal: expandedAnimal;
+		acts: string[] | undefined;
+		tab?: PrintableTab;
+	}
 
-	let print = false;
-	let showBill = false;
-	let showPrescription = false;
-	let showReport = false;
-	let showCertificate = false;
+	let {
+		bill,
+		doctor,
+		treatment,
+		report,
+		actions,
+		animal,
+		acts,
+		tab = $bindable('documents')
+	}: Props = $props();
+
+	let print = $state(false);
+	let showBill = $state(false);
+	let showPrescription = $state(false);
+	let showReport = $state(false);
+	let showCertificate = $state(false);
 
 	const handlePrintBill = () => {
 		showPrescription = false;

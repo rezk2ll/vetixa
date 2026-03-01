@@ -1,8 +1,13 @@
 <script lang="ts">
 	import DangerIcon from '$components/icons/DangerIcon.svelte';
 
-	export let show: boolean = false;
-	export let handler: () => void;
+	interface Props {
+		show?: boolean;
+		handler: () => void;
+		children?: import('svelte').Snippet;
+	}
+
+	let { show = $bindable(false), handler, children }: Props = $props();
 </script>
 
 <div
@@ -13,7 +18,7 @@
 >
 	<div
 		class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
-	/>
+	></div>
 
 	<div class="fixed inset-0 z-50 w-screen overflow-y-auto">
 		<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -27,18 +32,18 @@
 						>
 							<DangerIcon />
 						</div>
-						<slot />
+						{@render children?.()}
 					</div>
 				</div>
 				<div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
 					<button
-						on:click={handler}
+						onclick={handler}
 						type="button"
 						class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
 						>ok</button
 					>
 					<button
-						on:click={() => (show = false)}
+						onclick={() => (show = false)}
 						type="button"
 						class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-500 hover:bg-gray-50 dark:hover:bg-gray-500 sm:mt-0 sm:w-auto"
 						>Annuler</button

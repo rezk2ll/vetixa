@@ -2,10 +2,14 @@
 	import PrimaryButton from '$components/buttons/PrimaryButton.svelte';
 	import ReportIcon from '$lib/components/icons/ReportIcon.svelte';
 
-	export let report: string | undefined;
-	export let handler: () => void = () => {};
+	interface Props {
+		report: string | undefined;
+		handler?: () => void;
+	}
 
-	$: disabled = report === undefined || report.length === 0;
+	let { report, handler = () => {} }: Props = $props();
+
+	let disabled = $derived(report === undefined || report.length === 0);
 </script>
 
 <div class="flex flex-col gap-6">

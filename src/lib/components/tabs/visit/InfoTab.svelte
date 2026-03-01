@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
@@ -26,19 +28,35 @@
 		$form.id = id;
 	});
 
-	$: $form.motif = $currentVisit.motif;
-	$: $form.id = $currentVisit.id;
-	$: $form.doctor = $currentVisit.doctor;
-	$: $form.visit_price = $currentVisit.visit_price;
-	$: $form.control = $currentVisit.control;
-	$: $form.vaccination = $currentVisit.vaccination;
-	$: doctors = $doctorList.map((doctor) => ({
-		label: doctor.name,
-		value: doctor.name
-	}));
+	run(() => {
+		$form.motif = $currentVisit.motif;
+	});
+	run(() => {
+		$form.id = $currentVisit.id;
+	});
+	run(() => {
+		$form.doctor = $currentVisit.doctor;
+	});
+	run(() => {
+		$form.visit_price = $currentVisit.visit_price;
+	});
+	run(() => {
+		$form.control = $currentVisit.control;
+	});
+	run(() => {
+		$form.vaccination = $currentVisit.vaccination;
+	});
+	let doctors = $derived(
+		$doctorList.map((doctor) => ({
+			label: doctor.name,
+			value: doctor.name
+		}))
+	);
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 

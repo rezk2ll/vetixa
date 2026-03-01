@@ -5,9 +5,13 @@
 	import PrintableFooter from '$components/display/PrintableFooter.svelte';
 	import PrintableHeader from '$components/display/PrintableHeader.svelte';
 
-	export let treatment: string | undefined;
-	export let doctor: string | undefined;
-	export let animal: expandedAnimal;
+	interface Props {
+		treatment: string | undefined;
+		doctor: string | undefined;
+		animal: expandedAnimal;
+	}
+
+	let { treatment, doctor, animal }: Props = $props();
 </script>
 
 <div class="sm:w-11/12 lg:w-full">

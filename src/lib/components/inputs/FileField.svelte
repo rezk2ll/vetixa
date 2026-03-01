@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let name: string;
-	export let description: string;
+	interface Props {
+		name: string;
+		description: string;
+	}
+
+	let { name, description }: Props = $props();
 </script>
 
 <div class="w-full">

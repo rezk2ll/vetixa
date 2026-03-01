@@ -1,16 +1,28 @@
 <script lang="ts">
-	export let loading: boolean = false;
-	export let disabled: boolean = false;
-	export let full: boolean = false;
-	export let small: boolean = false;
-	export let handler: () => void = () => {};
+	interface Props {
+		loading?: boolean;
+		disabled?: boolean;
+		full?: boolean;
+		small?: boolean;
+		handler?: () => void;
+		children?: import('svelte').Snippet;
+	}
 
-	$: disable = loading || disabled;
+	let {
+		loading = false,
+		disabled = false,
+		full = false,
+		small = false,
+		handler = () => {},
+		children
+	}: Props = $props();
+
+	let disable = $derived(loading || disabled);
 </script>
 
 <button
 	disabled={disable}
-	on:click={handler}
+	onclick={handler}
 	type="button"
 	class="px-4 w-full py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform {disable
 		? 'bg-slate-600'
@@ -43,6 +55,6 @@
 			/>
 		</svg>
 	{:else}
-		<slot />
+		{@render children?.()}
 	{/if}
 </button>

@@ -1,14 +1,27 @@
 <script lang="ts">
-	export let label: string;
-	export let placeholder: string = '';
-	export let value: string | undefined;
-	export let isInValid: boolean;
-	export let name: string;
-	export let required: boolean = true;
-	export let disabled: boolean = false;
-	export let errorMessage: string = 'Valeur invalide';
+	interface Props {
+		label: string;
+		placeholder?: string;
+		value: string | undefined;
+		isInValid: boolean;
+		name: string;
+		required?: boolean;
+		disabled?: boolean;
+		errorMessage?: string;
+	}
 
-	$: errorId = `${name}-error`;
+	let {
+		label,
+		placeholder = '',
+		value = $bindable(),
+		isInValid,
+		name,
+		required = true,
+		disabled = false,
+		errorMessage = 'Valeur invalide'
+	}: Props = $props();
+
+	let errorId = $derived(`${name}-error`);
 </script>
 
 <div class="relative mt-6 w-full">

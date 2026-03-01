@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import CageCard from '$components/display/cages/CageCard.svelte';
 	import Grid from '$components/icons/Grid.svelte';
 	import List from '$components/icons/List.svelte';
@@ -15,10 +17,10 @@
 	import { onMount } from 'svelte';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 
-	let formRef: HTMLFormElement;
-	let showPicker = false;
-	let completeFormRef: HTMLFormElement;
-	let showConfirmation = false;
+	let formRef: HTMLFormElement = $state();
+	let showPicker = $state(false);
+	let completeFormRef: HTMLFormElement = $state();
+	let showConfirmation = $state(false);
 
 	const { enhance, form, allErrors } = superForm($hospitChangeColorFormStore, {
 		taintedMessage: null,
@@ -79,8 +81,10 @@
 		completeFormRef.requestSubmit();
 	};
 
-	$: [...$allErrors, ...$completeErrors].map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		[...$allErrors, ...$completeErrors].map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 
 	onMount(async () => {
@@ -167,7 +171,7 @@
 	<div class="w-full px-1 pt-10 lg:p-2 bg-slate-100/50 shadow-2xl border-gray-200">
 		<Modal bind:open={showPicker} size="medium">
 			<div class="flex flex-col picker w-full">
-				<div class="color-picker w-full" />
+				<div class="color-picker w-full"></div>
 			</div>
 			<input type="text" id="coloris" />
 		</Modal>

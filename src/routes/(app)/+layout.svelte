@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import '../../app.css';
 	import Nav from '$components/Nav.svelte';
 	import { currentUser } from '$store/user';
@@ -9,12 +11,21 @@
 	import { Toaster } from 'svelte-sonner';
 	import { configuration } from '$store/configuration';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+		children?: import('svelte').Snippet;
+	}
 
-	$: ({ user, configuration: config } = data);
+	let { data, children }: Props = $props();
 
-	$: currentUser.set(user);
-	$: configuration.set(config);
+	let { user, configuration: config } = $derived(data);
+
+	run(() => {
+		currentUser.set(user);
+	});
+	run(() => {
+		configuration.set(config);
+	});
 
 	beforeNavigate(() => {
 		globalLoading.set(true);
@@ -44,7 +55,7 @@
 	{#if $globalLoading}
 		<LoadingSpinner />
 	{:else}
-		<slot />
+		{@render children?.()}
 	{/if}
 	<Toaster expand />
 </div>

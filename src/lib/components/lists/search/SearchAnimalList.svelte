@@ -4,7 +4,11 @@
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import type { AnimalsResponse } from '$types';
 
-	export let items: AnimalsResponse[];
+	interface Props {
+		items: AnimalsResponse[];
+	}
+
+	let { items }: Props = $props();
 </script>
 
 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

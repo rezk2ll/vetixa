@@ -2,10 +2,14 @@
 	import PrimaryButton from '$components/buttons/PrimaryButton.svelte';
 	import PrescriptionIcon from '$components/icons/PrescriptionIcon.svelte';
 
-	export let treatment: string | undefined;
-	export let handler: () => void = () => {};
+	interface Props {
+		treatment: string | undefined;
+		handler?: () => void;
+	}
 
-	$: disabled = treatment === undefined || treatment.length === 0;
+	let { treatment, handler = () => {} }: Props = $props();
+
+	let disabled = $derived(treatment === undefined || treatment.length === 0);
 </script>
 
 <div class="flex flex-col gap-6">

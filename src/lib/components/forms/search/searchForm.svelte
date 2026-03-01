@@ -38,12 +38,17 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	<form on:submit|preventDefault={search}>
-		<button type="button" class="relative flex items-center w-full">
+	<form
+		onsubmit={(e) => {
+			e.preventDefault();
+			search();
+		}}
+	>
+		<div class="relative flex items-center w-full">
 			<button
 				class="absolute text-gray-400 -left-3 p-3 rounded-full hover:bg-blue-400/10"
 				type="button"
-				on:click={search}
+				onclick={search}
 			>
 				<SearchIcon />
 			</button><input
@@ -55,7 +60,7 @@
 			/>
 			<button
 				type="button"
-				on:click={closeSearch}
+				onclick={closeSearch}
 				class="absolute inset-y-0 flex items-center right-3"
 			>
 				<kbd
@@ -64,7 +69,7 @@
 					Esc
 				</kbd>
 			</button>
-		</button>
+		</div>
 	</form>
 	<div class="w-full pr-2">
 		<div class="flex w-full gap-2 rounded-3xl bg-gray-200">
@@ -76,7 +81,7 @@
 					value="1"
 					class="peer hidden"
 					checked
-					on:change={() => (searchOptions = 'client')}
+					onchange={() => (searchOptions = 'client')}
 				/>
 				<label
 					for="1"
@@ -92,7 +97,7 @@
 					id="2"
 					value="2"
 					class="peer hidden"
-					on:change={() => (searchOptions = 'animal')}
+					onchange={() => (searchOptions = 'animal')}
 				/>
 				<label
 					for="2"

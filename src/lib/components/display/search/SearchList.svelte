@@ -12,9 +12,9 @@
 	const animals = $searchPage.items as AnimalsResponse[];
 	const clients = $searchPage.items as ClientsResponse[];
 
-	$: currentUrl = browser ? document.location.href : '';
+	let currentUrl = $derived(browser ? document.location.href : '');
 
-	$: nextPage = () => {
+	let nextPage = $derived(() => {
 		if ($searchPage.page === $searchPage.totalPages) return;
 
 		const nextUrl = new URL(currentUrl);
@@ -22,18 +22,18 @@
 		nextUrl.searchParams.set('page', `${$searchPage.page + 1}`);
 
 		goto(nextUrl);
-	};
+	});
 
-	$: previousPage = () => {
+	let previousPage = $derived(() => {
 		if ($searchPage.page === 1) return;
 
 		const prevUrl = new URL(currentUrl);
 
 		prevUrl.searchParams.set('page', `${$searchPage.page - 1}`);
 		goto(prevUrl);
-	};
+	});
 
-	$: ({ page } = $searchPage);
+	let { page } = $derived($searchPage);
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
@@ -77,7 +77,7 @@
 
 			<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 				<button
-					on:click={previousPage}
+					onclick={previousPage}
 					disabled={page <= 1}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 					1
@@ -93,7 +93,7 @@
 
 				<button
 					disabled={page >= $searchPage.totalPages}
-					on:click={nextPage}
+					onclick={nextPage}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 					$searchPage.totalPages
 						? 'bg-slate-200'

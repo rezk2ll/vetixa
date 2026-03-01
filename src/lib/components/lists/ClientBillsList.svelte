@@ -8,41 +8,43 @@
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
-	let statusFilter: StatusFilter = 'all';
-	let page = 0;
+	let statusFilter: StatusFilter = $state('all');
+	let page = $state(0);
 
 	const totalPages = Math.ceil($clientBills.length / 10);
 
-	$: items = $clientBills.filter((item) => {
-		if (statusFilter === 'completed') {
-			return item.paid === true;
-		}
+	let items = $derived(
+		$clientBills.filter((item) => {
+			if (statusFilter === 'completed') {
+				return item.paid === true;
+			}
 
-		if (statusFilter === 'partial') {
-			return item.total_paid < item.total && item.total_paid > 0;
-		}
+			if (statusFilter === 'partial') {
+				return item.total_paid < item.total && item.total_paid > 0;
+			}
 
-		if (statusFilter === 'pending') {
-			return item.total_paid === 0 && item.control === false;
-		}
+			if (statusFilter === 'pending') {
+				return item.total_paid === 0 && item.control === false;
+			}
 
-		if (statusFilter === 'control') {
-			return item.control;
-		}
+			if (statusFilter === 'control') {
+				return item.control;
+			}
 
-		return true;
-	});
+			return true;
+		})
+	);
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 
-	$: paidCount = $clientBills.filter((item) => item.paid === true).length;
-	$: partialCount = $clientBills.filter(
-		(item) => item.total_paid < item.total && item.total_paid > 0
-	).length;
-	$: pendingCount = $clientBills.filter(
-		({ total_paid, control }) => total_paid === 0 && control === false
-	).length;
-	$: controlCount = $clientBills.filter(({ control }) => control).length;
+	let paidCount = $derived($clientBills.filter((item) => item.paid === true).length);
+	let partialCount = $derived(
+		$clientBills.filter((item) => item.total_paid < item.total && item.total_paid > 0).length
+	);
+	let pendingCount = $derived(
+		$clientBills.filter(({ total_paid, control }) => total_paid === 0 && control === false).length
+	);
+	let controlCount = $derived($clientBills.filter(({ control }) => control).length);
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
@@ -67,7 +69,7 @@
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse"
 				>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'all';
 							page = 0;
 						}}
@@ -79,7 +81,7 @@
 						Tout
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'completed';
 							page = 0;
 						}}
@@ -96,7 +98,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'partial';
 							page = 0;
 						}}
@@ -113,7 +115,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'pending';
 							page = 0;
 						}}
@@ -130,7 +132,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'control';
 							page = 0;
 						}}
@@ -258,7 +260,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
+						onclick={() => (page -= 1)}
 						disabled={page <= 0}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 						0
@@ -274,7 +276,7 @@
 
 					<button
 						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
+						onclick={() => (page += 1)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 						totalPages - 1
 							? 'bg-slate-200'
