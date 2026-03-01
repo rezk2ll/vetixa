@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 
 	try {
 		client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
-	} catch (error) {
+	} catch (_error) {
 		if (!client) {
 			redirect(301, '/404');
 		}
