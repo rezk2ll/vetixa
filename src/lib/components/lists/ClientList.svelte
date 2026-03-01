@@ -7,8 +7,11 @@
 	import Avatar from '$components/Avatar.svelte';
 	import AddClientForm from '../forms/clients/AddClientForm.svelte';
 	import UpdateClientForm from '../forms/clients/UpdateClientForm.svelte';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	import {
+		nextPage as goNextPage,
+		previousPage as goPreviousPage,
+		dispatchSearch as doSearch
+	} from '$utils/pagination';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
 	import BackArrow from '$components/icons/BackArrow.svelte';
@@ -27,34 +30,9 @@
 	let deleteFormRef: HTMLFormElement;
 	let selectedUpdateItem: IClient | null;
 
-	$: currentUrl = browser ? document.location.href : '';
-
-	$: nextPage = () => {
-		if ($clientsPageInfo.page >= $clientsPageInfo.totalPages) return;
-
-		const nextUrl = new URL(currentUrl);
-
-		nextUrl.searchParams.set('page', `${$clientsPageInfo.page + 1}`);
-
-		goto(nextUrl);
-	};
-
-	$: previousPage = () => {
-		if ($clientsPageInfo.page <= 1) return;
-
-		const prevUrl = new URL(currentUrl);
-
-		prevUrl.searchParams.set('page', `${$clientsPageInfo.page - 1}`);
-		goto(prevUrl);
-	};
-
-	$: dispatchSearch = () => {
-		const searchUrl = new URL(currentUrl);
-
-		searchUrl.searchParams.set('query', search);
-		searchUrl.searchParams.delete('page');
-		goto(searchUrl);
-	};
+	$: nextPage = () => goNextPage($clientsPageInfo.page, $clientsPageInfo.totalPages);
+	$: previousPage = () => goPreviousPage($clientsPageInfo.page);
+	$: dispatchSearch = () => doSearch(search);
 
 	const deleteHandler = () => {
 		deleteFormRef.requestSubmit();

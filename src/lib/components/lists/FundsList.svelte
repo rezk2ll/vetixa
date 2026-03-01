@@ -8,8 +8,14 @@
 	import fr from 'date-fns/locale/fr/index';
 	import type { fundsStatusFilter as StatusFilter } from '$types';
 	import { format, setHours, setMinutes } from 'date-fns';
+	import {
+		nextPage as goNextPage,
+		previousPage as goPreviousPage,
+		dispatchSearch as doSearch,
+		changeTab as doChangeTab,
+		getCurrentUrl
+	} from '$utils/pagination';
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
 	import ArrowDown from '$components/icons/ArrowDown.svelte';
 	import ArrowUp from '$components/icons/ArrowUp.svelte';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
@@ -33,60 +39,22 @@
 		? setMinutes(setHours(new Date(), 23), 0)
 		: new Date($fundsPageInfo.endDate);
 
-	$: currentUrl = browser ? document.location.href : '';
-
-	$: previousPage = () => {
-		if ($fundsPageInfo.page <= 1) return;
-
-		const prevUrl = new URL(currentUrl);
-
-		prevUrl.searchParams.set('page', `${$fundsPageInfo.page - 1}`);
-		goto(prevUrl);
-	};
-
-	$: nextPage = () => {
-		if ($fundsPageInfo.page >= $fundsPageInfo.totalPages) return;
-
-		const nextUrl = new URL(currentUrl);
-
-		nextUrl.searchParams.set('page', `${$fundsPageInfo.page + 1}`);
-
-		goto(nextUrl);
-	};
+	$: previousPage = () => goPreviousPage($fundsPageInfo.page);
+	$: nextPage = () => goNextPage($fundsPageInfo.page, $fundsPageInfo.totalPages);
+	$: dispatchSearch = () => doSearch(search);
+	$: changeTab = (filter: StatusFilter) => doChangeTab(filter);
 
 	$: changeDuration = () => {
 		const start = format(startDate, 'yyyy-MM-dd HH:mm');
 		const end = format(endDate, 'yyyy-MM-dd HH:mm');
 
-		const targetUrl = new URL(currentUrl);
+		const targetUrl = new URL(getCurrentUrl());
 
 		targetUrl.searchParams.set('startDate', start);
 		targetUrl.searchParams.set('endDate', end);
 		targetUrl.searchParams.delete('page');
 
 		goto(targetUrl.toString());
-	};
-
-	$: changeTab = (filter: StatusFilter) => {
-		const filterUrl = new URL(currentUrl);
-
-		filterUrl.searchParams.delete('page');
-
-		if (filter === 'all') {
-			filterUrl.searchParams.delete('filter');
-		} else {
-			filterUrl.searchParams.set('filter', filter);
-		}
-
-		goto(filterUrl);
-	};
-
-	$: dispatchSearch = () => {
-		const searchUrl = new URL(currentUrl);
-
-		searchUrl.searchParams.set('query', search);
-		searchUrl.searchParams.delete('page');
-		goto(searchUrl);
 	};
 </script>
 

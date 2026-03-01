@@ -2,8 +2,12 @@
 	import { daysDiff, formatDateStringShortDay, formatFilterDate } from '$lib/utils/date';
 	import type { HospitStatusFilter as StatusFilter } from '$types';
 	import { hospitPageInfo } from '$store/hospit';
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
+	import {
+		nextPage as goNextPage,
+		previousPage as goPreviousPage,
+		dispatchSearch as doSearch,
+		changeTab as doChangeTab
+	} from '$utils/pagination';
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 	import AgeDisplay from '$components/display/AgeDisplay.svelte';
 	import Grid from '$components/icons/Grid.svelte';
@@ -19,48 +23,10 @@
 	let page = $hospitPageInfo.page;
 	let statusFilter: StatusFilter = $hospitPageInfo.filter;
 
-	$: currentUrl = browser ? document.location.href : '';
-
-	$: nextPage = () => {
-		if ($hospitPageInfo.page === $hospitPageInfo.totalPages) return;
-
-		const nextUrl = new URL(currentUrl);
-
-		nextUrl.searchParams.set('page', `${$hospitPageInfo.page + 1}`);
-
-		goto(nextUrl);
-	};
-
-	$: previousPage = () => {
-		if ($hospitPageInfo.page === 1) return;
-
-		const prevUrl = new URL(currentUrl);
-
-		prevUrl.searchParams.set('page', `${$hospitPageInfo.page - 1}`);
-		goto(prevUrl);
-	};
-
-	$: dispatchSearch = () => {
-		const searchUrl = new URL(currentUrl);
-
-		searchUrl.searchParams.set('query', search);
-		searchUrl.searchParams.delete('page');
-		goto(searchUrl);
-	};
-
-	$: changeTab = (filter: StatusFilter) => {
-		const filterUrl = new URL(currentUrl);
-
-		filterUrl.searchParams.delete('page');
-
-		if (filter === 'all') {
-			filterUrl.searchParams.delete('filter');
-		} else {
-			filterUrl.searchParams.set('filter', filter);
-		}
-
-		goto(filterUrl);
-	};
+	$: nextPage = () => goNextPage($hospitPageInfo.page, $hospitPageInfo.totalPages);
+	$: previousPage = () => goPreviousPage($hospitPageInfo.page);
+	$: dispatchSearch = () => doSearch(search);
+	$: changeTab = (filter: StatusFilter) => doChangeTab(filter);
 </script>
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full overflow-hidden">
