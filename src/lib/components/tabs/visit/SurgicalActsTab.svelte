@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {
 		addVisitSurgicalActsFormStore,
 		currentVisit,
@@ -19,11 +21,11 @@
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
 	import { toast } from 'svelte-sonner';
 
-	let open = false;
-	let showConfirmation = false;
-	let addActsFormRef: HTMLFormElement;
-	let removeActsFormRef: HTMLFormElement;
-	let updateFormRef: HTMLFormElement;
+	let open = $state(false);
+	let showConfirmation = $state(false);
+	let addActsFormRef: HTMLFormElement = $state();
+	let removeActsFormRef: HTMLFormElement = $state();
+	let updateFormRef: HTMLFormElement = $state();
 	let metadata: Record<string, Partial<ItemMetadata>> = {};
 
 	const {
@@ -74,7 +76,7 @@
 		}
 	});
 
-	$: ({ surgical_acts, id, item_metadata } = $currentVisit);
+	let { surgical_acts, id, item_metadata } = $derived($currentVisit);
 
 	const handler = () => {
 		$addForm.id = id;
@@ -132,9 +134,11 @@
 		return (item_metadata || []).find(({ item }) => item === itemId)?.quantity ?? 1;
 	};
 
-	$: combinedErrors = [...$allErrors, ...$removeErrors, ...$updateErrors];
-	$: combinedErrors.length &&
-		toast.error(combinedErrors.map((error) => error.messages.join('. ')).join('. '));
+	let combinedErrors = $derived([...$allErrors, ...$removeErrors, ...$updateErrors]);
+	run(() => {
+		combinedErrors.length &&
+			toast.error(combinedErrors.map((error) => error.messages.join('. ')).join('. '));
+	});
 </script>
 
 <form
@@ -196,11 +200,11 @@
 
 <section class="container px-4">
 	<div class="flex items-center justify-between">
-		<div class="lg:w-full" />
+		<div class="lg:w-full"></div>
 		<div class="flex items-center justify-end mt-4 gap-x-3 w-full">
 			<button
 				type="button"
-				on:click={() => (open = true)}
+				onclick={() => (open = true)}
 				class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 			>
 				<PlusIcon />
@@ -313,14 +317,14 @@
 										>
 											<button
 												type="button"
-												on:click={() => promptItemRemoval(act.id)}
+												onclick={() => promptItemRemoval(act.id)}
 												class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none"
 											>
 												<TrashIcon />
 											</button>
 											<button
 												type="button"
-												on:click={() => updateItem(act.id)}
+												onclick={() => updateItem(act.id)}
 												class="text-gray-500 transition-colors duration-200 hover:text-emerald-500 focus:outline-none flex items-center justify-center"
 											>
 												<UpdateIcon />

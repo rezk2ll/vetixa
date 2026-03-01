@@ -13,7 +13,7 @@
 	import LoadingDots from '$components/display/LoadingDots.svelte';
 	import FileItemPreview from '$components/display/FileItemPreview.svelte';
 	import PhotoSwipeLightbox from 'photoswipe/lightbox';
-	import { afterUpdate, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import 'photoswipe/style.css';
 	import EmptyTable from '$components/display/EmptyTable.svelte';
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
@@ -22,7 +22,7 @@
 
 	let uploadFileFormRef: HTMLFormElement;
 	let removeFileFormRef: HTMLFormElement;
-	let showConfirmation = false;
+	let showConfirmation = $state(false);
 
 	const {
 		form: addFileForm,
@@ -79,32 +79,33 @@
 		showConfirmation = false;
 	};
 
+	function initLightbox() {
+		const lightbox = new PhotoSwipeLightbox({
+			gallery: '.files-gallery',
+			children: 'a',
+			showHideAnimationType: 'zoom',
+			initialZoomLevel: 'fill',
+			pswpModule: () => import('photoswipe')
+		});
+
+		lightbox.init();
+
+		return () => lightbox.destroy();
+	}
+
 	onMount(() => {
-		const lightbox = new PhotoSwipeLightbox({
-			gallery: '.files-gallery',
-			children: 'a',
-			showHideAnimationType: 'zoom',
-			initialZoomLevel: 'fill',
-			pswpModule: () => import('photoswipe')
-		});
-
-		lightbox.init();
+		return initLightbox();
 	});
 
-	afterUpdate(() => {
-		const lightbox = new PhotoSwipeLightbox({
-			gallery: '.files-gallery',
-			children: 'a',
-			showHideAnimationType: 'zoom',
-			initialZoomLevel: 'fill',
-			pswpModule: () => import('photoswipe')
-		});
-
-		lightbox.init();
+	$effect(() => {
+		$currentVisit.files;
+		return initLightbox();
 	});
 
-	$: [...$allErrors, ...$removeErrors].map((error) => {
-		toast.error(error.messages.join('. '));
+	$effect(() => {
+		[...$allErrors, ...$removeErrors].map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -169,7 +170,7 @@
 						name="files"
 						multiple={true}
 						bind:files={$files}
-						on:change={fileChangeHandler}
+						onchange={fileChangeHandler}
 					/>
 					<span>Télécharger</span>
 				</label>
@@ -261,7 +262,7 @@
 											</a>
 											<button
 												type="button"
-												on:click={() => promptItemRemoval(getFileNameFromUrl(item))}
+												onclick={() => promptItemRemoval(getFileNameFromUrl(item))}
 												class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 											>
 												<TrashIcon />

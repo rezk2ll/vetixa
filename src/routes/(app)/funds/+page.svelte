@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import FundsEvolution from '$components/charts/funds/FundsEvolution.svelte';
 	import FundsPaymentMethodsStats from '$components/charts/funds/FundsPaymentMethodsStats.svelte';
 	import IncomeEvolution from '$components/charts/funds/IncomeEvolution.svelte';
@@ -6,17 +8,27 @@
 	import { addExpenseFormStore, addFundsFormStore, fundsPageInfo } from '$store/funds';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ labels, balanceData, stats, pageInfo, addExpenses, addFundsForm } = data);
+	let { data }: Props = $props();
 
-	$: addFundsFormStore.set(addFundsForm);
-	$: addExpenseFormStore.set(addExpenses);
-	$: fundsPageInfo.set(pageInfo);
+	let { labels, balanceData, stats, pageInfo, addExpenses, addFundsForm } = $derived(data);
 
-	$: balance = balanceData.map(({ balance }) => balance);
-	$: income = balanceData.map(({ income }) => income);
-	$: expense = balanceData.map(({ expense }) => expense);
+	run(() => {
+		addFundsFormStore.set(addFundsForm);
+	});
+	run(() => {
+		addExpenseFormStore.set(addExpenses);
+	});
+	run(() => {
+		fundsPageInfo.set(pageInfo);
+	});
+
+	let balance = $derived(balanceData.map(({ balance }) => balance));
+	let income = $derived(balanceData.map(({ income }) => income));
+	let expense = $derived(balanceData.map(({ expense }) => expense));
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">

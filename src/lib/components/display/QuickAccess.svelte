@@ -1,11 +1,16 @@
 <script lang="ts">
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 
-	export let title: string;
-	export let description: string;
-	export let color: 'pink' | 'blue' | 'gray';
-	export let href: string;
-	export let action: string;
+	interface Props {
+		title: string;
+		description: string;
+		color: 'pink' | 'blue' | 'gray';
+		href: string;
+		action: string;
+		children?: import('svelte').Snippet;
+	}
+
+	let { title, description, color, href, action, children }: Props = $props();
 </script>
 
 <div
@@ -19,7 +24,7 @@
 					? 'text-blue-500'
 					: 'text-blueGray-600'} mb-4"
 		>
-			<slot />
+			{@render children?.()}
 		</div>
 		<h5
 			class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 dark:text-white antialiased"

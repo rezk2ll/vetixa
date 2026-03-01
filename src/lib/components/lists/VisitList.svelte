@@ -12,54 +12,63 @@
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
-	export let isNew: boolean = false;
+	interface Props {
+		isNew?: boolean;
+	}
 
-	let openAddModal = isNew;
-	let statusFilter: StatusFilter = 'all';
-	let search: string;
-	let page = 0;
+	let { isNew = false }: Props = $props();
 
-	$: totalPages = Math.max(Math.ceil($visitItems.length / 10), 1);
+	let openAddModal = $state(isNew);
+	let statusFilter: StatusFilter = $state('all');
+	let search: string = $state();
+	let page = $state(0);
 
-	$: items = $visitItems.filter((item) => {
-		if (search && search.length) {
-			const searchString = search.toLocaleLowerCase();
+	let totalPages = $derived(Math.max(Math.ceil($visitItems.length / 10), 1));
 
-			if (!item.motif.toLowerCase().includes(searchString)) {
-				return false;
+	let items = $derived(
+		$visitItems.filter((item) => {
+			if (search && search.length) {
+				const searchString = search.toLocaleLowerCase();
+
+				if (!item.motif.toLowerCase().includes(searchString)) {
+					return false;
+				}
 			}
-		}
 
-		if (statusFilter === 'completed') {
-			return item.bill && item.bill.paid && item.bill.total === item.bill.total_paid;
-		}
+			if (statusFilter === 'completed') {
+				return item.bill && item.bill.paid && item.bill.total === item.bill.total_paid;
+			}
 
-		if (statusFilter === 'partial') {
-			return item.bill && item.bill.total_paid > 0 && item.bill.total_paid < item.bill.total;
-		}
+			if (statusFilter === 'partial') {
+				return item.bill && item.bill.total_paid > 0 && item.bill.total_paid < item.bill.total;
+			}
 
-		if (statusFilter === 'pending') {
-			return item.bill && item.bill.total_paid === 0 && item.control === false;
-		}
+			if (statusFilter === 'pending') {
+				return item.bill && item.bill.total_paid === 0 && item.control === false;
+			}
 
-		if (statusFilter === 'control') {
-			return item.control;
-		}
+			if (statusFilter === 'control') {
+				return item.control;
+			}
 
-		return true;
-	});
+			return true;
+		})
+	);
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 
-	$: paidCount = $visitItems.filter(({ bill }) => bill && bill.paid).length;
-	$: partialCount = $visitItems.filter(
-		({ bill, control }) =>
-			bill && bill.total_paid > 0 && bill.total_paid < bill.total && control === false
-	).length;
-	$: pendingCount = $visitItems.filter(
-		({ bill, control }) => bill && bill.total_paid === 0 && control === false
-	).length;
-	$: controlCount = $visitItems.filter(({ control }) => control).length;
+	let paidCount = $derived($visitItems.filter(({ bill }) => bill && bill.paid).length);
+	let partialCount = $derived(
+		$visitItems.filter(
+			({ bill, control }) =>
+				bill && bill.total_paid > 0 && bill.total_paid < bill.total && control === false
+		).length
+	);
+	let pendingCount = $derived(
+		$visitItems.filter(({ bill, control }) => bill && bill.total_paid === 0 && control === false)
+			.length
+	);
+	let controlCount = $derived($visitItems.filter(({ control }) => control).length);
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
@@ -78,7 +87,7 @@
 				>
 			</div>
 			<button
-				on:click={() => (openAddModal = true)}
+				onclick={() => (openAddModal = true)}
 				class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 			>
 				<PlusIcon />
@@ -92,7 +101,7 @@
 				class="flex flex-row overflow-hidden bg-white dark:bg-gray-800 border dark:border-gray-600 divide-x dark:divide-gray-600 rounded-lg w-full lg:w-auto"
 			>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'all';
 						page = 0;
 					}}
@@ -104,7 +113,7 @@
 					Tout
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'completed';
 						page = 0;
 					}}
@@ -121,7 +130,7 @@
 					</span>
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'partial';
 						page = 0;
 					}}
@@ -138,7 +147,7 @@
 					</span>
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'pending';
 						page = 0;
 					}}
@@ -155,7 +164,7 @@
 					</span>
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'control';
 						page = 0;
 					}}
@@ -303,7 +312,7 @@
 
 			<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 				<button
-					on:click={() => (page -= 1)}
+					onclick={() => (page -= 1)}
 					disabled={page <= 0}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 					0
@@ -319,7 +328,7 @@
 
 				<button
 					disabled={page >= totalPages - 1}
-					on:click={() => (page += 1)}
+					onclick={() => (page += 1)}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 					totalPages - 1
 						? 'bg-slate-200'

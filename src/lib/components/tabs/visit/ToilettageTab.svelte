@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {
 		addVisitToilettageFormStore,
 		currentVisit,
@@ -18,12 +20,17 @@
 	import Flask from '$components/icons/Flask.svelte';
 	import PlusIcon from '$components/icons/PlusIcon.svelte';
 	import { toast } from 'svelte-sonner';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
 
-	let open = false;
-	let showConfirmation = false;
-	let addToilettageFormRef: HTMLFormElement;
-	let removeToilettageFormRef: HTMLFormElement;
-	let updateFormRef: HTMLFormElement;
+	let { children }: Props = $props();
+
+	let open = $state(false);
+	let showConfirmation = $state(false);
+	let addToilettageFormRef: HTMLFormElement = $state();
+	let removeToilettageFormRef: HTMLFormElement = $state();
+	let updateFormRef: HTMLFormElement = $state();
 	let metadata: Record<string, Partial<ItemMetadata>> = {};
 
 	const {
@@ -74,7 +81,7 @@
 		}
 	});
 
-	$: ({ toilettage, id, item_metadata } = $currentVisit);
+	let { toilettage, id, item_metadata } = $derived($currentVisit);
 
 	const handler = () => {
 		$addForm.id = id;
@@ -132,8 +139,10 @@
 		return (item_metadata || []).find(({ item }) => item === itemId)?.quantity ?? 1;
 	};
 
-	$: [...$allErrors, ...$removeErrors, ...$updateErrors].map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		[...$allErrors, ...$removeErrors, ...$updateErrors].map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -192,17 +201,17 @@
 		{handler}
 		bind:value={$addForm.items}
 	>
-		<slot />
+		{@render children?.()}
 	</SelectActForm>
 </Modal>
 
 <section class="container px-4">
 	<div class="flex items-center justify-between w-full">
-		<div class="lg:w-full" />
+		<div class="lg:w-full"></div>
 		<div class="flex items-center mt-4 gap-x-3 w-full lg:w-auto">
 			<button
 				type="button"
-				on:click={() => (open = true)}
+				onclick={() => (open = true)}
 				class="flex items-center grow justify-center w-full lg:w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 			>
 				<PlusIcon />
@@ -316,14 +325,14 @@
 										>
 											<button
 												type="button"
-												on:click={() => promptItemRemoval(item.id)}
+												onclick={() => promptItemRemoval(item.id)}
 												class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none flex items-center justify-center"
 											>
 												<TrashIcon />
 											</button>
 											<button
 												type="button"
-												on:click={() => updateItem(item.id)}
+												onclick={() => updateItem(item.id)}
 												class="text-gray-500 transition-colors duration-200 hover:text-emerald-500 focus:outline-none flex items-center justify-center"
 											>
 												<UpdateIcon />

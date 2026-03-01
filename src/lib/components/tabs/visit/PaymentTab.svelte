@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import NumberField from '$components/inputs/NumberField.svelte';
 	import { currentVisit, payVisitFormStore } from '$lib/store/visit';
 	import { paymentMethods } from '$lib/utils/payment';
@@ -14,7 +16,11 @@
 	import { formatDateStringShortDay } from '$lib/utils/date';
 	import { getPaymentMethodLabel } from '$lib/utils/payment';
 
-	export let bill: PaymentInformation;
+	interface Props {
+		bill: PaymentInformation;
+	}
+
+	let { bill }: Props = $props();
 
 	const { form, enhance, submitting, allErrors } = superForm($payVisitFormStore, {
 		id: 'pay-visit',
@@ -38,10 +44,6 @@
 		}
 	});
 
-	$: if (!$form.id || $form.id.length) {
-		$form.id = $currentVisit.id;
-	}
-
 	const handleMethodChange = (e: CustomEvent) => {
 		if (e.detail.value !== 'cash') {
 			$form.incash = 0;
@@ -49,26 +51,37 @@
 		}
 	};
 
-	$: if ($currentVisit.id && $currentVisit.id.length) {
-		$form.id = $currentVisit.id;
-	}
-
-	$: disabled =
+	run(() => {
+		if (!$form.id || $form.id.length) {
+			$form.id = $currentVisit.id;
+		}
+	});
+	run(() => {
+		if ($currentVisit.id && $currentVisit.id.length) {
+			$form.id = $currentVisit.id;
+		}
+	});
+	let rest = $derived(Math.max(currency(bill.total).subtract(bill.total_paid).value, 0));
+	let disabled = $derived(
 		$form.amount <= 0 ||
-		($form.method === 'cash' &&
-			currency($form.incash).subtract($form.outcash).value !== $form.amount) ||
-		$form.method === undefined ||
-		rest === 0;
-	$: invalidCash =
-		$form.amount > 0 && currency($form.incash).subtract($form.outcash).value !== $form.amount;
-	$: disabledSelect = $form.amount === undefined || $form.amount <= 0;
-	$: rest = Math.max(currency(bill.total).subtract(bill.total_paid).value, 0);
-	$: surplus =
+			($form.method === 'cash' &&
+				currency($form.incash).subtract($form.outcash).value !== $form.amount) ||
+			$form.method === undefined ||
+			rest === 0
+	);
+	let invalidCash = $derived(
+		$form.amount > 0 && currency($form.incash).subtract($form.outcash).value !== $form.amount
+	);
+	let disabledSelect = $derived($form.amount === undefined || $form.amount <= 0);
+	let surplus = $derived(
 		currency(bill.total).subtract(bill.total_paid).value < 0
 			? Math.abs(currency(bill.total).subtract(bill.total_paid).value)
-			: 0;
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+			: 0
+	);
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -133,7 +146,7 @@
 							value={$form.method}
 							placeholder="veuillez sélectionner"
 							bind:justValue={$form.method}
-							on:change={handleMethodChange}
+							onchange={handleMethodChange}
 							class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
 						/>
 						{#if $form.method === 'cash' && !disabledSelect}

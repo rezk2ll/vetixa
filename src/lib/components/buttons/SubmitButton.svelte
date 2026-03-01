@@ -1,11 +1,21 @@
 <script lang="ts">
-	export let loading: boolean = false;
-	export let disabled: boolean = false;
-	export let full: boolean = false;
-	export let small: boolean = false;
-	export let text = 'confirmer';
+	interface Props {
+		loading?: boolean;
+		disabled?: boolean;
+		full?: boolean;
+		small?: boolean;
+		text?: string;
+	}
 
-	$: disable = loading || disabled;
+	let {
+		loading = false,
+		disabled = false,
+		full = false,
+		small = false,
+		text = 'confirmer'
+	}: Props = $props();
+
+	let disable = $derived(loading || disabled);
 </script>
 
 <button

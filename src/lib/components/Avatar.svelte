@@ -1,12 +1,18 @@
 <script lang="ts">
-	export let name: string;
+	interface Props {
+		name: string;
+	}
 
-	$: initials = name
-		.match(/(^\S\S?|\b\S)?/g)
-		?.join('')
-		?.match(/(^\S|\S$)?/g)
-		?.join('')
-		.toUpperCase();
+	let { name }: Props = $props();
+
+	let initials = $derived(
+		name
+			.match(/(^\S\S?|\b\S)?/g)
+			?.join('')
+			?.match(/(^\S|\S$)?/g)
+			?.join('')
+			.toUpperCase()
+	);
 </script>
 
 <span

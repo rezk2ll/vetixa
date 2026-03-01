@@ -14,64 +14,70 @@
 	import InventorySaleRow from './InventorySaleRow.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
-	let search: string = '';
-	let page = 0;
-	let statusFilter: SalesStatusFilter = 'all';
+	let search: string = $state('');
+	let page = $state(0);
+	let statusFilter: SalesStatusFilter = $state('all');
 	let maxDate = getMaxSelectionDate();
 
-	let startDate: Date = $inventorySalesPageInfo.startDate.startsWith('@')
-		? startOfMonth(setMinutes(setHours(new Date(), 0), 0))
-		: new Date($inventorySalesPageInfo.startDate);
-	let endDate: Date = $inventorySalesPageInfo.endDate.startsWith('@')
-		? endOfMonth(setMinutes(setHours(new Date(), 23), 0))
-		: new Date($inventorySalesPageInfo.endDate);
+	let startDate: Date = $state(
+		$inventorySalesPageInfo.startDate.startsWith('@')
+			? startOfMonth(setMinutes(setHours(new Date(), 0), 0))
+			: new Date($inventorySalesPageInfo.startDate)
+	);
+	let endDate: Date = $state(
+		$inventorySalesPageInfo.endDate.startsWith('@')
+			? endOfMonth(setMinutes(setHours(new Date(), 23), 0))
+			: new Date($inventorySalesPageInfo.endDate)
+	);
 
-	$: currentUrl = browser ? document.location.href : '';
+	let currentUrl = $derived(browser ? document.location.href : '');
 
-	$: items = $inventorySalesPageInfo.items.filter((item) => {
-		if (search && search.length) {
-			if (
-				!item.item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
-				!item.item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-			) {
-				return false;
+	let items = $derived(
+		$inventorySalesPageInfo.items.filter((item) => {
+			if (search && search.length) {
+				if (
+					!item.item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
+					!item.item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+				) {
+					return false;
+				}
 			}
-		}
 
-		if (statusFilter === 'hospit') {
-			return item.type === 'hospit';
-		}
+			if (statusFilter === 'hospit') {
+				return item.type === 'hospit';
+			}
 
-		if (statusFilter === 'medical_act') {
-			return item.type === 'medical_act';
-		}
-		if (statusFilter === 'surgical_act') {
-			return item.type === 'surgical_act';
-		}
-		if (statusFilter === 'toilettage') {
-			return item.type === 'toilettage';
-		}
+			if (statusFilter === 'medical_act') {
+				return item.type === 'medical_act';
+			}
+			if (statusFilter === 'surgical_act') {
+				return item.type === 'surgical_act';
+			}
+			if (statusFilter === 'toilettage') {
+				return item.type === 'toilettage';
+			}
 
-		if (statusFilter === 'sale') {
-			return item.type === 'sale';
-		}
-		if (statusFilter === 'store_sale') {
-			return item.type === 'sale' && !item.visit;
-		}
-		if (statusFilter === 'visit_sale') {
-			return item.type === 'sale' && item.visit;
-		}
-		if (statusFilter === 'visit') {
-			return item.type === 'visit';
-		}
+			if (statusFilter === 'sale') {
+				return item.type === 'sale';
+			}
+			if (statusFilter === 'store_sale') {
+				return item.type === 'sale' && !item.visit;
+			}
+			if (statusFilter === 'visit_sale') {
+				return item.type === 'sale' && item.visit;
+			}
+			if (statusFilter === 'visit') {
+				return item.type === 'visit';
+			}
 
-		return true;
-	});
+			return true;
+		})
+	);
 
-	$: totalPages = Math.ceil(items.length / 10);
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+	let totalPages = $derived(Math.ceil(items.length / 10));
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 
-	$: changeDuration = () => {
+	let changeDuration = $derived(() => {
 		const start = format(startDate, 'yyyy-MM-dd HH:mm');
 		const end = format(endDate, 'yyyy-MM-dd HH:mm');
 
@@ -81,7 +87,7 @@
 		targetUrl.searchParams.set('endDate', end);
 
 		goto(targetUrl.toString());
-	};
+	});
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
@@ -129,7 +135,7 @@
 					/>
 					<button
 						type="button"
-						on:click={() => changeDuration()}
+						onclick={() => changeDuration()}
 						class="text-slate-600 bg-slate-100 rounded-full hover:bg-slate-300 p-2 transition-all ease-in-out delay-100 duration-100"
 						title="refresh"
 					>
@@ -170,7 +176,7 @@
 				class="flex flex-wrap lg:flex-nowrap flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse w-auto"
 			>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'all';
 						page = 0;
 					}}
@@ -182,7 +188,7 @@
 					Tout
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'medical_act';
 						page = 0;
 					}}
@@ -194,7 +200,7 @@
 					Actes médicaux
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'surgical_act';
 						page = 0;
 					}}
@@ -206,7 +212,7 @@
 					Actes chirurgicaux
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'toilettage';
 						page = 0;
 					}}
@@ -218,7 +224,7 @@
 					Toilettages
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'hospit';
 						page = 0;
 					}}
@@ -230,7 +236,7 @@
 					Hospitalisations
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'sale';
 						page = 0;
 					}}
@@ -242,7 +248,7 @@
 					Ventes
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'store_sale';
 						page = 0;
 					}}
@@ -254,7 +260,7 @@
 					Ventes en boutique
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'visit_sale';
 						page = 0;
 					}}
@@ -266,7 +272,7 @@
 					Ventes en consultations
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						statusFilter = 'visit';
 						page = 0;
 					}}
@@ -363,7 +369,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
+						onclick={() => (page -= 1)}
 						disabled={page <= 0}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 						0
@@ -379,7 +385,7 @@
 
 					<button
 						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
+						onclick={() => (page += 1)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 						totalPages - 1
 							? 'bg-slate-200'

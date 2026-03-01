@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import ClientAnimalsList from '$components/lists/ClientAnimalsList.svelte';
 	import CollapsibleSection from '$components/CollapsibleSection.svelte';
 	import Details from '$components/Details.svelte';
@@ -16,28 +18,46 @@
 
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ client, isNew, addForm, bills, form, removeForm, updateForm } = data);
+	let { data }: Props = $props();
 
-	let openUpdateModal = false;
+	let { client, isNew, addForm, bills, form, removeForm, updateForm } = $derived(data);
 
-	$: clientDetails = [
+	let openUpdateModal = $state(false);
+
+	let clientDetails = $derived([
 		{ name: 'Prénom', value: client.firstname },
 		{ name: 'Nom', value: client.lastname },
 		{ name: 'Téléphone', value: client.tel ?? '-' },
 		{ name: 'Email', value: client.email ?? '-' },
 		{ name: 'Adresse', value: client.address ?? '-' },
 		{ name: 'Note', value: client.note ?? '-' }
-	];
+	]);
 
-	$: addAnimalFormStore.set(addForm);
-	$: updateAnimalFormStore.set(updateForm);
-	$: deleteAnimalFormStore.set(removeForm);
-	$: animals.set(client.animals);
-	$: updateClientFormStore.set(form);
-	$: clientBills.set(bills);
-	$: currentClient.set(client);
+	run(() => {
+		addAnimalFormStore.set(addForm);
+	});
+	run(() => {
+		updateAnimalFormStore.set(updateForm);
+	});
+	run(() => {
+		deleteAnimalFormStore.set(removeForm);
+	});
+	run(() => {
+		animals.set(client.animals);
+	});
+	run(() => {
+		updateClientFormStore.set(form);
+	});
+	run(() => {
+		clientBills.set(bills);
+	});
+	run(() => {
+		currentClient.set(client);
+	});
 </script>
 
 <Modal bind:open={openUpdateModal} size="medium">

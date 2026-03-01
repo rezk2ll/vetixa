@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { daysDiff, formatDateStringShortDay, formatFilterDate } from '$lib/utils/date';
 	import type { HospitStatusFilter as StatusFilter } from '$types';
 	import { hospitPageInfo } from '$store/hospit';
@@ -19,14 +21,14 @@
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import CageColorCodes from '$components/display/cages/CageColorCodes.svelte';
 
-	let search: string = $hospitPageInfo.query;
+	let search: string = $state($hospitPageInfo.query);
 	let page = $hospitPageInfo.page;
 	let statusFilter: StatusFilter = $hospitPageInfo.filter;
 
-	$: nextPage = () => goNextPage($hospitPageInfo.page, $hospitPageInfo.totalPages);
-	$: previousPage = () => goPreviousPage($hospitPageInfo.page);
-	$: dispatchSearch = () => doSearch(search);
-	$: changeTab = (filter: StatusFilter) => doChangeTab(filter);
+	let nextPage = $derived(() => goNextPage($hospitPageInfo.page, $hospitPageInfo.totalPages));
+	let previousPage = $derived(() => goPreviousPage($hospitPageInfo.page));
+	let dispatchSearch = $derived(() => doSearch(search));
+	let changeTab = $derived((filter: StatusFilter) => doChangeTab(filter));
 </script>
 
 <div class="flex flex-col items-start justify-start xl:pl-14 w-full overflow-hidden">
@@ -69,7 +71,7 @@
 			>
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						changeTab('all');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
@@ -81,7 +83,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						changeTab('pending');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
@@ -99,7 +101,7 @@
 
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						changeTab('complete');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200 {statusFilter ===
@@ -115,7 +117,7 @@
 					</span>
 				</button>
 			</div>
-			<form on:submit|preventDefault={dispatchSearch} class="w-full md:w-auto md:pb-0">
+			<form onsubmit={preventDefault(dispatchSearch)} class="w-full md:w-auto md:pb-0">
 				<div class="flex items-center mt-0 h-6 relative w-full">
 					<button class="absolute right-0 focus:outline-none">
 						<SearchIcon />
@@ -171,7 +173,7 @@
 									<th
 										scope="col"
 										class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-									/>
+									></th>
 									<th
 										scope="col"
 										class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -315,7 +317,7 @@
 
 			<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 				<button
-					on:click={previousPage}
+					onclick={previousPage}
 					disabled={page <= 1}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 					1
@@ -331,7 +333,7 @@
 
 				<button
 					disabled={page >= $hospitPageInfo.totalPages}
-					on:click={nextPage}
+					onclick={nextPage}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 					$hospitPageInfo.totalPages
 						? 'bg-slate-200'

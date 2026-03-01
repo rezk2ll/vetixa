@@ -8,22 +8,24 @@
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
-	let search: string;
-	let page = 0;
+	let search: string = $state();
+	let page = $state(0);
 
-	$: totalPages = Math.max(Math.ceil($visitItems.length / 10), 1);
+	let totalPages = $derived(Math.max(Math.ceil($visitItems.length / 10), 1));
 
-	$: items = $visitItems.filter((item) => {
-		if (search && search.length) {
-			const searchString = search.toLocaleLowerCase();
+	let items = $derived(
+		$visitItems.filter((item) => {
+			if (search && search.length) {
+				const searchString = search.toLocaleLowerCase();
 
-			return item.motif.toLowerCase().includes(searchString);
-		}
+				return item.motif.toLowerCase().includes(searchString);
+			}
 
-		return true;
-	});
+			return true;
+		})
+	);
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">
@@ -176,7 +178,7 @@
 
 			<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 				<button
-					on:click={() => (page -= 1)}
+					onclick={() => (page -= 1)}
 					disabled={page <= 0}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 					0
@@ -192,7 +194,7 @@
 
 				<button
 					disabled={page >= totalPages - 1}
-					on:click={() => (page += 1)}
+					onclick={() => (page += 1)}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 					totalPages - 1
 						? 'bg-slate-200'

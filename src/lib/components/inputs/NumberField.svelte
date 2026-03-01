@@ -1,15 +1,29 @@
 <script lang="ts">
-	export let label: string;
-	export let placeholder: string;
-	export let value: number | string;
-	export let isInValid: boolean = false;
-	export let name: string;
-	export let isNumber: boolean = false;
-	export let onChange: (e: Event) => void = () => {};
-	export let disabled: boolean = false;
-	export let size: 'small' | 'medium' | 'normal' = 'normal';
+	interface Props {
+		label: string;
+		placeholder: string;
+		value: number | string;
+		isInValid?: boolean;
+		name: string;
+		isNumber?: boolean;
+		onChange?: (e: Event) => void;
+		disabled?: boolean;
+		size?: 'small' | 'medium' | 'normal';
+	}
 
-	$: props = { ...(isNumber ? {} : { step: 'any' }) };
+	let {
+		label,
+		placeholder,
+		value = $bindable(),
+		isInValid = false,
+		name,
+		isNumber = false,
+		onChange = () => {},
+		disabled = false,
+		size = 'normal'
+	}: Props = $props();
+
+	let extraProps = $derived({ ...(isNumber ? {} : { step: 'any' }) });
 </script>
 
 <div class="relative {size === 'small' ? 'mt-0' : 'mt-6'} w-full">
@@ -21,9 +35,9 @@
 		min="0"
 		bind:value
 		{placeholder}
-		{...props}
-		on:change={onChange}
-		on:input={onChange}
+		{...extraProps}
+		onchange={onChange}
+		oninput={onChange}
 		type="number"
 		class="{size === 'small'
 			? 'h-7 text-sm ring-1 min-w-16'

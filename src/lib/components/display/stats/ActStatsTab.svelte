@@ -2,46 +2,68 @@
 	import type { InventorySaleItem } from '$types';
 	import currency from 'currency.js';
 
-	export let items: InventorySaleItem[];
+	interface Props {
+		items: InventorySaleItem[];
+	}
 
-	$: medicalActsTotal = items
-		.filter(({ type }) => type === 'medical_act')
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let { items }: Props = $props();
 
-	$: surgicalActsTotal = items
-		.filter(({ type }) => type === 'surgical_act')
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let medicalActsTotal = $derived(
+		items
+			.filter(({ type }) => type === 'medical_act')
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: toilettageTotal = items
-		.filter(({ type }) => type === 'toilettage')
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let surgicalActsTotal = $derived(
+		items
+			.filter(({ type }) => type === 'surgical_act')
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: hospitTotal = items
-		.filter(({ type }) => type === 'hospit')
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let toilettageTotal = $derived(
+		items
+			.filter(({ type }) => type === 'toilettage')
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: saleTotal = items
-		.filter(({ type }) => type === 'sale')
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let hospitTotal = $derived(
+		items
+			.filter(({ type }) => type === 'hospit')
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: anonymousSales = items
-		.filter(({ type, visit }) => type === 'sale' && !visit)
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let saleTotal = $derived(
+		items
+			.filter(({ type }) => type === 'sale')
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: visitSales = items
-		.filter(({ type, visit }) => type === 'sale' && visit)
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let anonymousSales = $derived(
+		items
+			.filter(({ type, visit }) => type === 'sale' && !visit)
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: visitTotal = items
-		.filter(({ type }) => type === 'visit')
-		.reduce((acc, curr) => currency(acc).add(curr.total).value, 0);
+	let visitSales = $derived(
+		items
+			.filter(({ type, visit }) => type === 'sale' && visit)
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
 
-	$: total = currency(medicalActsTotal)
-		.add(surgicalActsTotal)
-		.add(toilettageTotal)
-		.add(hospitTotal)
-		.add(saleTotal)
-		.add(visitTotal);
+	let visitTotal = $derived(
+		items
+			.filter(({ type }) => type === 'visit')
+			.reduce((acc, curr) => currency(acc).add(curr.total).value, 0)
+	);
+
+	let total = $derived(
+		currency(medicalActsTotal)
+			.add(surgicalActsTotal)
+			.add(toilettageTotal)
+			.add(hospitTotal)
+			.add(saleTotal)
+			.add(visitTotal)
+	);
 </script>
 
 <div class="flex flex-col items-center justify-start w-full">

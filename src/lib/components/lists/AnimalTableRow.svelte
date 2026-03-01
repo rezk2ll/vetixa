@@ -4,15 +4,14 @@
 	import AnimalIcon from '$components/display/animal/AnimalIcon.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import TrashIcon from '$components/icons/TrashIcon.svelte';
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		animal: AnimalsResponse;
+		showOwner?: boolean;
+		onremove?: (animal: AnimalsResponse) => void;
+		onupdate?: (animal: AnimalsResponse) => void;
+	}
 
-	export let animal: AnimalsResponse;
-	export let showOwner: boolean = false;
-
-	const dispatch = createEventDispatcher<{
-		remove: AnimalsResponse;
-		update: AnimalsResponse;
-	}>();
+	let { animal, showOwner = false, onremove, onupdate }: Props = $props();
 </script>
 
 <tr class={animal.deceased ? 'bg-red-100/80' : ''}>
@@ -59,7 +58,7 @@
 	<td class="px-4 py-2.5 text-sm whitespace-nowrap">
 		<div class="flex items-end justify-end gap-x-6 w-full">
 			<button
-				on:click={() => dispatch('remove', animal)}
+				onclick={() => onremove?.(animal)}
 				class="text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
 			>
 				<TrashIcon />
@@ -67,7 +66,7 @@
 
 			<button
 				type="button"
-				on:click={() => dispatch('update', animal)}
+				onclick={() => onupdate?.(animal)}
 				title="Modifier le client"
 				class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 hover:text-yellow-500 focus:outline-none"
 			>

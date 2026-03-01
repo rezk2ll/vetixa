@@ -1,6 +1,11 @@
 <script lang="ts">
-	export let open = false;
-	export let size: 'small' | 'medium' | 'bigmedium' | 'big' = 'small';
+	interface Props {
+		open?: boolean;
+		size?: 'small' | 'medium' | 'bigmedium' | 'big';
+		children?: import('svelte').Snippet;
+	}
+
+	let { open = false, size = 'small', children }: Props = $props();
 </script>
 
 <div class="relative flex items-center justify-center w-full max-w-full">
@@ -12,7 +17,7 @@
 	>
 		<div
 			class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
-		/>
+		></div>
 		<div
 			class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0 w-full"
 		>
@@ -30,7 +35,7 @@
 							? 'xl:max-w-3xl'
 							: ''} sm:p-6 sm:align-middle"
 			>
-				<slot />
+				{@render children?.()}
 			</div>
 		</div>
 	</div>

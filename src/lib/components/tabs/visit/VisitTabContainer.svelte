@@ -14,7 +14,7 @@
 	import VisitInfo from '$components/display/visit/VisitInfo.svelte';
 	import ScissorsIcon from '$lib/components/icons/ScissorsIcon.svelte';
 
-	$: isActive = (tab: VisitTabsType): boolean => tab === $activeVisitTab;
+	let isActive = $derived((tab: VisitTabsType): boolean => tab === $activeVisitTab);
 </script>
 
 <div class="flex flex-col items-center justify-start lg:pl-14 w-full lg:pt-10 pb-5">
@@ -25,7 +25,7 @@
 			<div class="flex overflow-x-auto whitespace-nowrap w-full">
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('info')}
+					onclick={() => activeVisitTab.set('info')}
 					class="px-4 {isActive('info')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -44,7 +44,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('toilettage')}
+					onclick={() => activeVisitTab.set('toilettage')}
 					class="px-4 {isActive('toilettage')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -56,7 +56,7 @@
 
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('diagnostics')}
+					onclick={() => activeVisitTab.set('diagnostics')}
 					class="px-4 {isActive('diagnostics')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -76,7 +76,7 @@
 
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('files')}
+					onclick={() => activeVisitTab.set('files')}
 					class="px-4 {isActive('files')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -96,7 +96,7 @@
 
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('actions')}
+					onclick={() => activeVisitTab.set('actions')}
 					class="px-4 {isActive('actions')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -115,7 +115,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('treatments')}
+					onclick={() => activeVisitTab.set('treatments')}
 					class="px-4 {isActive('treatments')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -134,7 +134,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('medical_acts')}
+					onclick={() => activeVisitTab.set('medical_acts')}
 					class="px-4 {isActive('medical_acts')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -153,7 +153,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('surgical_acts')}
+					onclick={() => activeVisitTab.set('surgical_acts')}
 					class="px-4 {isActive('surgical_acts')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -172,7 +172,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('hospit')}
+					onclick={() => activeVisitTab.set('hospit')}
 					class="px-4 {isActive('hospit')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"
@@ -191,7 +191,7 @@
 				</button>
 				<button
 					type="button"
-					on:click={() => activeVisitTab.set('shop')}
+					onclick={() => activeVisitTab.set('shop')}
 					class="px-4 {isActive('shop')
 						? 'border border-b-transparent rounded-t-md focus:outline-none text-sinc-700'
 						: 'bg-transparent border-b cursor-base focus:outline-none hover:border-gray-400 text-gray-600 px-[17px]'}  inline-flex items-center h-12 py-2 text-center border-gray-300 whitespace-nowrap"

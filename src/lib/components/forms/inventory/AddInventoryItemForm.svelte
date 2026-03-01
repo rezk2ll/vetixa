@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import NumberField from '$components/inputs/NumberField.svelte';
@@ -9,7 +11,11 @@
 	import { toast } from 'svelte-sonner';
 	import InventoryCube from '$components/icons/InventoryCube.svelte';
 
-	export let open = false;
+	interface Props {
+		open?: boolean;
+	}
+
+	let { open = $bindable(false) }: Props = $props();
 
 	const { form, message, enhance, submitting, allErrors } = superForm($addInventoryFormStore, {
 		resetForm: true,
@@ -25,15 +31,15 @@
 
 	$form.quantity = 1;
 
-	$: htCost = currency($form.cost, { precision: 3 }).divide(
-		currency($form.tva).divide(100).add(1)
-	).value;
+	let htCost = $derived(
+		currency($form.cost, { precision: 3 }).divide(currency($form.tva).divide(100).add(1)).value
+	);
 
-	$: handleCostChange = (e: Event) => {
+	let handleCostChange = $derived((e: Event) => {
 		const value = +(e.target as HTMLInputElement).value;
 
 		$form.cost = currency(value, { precision: 3 }).multiply(1 + $form.tva / 100).value;
-	};
+	});
 
 	const handleHTCChange = (e: Event): void => {
 		const value = +(e.target as HTMLInputElement).value;
@@ -44,9 +50,13 @@
 			.multiply(100).value;
 	};
 
-	$: $form.price = currency($form.cost, { precision: 3 }).multiply(1 + $form.gain / 100).value;
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$form.price = currency($form.cost, { precision: 3 }).multiply(1 + $form.gain / 100).value;
+	});
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -140,7 +150,7 @@
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"
-			on:click={() => (open = false)}
+			onclick={() => (open = false)}
 			class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
 		>
 			Annuler

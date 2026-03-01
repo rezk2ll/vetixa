@@ -7,15 +7,21 @@
 	import PrintableFooter from '$components/display/PrintableFooter.svelte';
 	import PrintableHeader from '$components/display/PrintableHeader.svelte';
 
-	export let bill: BillInformation | undefined;
-	export let doctor: string | undefined;
+	interface Props {
+		bill: BillInformation | undefined;
+		doctor: string | undefined;
+	}
 
-	$: total = bill
-		? bill.items.reduce((acc, curr) => {
-				const price = currency(curr.total).multiply(1 - curr.discount / 100);
-				return currency(acc).add(price).value;
-			}, 0)
-		: 0;
+	let { bill, doctor }: Props = $props();
+
+	let total = $derived(
+		bill
+			? bill.items.reduce((acc, curr) => {
+					const price = currency(curr.total).multiply(1 - curr.discount / 100);
+					return currency(acc).add(price).value;
+				}, 0)
+			: 0
+	);
 </script>
 
 <div class="w-full">
@@ -67,7 +73,7 @@
 					<div class="text-end text-xs font-medium text-gray-500 uppercase">Montant TTC</div>
 				</div>
 				{#if bill}
-					<div class="hidden sm:block border-b border-gray-200" />
+					<div class="hidden sm:block border-b border-gray-200"></div>
 					{#each bill.items as item}
 						<div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
 							<div class="col-span-full sm:col-span-2">
@@ -91,7 +97,7 @@
 							</div>
 						</div>
 
-						<div class="sm:hidden border-b border-gray-200" />
+						<div class="sm:hidden border-b border-gray-200"></div>
 					{/each}
 				{/if}
 			</div>

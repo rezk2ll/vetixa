@@ -17,8 +17,8 @@
 	"devDependencies": {
 		"@playwright/test": "^1.45.1",
 		"@sveltejs/adapter-auto": "^3",
-		"@sveltejs/kit": "^2",
-		"@sveltejs/vite-plugin-svelte": "^3",
+		"@sveltejs/kit": "^2.12.0",
+		"@sveltejs/vite-plugin-svelte": "^5",
 		"@types/chart.js": "^4.0.0",
 		"@typescript-eslint/eslint-plugin": "^8",
 		"@typescript-eslint/parser": "^8",
@@ -29,17 +29,17 @@
 		"eslint-plugin-svelte": "^3",
 		"globals": "^16",
 		"postcss": "^8.4.39",
-		"prettier": "^3",
-		"prettier-plugin-svelte": "^3",
-		"svelte": "^4.2.18",
+		"prettier": "^3.1.0",
+		"prettier-plugin-svelte": "^3.2.6",
+		"svelte": "^5",
 		"svelte-check": "^4.0.0",
-		"sveltekit-superforms": "2.15.1",
+		"sveltekit-superforms": "^2.29",
 		"tailwindcss": "^3.4.4",
 		"tslib": "^2.6.3",
 		"typescript": "^5.5.3",
-		"vite": "^5",
+		"vite": "^6",
 		"vitest": "^4.0.0",
-		"zod": "3.23.8"
+		"zod": "^3.25"
 	},
 	"type": "module",
 	"dependencies": {
@@ -60,7 +60,7 @@
 		"pocketbase": "^0.21.3",
 		"svelte-printpdf": "^1.0.2-metadata",
 		"svelte-select": "^5.8.3",
-		"svelte-sonner": "^0.3.26",
+		"svelte-sonner": "^1.0.7",
 		"to-words": "^5.0.0"
 	}
 }

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import type { VisitStatusFilter as StatusFilter } from '$types';
 	import { formatDateStringShort, formatDateStringToTime } from '$lib/utils/date';
 	import { activityPage } from '$store/activity';
@@ -16,13 +18,13 @@
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
 	let statusFilter: StatusFilter = $activityPage.filter;
-	let search: string = $activityPage.query;
+	let search: string = $state($activityPage.query);
 	let page = $activityPage.page;
 
-	$: nextPage = () => goNextPage($activityPage.page, $activityPage.totalPages);
-	$: previousPage = () => goPreviousPage($activityPage.page);
-	$: dispatchSearch = () => doSearch(search);
-	$: changeTab = (filter: StatusFilter) => doChangeTab(filter);
+	let nextPage = $derived(() => goNextPage($activityPage.page, $activityPage.totalPages));
+	let previousPage = $derived(() => goPreviousPage($activityPage.page));
+	let dispatchSearch = $derived(() => doSearch(search));
+	let changeTab = $derived((filter: StatusFilter) => doChangeTab(filter));
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full">
@@ -43,7 +45,7 @@
 				class="flex flex-row overflow-hidden bg-white dark:bg-gray-800 border dark:border-gray-600 divide-x dark:divide-gray-600 rounded-lg"
 			>
 				<button
-					on:click={() => {
+					onclick={() => {
 						changeTab('all');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
@@ -54,7 +56,7 @@
 					Tout
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						changeTab('completed');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
@@ -70,7 +72,7 @@
 					</span>
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						changeTab('partial');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
@@ -86,7 +88,7 @@
 					</span>
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						changeTab('pending');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
@@ -102,7 +104,7 @@
 					</span>
 				</button>
 				<button
-					on:click={() => {
+					onclick={() => {
 						changeTab('control');
 					}}
 					class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 {statusFilter ===
@@ -118,7 +120,7 @@
 					</span>
 				</button>
 			</div>
-			<form on:submit|preventDefault={dispatchSearch} class="w-full md:w-auto md:pb-0">
+			<form onsubmit={preventDefault(dispatchSearch)} class="w-full md:w-auto md:pb-0">
 				<div class="flex items-center mt-0 h-6 relative w-full">
 					<button class="absolute right-0 focus:outline-none">
 						<SearchIcon />
@@ -308,7 +310,7 @@
 
 			<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 				<button
-					on:click={previousPage}
+					onclick={previousPage}
 					disabled={page <= 1}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 					1
@@ -324,7 +326,7 @@
 
 				<button
 					disabled={page >= $activityPage.totalPages}
-					on:click={nextPage}
+					onclick={nextPage}
 					class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 					$activityPage.totalPages
 						? 'bg-slate-200'

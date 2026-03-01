@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Modal from '$components/Modal.svelte';
 	import AddInventoryItemForm from '../forms/inventory/AddInventoryItemForm.svelte';
 	import {
@@ -22,68 +24,20 @@
 	import { toast } from 'svelte-sonner';
 	import { currentUser } from '$lib/store/user';
 
-	let openAddInventoryItemModal = false;
-	let openSellInventoryItemModal = false;
-	let openUpdateInventoryItemModal = false;
-	let statusFilter: StatusFilter = 'all';
-	let search: string;
-	let page = 0;
-	let showConfirmation = false;
-	let selectedItem: InventoryItemResponse | null;
-	let deleteFormRef: HTMLFormElement;
-	let selectedUpdateItem: InventoryItemResponse | null;
-
-	$: totalPages = Math.ceil(items.length / 10);
-	$: items = $inventoryItems.filter((item) => {
-		if (search && search.length) {
-			if (
-				!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
-				!item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-			) {
-				return false;
-			}
-		}
-
-		if (statusFilter === 'alert') {
-			return item.quantity <= item.alert && item.quantity > 0;
-		}
-
-		if (statusFilter === 'available') {
-			return item.quantity > item.alert;
-		}
-
-		if (statusFilter === 'unavailable') {
-			return item.quantity === 0;
-		}
-
-		return true;
-	});
-
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
-
-	$: availableCount = $inventoryItems.filter((item) => item.quantity > item.alert).length;
-	$: alertCount = $inventoryItems.filter(
-		(item) => item.quantity <= item.alert && item.quantity > 0
-	).length;
-	$: unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
-
-	$: handler = () => {
-		deleteFormRef.requestSubmit();
-
-		selectedItem = null;
-		showConfirmation = false;
-	};
+	let openAddInventoryItemModal = $state(false);
+	let openSellInventoryItemModal = $state(false);
+	let openUpdateInventoryItemModal = $state(false);
+	let statusFilter: StatusFilter = $state('all');
+	let search: string = $state();
+	let page = $state(0);
+	let showConfirmation = $state(false);
+	let selectedItem: InventoryItemResponse | null = $state();
+	let deleteFormRef: HTMLFormElement = $state();
+	let selectedUpdateItem: InventoryItemResponse | null = $state();
 
 	const remove = (item: InventoryItemResponse) => {
 		selectedItem = item;
 		showConfirmation = true;
-	};
-
-	$: update = (item: InventoryItemResponse) => {
-		selectedUpdateItem = item;
-
-		updatedInventoryItem.set(item);
-		openUpdateInventoryItemModal = true;
 	};
 
 	const { enhance, allErrors } = superForm($removeInventoryFormStore, {
@@ -98,11 +52,59 @@
 		}
 	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
-	});
+	let items = $derived(
+		$inventoryItems.filter((item) => {
+			if (search && search.length) {
+				if (
+					!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
+					!item.code.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+				) {
+					return false;
+				}
+			}
 
-	$: canEdit = $currentUser && $currentUser.role && $currentUser.role === 'editor';
+			if (statusFilter === 'alert') {
+				return item.quantity <= item.alert && item.quantity > 0;
+			}
+
+			if (statusFilter === 'available') {
+				return item.quantity > item.alert;
+			}
+
+			if (statusFilter === 'unavailable') {
+				return item.quantity === 0;
+			}
+
+			return true;
+		})
+	);
+	let totalPages = $derived(Math.ceil(items.length / 10));
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
+	let availableCount = $derived(
+		$inventoryItems.filter((item) => item.quantity > item.alert).length
+	);
+	let alertCount = $derived(
+		$inventoryItems.filter((item) => item.quantity <= item.alert && item.quantity > 0).length
+	);
+	let unavailableCount = $derived($inventoryItems.filter((item) => item.quantity === 0).length);
+	let handler = $derived(() => {
+		deleteFormRef.requestSubmit();
+
+		selectedItem = null;
+		showConfirmation = false;
+	});
+	let update = $derived((item: InventoryItemResponse) => {
+		selectedUpdateItem = item;
+
+		updatedInventoryItem.set(item);
+		openUpdateInventoryItemModal = true;
+	});
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
+	});
+	let canEdit = $derived($currentUser && $currentUser.role && $currentUser.role === 'editor');
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-4">
@@ -167,7 +169,7 @@
 				<div class="flex items-center mt-4 gap-x-2 w-full lg:w-auto px-2 lg:px-0">
 					{#if canEdit}
 						<button
-							on:click={() => (openAddInventoryItemModal = true)}
+							onclick={() => (openAddInventoryItemModal = true)}
 							class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 						>
 							<PlusIcon />
@@ -176,7 +178,7 @@
 						</button>
 					{/if}
 					<button
-						on:click={() => (openSellInventoryItemModal = true)}
+						onclick={() => (openSellInventoryItemModal = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600 dark:hover:bg-emerald-500 dark:bg-emerald-600"
 					>
 						<BagIcon />
@@ -192,7 +194,7 @@
 					class="flex flex-row w-full lg:w-auto overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700"
 				>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'all';
 							page = 0;
 						}}
@@ -204,7 +206,7 @@
 						Tout
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'available';
 							page = 0;
 						}}
@@ -221,7 +223,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'alert';
 							page = 0;
 						}}
@@ -239,7 +241,7 @@
 					</button>
 
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'unavailable';
 							page = 0;
 						}}
@@ -377,14 +379,14 @@
 												<td class="px-4 py-4 text-sm whitespace-nowrap">
 													<button
 														type="button"
-														on:click={() => update(item)}
+														onclick={() => update(item)}
 														class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 													>
 														<EditIcon />
 													</button>
 													<button
 														type="button"
-														on:click={() => remove(item)}
+														onclick={() => remove(item)}
 														class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 													>
 														<TrashIcon />
@@ -409,7 +411,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
+						onclick={() => (page -= 1)}
 						disabled={page <= 0}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 						0
@@ -425,7 +427,7 @@
 
 					<button
 						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
+						onclick={() => (page += 1)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 						totalPages - 1
 							? 'bg-slate-200'

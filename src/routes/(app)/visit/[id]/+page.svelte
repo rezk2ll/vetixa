@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import PaymentTab from '$components/tabs/visit/PaymentTab.svelte';
 	import TabContainer from '$components/tabs/visit/VisitTabContainer.svelte';
 	import {
@@ -39,9 +41,13 @@
 	import type { VisitTabsType } from '$types';
 	import { doctorList } from '$lib/store/doctor';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({
+	let { data }: Props = $props();
+
+	let {
 		form,
 		visit,
 		toilettage,
@@ -71,38 +77,94 @@
 		tab,
 		doctors,
 		updateHospitCompeltedStateForm
-	} = data);
+	} = $derived(data);
 
-	$: currentVisit.set(visit);
-	$: updateVisitFormStore.set(form);
-	$: addVisitToilettageFormStore.set(addToilettageForm);
-	$: removeVisitItemFormStore.set(removeToilettageForm);
-	$: medicalActsStore.set(medicalActs);
-	$: toilettageActs.set(toilettage);
-	$: surgicalActsStore.set(surgicalActs);
-	$: payVisitFormStore.set(payVisitForm);
-	$: addVisitFileFormStore.set(addFileForm);
-	$: removeVisitFileFormStore.set(removeFileForm);
-	$: updateVisitDiagnosticFormStore.set(updateDiagnosticForm);
-	$: updateVisitActionsFormStore.set(updateActionsForm);
-	$: addVisitStoreItemFormStore.set(addVisitStoreItemForm);
-	$: removeVisitStoreItemFormStore.set(removeVisitStoreItemForm);
-	$: addVisitMedicalActsFormStore.set(addMedicalActsForm);
-	$: removeVisitMedicalActFormStore.set(removeMedicalActForm);
-	$: addVisitSurgicalActsFormStore.set(addSurgicalActsForm);
-	$: removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
-	$: updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
-	$: cagesList.set(cages);
-	$: inventoryItems.set(storeItems);
-	$: generatedBill && visitBill.set(generatedBill);
-	$: removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
-	$: updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
-	$: activeVisitTab.set(tab as VisitTabsType);
-	$: updateVisitItemFormStore.set(updateVisitItemForm);
-	$: doctorList.set(doctors);
-	$: hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
-	$: acts = [...visit.toilettage, ...visit.surgical_acts, ...visit.medical_acts].map(
-		(item) => item.name
+	run(() => {
+		currentVisit.set(visit);
+	});
+	run(() => {
+		updateVisitFormStore.set(form);
+	});
+	run(() => {
+		addVisitToilettageFormStore.set(addToilettageForm);
+	});
+	run(() => {
+		removeVisitItemFormStore.set(removeToilettageForm);
+	});
+	run(() => {
+		medicalActsStore.set(medicalActs);
+	});
+	run(() => {
+		toilettageActs.set(toilettage);
+	});
+	run(() => {
+		surgicalActsStore.set(surgicalActs);
+	});
+	run(() => {
+		payVisitFormStore.set(payVisitForm);
+	});
+	run(() => {
+		addVisitFileFormStore.set(addFileForm);
+	});
+	run(() => {
+		removeVisitFileFormStore.set(removeFileForm);
+	});
+	run(() => {
+		updateVisitDiagnosticFormStore.set(updateDiagnosticForm);
+	});
+	run(() => {
+		updateVisitActionsFormStore.set(updateActionsForm);
+	});
+	run(() => {
+		addVisitStoreItemFormStore.set(addVisitStoreItemForm);
+	});
+	run(() => {
+		removeVisitStoreItemFormStore.set(removeVisitStoreItemForm);
+	});
+	run(() => {
+		addVisitMedicalActsFormStore.set(addMedicalActsForm);
+	});
+	run(() => {
+		removeVisitMedicalActFormStore.set(removeMedicalActForm);
+	});
+	run(() => {
+		addVisitSurgicalActsFormStore.set(addSurgicalActsForm);
+	});
+	run(() => {
+		removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
+	});
+	run(() => {
+		updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
+	});
+	run(() => {
+		cagesList.set(cages);
+	});
+	run(() => {
+		inventoryItems.set(storeItems);
+	});
+	run(() => {
+		generatedBill && visitBill.set(generatedBill);
+	});
+	run(() => {
+		removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
+	});
+	run(() => {
+		updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
+	});
+	run(() => {
+		activeVisitTab.set(tab as VisitTabsType);
+	});
+	run(() => {
+		updateVisitItemFormStore.set(updateVisitItemForm);
+	});
+	run(() => {
+		doctorList.set(doctors);
+	});
+	run(() => {
+		hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
+	});
+	let acts = $derived(
+		[...visit.toilettage, ...visit.surgical_acts, ...visit.medical_acts].map((item) => item.name)
 	);
 </script>
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import AddExpenseForm from '$components/forms/funds/AddExpenseForm.svelte';
 	import AddFundsForm from '$components/forms/funds/AddFundsForm.svelte';
 	import { formatDateStringShort, formatDateStringToTime, getMaxSelectionDate } from '$utils/date';
@@ -27,24 +29,28 @@
 	import { getPaymentMethodLabel } from '$utils/payment';
 
 	let locale = localeFromDateFnsLocale(fr);
-	let openAddFundsForm = false;
-	let openAddExpensesForm = false;
-	let search: string = $fundsPageInfo.query;
+	let openAddFundsForm = $state(false);
+	let openAddExpensesForm = $state(false);
+	let search: string = $state($fundsPageInfo.query);
 	let maxDate = getMaxSelectionDate();
 
-	let startDate: Date = $fundsPageInfo.startDate.startsWith('@')
-		? setMinutes(setHours(new Date(), 0), 0)
-		: new Date($fundsPageInfo.startDate);
-	let endDate: Date = $fundsPageInfo.endDate.startsWith('@')
-		? setMinutes(setHours(new Date(), 23), 0)
-		: new Date($fundsPageInfo.endDate);
+	let startDate: Date = $state(
+		$fundsPageInfo.startDate.startsWith('@')
+			? setMinutes(setHours(new Date(), 0), 0)
+			: new Date($fundsPageInfo.startDate)
+	);
+	let endDate: Date = $state(
+		$fundsPageInfo.endDate.startsWith('@')
+			? setMinutes(setHours(new Date(), 23), 0)
+			: new Date($fundsPageInfo.endDate)
+	);
 
-	$: previousPage = () => goPreviousPage($fundsPageInfo.page);
-	$: nextPage = () => goNextPage($fundsPageInfo.page, $fundsPageInfo.totalPages);
-	$: dispatchSearch = () => doSearch(search);
-	$: changeTab = (filter: StatusFilter) => doChangeTab(filter);
+	let previousPage = $derived(() => goPreviousPage($fundsPageInfo.page));
+	let nextPage = $derived(() => goNextPage($fundsPageInfo.page, $fundsPageInfo.totalPages));
+	let dispatchSearch = $derived(() => doSearch(search));
+	let changeTab = $derived((filter: StatusFilter) => doChangeTab(filter));
 
-	$: changeDuration = () => {
+	let changeDuration = $derived(() => {
 		const start = format(startDate, 'yyyy-MM-dd HH:mm');
 		const end = format(endDate, 'yyyy-MM-dd HH:mm');
 
@@ -55,7 +61,7 @@
 		targetUrl.searchParams.delete('page');
 
 		goto(targetUrl.toString());
-	};
+	});
 </script>
 
 <div class="flex flex-col items-center justify-start xl:pl-14 w-full xl:py-10">
@@ -100,7 +106,7 @@
 
 				<div class="flex items-center mt-4 gap-x-3 w-full lg:w-auto pr-5 lg:pr-0">
 					<button
-						on:click={() => (openAddFundsForm = true)}
+						onclick={() => (openAddFundsForm = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 					>
 						<MoneyBagIcon />
@@ -108,7 +114,7 @@
 						<span>Encaissement</span>
 					</button>
 					<button
-						on:click={() => (openAddExpensesForm = true)}
+						onclick={() => (openAddExpensesForm = true)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-red-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-red-800"
 					>
 						<MoneyOutIcon />
@@ -125,7 +131,7 @@
 				>
 					<button
 						type="button"
-						on:click={() => changeTab('all')}
+						onclick={() => changeTab('all')}
 						class="px-5 py-2 text-xs w-full font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'all'
 							? 'bg-gray-100'
@@ -135,7 +141,7 @@
 					</button>
 					<button
 						type="button"
-						on:click={() => changeTab('income')}
+						onclick={() => changeTab('income')}
 						class="px-5 py-2 text-xs w-full font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'income'
 							? 'bg-gray-100'
@@ -145,7 +151,7 @@
 					</button>
 					<button
 						type="button"
-						on:click={() => changeTab('expense')}
+						onclick={() => changeTab('expense')}
 						class="px-5 py-2 text-xs w-full font-medium text-gray-600 transition-colors duration-200 {$fundsPageInfo.filter ===
 						'expense'
 							? 'bg-gray-100'
@@ -179,7 +185,7 @@
 					/>
 					<button
 						type="button"
-						on:click={() => changeDuration()}
+						onclick={() => changeDuration()}
 						class="text-slate-600 bg-slate-100 rounded-full hover:bg-slate-300 p-2 transition-all ease-in-out delay-100 duration-100"
 						title="refresh"
 					>
@@ -201,7 +207,7 @@
 						</svg>
 					</button>
 				</div>
-				<form on:submit|preventDefault={dispatchSearch} class="w-full lg:w-auto">
+				<form onsubmit={preventDefault(dispatchSearch)} class="w-full lg:w-auto">
 					<div class="flex relative items-center mt-0 h-6">
 						<button class="absolute right-0 focus:outline-none">
 							<SearchIcon />
@@ -363,7 +369,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={previousPage}
+						onclick={previousPage}
 						disabled={$fundsPageInfo.page <= 1}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$fundsPageInfo.page <=
 						1
@@ -379,7 +385,7 @@
 
 					<button
 						disabled={$fundsPageInfo.page >= $fundsPageInfo.totalPages}
-						on:click={nextPage}
+						onclick={nextPage}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {$fundsPageInfo.page >=
 						$fundsPageInfo.totalPages
 							? 'bg-slate-200'

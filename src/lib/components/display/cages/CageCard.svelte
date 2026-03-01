@@ -16,14 +16,24 @@
 	import { getTextColor } from '$utils/color';
 	import LeaveIcon from '$components/icons/LeaveIcon.svelte';
 
-	export let cage: CageItem;
-	export let handleColorChange: (id: string) => void = (_id: string) => {};
-	export let handleCompleted: (id: string) => void = (_id: string) => {};
+	interface Props {
+		cage: CageItem;
+		handleColorChange?: (id: string) => void;
+		handleCompleted?: (id: string) => void;
+	}
 
-	$: isNew = cage.hospit && daysDiff(cage.hospit.start, formatFilterDate(new Date())) === 0;
-	$: isDead = (cage.hospit && cage.hospit.visit.animal.deceased) || false;
-	$: color = cage.hospit?.color;
-	$: textColor = getTextColor(color ?? '');
+	let {
+		cage,
+		handleColorChange = (_id: string) => {},
+		handleCompleted = (_id: string) => {}
+	}: Props = $props();
+
+	let isNew = $derived(
+		cage.hospit && daysDiff(cage.hospit.start, formatFilterDate(new Date())) === 0
+	);
+	let isDead = $derived((cage.hospit && cage.hospit.visit.animal.deceased) || false);
+	let color = $derived(cage.hospit?.color);
+	let textColor = $derived(getTextColor(color ?? ''));
 </script>
 
 <div
@@ -123,14 +133,14 @@
 					<button
 						type="button"
 						title="changer la couleur"
-						on:click={() => handleColorChange(cage.hospit?.id ?? '')}
+						onclick={() => handleColorChange(cage.hospit?.id ?? '')}
 					>
 						<PaintColors />
 					</button>
 					<button
 						type="button"
 						title="Libérer la cage"
-						on:click={() => handleCompleted(cage.hospit?.id ?? '')}
+						onclick={() => handleCompleted(cage.hospit?.id ?? '')}
 					>
 						<LeaveIcon />
 					</button>

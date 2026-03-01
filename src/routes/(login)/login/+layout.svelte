@@ -1,5 +1,10 @@
-<script>
+<script lang="ts">
 	import '../../../app.css';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 </script>
 
 <svelte:head>
@@ -15,7 +20,7 @@
 </svelte:head>
 
 <div class="min-h-screen w-full bg-white overflow-hidden gradiant flex flex-col">
-	<slot />
+	{@render children?.()}
 </div>
 
 <style lang="postcss">

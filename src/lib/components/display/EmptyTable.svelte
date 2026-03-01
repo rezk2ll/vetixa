@@ -1,3 +1,11 @@
+<script lang="ts">
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
+</script>
+
 <tr>
 	<td class="w-full text-center mx-auto py-4" colspan="2">
 		<img class="w-24 h-24 mx-auto" src="/no-data.png" alt="empty state" />
@@ -5,6 +13,6 @@
 		<p class="text-gray-500 text-center">
 			Vous pouvez ajouter de nouvelles données à afficher dans ce tableau.
 		</p>
-		<slot />
+		{@render children?.()}
 	</td>
 </tr>

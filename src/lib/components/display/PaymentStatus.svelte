@@ -8,17 +8,21 @@
 	import currency from 'currency.js';
 	import Magnifier from '../icons/Magnifier.svelte';
 
-	export let bill: BillsResponse;
-	export let type: 'large' | 'small' = 'large';
-	export let control: boolean = false;
+	interface Props {
+		bill: BillsResponse;
+		type?: 'large' | 'small';
+		control?: boolean;
+	}
 
-	$: ({ paid, total, total_paid } = bill);
-	$: partiallyPaid = total_paid > 0 && currency(total).subtract(total_paid).value > 0.5;
-	$: pendingPayment = total_paid === 0 && total > 0;
-	$: done = total > 0 && (paid || currency(total).subtract(total_paid).value <= 0.5);
-	$: overpaid = total_paid > total;
-	$: processing = total == 0;
-	$: isControl = control && total === 0;
+	let { bill, type = 'large', control = false }: Props = $props();
+
+	let { paid, total, total_paid } = $derived(bill);
+	let partiallyPaid = $derived(total_paid > 0 && currency(total).subtract(total_paid).value > 0.5);
+	let pendingPayment = $derived(total_paid === 0 && total > 0);
+	let done = $derived(total > 0 && (paid || currency(total).subtract(total_paid).value <= 0.5));
+	let overpaid = $derived(total_paid > total);
+	let processing = $derived(total == 0);
+	let isControl = $derived(control && total === 0);
 </script>
 
 <div class="flex items-center gap-x-4 {type === 'large' ? 'w-full' : 'w-full md:w-3/4'}">

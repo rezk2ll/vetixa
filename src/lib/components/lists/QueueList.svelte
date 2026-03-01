@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { calculateDiff, formatDateString } from '$lib/utils/date';
 	import { queue, updateQueueFormStore } from '$lib/store/queue';
 	import type { QueueStatusFilter as StatusFilter } from '$types';
@@ -10,54 +12,60 @@
 	import EditIcon from '$components/icons/EditIcon.svelte';
 	import { toast } from 'svelte-sonner';
 
-	let statusFilter: StatusFilter = 'pending';
-	let search: string;
-	let page = 0;
-	let currentTime = new Date().getTime();
-	let formRef: HTMLFormElement | undefined;
+	let statusFilter: StatusFilter = $state('pending');
+	let search: string = $state();
+	let page = $state(0);
+	let currentTime = $state(new Date().getTime());
+	let formRef: HTMLFormElement | undefined = $state();
 	const { enhance, form, allErrors } = superForm($updateQueueFormStore, {
 		dataType: 'json'
 	});
 
-	$: totalPages = Math.max(Math.ceil($queue.length / 10), 1);
+	let totalPages = $derived(Math.max(Math.ceil($queue.length / 10), 1));
 
-	$: items = $queue.filter((item) => {
-		if (search && search.length) {
-			if (
-				!item.visit.motif.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
-				!item.visit.animal.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
-				!item.visit.animal.client.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-			) {
-				return false;
+	let items = $derived(
+		$queue.filter((item) => {
+			if (search && search.length) {
+				if (
+					!item.visit.motif.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
+					!item.visit.animal.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) &&
+					!item.visit.animal.client.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+				) {
+					return false;
+				}
 			}
-		}
 
-		if (statusFilter === 'completed') {
-			return item.served;
-		}
+			if (statusFilter === 'completed') {
+				return item.served;
+			}
 
-		return !item.served;
+			return !item.served;
+		})
+	);
+
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
+	run(() => {
+		setInterval(() => (currentTime = new Date().getTime()), 1000);
 	});
+	let waitingCount = $derived($queue.filter(({ served }) => !served).length);
+	let servedCount = $derived($queue.length - waitingCount);
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
-	$: setInterval(() => (currentTime = new Date().getTime()), 1000);
-	$: waitingCount = $queue.filter(({ served }) => !served).length;
-	$: servedCount = $queue.length - waitingCount;
-
-	$: waitingTime = (date: string, time: string | null = null) => {
+	let waitingTime = $derived((date: string, time: string | null = null) => {
 		const finalTime = time ? new Date(time).getTime() : currentTime;
 
 		return calculateDiff(date, finalTime);
-	};
+	});
 
-	$: open = (id: string) => {
+	let open = $derived((id: string) => {
 		$form.id = id;
 
 		formRef?.requestSubmit();
-	};
+	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -92,7 +100,7 @@
 					class="flex flex-row overflow-hidden bg-white dark:bg-gray-800 border dark:border-gray-600 divide-x dark:divide-gray-600 rounded-lg w-full lg:w-96"
 				>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'pending';
 							page = 0;
 						}}
@@ -109,7 +117,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'completed';
 							page = 0;
 						}}
@@ -191,7 +199,7 @@
 									{#each pageItems as item}
 										<tr>
 											<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-												<button type="button" on:click={() => open(item.id)}>
+												<button type="button" onclick={() => open(item.id)}>
 													<h2
 														class="font-medium hover:underline hover:pointer text-gray-800 dark:text-white capitalize"
 													>
@@ -237,7 +245,7 @@
 											<td class="px-4 py-4 text-sm whitespace-nowrap">
 												<button
 													type="button"
-													on:click={() => open(item.id)}
+													onclick={() => open(item.id)}
 													class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg dark:text-gray-300 hover:bg-gray-100"
 												>
 													<EditIcon />
@@ -261,7 +269,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
+						onclick={() => (page -= 1)}
 						disabled={page <= 0}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 						0
@@ -277,7 +285,7 @@
 
 					<button
 						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
+						onclick={() => (page += 1)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 						totalPages - 1
 							? 'bg-slate-200'

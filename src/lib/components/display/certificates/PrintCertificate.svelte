@@ -2,7 +2,11 @@
 	import PrimaryButton from '$components/buttons/PrimaryButton.svelte';
 	import HealthCertificate from '$lib/components/icons/HealthCertificate.svelte';
 
-	export let handler: () => void = () => {};
+	interface Props {
+		handler?: () => void;
+	}
+
+	let { handler = () => {} }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-6">

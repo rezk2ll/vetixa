@@ -2,7 +2,11 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
-	export let data: number[];
+	interface Props {
+		data: number[];
+	}
+
+	let { data }: Props = $props();
 
 	onMount(async () => {
 		const ctx = (document.getElementById('stock-chart') as HTMLCanvasElement).getContext('2d');
@@ -50,6 +54,6 @@
 
 <div class="flex flex-col items-center justify-start w-full xl:py-8">
 	<div class="w-full px-1 pt-10 lg:py-5 bg-white shadow-2xl border-gray-200 h-fit xl:rounded">
-		<canvas id="stock-chart" />
+		<canvas id="stock-chart"></canvas>
 	</div>
 </div>

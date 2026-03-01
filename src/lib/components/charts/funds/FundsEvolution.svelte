@@ -2,8 +2,12 @@
 	import { onMount } from 'svelte';
 	import Chart from 'chart.js/auto';
 
-	export let labels: string[];
-	export let data: number[];
+	interface Props {
+		labels: string[];
+		data: number[];
+	}
+
+	let { labels, data }: Props = $props();
 
 	onMount(async () => {
 		const ctx = (document.getElementById('funds-evolution-chart') as HTMLCanvasElement).getContext(
@@ -40,6 +44,6 @@
 
 <div class="flex flex-col items-center justify-start w-full">
 	<div class="w-full px-5 pt-10 lg:py-5 bg-white shadow-2xl border-gray-200 xl:rounded">
-		<canvas id="funds-evolution-chart" />
+		<canvas id="funds-evolution-chart"></canvas>
 	</div>
 </div>

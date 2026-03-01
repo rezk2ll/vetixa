@@ -1,13 +1,21 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import InventorySaleList from '$components/lists/InventorySaleList.svelte';
 	import ActStatsTab from '$lib/components/display/stats/ActStatsTab.svelte';
 	import { inventorySalesPageInfo } from '$store/inventory';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: ({ page } = data);
-	$: inventorySalesPageInfo.set(page);
+	let { data }: Props = $props();
+
+	let { page } = $derived(data);
+	run(() => {
+		inventorySalesPageInfo.set(page);
+	});
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-5 w-full">

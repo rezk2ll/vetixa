@@ -3,8 +3,12 @@
 	import type { expandedAnimal } from '$types';
 	import { configuration } from '$store/configuration';
 
-	export let doctor: string | undefined;
-	export let animal: expandedAnimal;
+	interface Props {
+		doctor: string | undefined;
+		animal: expandedAnimal;
+	}
+
+	let { doctor, animal }: Props = $props();
 </script>
 
 <div class="w-full font-timesnewroman flex flex-col gap-1 p-2 border border-black">

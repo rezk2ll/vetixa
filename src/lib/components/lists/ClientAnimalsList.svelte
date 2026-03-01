@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Modal from '$components/Modal.svelte';
 	import { animals, currentAnimal, deleteAnimalFormStore } from '$lib/store/animals';
 	import type { AnimalStatusFilter as StatusFilter } from '$types';
@@ -14,60 +16,66 @@
 	import { toast } from 'svelte-sonner';
 	import AnimalTableRow from './AnimalTableRow.svelte';
 
-	export let canAdd: boolean = true;
-	export let isNew: boolean = false;
+	interface Props {
+		canAdd?: boolean;
+		isNew?: boolean;
+	}
 
-	let openAddAnimalModal = isNew;
-	let openUpdateAnimalModal = false;
-	let statusFilter: StatusFilter = 'all';
-	let search: string;
-	let page = 0;
-	let showConfirmation = false;
-	let selectedItem: AnimalsResponse | null;
-	let deleteFormRef: HTMLFormElement;
-	let selectedUpdateItem: AnimalsResponse | null;
+	let { canAdd = true, isNew = false }: Props = $props();
+
+	let openAddAnimalModal = $state(isNew);
+	let openUpdateAnimalModal = $state(false);
+	let statusFilter: StatusFilter = $state('all');
+	let search: string = $state();
+	let page = $state(0);
+	let showConfirmation = $state(false);
+	let selectedItem: AnimalsResponse | null = $state();
+	let deleteFormRef: HTMLFormElement = $state();
+	let selectedUpdateItem: AnimalsResponse | null = $state();
 
 	const totalPages = Math.ceil($animals.length / 10);
 
-	$: items = $animals.filter((item) => {
-		if (search && search.length) {
-			if (!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
-				return false;
+	let items = $derived(
+		$animals.filter((item) => {
+			if (search && search.length) {
+				if (!item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
+					return false;
+				}
 			}
-		}
 
-		if (statusFilter === 'chat') {
-			return item.type === 'chat';
-		}
+			if (statusFilter === 'chat') {
+				return item.type === 'chat';
+			}
 
-		if (statusFilter === 'chien') {
-			return item.type === 'chien';
-		}
+			if (statusFilter === 'chien') {
+				return item.type === 'chien';
+			}
 
-		if (statusFilter === 'male') {
-			return item.sex === 'male';
-		}
+			if (statusFilter === 'male') {
+				return item.sex === 'male';
+			}
 
-		if (statusFilter === 'female') {
-			return item.sex === 'female';
-		}
+			if (statusFilter === 'female') {
+				return item.sex === 'female';
+			}
 
-		return true;
-	});
+			return true;
+		})
+	);
 
-	$: pageItems = items.slice(page * 10, page * 10 + 10);
+	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 
-	$: catCount = $animals.filter((item) => item.type === 'chat').length;
-	$: dogCount = $animals.filter((item) => item.type === 'chien').length;
-	$: maleCount = $animals.filter((item) => item.sex === 'male').length;
-	$: femaleCOunt = $animals.filter((item) => item.sex === 'female').length;
+	let catCount = $derived($animals.filter((item) => item.type === 'chat').length);
+	let dogCount = $derived($animals.filter((item) => item.type === 'chien').length);
+	let maleCount = $derived($animals.filter((item) => item.sex === 'male').length);
+	let femaleCOunt = $derived($animals.filter((item) => item.sex === 'female').length);
 
-	$: handler = () => {
+	let handler = $derived(() => {
 		deleteFormRef.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;
-	};
+	});
 
 	const remove = (item: AnimalsResponse) => {
 		$deleteForm.id = item.id;
@@ -75,11 +83,11 @@
 		showConfirmation = true;
 	};
 
-	$: update = (item: AnimalsResponse) => {
+	let update = $derived((item: AnimalsResponse) => {
 		currentAnimal.set(item);
 		selectedUpdateItem = item;
 		openUpdateAnimalModal = true;
-	};
+	});
 
 	const {
 		enhance,
@@ -99,8 +107,10 @@
 		dataType: 'json'
 	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -151,7 +161,7 @@
 				{#if canAdd}
 					<div class="flex items-center mt-4 gap-x-2 w-full justify-end">
 						<button
-							on:click={() => (openAddAnimalModal = true)}
+							onclick={() => (openAddAnimalModal = true)}
 							class="flex items-center justify-center w-full lg:w-auto px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-emerald-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-emerald-600"
 						>
 							<PlusIcon />
@@ -168,7 +178,7 @@
 					class="flex flex-row overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse"
 				>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'all';
 							page = 0;
 						}}
@@ -180,7 +190,7 @@
 						Tout
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'chat';
 							page = 0;
 						}}
@@ -197,7 +207,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'chien';
 							page = 0;
 						}}
@@ -214,7 +224,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'male';
 							page = 0;
 						}}
@@ -231,7 +241,7 @@
 						</span>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							statusFilter = 'female';
 							page = 0;
 						}}
@@ -292,7 +302,7 @@
 										<th
 											scope="col"
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-										/>
+										></th>
 										<th
 											scope="col"
 											class="px-4 py-2.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -334,8 +344,8 @@
 										<AnimalTableRow
 											{animal}
 											showOwner={!canAdd}
-											on:remove={(e) => remove(e.detail)}
-											on:update={(e) => update(e.detail)}
+											onremove={(a) => remove(a)}
+											onupdate={(a) => update(a)}
 										/>
 									{/each}
 								</tbody>
@@ -354,7 +364,7 @@
 
 				<div class="flex items-center mt-4 gap-x-4 sm:mt-0">
 					<button
-						on:click={() => (page -= 1)}
+						onclick={() => (page -= 1)}
 						disabled={page <= 0}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page <=
 						0
@@ -370,7 +380,7 @@
 
 					<button
 						disabled={page >= totalPages - 1}
-						on:click={() => (page += 1)}
+						onclick={() => (page += 1)}
 						class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 {page >=
 						totalPages - 1
 							? 'bg-slate-200'

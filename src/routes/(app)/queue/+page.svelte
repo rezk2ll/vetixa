@@ -1,20 +1,31 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import LastVisit from '$components/display/LastVisit.svelte';
 	import QueueList from '$components/lists/QueueList.svelte';
 	import { queue, updateQueueFormStore } from '$lib/store/queue';
 	import { sortDates } from '$lib/utils/date';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	$: updateQueueFormStore.set(data.form);
-	$: queue.set(data.queue);
+	let { data }: Props = $props();
 
-	$: lastVisit =
+	run(() => {
+		updateQueueFormStore.set(data.form);
+	});
+	run(() => {
+		queue.set(data.queue);
+	});
+
+	let lastVisit = $derived(
 		$queue
 			.filter((item) => item.served)
 			.sort((a, b) => sortDates(b.updated, a.updated))
-			.pop() ?? null;
+			.pop() ?? null
+	);
 </script>
 
 <div class="flex flex-col xl:flex-row lg:pl-14 w-full">

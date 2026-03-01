@@ -4,7 +4,7 @@
 	import { isIntersecting } from '$lib/utils/observer';
 	import { onDestroy, onMount } from 'svelte';
 
-	let phoneRef: Element;
+	let phoneRef: Element = $state();
 	let observer: IntersectionObserver | undefined;
 
 	onMount(() => {

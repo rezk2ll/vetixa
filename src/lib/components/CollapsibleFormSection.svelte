@@ -1,9 +1,21 @@
 <script lang="ts">
-	export let title: string;
-	export let color: 'primary' | 'secondary' | 'info' = 'secondary';
-	export let size: 'small' | 'big' | 'full' = 'big';
-	export let show: boolean = true;
-	export let shadow: boolean = true;
+	interface Props {
+		title: string;
+		color?: 'primary' | 'secondary' | 'info';
+		size?: 'small' | 'big' | 'full';
+		show?: boolean;
+		shadow?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		title,
+		color = 'secondary',
+		size = 'big',
+		show = $bindable(true),
+		shadow = true,
+		children
+	}: Props = $props();
 </script>
 
 <div
@@ -21,7 +33,7 @@
 			: color === 'secondary'
 				? 'bg-gray-300 dark:bg-gray-600'
 				: 'bg-gray-100 dark:bg-gray-700'} w-full"
-		on:click={() => (show = !show)}
+		onclick={() => (show = !show)}
 	>
 		<h2 class="font-semibold text-gray-800 dark:text-gray-200">{title}</h2>
 		<span class="transition {show ? '' : '-rotate-90	'}">
@@ -39,6 +51,6 @@
 		</span>
 	</button>
 	<div class="transition-all ease-in-out {show ? '' : 'hidden'} w-full px-1">
-		<slot />
+		{@render children?.()}
 	</div>
 </div>

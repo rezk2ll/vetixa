@@ -3,8 +3,8 @@
 	import { isIntersecting } from '$lib/utils/observer';
 	import { onDestroy, onMount } from 'svelte';
 
-	let imageRef: Element;
-	let textRef: Element;
+	let imageRef: Element = $state();
+	let textRef: Element = $state();
 
 	let imageObserver: IntersectionObserver | undefined;
 	let textObserver: IntersectionObserver | undefined;

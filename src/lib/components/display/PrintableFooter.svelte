@@ -6,7 +6,11 @@
 	import PhoneIcon from '$components/icons/PhoneIcon.svelte';
 	import { type ConfigurationResponse } from '$types';
 
-	export let config: Partial<ConfigurationResponse>;
+	interface Props {
+		config: Partial<ConfigurationResponse>;
+	}
+
+	let { config }: Props = $props();
 </script>
 
 <div

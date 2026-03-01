@@ -2,13 +2,25 @@
 	import MoneyBagIcon from '$components/icons/MoneyBagIcon.svelte';
 	import ShoppingIcon from '$components/icons/ShoppingIcon.svelte';
 
-	export let total: number;
-	export let unavailable: number;
-	export let totalSales: number;
-	export let monthlyRevenu: number;
-	export let monthlySales: number;
-	export let dailyRevenu: number;
-	export let dailySales: number;
+	interface Props {
+		total: number;
+		unavailable: number;
+		totalSales: number;
+		monthlyRevenu: number;
+		monthlySales: number;
+		dailyRevenu: number;
+		dailySales: number;
+	}
+
+	let {
+		total,
+		unavailable,
+		totalSales,
+		monthlyRevenu,
+		monthlySales,
+		dailyRevenu,
+		dailySales
+	}: Props = $props();
 </script>
 
 <div class="flex flex-col gap-0">

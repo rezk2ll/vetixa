@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import TextField from '$components/inputs/TextField.svelte';
 	import { inventoryItems, sellInventoryFormStore } from '$lib/store/inventory';
 	import { superForm } from 'sveltekit-superforms/client';
@@ -11,7 +13,11 @@
 	import ShoppingIcon from '$components/icons/ShoppingIcon.svelte';
 	import { paymentMethods } from '$utils/payment';
 
-	export let open = false;
+	interface Props {
+		open?: boolean;
+	}
+
+	let { open = $bindable(false) }: Props = $props();
 
 	const { form, enhance, submitting, allErrors } = superForm($sellInventoryFormStore, {
 		clearOnSubmit: 'errors-and-message',
@@ -28,7 +34,7 @@
 		taintedMessage: null
 	});
 
-	let selectedValue = '';
+	let selectedValue = $state('');
 
 	const removeItem = (id: string) => {
 		$form.items = $form.items.filter((selectedItem) => {
@@ -77,37 +83,6 @@
 		selectedValue = '';
 	};
 
-	$: data = $inventoryItems
-		.filter((item) => item.quantity > 0)
-		.map((item) => ({
-			label: item.name,
-			value: item.id
-		}));
-
-	$: dataSource = data.filter((item) => {
-		return $form.items.filter((formItem) => formItem.id === item.value).length === 0;
-	});
-
-	$: itemRecords = $inventoryItems.reduce(
-		(acc, curr) => {
-			acc[curr.id] = {
-				name: curr.name,
-				quantity: curr.quantity,
-				price: curr.price
-			};
-
-			return acc;
-		},
-		{} as Record<string, InventoryItemInfo>
-	);
-
-	$: total = $form.items.reduce((acc, curr) => {
-		const record = itemRecords[curr.id];
-		const itemTotal = currency(record.price).multiply(curr.quantity).value;
-
-		return currency(acc).add(itemTotal).value;
-	}, 0);
-
 	const handleMethodChange = (e: CustomEvent) => {
 		if (e.detail.value !== 'cash') {
 			$form.incash = 0;
@@ -115,11 +90,50 @@
 		}
 	};
 
-	$: disabled = total < 1 || ($form.method === 'cash' && invalidCash);
-	$: cashBalance = currency(total).subtract(currency($form.incash).subtract($form.outcash)).value;
-	$: invalidCash = total > 1 && (cashBalance >= 1 || cashBalance < -1);
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	let data = $derived(
+		$inventoryItems
+			.filter((item) => item.quantity > 0)
+			.map((item) => ({
+				label: item.name,
+				value: item.id
+			}))
+	);
+	let dataSource = $derived(
+		data.filter((item) => {
+			return $form.items.filter((formItem) => formItem.id === item.value).length === 0;
+		})
+	);
+	let itemRecords = $derived(
+		$inventoryItems.reduce(
+			(acc, curr) => {
+				acc[curr.id] = {
+					name: curr.name,
+					quantity: curr.quantity,
+					price: curr.price
+				};
+
+				return acc;
+			},
+			{} as Record<string, InventoryItemInfo>
+		)
+	);
+	let total = $derived(
+		$form.items.reduce((acc, curr) => {
+			const record = itemRecords[curr.id];
+			const itemTotal = currency(record.price).multiply(curr.quantity).value;
+
+			return currency(acc).add(itemTotal).value;
+		}, 0)
+	);
+	let cashBalance = $derived(
+		currency(total).subtract(currency($form.incash).subtract($form.outcash)).value
+	);
+	let invalidCash = $derived(total > 1 && (cashBalance >= 1 || cashBalance < -1));
+	let disabled = $derived(total < 1 || ($form.method === 'cash' && invalidCash));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -143,7 +157,7 @@
 <div class="pt-10 h-36">
 	<Select
 		bind:items={dataSource}
-		on:change={onItemSelect}
+		onchange={onItemSelect}
 		showChevron
 		listOffset={10}
 		class="uppercase"
@@ -186,7 +200,7 @@
 			listOffset={10}
 			value="cash"
 			bind:justValue={$form.method}
-			on:change={handleMethodChange}
+			onchange={handleMethodChange}
 		/>
 		{#if $form.method === 'cash'}
 			<div class="flex flex-row space-x-2">
@@ -230,7 +244,7 @@
 				<button
 					type="button"
 					class="flex items-center justify-center p-8 text-red-500"
-					on:click={() => removeItem(item.id)}
+					onclick={() => removeItem(item.id)}
 				>
 					<svg
 						data-slot="icon"
@@ -256,7 +270,7 @@
 	<div class="mt-4 sm:flex sm:items-center sm:-mx-2">
 		<button
 			type="button"
-			on:click={() => (open = false)}
+			onclick={() => (open = false)}
 			class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
 		>
 			Annuler

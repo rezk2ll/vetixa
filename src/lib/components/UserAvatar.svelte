@@ -1,7 +1,11 @@
 <script lang="ts">
-	export let src: string;
-	export let name: string;
-	export let email: string;
+	interface Props {
+		src: string;
+		name: string;
+		email: string;
+	}
+
+	let { src, name, email }: Props = $props();
 </script>
 
 <div class="flex items-center gap-x-2">

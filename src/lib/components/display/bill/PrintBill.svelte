@@ -3,10 +3,14 @@
 	import PrimaryButton from '$components/buttons/PrimaryButton.svelte';
 	import InvoiceIcon from '$components/icons/InvoiceIcon.svelte';
 
-	export let bill: BillInformation | undefined;
-	export let handler: () => void = () => {};
+	interface Props {
+		bill: BillInformation | undefined;
+		handler?: () => void;
+	}
 
-	$: disabled = bill === undefined;
+	let { bill, handler = () => {} }: Props = $props();
+
+	let disabled = $derived(bill === undefined);
 </script>
 
 <div class="flex flex-col gap-6 w-full">

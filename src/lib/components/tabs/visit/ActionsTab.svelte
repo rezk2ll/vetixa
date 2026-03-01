@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Editor from '@tinymce/tinymce-svelte';
 	import { superForm } from 'sveltekit-superforms';
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
@@ -19,11 +21,17 @@
 		}
 	});
 
-	$: $form.id = $currentVisit.id;
-	$: $form.actions = $currentVisit.actions;
+	run(() => {
+		$form.id = $currentVisit.id;
+	});
+	run(() => {
+		$form.actions = $currentVisit.actions;
+	});
 
-	$: $allErrors.map((error) => {
-		toast.error(error.messages.join('. '));
+	run(() => {
+		$allErrors.map((error) => {
+			toast.error(error.messages.join('. '));
+		});
 	});
 </script>
 
@@ -34,7 +42,7 @@
 				<div class="overflow-hidden border border-gray-200 md:rounded-lg">
 					<form method="post" action="?/updateActions" use:enhance class="w-full">
 						<input type="hidden" name="id" value={$form.id} />
-						<textarea class="hidden" name="actions" value={$form.actions} />
+						<textarea class="hidden" name="actions" value={$form.actions}></textarea>
 						<Editor
 							bind:value={$form.actions}
 							scriptSrc="/tinymce/tinymce.min.js"

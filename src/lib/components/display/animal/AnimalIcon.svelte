@@ -19,7 +19,11 @@
 	import Monkey from '$components/icons/Monkey.svelte';
 	import Pig from '$components/icons/Pig.svelte';
 
-	export let type: string;
+	interface Props {
+		type: string;
+	}
+
+	let { type }: Props = $props();
 </script>
 
 <div aria-label={type} title={type}>
