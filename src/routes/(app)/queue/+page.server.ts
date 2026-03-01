@@ -26,9 +26,15 @@ export const load = (async ({ locals: { pb } }) => {
 	const billsMap = new Map<string, BillsResponse>();
 
 	if (visitIds.length > 0) {
-		const billsFilter = visitIds.map((id) => `visit = "${id}"`).join(' || ');
+		const billsParams: Record<string, string> = {};
+		const billsFilter = visitIds
+			.map((id, i) => {
+				billsParams[`v${i}`] = id;
+				return `visit = {:v${i}}`;
+			})
+			.join(' || ');
 		const bills = await pb.collection('bills').getFullList<BillsResponse>({
-			filter: billsFilter
+			filter: pb.filter(billsFilter, billsParams)
 		});
 		bills.forEach((bill) => billsMap.set(bill.visit, bill));
 	}
@@ -86,7 +92,9 @@ export const actions: Actions = {
 
 		let item;
 		try {
-			item = await pb.collection('queue').getFirstListItem<QueueResponse>(`id = "${form.data.id}"`);
+			item = await pb
+				.collection('queue')
+				.getFirstListItem<QueueResponse>(pb.filter('id = {:id}', { id: form.data.id }));
 
 			if (!item.served) {
 				await pb.collection('queue').update(form.data.id, {

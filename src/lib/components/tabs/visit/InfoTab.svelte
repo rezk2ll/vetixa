@@ -22,10 +22,6 @@
 		}
 	});
 
-	currentVisit.subscribe(({ id }) => {
-		$form.id = id;
-	});
-
 	$effect(() => {
 		$form.motif = $currentVisit.motif;
 	});

@@ -7,9 +7,12 @@
 
 	let imageNumber = $state(1);
 
-	setInterval(() => {
-		imageNumber = Math.floor(Math.random() * 7) + 1;
-	}, 20000);
+	$effect(() => {
+		const id = setInterval(() => {
+			imageNumber = Math.floor(Math.random() * 7) + 1;
+		}, 20000);
+		return () => clearInterval(id);
+	});
 
 	interface Props {
 		data: PageData;

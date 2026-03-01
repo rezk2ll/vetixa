@@ -43,7 +43,8 @@
 
 	let pageItems = $derived(items.slice(page * 10, page * 10 + 10));
 	$effect(() => {
-		setInterval(() => (currentTime = new Date().getTime()), 1000);
+		const id = setInterval(() => (currentTime = new Date().getTime()), 1000);
+		return () => clearInterval(id);
 	});
 	const waitingCount = $queue.filter(({ served }) => !served).length;
 	let servedCount = $derived($queue.length - waitingCount);

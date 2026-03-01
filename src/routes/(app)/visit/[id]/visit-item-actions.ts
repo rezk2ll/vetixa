@@ -22,10 +22,6 @@ export const addToilettage = async ({ locals: { pb }, request }: RequestEvent) =
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
 
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
 		await pb.collection('visits').update(id, {
 			...visit,
 			'toilettage+': items
@@ -55,10 +51,6 @@ export const removeToilettage = async ({ locals: { pb }, request }: RequestEvent
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
 
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
 		await pb.collection('visits').update(id, {
 			...visit,
 			'toilettage-': item
@@ -85,10 +77,6 @@ export const addMedicalActs = async ({ locals: { pb }, request }: RequestEvent) 
 		const { id, items } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
-
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
 
 		await pb.collection('visits').update(id, {
 			...visit,
@@ -119,10 +107,6 @@ export const removeMedicalAct = async ({ locals: { pb }, request }: RequestEvent
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
 
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
-
 		await pb.collection('visits').update(id, {
 			...visit,
 			'medical_acts-': item
@@ -151,10 +135,6 @@ export const addSurgicalActs = async ({ locals: { pb }, request }: RequestEvent)
 		const { id, items } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
-
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
 
 		await pb.collection('visits').update(id, {
 			...visit,
@@ -185,10 +165,6 @@ export const removeSurgicalAct = async ({ locals: { pb }, request }: RequestEven
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
 
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
-
 		await pb.collection('visits').update(id, {
 			...visit,
 			'surgical_acts-': item
@@ -218,10 +194,6 @@ export const addVisitStoreItem = async ({ locals: { pb }, request }: RequestEven
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 		const billService = new BillService(pb, visit);
 		const inventoryService = new InventoryService(pb);
-
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
 
 		await pb.collection('visits').update(id, {
 			...visit,
@@ -255,10 +227,6 @@ export const removeVisitStoreItem = async ({ locals: { pb }, request }: RequestE
 		const billService = new BillService(pb, visit);
 		const inventoryService = new InventoryService(pb);
 
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
 		const itemQuantity =
 			visit.item_metadata?.find((metdata) => metdata.item === item)?.quantity ?? 1;
 
@@ -291,10 +259,6 @@ export const updateVisitItem = async ({ locals: { pb }, request }: RequestEvent)
 
 		const { id, discount, quantity, item, type } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse<ItemMetadata[]>>(id);
-
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
 		const billService = new BillService(pb, visit);
 		const inventoryService = new InventoryService(pb);
 		const items: ItemMetadata[] = visit.item_metadata || [];

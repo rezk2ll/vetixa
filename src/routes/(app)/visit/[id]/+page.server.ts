@@ -212,12 +212,7 @@ export const actions = {
 
 			const { id } = params;
 
-			const item = await pb.collection('visits').getOne<VisitsResponse>(id);
-
-			if (!item) {
-				return setError(form, 'Visite non trouvée', { status: 500 });
-			}
-
+			await pb.collection('visits').getOne<VisitsResponse>(id);
 			const updated = await pb.collection('visits').update<VisitsResponse>(id, form.data);
 
 			const billService = new BillService(pb, updated);

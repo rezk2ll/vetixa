@@ -62,10 +62,18 @@ export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams
 
 	// Fetch all counts in parallel
 	const [dogsCount, catsCount, maleCount, femaleCount, allCount] = await Promise.all([
-		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && type = "chien"` }),
-		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && type = "chat"` }),
-		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && sex = "male"` }),
-		pb.collection('animals').getList(1, 1, { filter: `(${queryFilter}) && sex = "female"` }),
+		pb.collection('animals').getList(1, 1, {
+			filter: `(${queryFilter}) && ${pb.filter('type = {:type}', { type: 'chien' })}`
+		}),
+		pb.collection('animals').getList(1, 1, {
+			filter: `(${queryFilter}) && ${pb.filter('type = {:type}', { type: 'chat' })}`
+		}),
+		pb.collection('animals').getList(1, 1, {
+			filter: `(${queryFilter}) && ${pb.filter('sex = {:sex}', { sex: 'male' })}`
+		}),
+		pb.collection('animals').getList(1, 1, {
+			filter: `(${queryFilter}) && ${pb.filter('sex = {:sex}', { sex: 'female' })}`
+		}),
 		pb.collection('animals').getList(1, 1, { filter: queryFilter })
 	]);
 
@@ -97,12 +105,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').delete(form.data.id);
 
 			return { form };
@@ -122,12 +125,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').update(form.data.id, form.data);
 
 			return { form };

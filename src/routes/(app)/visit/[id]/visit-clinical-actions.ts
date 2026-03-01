@@ -21,10 +21,6 @@ export const updateDiagnostic = async ({ locals: { pb }, request }: RequestEvent
 		const { id, observations } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
 		await pb.collection('visits').update(id, {
 			...visit,
 			observations
@@ -51,10 +47,6 @@ export const updateActions = async ({ locals: { pb }, request }: RequestEvent) =
 		const { id, actions } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
 
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
 		await pb.collection('visits').update(id, {
 			...visit,
 			actions
@@ -80,10 +72,6 @@ export const updateTreatment = async ({ locals: { pb }, request }: RequestEvent)
 
 		const { id, treatment } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
-
-		if (!visit) {
-			return setError(form, 'Données invalides', { status: 400 });
-		}
 
 		await pb.collection('visits').update(id, {
 			...visit,

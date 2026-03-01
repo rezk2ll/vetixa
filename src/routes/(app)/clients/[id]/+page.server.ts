@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { AnimalsResponse, ClientsResponse } from '$types';
 import { setError, superValidate } from 'sveltekit-superforms/server';
@@ -24,10 +24,12 @@ export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {
 
 	try {
 		client = await pb.collection('clients').getOne(id, { expand: 'animals(client)' });
-	} catch (_error) {
-		if (!client) {
+	} catch (e) {
+		if (e && typeof e === 'object' && 'status' in e && e.status === 404) {
 			redirect(301, '/404');
 		}
+
+		throw error(500, 'Erreur lors du chargement du client');
 	}
 
 	const clientService = new ClientService(pb);
@@ -61,20 +63,12 @@ export const actions: Actions = {
 
 		let animal;
 		try {
-			const client = await pb.collection('clients').getOne<ClientsResponse>(id);
-
-			if (!client || !client.id) {
-				return setError(form, 'Client introuvable', { status: 404 });
-			}
+			await pb.collection('clients').getOne<ClientsResponse>(id);
 
 			animal = await pb.collection('animals').create({
 				...form.data,
 				client: id
 			});
-
-			if (!animal || !animal.id) {
-				return setError(form, "Échec de l'ajout de l'animal", { status: 500 });
-			}
 		} catch (error) {
 			console.error(error);
 
@@ -93,12 +87,7 @@ export const actions: Actions = {
 
 			const { id } = form.data;
 
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').delete(id);
 
 			return { form };
@@ -118,12 +107,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const animal = await pb.collection('animals').getOne(id);
-
-			if (!animal || !animal.id) {
-				return setError(form, 'Animal introuvable', { status: 404 });
-			}
-
+			await pb.collection('animals').getOne(id);
 			await pb.collection('animals').update(id, form.data);
 
 			return { form };
@@ -143,12 +127,7 @@ export const actions: Actions = {
 			}
 
 			const { id } = form.data;
-			const client = await pb.collection('clients').getOne(id);
-
-			if (!client || !client.id) {
-				return setError(form, 'Client introuvable', { status: 404 });
-			}
-
+			await pb.collection('clients').getOne(id);
 			await pb.collection('clients').update(form.data.id, form.data);
 
 			return { form };

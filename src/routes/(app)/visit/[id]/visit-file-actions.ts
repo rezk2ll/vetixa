@@ -14,12 +14,7 @@ export const addFile = async ({ locals: { pb }, request }: RequestEvent) => {
 		}
 
 		const { id } = form.data;
-		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
-
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
-
+		await pb.collection('visits').getOne<VisitsResponse>(id);
 		await pb.collection('visits').update(id, form.data);
 
 		return withFiles({ form });
@@ -40,10 +35,6 @@ export const removeFile = async ({ locals: { pb }, request }: RequestEvent) => {
 
 		const { id, file } = form.data;
 		const visit = await pb.collection('visits').getOne<VisitsResponse>(id);
-
-		if (!visit) {
-			return setError(form, 'Visite non trouvée', { status: 500 });
-		}
 
 		await pb.collection('visits').update(id, {
 			...visit,

@@ -80,11 +80,7 @@ export const actions = {
 
 			const { id, color } = form.data;
 
-			const hospit = await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
-
-			if (!hospit || !hospit.id) {
-				return setError(form, 'Hospitalisation non trouvée');
-			}
+			await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
 
 			await pb.collection('hospitalisation').update(id, {
 				color
@@ -111,23 +107,13 @@ export const actions = {
 			const { id, completed } = form.data;
 			const hospit = await pb.collection('hospitalisation').getOne<HospitalisationResponse>(id);
 
-			if (!hospit || !hospit.id) {
-				return setError(form, 'Hospitalisation non trouvée');
-			}
-
 			if (!completed) {
 				if (!hospit.cage) {
 					return setError(form, 'cage invalide', { status: 500 });
 				}
 
 				try {
-					const avaibleCage = await pb
-						.collection('available_cages')
-						.getOne<CagesResponse>(hospit.cage);
-
-					if (!avaibleCage) {
-						return setError(form, 'Cage déjà occupée', { status: 500 });
-					}
+					await pb.collection('available_cages').getOne<CagesResponse>(hospit.cage);
 				} catch (_error) {
 					return setError(form, 'Cage déjà occupée', { status: 500 });
 				}

@@ -6,7 +6,7 @@ class ClientService {
 
 	getClientBills = async (clientId: string): Promise<ClientBill[]> => {
 		const bills = await this.pb.collection('bills').getFullList<BillsResponse>({
-			filter: `visit.animal.client.id = "${clientId}"`,
+			filter: this.pb.filter('visit.animal.client.id = {:clientId}', { clientId }),
 			expand: 'visit'
 		});
 

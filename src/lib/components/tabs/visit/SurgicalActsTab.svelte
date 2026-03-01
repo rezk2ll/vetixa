@@ -31,7 +31,7 @@
 		enhance,
 		allErrors
 	} = superForm($addVisitSurgicalActsFormStore, {
-		id: 'add-medical-acts',
+		id: 'add-surgical-acts',
 		taintedMessage: null,
 		dataType: 'json',
 		resetForm: true,

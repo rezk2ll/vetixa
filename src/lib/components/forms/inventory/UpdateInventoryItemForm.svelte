@@ -27,7 +27,8 @@
 		}
 	});
 
-	updatedInventoryItem.subscribe((value) => {
+	$effect(() => {
+		const value = $updatedInventoryItem;
 		$form.alert = value.alert;
 		$form.code = value.code;
 		$form.cost = value.cost;

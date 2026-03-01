@@ -21,14 +21,16 @@
 	);
 
 	onMount(() => {
-		window.addEventListener('keydown', (event) => {
+		const handleKeydown = (event: KeyboardEvent) => {
 			if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
 				event.preventDefault();
 				openSearch();
 			} else if (event.key === 'Escape') {
 				searchOpen.set(false);
 			}
-		});
+		};
+		window.addEventListener('keydown', handleKeydown);
+		return () => window.removeEventListener('keydown', handleKeydown);
 	});
 
 	const openSearch = () => {
