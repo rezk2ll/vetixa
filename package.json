@@ -36,7 +36,7 @@
 		"tailwindcss": "^4",
 		"tslib": "^2.6.3",
 		"typescript": "^5.5.3",
-		"vite": "^6",
+		"vite": "^8.0.0",
 		"vitest": "^4.0.0",
 		"zod": "^3.25"
 	},
