@@ -1,5 +1,5 @@
 import { getDaysBetween } from '$utils/date';
-import {
+import type {
 	HospitalisationResponse,
 	InventoryItemResponse,
 	InventorySaleItem,
@@ -12,7 +12,7 @@ import {
 	VisitsResponse
 } from '$types';
 import currency from 'currency.js';
-import { RecordModel } from 'pocketbase';
+import type { RecordModel } from 'pocketbase';
 
 export class SalesService {
 	constructor(private readonly pb: TypedPocketBase) {}
