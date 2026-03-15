@@ -1,4 +1,4 @@
-import { CageItem } from '$types';
+import type { CageItem } from '$types';
 
 /**
  * Compare two cages by code
