@@ -74,6 +74,7 @@ export default [
 		},
 		rules: {
 			...tsRules,
+			'no-useless-assignment': 'off',
 			'svelte/no-at-html-tags': 'off',
 			'svelte/require-each-key': 'off',
 			'svelte/no-navigation-without-resolve': 'off',
