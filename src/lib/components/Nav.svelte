@@ -12,12 +12,17 @@
 	import ThemeSwitcher from '$components/ThemeSwitcher.svelte';
 	import { configuration } from '$lib/store/configuration';
 	import { buildFileProxyUrl } from '$lib/utils/file';
+	import type { RecordModel } from 'pocketbase';
 
 	let open = $state(false);
 
 	let avatarUrl = $derived(
 		$currentUser &&
-			buildFileProxyUrl($currentUser.collectionId, $currentUser.id, $currentUser.avatar)
+			buildFileProxyUrl(
+				($currentUser as RecordModel).collectionId,
+				($currentUser as RecordModel).id,
+				$currentUser.avatar
+			)
 	);
 
 	onMount(() => {
@@ -420,7 +425,11 @@
 					<div class="flex md:items-center">
 						<div class="block relative">
 							<div class="flex items-center h-5 w-52">
-								<UserAvatar src={avatarUrl} name={$currentUser?.name} email={$currentUser?.email} />
+								<UserAvatar
+									src={avatarUrl}
+									name={$currentUser?.name}
+									email={($currentUser as RecordModel)?.email}
+								/>
 							</div>
 						</div>
 					</div>

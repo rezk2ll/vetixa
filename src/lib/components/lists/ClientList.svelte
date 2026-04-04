@@ -30,16 +30,16 @@
 	let openUpdateModal = $state(false);
 	let search: string = $state($clientsPageInfo.query);
 	let showConfirmation = $state(false);
-	let selectedItem: IClient | null = $state();
-	let deleteFormRef: HTMLFormElement = $state();
-	let selectedUpdateItem: IClient | null = $state();
+	let selectedItem: IClient | null | undefined = $state();
+	let deleteFormRef: HTMLFormElement | undefined = $state();
+	let selectedUpdateItem: IClient | null | undefined = $state();
 
 	const nextPage = () => goNextPage($clientsPageInfo.page, $clientsPageInfo.totalPages);
 	const previousPage = () => goPreviousPage($clientsPageInfo.page);
 	const dispatchSearch = () => doSearch(search);
 
 	const deleteHandler = () => {
-		deleteFormRef.requestSubmit();
+		deleteFormRef!.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;

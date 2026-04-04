@@ -4,7 +4,7 @@ import type { RecordModel } from 'pocketbase';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import { addClientSchema, removeSchema, updateClientSchema } from '$lib/schemas';
 import { redirect } from '@sveltejs/kit';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {
 	const shortCut = !!searchParams.get('shortcut');

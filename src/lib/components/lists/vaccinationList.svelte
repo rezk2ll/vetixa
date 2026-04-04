@@ -8,7 +8,7 @@
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
 	import EditIcon from '$components/icons/EditIcon.svelte';
 
-	let search: string = $state();
+	let search: string | undefined = $state();
 	let page = $state(0);
 
 	let totalPages = $derived(Math.max(Math.ceil($visitItems.length / 10), 1));

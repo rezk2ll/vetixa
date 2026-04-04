@@ -6,7 +6,7 @@ import {
 	updateVisitTreatmentSchema
 } from '$lib/schemas/visit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 
 export const updateDiagnostic = async ({ locals: { pb }, request }: RequestEvent) => {
 	const form = await superValidate(request, zod(updateVisitDiagnosticSchema), {

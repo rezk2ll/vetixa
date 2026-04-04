@@ -20,7 +20,7 @@
 
 	let openAddModal = $state(isNew);
 	let statusFilter: StatusFilter = $state('all');
-	let search: string = $state();
+	let search: string | undefined = $state();
 	let page = $state(0);
 
 	let totalPages = $derived(Math.max(Math.ceil($visitItems.length / 10), 1));

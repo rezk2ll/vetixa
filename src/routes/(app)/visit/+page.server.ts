@@ -4,6 +4,7 @@ import type {
 	VisitsPendingViewResponse,
 	VisitStatusFilter,
 	visitCount,
+	visitListItem,
 	BillsResponse,
 	FundTransactionsResponse,
 	ItemMetadata
@@ -136,12 +137,12 @@ export const load = (async ({ locals: { pb }, url }) => {
 				return null;
 			}
 		})
-		.filter(Boolean);
+		.filter((item): item is NonNullable<typeof item> => item !== null);
 
 	return {
 		...visitRecords,
 		query: query,
-		items: list,
+		items: list as visitListItem[],
 		filter,
 		count: {
 			total: totalCount.totalItems ?? 0,

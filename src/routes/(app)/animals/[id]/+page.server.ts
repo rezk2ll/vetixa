@@ -13,7 +13,7 @@ import type { RecordModel } from 'pocketbase';
 import { updateAnimalSchema } from '$lib/schemas';
 import { superValidate, setError } from 'sveltekit-superforms/client';
 import { addVisitSchema, updateVisitSchema } from '$lib/schemas/visit';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import { unknownClient } from '$utils/client';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {

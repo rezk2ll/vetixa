@@ -6,7 +6,7 @@
 		data: number[];
 	}
 
-	let { data }: Props = $props();
+	let { data = $bindable() }: Props = $props();
 
 	onMount(async () => {
 		const ctx = (document.getElementById('stock-chart') as HTMLCanvasElement).getContext('2d');

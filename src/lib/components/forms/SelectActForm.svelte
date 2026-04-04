@@ -51,7 +51,7 @@
 	<div class="mt-4 flex flex-col space-y-10 w-full">
 		<div class="pt-10 h-60 max-h-60">
 			<Select
-				onchange={handleChane}
+				on:change={handleChane}
 				bind:items={data}
 				multiple
 				showChevron

@@ -8,7 +8,7 @@ import {
 	updateAnimalSchema,
 	updateClientSchema
 } from '$lib/schemas';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import ClientService from '$lib/services/client';
 
 export const load: PageServerLoad = async ({ params, locals: { pb }, url }) => {

@@ -1,6 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 
 interface FormActionOptions {
 	invalidMessage?: string;

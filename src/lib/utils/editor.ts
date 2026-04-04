@@ -1,6 +1,4 @@
-import type { RawEditorOptions } from 'tinymce';
-
-export const defaultEditorOptions: RawEditorOptions = {
+export const defaultEditorOptions: Record<string, unknown> = {
 	branding: false,
 	promotion: false,
 	menubar: false,

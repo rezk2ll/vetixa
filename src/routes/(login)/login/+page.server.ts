@@ -2,8 +2,8 @@ import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { superValidate, setError } from 'sveltekit-superforms/server';
 import { loginSchema } from '$lib/schemas';
-import { zod } from 'sveltekit-superforms/adapters';
-import { ConfigurationResponse } from '$types';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
+import type { ConfigurationResponse } from '$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.pb.authStore.isValid) {

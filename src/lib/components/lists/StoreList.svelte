@@ -26,12 +26,12 @@
 	let openSellInventoryItemModal = $state(false);
 	let openUpdateInventoryItemModal = $state(false);
 	let statusFilter: StatusFilter = $state('all');
-	let search: string = $state();
+	let search: string | undefined = $state();
 	let page = $state(0);
 	let showConfirmation = $state(false);
-	let selectedItem: InventoryItemResponse | null = $state();
-	let deleteFormRef: HTMLFormElement = $state();
-	let selectedUpdateItem: InventoryItemResponse | null = $state();
+	let selectedItem: InventoryItemResponse | null | undefined = $state();
+	let deleteFormRef: HTMLFormElement | undefined = $state();
+	let selectedUpdateItem: InventoryItemResponse | null | undefined = $state();
 
 	const remove = (item: InventoryItemResponse) => {
 		selectedItem = item;
@@ -86,7 +86,7 @@
 	);
 	const unavailableCount = $inventoryItems.filter((item) => item.quantity === 0).length;
 	const handler = () => {
-		deleteFormRef.requestSubmit();
+		deleteFormRef!.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;

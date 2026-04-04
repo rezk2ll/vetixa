@@ -87,7 +87,7 @@
 			listOffset={10}
 			value="cash"
 			bind:justValue={$form.method}
-			onchange={handleMethodChange}
+			on:change={handleMethodChange}
 		/>
 		{#if $form.method === 'cash'}
 			<div class="flex flex-row space-x-2">

@@ -2,7 +2,7 @@ import type { AgendaResponse } from '$types';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
 import { addAgendaEventSchema, removeSchema, updateAgendaEventSchema } from '$lib/schemas';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async ({ locals: { pb } }) => {
 	const addForm = await superValidate(zod(addAgendaEventSchema), { id: 'add-event' });

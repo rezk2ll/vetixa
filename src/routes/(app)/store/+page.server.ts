@@ -14,7 +14,7 @@ import type {
 	InventorySaleResponse
 } from '$types';
 import type { RecordModel } from 'pocketbase';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import currency from 'currency.js';
 
 export const load: PageServerLoad = async ({ locals: { pb } }) => {

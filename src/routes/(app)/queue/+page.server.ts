@@ -11,7 +11,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { updateQueueSchema } from '$lib/schemas';
 import type { RecordModel } from 'pocketbase';
 import { redirect } from '@sveltejs/kit';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async ({ locals: { pb } }) => {
 	const form = await superValidate(zod(updateQueueSchema));

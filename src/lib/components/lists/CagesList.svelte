@@ -15,9 +15,9 @@
 	import { onMount } from 'svelte';
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 
-	let formRef: HTMLFormElement = $state();
+	let formRef: HTMLFormElement | undefined = $state();
 	let showPicker = $state(false);
-	let completeFormRef: HTMLFormElement = $state();
+	let completeFormRef: HTMLFormElement | undefined = $state();
 	let showConfirmation = $state(false);
 
 	const { enhance, form, allErrors } = superForm($hospitChangeColorFormStore, {
@@ -60,7 +60,7 @@
 
 	const handleSubmit = (color: string) => {
 		$form.color = color;
-		formRef.requestSubmit();
+		formRef!.requestSubmit();
 	};
 
 	const handleColorChange = (id: string) => {
@@ -76,7 +76,7 @@
 
 	const handleCompletedSubmit = () => {
 		$completeForm.completed = true;
-		completeFormRef.requestSubmit();
+		completeFormRef!.requestSubmit();
 	};
 
 	$effect(() => {

@@ -155,7 +155,7 @@
 <div class="pt-10 h-36">
 	<Select
 		bind:items={dataSource}
-		onchange={onItemSelect}
+		on:change={onItemSelect}
 		showChevron
 		listOffset={10}
 		class="uppercase"
@@ -198,7 +198,7 @@
 			listOffset={10}
 			value="cash"
 			bind:justValue={$form.method}
-			onchange={handleMethodChange}
+			on:change={handleMethodChange}
 		/>
 		{#if $form.method === 'cash'}
 			<div class="flex flex-row space-x-2">
