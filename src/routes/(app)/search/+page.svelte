@@ -9,6 +9,8 @@
 
 	let { data }: Props = $props();
 
+	searchPage.set(data);
+
 	$effect(() => {
 		searchPage.set(data);
 	});

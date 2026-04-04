@@ -29,6 +29,10 @@
 		totalSoldItems
 	} = $derived(data);
 
+	inventoryItems.set(
+		items.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+	);
+
 	$effect(() => {
 		inventoryItems.set(
 			items.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
@@ -36,6 +40,11 @@
 	});
 
 	let { addForm, updateForm, sellForm, deleteForm } = $derived(data);
+
+	addInventoryFormStore.set(addForm);
+	updateInventoryFormStore.set(updateForm);
+	sellInventoryFormStore.set(sellForm);
+	removeInventoryFormStore.set(deleteForm);
 
 	let stats = $derived([
 		$inventoryItems.filter((item) => item.quantity === 0).length,

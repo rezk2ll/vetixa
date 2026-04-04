@@ -193,11 +193,13 @@ export class FundsService {
 					};
 				}
 
-				const user = (transaction.expand as RecordModel).user as unknown as UsersResponse;
+				const user = (transaction.expand as RecordModel).user as unknown as
+					| UsersResponse
+					| undefined;
 
 				return {
 					...transaction,
-					user: user.name,
+					user: user?.name,
 					category: transaction.amount > 0 ? 'revenu' : 'frais'
 				} as Fund;
 			})
@@ -227,10 +229,12 @@ export class FundsService {
 		const balance = currency(income).subtract(expense).value;
 
 		const unpaidBills = await this.pb.collection('bills').getFullList<BillsResponse>({
-			filter: this.pb.filter('total_paid < total && created >= {:start} && created <= {:end}', {
-				start: new Date(startDate),
-				end: new Date(endDate)
-			})
+			filter: startDate.startsWith('@')
+				? `total_paid < total && created >= ${startDate} && created <= ${endDate}`
+				: this.pb.filter('total_paid < total && created >= {:start} && created <= {:end}', {
+						start: new Date(startDate),
+						end: new Date(endDate)
+					})
 		});
 
 		const remaining = unpaidBills.reduce(

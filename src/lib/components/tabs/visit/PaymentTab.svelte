@@ -13,6 +13,7 @@
 	import { toast } from 'svelte-sonner';
 	import { formatDateStringShortDay } from '$lib/utils/date';
 	import { getPaymentMethodLabel } from '$lib/utils/payment';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		bill: PaymentInformation;
@@ -50,13 +51,11 @@
 	};
 
 	$effect(() => {
-		if (!$form.id || $form.id.length) {
-			$form.id = $currentVisit.id;
-		}
-	});
-	$effect(() => {
-		if ($currentVisit.id && $currentVisit.id.length) {
-			$form.id = $currentVisit.id;
+		const visitId = $currentVisit.id;
+		if (visitId && visitId.length) {
+			untrack(() => {
+				$form.id = visitId;
+			});
 		}
 	});
 	let rest = $derived(Math.max(currency(bill.total).subtract(bill.total_paid).value, 0));

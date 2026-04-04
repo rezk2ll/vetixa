@@ -77,6 +77,35 @@
 		updateHospitCompeltedStateForm
 	} = $derived(data);
 
+	currentVisit.set(visit);
+	updateVisitFormStore.set(form);
+	addVisitToilettageFormStore.set(addToilettageForm);
+	removeVisitItemFormStore.set(removeToilettageForm);
+	medicalActsStore.set(medicalActs);
+	toilettageActs.set(toilettage);
+	surgicalActsStore.set(surgicalActs);
+	payVisitFormStore.set(payVisitForm);
+	addVisitFileFormStore.set(addFileForm);
+	removeVisitFileFormStore.set(removeFileForm);
+	updateVisitDiagnosticFormStore.set(updateDiagnosticForm);
+	updateVisitActionsFormStore.set(updateActionsForm);
+	addVisitStoreItemFormStore.set(addVisitStoreItemForm);
+	removeVisitStoreItemFormStore.set(removeVisitStoreItemForm);
+	addVisitMedicalActsFormStore.set(addMedicalActsForm);
+	removeVisitMedicalActFormStore.set(removeMedicalActForm);
+	addVisitSurgicalActsFormStore.set(addSurgicalActsForm);
+	removeVisitSurgicalActFormStore.set(removeSurgicalActForm);
+	updateVisitHospitalisationFormStore.set(updateVisitHospitForm);
+	cagesList.set(cages);
+	inventoryItems.set(storeItems);
+	if (generatedBill) visitBill.set(generatedBill);
+	removeVisitHospitalisationFormStore.set(removeVisitHospitForm);
+	updateVisitTreatmentFormStore.set(updateVisitTreatmentForm);
+	activeVisitTab.set(tab as VisitTabsType);
+	updateVisitItemFormStore.set(updateVisitItemForm);
+	doctorList.set(doctors);
+	hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
+
 	$effect(() => {
 		currentVisit.set(visit);
 	});

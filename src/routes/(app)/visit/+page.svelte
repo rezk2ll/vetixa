@@ -9,6 +9,8 @@
 
 	let { data }: Props = $props();
 
+	activityPage.set(data);
+
 	$effect(() => {
 		activityPage.set(data);
 	});

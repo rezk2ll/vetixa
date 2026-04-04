@@ -10,6 +10,11 @@
 	let { data }: Props = $props();
 
 	let { pageInfo, removeForm, updateForm } = $derived(data);
+
+	deleteAnimalFormStore.set(removeForm);
+	updateAnimalFormStore.set(updateForm);
+	animalsPageInfo.set(pageInfo);
+
 	$effect(() => {
 		deleteAnimalFormStore.set(removeForm);
 	});

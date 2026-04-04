@@ -10,6 +10,7 @@
 	import Vaccination from '$components/icons/Vaccination.svelte';
 	import MagnifierGlass from '$components/icons/MagnifierGlass.svelte';
 	import { toast } from 'svelte-sonner';
+	import { untrack } from 'svelte';
 
 	const { enhance, form, submitting, allErrors } = superForm($updateVisitFormStore, {
 		taintedMessage: null,
@@ -23,22 +24,15 @@
 	});
 
 	$effect(() => {
-		$form.motif = $currentVisit.motif;
-	});
-	$effect(() => {
-		$form.id = $currentVisit.id;
-	});
-	$effect(() => {
-		$form.doctor = $currentVisit.doctor;
-	});
-	$effect(() => {
-		$form.visit_price = $currentVisit.visit_price;
-	});
-	$effect(() => {
-		$form.control = $currentVisit.control;
-	});
-	$effect(() => {
-		$form.vaccination = $currentVisit.vaccination;
+		const visit = $currentVisit;
+		untrack(() => {
+			$form.id = visit.id;
+			$form.motif = visit.motif;
+			$form.doctor = visit.doctor;
+			$form.visit_price = visit.visit_price;
+			$form.control = visit.control;
+			$form.vaccination = visit.vaccination;
+		});
 	});
 	let doctors = $derived(
 		$doctorList.map((doctor) => ({
@@ -92,13 +86,7 @@
 					/>
 				</div>
 				<div class="flex items-center justify-end flex-col w-full pt-5 lg:pt-0">
-					<input
-						bind:checked={$form.control}
-						type="checkbox"
-						id="control"
-						value={$form.control}
-						class="hidden peer"
-					/>
+					<input bind:checked={$form.control} type="checkbox" id="control" class="hidden peer" />
 					<label
 						for="control"
 						class="inline-flex items-center justify-between w-full p-5 py-3 text-gray-500 bg-white border-2 border-gray-100 rounded-lg cursor-pointer peer-checked:border-emerald-600 hover:text-gray-600 peer-checked:text-gray-800 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-gray-200"
@@ -114,7 +102,6 @@
 						bind:checked={$form.vaccination}
 						type="checkbox"
 						id="vaccination"
-						value={$form.vaccination}
 						class="hidden peer"
 					/>
 					<label

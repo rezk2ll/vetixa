@@ -14,7 +14,7 @@ export const updateVisitSchema = addVisitSchema.extend({
 		.default(0)
 		.or(z.string().regex(/\d+/).transform(Number))
 		.default(0),
-	doctor: z.string().min(1, { message: 'Veuillez choisir un médecin' }).optional()
+	doctor: z.string().optional().default('')
 });
 
 export const payVisitSchema = z.object({

@@ -14,6 +14,10 @@
 
 	let { labels, balanceData, stats, pageInfo, addExpenses, addFundsForm } = $derived(data);
 
+	addFundsFormStore.set(addFundsForm);
+	addExpenseFormStore.set(addExpenses);
+	fundsPageInfo.set(pageInfo);
+
 	$effect(() => {
 		addFundsFormStore.set(addFundsForm);
 	});

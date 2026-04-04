@@ -11,6 +11,9 @@
 
 	let { data }: Props = $props();
 
+	updateQueueFormStore.set(data.form);
+	queue.set(data.queue);
+
 	$effect(() => {
 		updateQueueFormStore.set(data.form);
 	});
