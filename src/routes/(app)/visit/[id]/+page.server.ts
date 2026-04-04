@@ -26,7 +26,7 @@ import {
 import type { RecordModel } from 'pocketbase';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import BillService from '$lib/services/bill';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import { removeSchema } from '$lib/schemas';
 import { cageCompare } from '$utils/cage';
 import { unknownClient } from '$utils/client';

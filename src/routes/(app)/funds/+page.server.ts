@@ -4,7 +4,7 @@ import { addFundsSchema } from '$lib/schemas';
 import { isValid, parse } from 'date-fns';
 import { getPreviousDays, getPreviousDaysLabels } from '$lib/utils/date';
 import { FundsService } from '$lib/services/funds';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import type { FundsPageInfo, fundsStatusFilter } from '$types';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {

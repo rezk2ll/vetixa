@@ -5,7 +5,7 @@
 		children?: import('svelte').Snippet;
 	}
 
-	let { open = false, size = 'small', children }: Props = $props();
+	let { open = $bindable(false), size = 'small', children }: Props = $props();
 </script>
 
 <div class="relative flex items-center justify-center w-full max-w-full">

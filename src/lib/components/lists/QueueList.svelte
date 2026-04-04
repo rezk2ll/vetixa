@@ -11,7 +11,7 @@
 	import { toast } from 'svelte-sonner';
 
 	let statusFilter: StatusFilter = $state('pending');
-	let search: string = $state();
+	let search: string | undefined = $state();
 	let page = $state(0);
 	let currentTime = $state(new Date().getTime());
 	let formRef: HTMLFormElement | undefined = $state();

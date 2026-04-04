@@ -34,12 +34,12 @@
 	let openUpdateAnimalModal = $state(false);
 	let search: string = $state($animalsPageInfo.query);
 	let showConfirmation = $state(false);
-	let selectedItem: AnimalsResponse | null = $state();
-	let deleteFormRef: HTMLFormElement = $state();
-	let selectedUpdateItem: AnimalsResponse | null = $state();
+	let selectedItem: AnimalsResponse | null | undefined = $state();
+	let deleteFormRef: HTMLFormElement | undefined = $state();
+	let selectedUpdateItem: AnimalsResponse | null | undefined = $state();
 
 	const removeHandler = () => {
-		deleteFormRef.requestSubmit();
+		deleteFormRef!.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;

@@ -31,17 +31,17 @@
 		updateEventFormStore.set(updateForm);
 	});
 
-	let calendarRef: HTMLElement = $state();
+	let calendarRef: HTMLElement | undefined = $state();
 	let openAddModal = $state(false);
 	let openUpdateModal = $state(false);
 	let openDisplayModal = $state(false);
-	let deleteFormRef: HTMLFormElement = $state();
+	let deleteFormRef: HTMLFormElement | undefined = $state();
 	let openRemoveModal = $state(false);
 
-	let start: Date = $state();
-	let end: Date = $state();
-	let calendar: Calendar = $state();
-	let selectedEvent: AgendaResponse | null = $state();
+	let start: Date | undefined = $state();
+	let end: Date | undefined = $state();
+	let calendar: Calendar | undefined = $state();
+	let selectedEvent: AgendaResponse | null | undefined = $state();
 
 	let getEvents = $derived(
 		(
@@ -54,7 +54,7 @@
 	);
 
 	onMount(() => {
-		calendar = new Calendar(calendarRef, {
+		calendar = new Calendar(calendarRef!, {
 			initialView: 'timeGridWeek',
 			scrollTime: '08:00:00',
 			selectable: true,
@@ -93,7 +93,7 @@
 	const getEventById = (id: string) => events.find((event) => event.id === id) ?? null;
 
 	const handler = () => {
-		deleteFormRef.requestSubmit();
+		deleteFormRef!.requestSubmit();
 
 		selectedEvent = null;
 		openRemoveModal = false;

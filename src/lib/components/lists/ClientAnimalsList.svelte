@@ -24,12 +24,12 @@
 	let openAddAnimalModal = $state(isNew);
 	let openUpdateAnimalModal = $state(false);
 	let statusFilter: StatusFilter = $state('all');
-	let search: string = $state();
+	let search: string | undefined = $state();
 	let page = $state(0);
 	let showConfirmation = $state(false);
-	let selectedItem: AnimalsResponse | null = $state();
-	let deleteFormRef: HTMLFormElement = $state();
-	let selectedUpdateItem: AnimalsResponse | null = $state();
+	let selectedItem: AnimalsResponse | null | undefined = $state();
+	let deleteFormRef: HTMLFormElement | undefined = $state();
+	let selectedUpdateItem: AnimalsResponse | null | undefined = $state();
 
 	const totalPages = Math.ceil($animals.length / 10);
 
@@ -69,7 +69,7 @@
 	const femaleCOunt = $animals.filter((item) => item.sex === 'female').length;
 
 	const handler = () => {
-		deleteFormRef.requestSubmit();
+		deleteFormRef!.requestSubmit();
 
 		selectedItem = null;
 		showConfirmation = false;

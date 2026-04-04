@@ -8,7 +8,7 @@
 		labels: string[];
 	}
 
-	let { income, expense, labels }: Props = $props();
+	let { income = $bindable(), expense = $bindable(), labels }: Props = $props();
 
 	onMount(async () => {
 		const ctx = (document.getElementById('income-evolution-chart') as HTMLCanvasElement).getContext(

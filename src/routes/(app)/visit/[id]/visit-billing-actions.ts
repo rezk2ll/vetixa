@@ -2,7 +2,7 @@ import type { RequestEvent } from './$types';
 import type { VisitsResponse, BillsMethodOptions } from '$types';
 import { payVisitSchema } from '$lib/schemas/visit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import BillService from '$lib/services/bill';
 
 export const addPayment = async ({ locals: { pb, user }, request }: RequestEvent) => {

@@ -2,7 +2,7 @@ import type { RequestEvent } from './$types';
 import type { VisitsResponse } from '$types';
 import { updateVisitHospitalisationSchema } from '$lib/schemas/visit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import { removeSchema } from '$lib/schemas';
 import BillService from '$lib/services/bill';
 

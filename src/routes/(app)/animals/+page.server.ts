@@ -3,7 +3,7 @@ import { superValidate, setError } from 'sveltekit-superforms/server';
 import type { AnimalStatusFilter, AnimalsPageInfo, AnimalsResponse, ClientsResponse } from '$types';
 import type { Actions, PageServerLoad } from './$types';
 import type { RecordModel } from 'pocketbase';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import { unknownClient } from '$lib/utils/client';
 
 export const load: PageServerLoad = async ({ locals: { pb }, url: { searchParams } }) => {

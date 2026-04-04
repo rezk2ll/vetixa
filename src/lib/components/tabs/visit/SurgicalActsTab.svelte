@@ -21,9 +21,9 @@
 
 	let open = $state(false);
 	let showConfirmation = $state(false);
-	let addActsFormRef: HTMLFormElement = $state();
-	let removeActsFormRef: HTMLFormElement = $state();
-	let updateFormRef: HTMLFormElement = $state();
+	let addActsFormRef: HTMLFormElement | undefined = $state();
+	let removeActsFormRef: HTMLFormElement | undefined = $state();
+	let updateFormRef: HTMLFormElement | undefined = $state();
 	let metadata: Record<string, Partial<ItemMetadata>> = {};
 
 	const {
@@ -78,12 +78,12 @@
 
 	const handler = () => {
 		$addForm.id = id;
-		addActsFormRef.requestSubmit();
+		addActsFormRef!.requestSubmit();
 	};
 
 	const removeHandler = () => {
 		$removeForm.id = id;
-		removeActsFormRef.requestSubmit();
+		removeActsFormRef!.requestSubmit();
 		showConfirmation = false;
 	};
 
@@ -97,7 +97,7 @@
 		$updateForm.id = id;
 		$updateForm.discount = metadata[itemId].discount ?? 0;
 		$updateForm.quantity = metadata[itemId].quantity ?? 1;
-		updateFormRef.requestSubmit();
+		updateFormRef!.requestSubmit();
 	};
 
 	const setDiscount = (e: Event, itemId: string) => {

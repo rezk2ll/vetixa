@@ -6,7 +6,7 @@ import {
 	updateVisitItemSchema
 } from '$lib/schemas/visit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 import BillService from '$lib/services/bill';
 import { InventoryService } from '$lib/services/inventory';
 

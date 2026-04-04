@@ -9,7 +9,7 @@ import type {
 	UsersResponse,
 	fundsStatusFilter
 } from '$types';
-import { setHours } from 'date-fns';
+import { startOfDay, endOfDay } from 'date-fns';
 import { formatFilterDate, sortDates } from '$lib/utils/date';
 import type { Fund } from '$types';
 import currency from 'currency.js';
@@ -31,12 +31,12 @@ export class FundsService {
 	 * @returns {BalanceData} - the balance data for the date
 	 */
 	private calculateDateBalance = (transactions: Fund[], date: Date): BalanceData => {
-		const startOfDay = setHours(date, 0, 0, 0, 0).getTime();
-		const endOfDay = setHours(date, 23, 59, 59, 999).getTime();
+		const dayStart = startOfDay(date).getTime();
+		const dayEnd = endOfDay(date).getTime();
 
 		const dayTransactions = transactions.filter((t) => {
 			const txDate = new Date(t.created).getTime();
-			return txDate >= startOfDay && txDate <= endOfDay;
+			return txDate >= dayStart && txDate <= dayEnd;
 		});
 
 		return {
@@ -63,13 +63,10 @@ export class FundsService {
 
 		// Find the full date range and fetch all transactions in a single query
 		const sortedDates = [...dates].sort((a, b) => a.getTime() - b.getTime());
-		const startDate = setHours(sortedDates[0], 0, 0, 0, 0);
-		const endDate = setHours(sortedDates[sortedDates.length - 1], 23, 59, 59, 999);
+		const start = startOfDay(sortedDates[0]);
+		const end = endOfDay(sortedDates[sortedDates.length - 1]);
 
-		const allTransactions = await this.transactions(
-			formatFilterDate(startDate),
-			formatFilterDate(endDate)
-		);
+		const allTransactions = await this.transactions(formatFilterDate(start), formatFilterDate(end));
 
 		// Calculate balance for each date from the cached transactions
 		return dates.map((date) => this.calculateDateBalance(allTransactions, date));

@@ -32,11 +32,11 @@
 
 	let locale = localeFromDateFnsLocale(fr);
 	let treatments: Treatment[] = $state([]);
-	let removeFormRef: HTMLFormElement = $state();
+	let removeFormRef: HTMLFormElement | undefined = $state();
 	let invalidated: boolean = $state(false);
 	let showConfirmation = $state(false);
-	let loading: boolean = $state();
-	let completedFormRef: HTMLFormElement = $state();
+	let loading: boolean | undefined = $state();
+	let completedFormRef: HTMLFormElement | undefined = $state();
 	let maxDate = getMaxSelectionDate();
 
 	const { form, enhance, submitting, allErrors } = superForm($updateVisitHospitalisationFormStore, {
@@ -107,7 +107,7 @@
 	});
 
 	const handleRemoveHospit = () => {
-		removeFormRef.requestSubmit();
+		removeFormRef!.requestSubmit();
 		showConfirmation = false;
 	};
 
@@ -119,7 +119,7 @@
 		if ($currentVisit.hospit) {
 			$completeForm.id = $currentVisit.hospit.id;
 			$completeForm.completed = false;
-			completedFormRef.requestSubmit();
+			completedFormRef!.requestSubmit();
 		}
 	};
 

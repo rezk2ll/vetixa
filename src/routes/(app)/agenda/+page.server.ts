@@ -2,14 +2,19 @@ import type { AgendaResponse } from '$types';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import type { Actions, PageServerLoad } from './$types';
 import { addAgendaEventSchema, removeSchema, updateAgendaEventSchema } from '$lib/schemas';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 as zod } from 'sveltekit-superforms/adapters';
 
 export const load = (async ({ locals: { pb } }) => {
 	const addForm = await superValidate(zod(addAgendaEventSchema), { id: 'add-event' });
 	const updateForm = await superValidate(zod(updateAgendaEventSchema), { id: 'update-event' });
 	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-event' });
 
-	const events = await pb.collection('agenda').getFullList<AgendaResponse>();
+	const oneYearAgo = new Date();
+	oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+	const events = await pb.collection('agenda').getFullList<AgendaResponse>({
+		filter: pb.filter('end >= {:date}', { date: oneYearAgo })
+	});
 
 	return { events, addForm, updateForm, removeForm };
 }) satisfies PageServerLoad;

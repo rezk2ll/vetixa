@@ -144,7 +144,7 @@
 							value={$form.method}
 							placeholder="veuillez sélectionner"
 							bind:justValue={$form.method}
-							onchange={handleMethodChange}
+							on:change={handleMethodChange}
 							class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
 						/>
 						{#if $form.method === 'cash' && !disabledSelect}
@@ -176,7 +176,7 @@
 						placeholder=""
 					/>
 
-					<SubmitButton full {disabled} loading={$submitting}>Payer</SubmitButton>
+					<SubmitButton full {disabled} loading={$submitting} text="Payer" />
 				</form>
 			{/if}
 			{#if bill.history}
