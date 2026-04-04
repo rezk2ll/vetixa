@@ -6,6 +6,7 @@
 	import SubmitButton from '$components/buttons/SubmitButton.svelte';
 	import TextAreaField from '$components/inputs/TextAreaField.svelte';
 	import Edit from '$components/icons/Edit.svelte';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		open?: boolean;
@@ -26,25 +27,16 @@
 	});
 
 	$effect(() => {
-		$form.id = $currentClient.id;
-	});
-	$effect(() => {
-		$form.firstname = $currentClient.firstname;
-	});
-	$effect(() => {
-		$form.lastname = $currentClient.lastname;
-	});
-	$effect(() => {
-		$form.address = $currentClient.address;
-	});
-	$effect(() => {
-		$form.tel = $currentClient.tel;
-	});
-	$effect(() => {
-		$form.email = $currentClient.email;
-	});
-	$effect(() => {
-		$form.note = $currentClient.note;
+		const client = $currentClient;
+		untrack(() => {
+			$form.id = client.id;
+			$form.firstname = client.firstname;
+			$form.lastname = client.lastname;
+			$form.address = client.address;
+			$form.tel = client.tel;
+			$form.email = client.email;
+			$form.note = client.note;
+		});
 	});
 
 	$effect(() => {

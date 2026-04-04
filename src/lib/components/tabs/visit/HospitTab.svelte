@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import Select from 'svelte-select';
 	import fr from 'date-fns/locale/fr/index';
 	import { superForm } from 'sveltekit-superforms';
@@ -125,24 +126,15 @@
 
 	let disabled = $derived(!$form.cage || !$form.start || !$form.end);
 	$effect(() => {
-		$form.id = $currentVisit.id;
-	});
-	$effect(() => {
-		$form.start = $currentVisit.hospit.start?.length
-			? new Date($currentVisit.hospit.start)
-			: new Date();
-	});
-	$effect(() => {
-		$form.end = $currentVisit.hospit.end?.length ? new Date($currentVisit.hospit.end) : new Date();
-	});
-	$effect(() => {
-		$form.cage = $currentVisit.hospit.cage;
-	});
-	$effect(() => {
-		$form.note = $currentVisit.hospit.note;
-	});
-	$effect(() => {
-		$form.price = $currentVisit.hospit.price;
+		const visit = $currentVisit;
+		untrack(() => {
+			$form.id = visit.id;
+			$form.start = visit.hospit.start?.length ? new Date(visit.hospit.start) : new Date();
+			$form.end = visit.hospit.end?.length ? new Date(visit.hospit.end) : new Date();
+			$form.cage = visit.hospit.cage;
+			$form.note = visit.hospit.note;
+			$form.price = visit.hospit.price;
+		});
 	});
 	let cages = $derived(
 		$cagesList.map((cage) => ({
