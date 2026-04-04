@@ -9,6 +9,7 @@
 	import { updatedInventoryItem, updateInventoryFormStore } from '$lib/store/inventory';
 	import { toast } from 'svelte-sonner';
 	import InventoryCube from '$components/icons/InventoryCube.svelte';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		open?: boolean;
@@ -29,16 +30,18 @@
 
 	$effect(() => {
 		const value = $updatedInventoryItem;
-		$form.alert = value.alert;
-		$form.code = value.code;
-		$form.cost = value.cost;
-		$form.id = value.id;
-		$form.name = value.name;
-		$form.price = value.price;
-		$form.quantity = value.quantity;
-		$form.tva = value.tva;
-		$form.description = value.description;
-		$form.gain = value.gain;
+		untrack(() => {
+			$form.alert = value.alert;
+			$form.code = value.code;
+			$form.cost = value.cost;
+			$form.id = value.id;
+			$form.name = value.name;
+			$form.price = value.price;
+			$form.quantity = value.quantity;
+			$form.tva = value.tva;
+			$form.description = value.description;
+			$form.gain = value.gain;
+		});
 	});
 
 	let htcost = $derived(

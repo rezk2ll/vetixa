@@ -6,6 +6,7 @@
 	import { formatDateString } from '$utils/date';
 	import { defaultEditorOptions } from '$utils/editor';
 	import { toast } from 'svelte-sonner';
+	import { untrack } from 'svelte';
 
 	const { form, enhance, submitting, allErrors } = superForm($updateVisitTreatmentFormStore, {
 		id: 'update-treatment',
@@ -20,10 +21,11 @@
 	});
 
 	$effect(() => {
-		$form.id = $currentVisit.id;
-	});
-	$effect(() => {
-		$form.treatment = $currentVisit.treatment;
+		const visit = $currentVisit;
+		untrack(() => {
+			$form.id = visit.id;
+			$form.treatment = visit.treatment;
+		});
 	});
 
 	$effect(() => {

@@ -10,6 +10,7 @@
 	import type { AgendaResponse } from '$types';
 	import { toast } from 'svelte-sonner';
 	import DoubleArrow from '$components/icons/DoubleArrow.svelte';
+	import { untrack } from 'svelte';
 	import CalendarIcon from '$components/icons/CalendarIcon.svelte';
 	import { getMaxSelectionDate } from '$lib/utils/date';
 
@@ -39,12 +40,16 @@
 	});
 
 	$effect(() => {
-		$form.id = item.id;
-		$form.title = item.title;
-		$form.description = item.description;
-		$form.location = item.location;
-		$form.start = formatISO(start);
-		$form.end = formatISO(end);
+		const s = start;
+		const e = end;
+		untrack(() => {
+			$form.id = item.id;
+			$form.title = item.title;
+			$form.description = item.description;
+			$form.location = item.location;
+			$form.start = formatISO(s);
+			$form.end = formatISO(e);
+		});
 	});
 
 	$effect(() => {

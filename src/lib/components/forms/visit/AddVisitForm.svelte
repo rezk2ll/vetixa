@@ -62,7 +62,6 @@
 				type="checkbox"
 				id="control"
 				name="control"
-				value={$form.control}
 				class="hidden peer"
 			/>
 			<label
@@ -81,7 +80,6 @@
 				type="checkbox"
 				id="vaccination"
 				name="vaccination"
-				value={$form.vaccination}
 				class="hidden peer"
 			/>
 			<label
