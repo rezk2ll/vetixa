@@ -210,9 +210,7 @@
 									>
 										statut
 									</th>
-									<th scope="col" class="relative py-3.5 px-4">
-										<span class="sr-only">Modifier</span>
-									</th>
+									<th scope="col" class="py-3.5 px-2 w-10"></th>
 								</tr>
 							</thead>
 							<tbody
@@ -285,16 +283,14 @@
 											<PaymentStatus bill={visit.bill} type="small" control={visit.control} />
 										</td>
 
-										<td class="px-4 py-2 text-sm whitespace-nowrap">
-											<div class="flex items-end justify-end gap-x-6 w-full">
-												<a
-													href="/visit/{visit.id}"
-													title="Modifier la visite"
-													class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
-												>
-													<EditIcon />
-												</a>
-											</div>
+										<td class="px-2 py-2 text-sm whitespace-nowrap">
+											<a
+												href="/visit/{visit.id}"
+												title="Modifier la visite"
+												class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none"
+											>
+												<EditIcon />
+											</a>
 										</td>
 									</tr>
 								{/each}
