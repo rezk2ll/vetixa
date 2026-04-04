@@ -13,8 +13,14 @@
 	import { configuration } from '$lib/store/configuration';
 	import { buildFileProxyUrl } from '$lib/utils/file';
 	import type { RecordModel } from 'pocketbase';
+	import { page } from '$app/stores';
 
 	let open = $state(false);
+
+	const isActive = (href: string) => {
+		if (href === '/') return $page.url.pathname === '/';
+		return $page.url.pathname.startsWith(href);
+	};
 
 	let avatarUrl = $derived(
 		$currentUser &&
@@ -70,7 +76,7 @@
 </aside>
 
 <aside
-	class="flex z-10 flex-col fixed items-center w-16 h-screen py-8 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 rtl:border-l rtl:border-r-0 {open
+	class="flex z-10 flex-col fixed items-center w-16 h-screen py-8 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 rtl:border-l rtl:border-r-0 {open
 		? ''
 		: 'hidden xl:flex'}"
 >
@@ -94,9 +100,11 @@
 		</button>
 		<a
 			href="/"
-			title="Accueil"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive('/')
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Accueil</span>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -114,10 +122,14 @@
 		</a>
 
 		<a
-			title="Visites"
 			href="/visit"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/visit'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Visites</span>
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -134,10 +146,14 @@
 			</svg>
 		</a>
 		<a
-			title="Hospit"
 			href="/hospit/view"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/hospit'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Hospit</span>
 			<svg stroke="none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M7 6H5.2C4.0799 6 3.51984 6 3.09202 6.21799C2.71569 6.40973 2.40973 6.71569 2.21799 7.09202C2 7.51984 2 8.0799 2 9.2V17.8C2 18.9201 2 19.4802 2.21799 19.908C2.40973 20.2843 2.71569 20.5903 3.09202 20.782C3.51984 21 4.0799 21 5.2 21H18.8C19.9201 21 20.4802 21 20.908 20.782C21.2843 20.5903 21.5903 20.2843 21.782 19.908C22 19.4802 22 18.9201 22 17.8V9.2C22 8.07989 22 7.51984 21.782 7.09202C21.5903 6.71569 21.2843 6.40973 20.908 6.21799C20.4802 6 19.9201 6 18.8 6H17M2 10H4M20 10H22M2 14H4M20 14H22M12 6V10M10 8H14M17 21V6.2C17 5.0799 17 4.51984 16.782 4.09202C16.5903 3.71569 16.2843 3.40973 15.908 3.21799C15.4802 3 14.9201 3 13.8 3H10.2C9.07989 3 8.51984 3 8.09202 3.21799C7.71569 3.40973 7.40973 3.71569 7.21799 4.09202C7 4.51984 7 5.0799 7 6.2V21H17ZM14 21V17C14 15.8954 13.1046 15 12 15C10.8954 15 10 15.8954 10 17V21H14Z"
@@ -151,9 +167,13 @@
 
 		<a
 			href="/clients"
-			title="Liste des clients"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/clients'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Clients</span>
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -171,9 +191,13 @@
 		</a>
 		<a
 			href="/animals"
-			title="Liste des animaux"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/animals'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Animaux</span>
 			<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					fill-rule="evenodd"
@@ -186,9 +210,13 @@
 
 		<a
 			href="/agenda"
-			title="Agenda"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/agenda'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Agenda</span>
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -206,10 +234,14 @@
 		</a>
 
 		<a
-			title="Magasin"
 			href="/store"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/store'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Magasin</span>
 			<svg
 				fill="none"
 				stroke="currentColor"
@@ -226,10 +258,14 @@
 			</svg>
 		</a>
 		<a
-			title="Caisse"
 			href="/funds"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/funds'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Caisse</span>
 			<svg
 				data-slot="icon"
 				fill="none"
@@ -247,10 +283,14 @@
 			</svg>
 		</a>
 		<a
-			title="File d'attente"
 			href="/queue"
-			class="p-2 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
+			class="nav-link group relative p-2 transition-colors duration-200 rounded-lg {isActive(
+				'/queue'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">File d'attente</span>
 			<svg
 				fill="currentColor"
 				version="1"
@@ -288,10 +328,14 @@
 			</svg>
 		</a>
 		<a
-			title="statistiques"
 			href="/stats"
-			class="p-1.5 text-gray-700 dark:text-gray-200 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+			class="nav-link group relative p-1.5 transition-colors duration-200 rounded-lg {isActive(
+				'/stats'
+			)
+				? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+				: 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'}"
 		>
+			<span class="nav-tooltip">Statistiques</span>
 			<svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M4 16.937L10 9.43701L15 13.437L20.5 6.93701"
@@ -438,3 +482,34 @@
 		{/if}
 	</nav>
 </header>
+
+<style>
+	.nav-tooltip {
+		position: absolute;
+		left: 100%;
+		top: 50%;
+		transform: translateY(-50%);
+		margin-left: 0.75rem;
+		padding: 0.25rem 0.75rem;
+		border-radius: 0.375rem;
+		font-size: 0.75rem;
+		font-weight: 500;
+		white-space: nowrap;
+		background-color: rgb(17 24 39);
+		color: rgb(243 244 246);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.15s ease-in-out;
+		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+		z-index: 50;
+	}
+
+	:global(.dark) .nav-tooltip {
+		background-color: rgb(243 244 246);
+		color: rgb(17 24 39);
+	}
+
+	.nav-link:hover .nav-tooltip {
+		opacity: 1;
+	}
+</style>
