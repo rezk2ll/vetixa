@@ -70,7 +70,7 @@
 </aside>
 
 <aside
-	class="flex z-10 flex-col fixed items-center w-16 h-screen py-8 overflow-y-auto bg-white dark:bg-gray-800 border-r dark:border-gray-700 rtl:border-l rtl:border-r-0 {open
+	class="flex z-10 flex-col fixed items-center w-16 h-screen py-8 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 rtl:border-l rtl:border-r-0 {open
 		? ''
 		: 'hidden xl:flex'}"
 >

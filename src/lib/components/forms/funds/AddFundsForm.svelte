@@ -85,7 +85,7 @@
 			items={paymentMethods}
 			disabled={$form.amount < 1}
 			listOffset={10}
-			value="cash"
+			value={paymentMethods.find((m) => m.value === 'cash')}
 			bind:justValue={$form.method}
 			on:change={handleMethodChange}
 		/>
