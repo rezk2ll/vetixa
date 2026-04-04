@@ -160,7 +160,7 @@
 							bind:value={search}
 							type="text"
 							placeholder="Chercher par nom, email, téléphone..."
-							class="block w-full py-1.5 pr-5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg md:w-4/12 placeholder-gray-400/70 dark:placeholder-gray-500 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 dark:focus:border-blue-500 focus:ring-blue-300 dark:focus:ring-blue-500 focus:outline-none focus:ring focus:ring-opacity-40"
+							class="block w-full py-1.5 pr-5 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg md:w-4/12 placeholder-gray-400/70 dark:placeholder-gray-500 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 dark:focus:border-blue-500 focus:ring-blue-300/40 dark:focus:ring-blue-500/40 focus:outline-none focus:ring"
 						/>
 					</div>
 				</form>

@@ -4,6 +4,17 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Restore Tailwind v3 default border color (v4 defaults to currentColor) */
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
+}
+
 @theme {
 	--color-blueGray-50: rgba(248, 250, 252, 1);
 	--color-blueGray-100: rgba(241, 245, 249, 1);
