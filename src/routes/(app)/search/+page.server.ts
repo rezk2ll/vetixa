@@ -1,6 +1,7 @@
 import type { AnimalsResponse, ClientsResponse, SearchEntityType } from '$types';
 import type { RecordModel } from 'pocketbase';
 import type { PageServerLoad } from './$types';
+import { unknownClient } from '$lib/utils/client';
 
 export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	const page = parseInt(searchParams.get('page') ?? '1');
@@ -28,10 +29,21 @@ export const load = (async ({ locals: { pb }, url: { searchParams } }) => {
 	let items = results.items;
 
 	if (target === 'animal') {
-		items = items.map((animal) => ({
-			...animal,
-			client: ((animal.expand as RecordModel).client as ClientsResponse).name || ''
-		}));
+		items = items.map((animal) => {
+			const expansion = animal.expand as RecordModel;
+			let name = unknownClient.name;
+
+			if (expansion?.client) {
+				name = (expansion.client as ClientsResponse).name;
+			} else {
+				console.error('anomaly: client not found');
+			}
+
+			return {
+				...animal,
+				client: name
+			};
+		});
 	}
 
 	return {

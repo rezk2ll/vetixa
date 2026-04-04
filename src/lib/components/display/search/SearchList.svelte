@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 	import SearchAnimalList from '$components/lists/search/SearchAnimalList.svelte';
 	import SearchClientList from '$components/lists/search/SearchClientList.svelte';
 	import { searchPage } from '$lib/store/search';
@@ -8,30 +6,13 @@
 	import EmptyTable from '$components/display/EmptyTable.svelte';
 	import BackArrow from '$components/icons/BackArrow.svelte';
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
+	import { nextPage as goNextPage, previousPage as goPreviousPage } from '$utils/pagination';
 
-	const animals = $searchPage.items as AnimalsResponse[];
-	const clients = $searchPage.items as ClientsResponse[];
+	let animals = $derived($searchPage.items as AnimalsResponse[]);
+	let clients = $derived($searchPage.items as ClientsResponse[]);
 
-	let currentUrl = $derived(browser ? document.location.href : '');
-
-	const nextPage = () => {
-		if ($searchPage.page === $searchPage.totalPages) return;
-
-		const nextUrl = new URL(currentUrl);
-
-		nextUrl.searchParams.set('page', `${$searchPage.page + 1}`);
-
-		goto(nextUrl);
-	};
-
-	const previousPage = () => {
-		if ($searchPage.page === 1) return;
-
-		const prevUrl = new URL(currentUrl);
-
-		prevUrl.searchParams.set('page', `${$searchPage.page - 1}`);
-		goto(prevUrl);
-	};
+	const nextPage = () => goNextPage($searchPage.page, $searchPage.totalPages);
+	const previousPage = () => goPreviousPage($searchPage.page);
 
 	let { page } = $derived($searchPage);
 </script>
