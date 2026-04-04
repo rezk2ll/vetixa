@@ -24,6 +24,7 @@
 		"@types/chart.js": "^4.0.0",
 		"@typescript-eslint/eslint-plugin": "^8",
 		"@typescript-eslint/parser": "^8",
+		"@vitest/coverage-v8": "^4.1.0",
 		"date-picker-svelte": "^2.13.0",
 		"eslint": "^10.0.3",
 		"eslint-config-prettier": "^10.0.0",
