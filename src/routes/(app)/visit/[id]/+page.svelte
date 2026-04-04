@@ -195,9 +195,11 @@
 	);
 </script>
 
-<div class="flex flex-col lg:flex-row lg:pl-5 w-full lg:overflow-x-auto">
+<div class="flex flex-col lg:flex-row lg:pl-5 w-full lg:overflow-x-auto print:pl-0">
 	<TabContainer />
-	<div class="w-full flex flex-col lg:pl-5 lg:pr-3 gap-3 lg:pt-10 pb-10 lg:min-w-[425px]">
+	<div
+		class="w-full flex flex-col lg:pl-5 lg:pr-3 gap-3 lg:pt-10 pb-10 lg:min-w-[425px] print:p-0 print:gap-0"
+	>
 		<div class="flex flex-col gap-2 lg:gap-5 w-full">
 			<VisitPrintables
 				report={visit.observations}

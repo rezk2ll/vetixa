@@ -94,7 +94,7 @@
 	{/if}
 </div>
 
-<div class="screen:hidden px-0 w-full print-content">
+<div class="hidden print:block px-0 w-full print-content">
 	<PrintPdf bind:print>
 		<Page>
 			{#if showBill}
