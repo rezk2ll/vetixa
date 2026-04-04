@@ -9,7 +9,12 @@ export const load = (async ({ locals: { pb } }) => {
 	const updateForm = await superValidate(zod(updateAgendaEventSchema), { id: 'update-event' });
 	const removeForm = await superValidate(zod(removeSchema), { id: 'remove-event' });
 
-	const events = await pb.collection('agenda').getFullList<AgendaResponse>();
+	const oneYearAgo = new Date();
+	oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+	const events = await pb.collection('agenda').getFullList<AgendaResponse>({
+		filter: pb.filter('end >= {:date}', { date: oneYearAgo })
+	});
 
 	return { events, addForm, updateForm, removeForm };
 }) satisfies PageServerLoad;

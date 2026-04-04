@@ -16,4 +16,5 @@ COPY package.json .
 EXPOSE 3000
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS=--max-old-space-size=4096
 CMD [ "node", "build" ]

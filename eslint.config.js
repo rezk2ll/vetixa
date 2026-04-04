@@ -26,6 +26,7 @@ export default [
 		ignores: [
 			'site/**',
 			'.svelte-kit/**',
+			'.claude/**',
 			'build/**',
 			'package/**',
 			'nginx/**',

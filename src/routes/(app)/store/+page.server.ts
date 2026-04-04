@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 	]);
 
 	// Fetch data in parallel
-	const [items, monthlySales, dailySales, totalSales] = await Promise.all([
+	const [items, monthlySales, dailySales, totalSalesPage, yearlySales] = await Promise.all([
 		pb.collection('inventory_item').getFullList<InventoryItemResponse>(),
 		pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
 			filter: 'created >= @monthStart && created <= @monthEnd',
@@ -37,7 +37,9 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 			filter: 'created >= @todayStart && created <= @todayEnd',
 			fields: 'id,total,quantity'
 		}),
+		pb.collection('inventory_sale').getList(1, 1),
 		pb.collection('inventory_sale').getFullList<InventorySaleResponse>({
+			filter: 'created >= @yearStart && created <= @yearEnd',
 			expand: 'item',
 			fields: 'id,quantity,expand.item.name'
 		})
@@ -51,7 +53,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 		return currency(acc).add(curr.total).value;
 	}, 0);
 
-	const bestSellers = totalSales.reduce(
+	const bestSellers = yearlySales.reduce(
 		(acc, curr) => {
 			if (!curr.expand) return acc;
 			const itemMetadata = (curr.expand as RecordModel).item as unknown as InventoryItemResponse;
@@ -66,7 +68,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 		{} as Record<string, number>
 	);
 
-	const totalSoldItems = totalSales.reduce((acc, curr) => {
+	const totalSoldItems = yearlySales.reduce((acc, curr) => {
 		return acc + curr.quantity;
 	}, 0);
 
@@ -76,7 +78,7 @@ export const load: PageServerLoad = async ({ locals: { pb } }) => {
 		updateForm,
 		deleteForm,
 		items,
-		totalSales: totalSales.length,
+		totalSales: totalSalesPage.totalItems,
 		dailyRevenu,
 		dailySales: dailySales.length,
 		monthlyRevenu,
