@@ -58,9 +58,9 @@
 	<Toaster expand />
 </div>
 
-<style lang="postcss">
+<style>
 	.gradiant {
-		@media screen(md) {
+		@media (min-width: 768px) {
 			background:
 				linear-gradient(
 					105.88deg,
@@ -72,7 +72,7 @@
 		}
 	}
 	:global(.dark) .gradiant {
-		@media screen(md) {
+		@media (min-width: 768px) {
 			background:
 				linear-gradient(
 					105.88deg,

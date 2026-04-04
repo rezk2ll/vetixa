@@ -2,6 +2,8 @@
 
 @source "../src/**/*.{html,js,svelte,ts}";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--color-blueGray-50: rgba(248, 250, 252, 1);
 	--color-blueGray-100: rgba(241, 245, 249, 1);
