@@ -69,7 +69,7 @@
 						id="cage"
 						name="cage"
 						items={doctors}
-						value={$form.doctor}
+						value={doctors.find((d) => d.value === $form.doctor)}
 						listOffset={10}
 						placeholder="Docteur"
 						bind:justValue={$form.doctor}

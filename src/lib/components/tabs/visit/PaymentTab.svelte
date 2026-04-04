@@ -140,7 +140,7 @@
 							items={paymentMethods}
 							disabled={disabledSelect}
 							listOffset={10}
-							value={$form.method}
+							value={paymentMethods.find((m) => m.value === $form.method)}
 							placeholder="veuillez sélectionner"
 							bind:justValue={$form.method}
 							on:change={handleMethodChange}
