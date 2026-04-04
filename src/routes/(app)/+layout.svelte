@@ -48,7 +48,7 @@
 
 <Nav />
 <div
-	class="min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden gradiant flex flex-col pt-10 xl:pt-16"
+	class="min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden gradiant flex flex-col pt-10 xl:pt-16 print:min-h-0 print:pt-0"
 >
 	{#if $globalLoading}
 		<LoadingSpinner />
