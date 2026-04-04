@@ -133,7 +133,7 @@
 						bind:value={search}
 						placeholder="Rechercher par animal, client, téléphone et motif"
 						type="text"
-						class="block w-full py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-[500px] placeholder-gray-400/70 pl-3 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						class="block w-full py-1.5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-[500px] placeholder-gray-400/70 pl-3 focus:border-blue-400 focus:ring-blue-300/40 focus:outline-none focus:ring"
 					/>
 				</div>
 			</form>

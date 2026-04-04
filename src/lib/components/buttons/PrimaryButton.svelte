@@ -29,12 +29,8 @@
 		: 'bg-emerald-600'} rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 {disable
 		? 'hover:bg-slate-500'
 		: 'hover:bg-emerald-500'} focus:outline-none focus:ring {disable
-		? 'focus:ring-slate-300'
-		: 'focus:ring-emerald-300'} focus:ring-opacity-40 {full
-		? 'lg:w-full lg:mx-0'
-		: small
-			? 'lg:max-w-xs'
-			: ''}"
+		? 'focus:ring-slate-300/40'
+		: 'focus:ring-emerald-300/40'} {full ? 'lg:w-full lg:mx-0' : small ? 'lg:max-w-xs' : ''}"
 >
 	{#if loading}
 		<svg

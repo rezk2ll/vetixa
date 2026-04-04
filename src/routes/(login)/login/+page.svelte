@@ -45,7 +45,7 @@
 			class="hidden bg-cover lg:block lg:w-2/3 transition-all duration-300 ease-in-out"
 			style="background-image: url(/bg-{imageNumber}.jpg)"
 		>
-			<div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+			<div class="flex items-center h-full px-20 bg-gray-900/40">
 				<div>
 					<h2 class="text-3xl font-bold text-white sm:text-6xl uppercase">Vetixa</h2>
 
@@ -109,7 +109,7 @@
 								id="email"
 								bind:value={$form.email}
 								placeholder="example@example.com"
-								class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+								class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400/40 focus:outline-none focus:ring"
 							/>
 						</div>
 
@@ -126,7 +126,7 @@
 								id="password"
 								bind:value={$form.password}
 								placeholder="*********"
-								class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+								class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400/40 focus:outline-none focus:ring"
 							/>
 						</div>
 
