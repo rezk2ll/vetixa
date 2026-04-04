@@ -10,6 +10,7 @@
 	import { animalTypeList } from '$utils/animal';
 	import { toast } from 'svelte-sonner';
 	import EditIcon from '$components/icons/EditIcon.svelte';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		open?: boolean;
@@ -36,37 +37,24 @@
 	let deceased = $state($currentAnimal.deceased);
 
 	$effect(() => {
-		$form.id = $currentAnimal.id;
-	});
-	$effect(() => {
-		$form.birthday = new Date(birthday);
-	});
-	$effect(() => {
-		$form.name = $currentAnimal.name;
-	});
-	$effect(() => {
-		$form.sex = $currentAnimal.sex;
-	});
-	$effect(() => {
-		$form.type = $currentAnimal.type;
-	});
-	$effect(() => {
-		$form.weight = $currentAnimal.weight;
-	});
-	$effect(() => {
-		$form.color = $currentAnimal.color;
-	});
-	$effect(() => {
-		$form.breed = $currentAnimal.breed;
-	});
-	$effect(() => {
-		$form.deceased = deceased;
-	});
-	$effect(() => {
-		$form.identifier = $currentAnimal.identifier;
-	});
-	$effect(() => {
-		$form.deathdate = $form.deceased ? new Date(deathdate) : undefined;
+		const animal = $currentAnimal;
+		const bd = birthday;
+		const dd = deathdate;
+		const dec = deceased;
+
+		untrack(() => {
+			$form.id = animal.id;
+			$form.birthday = new Date(bd);
+			$form.name = animal.name;
+			$form.sex = animal.sex;
+			$form.type = animal.type;
+			$form.weight = animal.weight;
+			$form.color = animal.color;
+			$form.breed = animal.breed;
+			$form.deceased = dec;
+			$form.identifier = animal.identifier;
+			$form.deathdate = dec ? new Date(dd) : undefined;
+		});
 	});
 
 	$effect(() => {
@@ -144,13 +132,7 @@
 		required={false}
 	/>
 	<div class="mt-4 w-full">
-		<input
-			type="checkbox"
-			id="deceased"
-			bind:value={deceased}
-			bind:checked={deceased}
-			class="hidden peer"
-		/>
+		<input type="checkbox" id="deceased" bind:checked={deceased} class="hidden peer" />
 		<label
 			for="deceased"
 			class="inline-flex items-center justify-between p-5 w-full text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-red-600 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50"

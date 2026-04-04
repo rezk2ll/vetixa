@@ -41,6 +41,13 @@
 		...(animal.deceased ? [{ name: 'Décédé le', value: formatDateString(animal.deathdate) }] : [])
 	] satisfies entityDetailsList);
 
+	updateAnimalFormStore.set(data.form);
+	addVisitFormStore.set(data.addForm);
+	updateVisitFormStore.set(data.updateForm);
+	visitItems.set(visits);
+	currentAnimal.set({ ...animal, client: animal.client.name });
+	vaccinationVisitList.set(vaccinationVisits);
+
 	$effect(() => {
 		updateAnimalFormStore.set(data.form);
 	});

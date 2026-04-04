@@ -10,6 +10,9 @@
 	let { data }: Props = $props();
 
 	let { pageInfo } = $derived(data);
+
+	hospitPageInfo.set(pageInfo);
+
 	$effect(() => {
 		hospitPageInfo.set(pageInfo);
 	});

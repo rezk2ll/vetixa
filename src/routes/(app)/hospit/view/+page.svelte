@@ -14,6 +14,11 @@
 	let { data }: Props = $props();
 
 	let { cageList, changeHospitColorForm, updateHospitCompeltedStateForm } = $derived(data);
+
+	cagesInfo.set(cageList);
+	hospitChangeColorFormStore.set(changeHospitColorForm);
+	hospitUpdateCompletedStateFormStore.set(updateHospitCompeltedStateForm);
+
 	$effect(() => {
 		cagesInfo.set(cageList);
 	});

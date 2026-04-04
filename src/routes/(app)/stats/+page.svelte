@@ -11,6 +11,9 @@
 	let { data }: Props = $props();
 
 	let { page } = $derived(data);
+
+	inventorySalesPageInfo.set(page);
+
 	$effect(() => {
 		inventorySalesPageInfo.set(page);
 	});

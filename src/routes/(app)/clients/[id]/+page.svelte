@@ -35,6 +35,14 @@
 		{ name: 'Note', value: client.note ?? '-' }
 	]);
 
+	addAnimalFormStore.set(addForm);
+	updateAnimalFormStore.set(updateForm);
+	deleteAnimalFormStore.set(removeForm);
+	animals.set(client.animals);
+	updateClientFormStore.set(form);
+	clientBills.set(bills);
+	currentClient.set(client);
+
 	$effect(() => {
 		addAnimalFormStore.set(addForm);
 	});

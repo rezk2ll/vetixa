@@ -24,6 +24,9 @@
 	let { data }: Props = $props();
 	let { events, addForm, updateForm } = $derived(data);
 
+	addEventFormStore.set(addForm);
+	updateEventFormStore.set(updateForm);
+
 	$effect(() => {
 		addEventFormStore.set(addForm);
 	});

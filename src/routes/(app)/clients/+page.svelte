@@ -15,6 +15,12 @@
 	let { data }: Props = $props();
 
 	let { shortCut, pageInfo, addForm, updateForm, deleteForm } = $derived(data);
+
+	clientsPageInfo.set(pageInfo);
+	addClientFormStore.set(addForm);
+	updateClientFormStore.set(updateForm);
+	removeClientFormStore.set(deleteForm);
+
 	$effect(() => {
 		clientsPageInfo.set(pageInfo);
 	});
