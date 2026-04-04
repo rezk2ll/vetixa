@@ -1,5 +1,23 @@
 import { describe, it, expect } from 'vitest';
-import { getDaysBetween, daysDiff, calculateDiff, sortDates, getPreviousDays } from './date';
+import {
+	getDaysBetween,
+	daysDiff,
+	calculateDiff,
+	sortDates,
+	getPreviousDays,
+	getPreviousDaysLabels,
+	getMaxSelectionDate,
+	formatDateString,
+	formatDateStringShortDay,
+	formatDateStringShort,
+	formatDateStringToTime,
+	formatDate,
+	formatDateShort,
+	formatDateSimple,
+	formatFilterDate,
+	getDateDayName,
+	formatDateTime
+} from './date';
 
 describe('getDaysBetween', () => {
 	it('returns 0 for same-day start and end', () => {
@@ -86,6 +104,94 @@ describe('sortDates', () => {
 
 	it('returns 0 for equal dates', () => {
 		expect(sortDates('2024-01-15', '2024-01-15')).toBe(0);
+	});
+});
+
+describe('formatDateString', () => {
+	it('formats a timestamp with full day name and time', () => {
+		const result = formatDateString('2024-01-15T10:30:00');
+		expect(result).toMatch(/lundi/);
+		expect(result).toContain('15/01/2024');
+		expect(result).toContain('10:30');
+	});
+});
+
+describe('formatDateStringShortDay', () => {
+	it('formats with abbreviated day', () => {
+		const result = formatDateStringShortDay('2024-01-15T10:30:00');
+		expect(result).toContain('15/01/2024');
+		expect(result).toContain('10:30');
+	});
+});
+
+describe('formatDateStringShort', () => {
+	it('formats date without time', () => {
+		const result = formatDateStringShort('2024-01-15T10:30:00');
+		expect(result).toContain('15/01/2024');
+		expect(result).not.toContain('10:30');
+	});
+});
+
+describe('formatDateStringToTime', () => {
+	it('returns time only', () => {
+		expect(formatDateStringToTime('2024-01-15T10:30:00')).toBe('10:30');
+	});
+});
+
+describe('formatDate', () => {
+	it('formats a Date object with time', () => {
+		const result = formatDate(new Date('2024-01-15T10:30:00'));
+		expect(result).toContain('15/01/2024');
+		expect(result).toContain('10:30');
+	});
+});
+
+describe('formatDateShort', () => {
+	it('formats a Date object without time', () => {
+		const result = formatDateShort(new Date('2024-01-15'));
+		expect(result).toContain('15/01/2024');
+	});
+});
+
+describe('formatDateSimple', () => {
+	it('formats date in dd/MM/yyyy', () => {
+		expect(formatDateSimple(new Date('2024-01-15'))).toBe('15/01/2024');
+	});
+});
+
+describe('formatFilterDate', () => {
+	it('formats for PocketBase filter', () => {
+		const result = formatFilterDate(new Date('2024-01-15T10:30:00'));
+		expect(result).toBe('2024-01-15 10:30');
+	});
+});
+
+describe('getDateDayName', () => {
+	it('returns French day name', () => {
+		expect(getDateDayName(new Date('2024-01-15'))).toBe('lundi');
+	});
+});
+
+describe('formatDateTime', () => {
+	it('returns day and time', () => {
+		const result = formatDateTime('2024-01-15T10:30:00');
+		expect(result).toContain('10:30');
+	});
+});
+
+describe('getPreviousDaysLabels', () => {
+	it('returns day name labels', () => {
+		const result = getPreviousDaysLabels(new Date('2024-01-15'), 3);
+		expect(result).toHaveLength(3);
+		expect(result[2]).toBe('lundi');
+	});
+});
+
+describe('getMaxSelectionDate', () => {
+	it('returns a date 100 years in the future', () => {
+		const result = getMaxSelectionDate();
+		const now = new Date();
+		expect(result.getFullYear()).toBe(now.getFullYear() + 100);
 	});
 });
 
