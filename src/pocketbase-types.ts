@@ -74,30 +74,30 @@ export type AgendaRecord = {
 };
 
 export enum AnimalsSexOptions {
-	'male' = 'male',
-	'female' = 'female'
+	male = 'male',
+	female = 'female'
 }
 
 export enum AnimalsTypeOptions {
-	'chien' = 'chien',
-	'chat' = 'chat',
-	'oiseau' = 'oiseau',
-	'vache' = 'vache',
-	'cheval' = 'cheval',
-	'chèvre' = 'chèvre',
-	'mouton' = 'mouton',
-	'lapin' = 'lapin',
-	'singe' = 'singe',
-	'rongeur' = 'rongeur',
-	'poisson' = 'poisson',
-	'amphibien' = 'amphibien',
+	chien = 'chien',
+	chat = 'chat',
+	oiseau = 'oiseau',
+	vache = 'vache',
+	cheval = 'cheval',
+	chèvre = 'chèvre',
+	mouton = 'mouton',
+	lapin = 'lapin',
+	singe = 'singe',
+	rongeur = 'rongeur',
+	poisson = 'poisson',
+	amphibien = 'amphibien',
 	'petit mammifère' = 'petit mammifère',
 	'animal de ferme' = 'animal de ferme',
 	'animal de compagnie exotique' = 'animal de compagnie exotique',
 	'animal sauvage' = 'animal sauvage',
-	'reptile' = 'reptile',
-	'insecte' = 'insecte',
-	'autre' = 'autre'
+	reptile = 'reptile',
+	insecte = 'insecte',
+	autre = 'autre'
 }
 export type AnimalsRecord = {
 	birthday?: IsoDateString;
@@ -114,30 +114,30 @@ export type AnimalsRecord = {
 };
 
 export enum AnimalsCatsListSexOptions {
-	'male' = 'male',
-	'female' = 'female'
+	male = 'male',
+	female = 'female'
 }
 
 export enum AnimalsCatsListTypeOptions {
-	'chien' = 'chien',
-	'chat' = 'chat',
-	'oiseau' = 'oiseau',
-	'vache' = 'vache',
-	'cheval' = 'cheval',
-	'chèvre' = 'chèvre',
-	'mouton' = 'mouton',
-	'lapin' = 'lapin',
-	'singe' = 'singe',
-	'rongeur' = 'rongeur',
-	'poisson' = 'poisson',
-	'amphibien' = 'amphibien',
+	chien = 'chien',
+	chat = 'chat',
+	oiseau = 'oiseau',
+	vache = 'vache',
+	cheval = 'cheval',
+	chèvre = 'chèvre',
+	mouton = 'mouton',
+	lapin = 'lapin',
+	singe = 'singe',
+	rongeur = 'rongeur',
+	poisson = 'poisson',
+	amphibien = 'amphibien',
 	'petit mammifère' = 'petit mammifère',
 	'animal de ferme' = 'animal de ferme',
 	'animal de compagnie exotique' = 'animal de compagnie exotique',
 	'animal sauvage' = 'animal sauvage',
-	'reptile' = 'reptile',
-	'insecte' = 'insecte',
-	'autre' = 'autre'
+	reptile = 'reptile',
+	insecte = 'insecte',
+	autre = 'autre'
 }
 export type AnimalsCatsListRecord = {
 	birthday?: IsoDateString;
@@ -154,30 +154,30 @@ export type AnimalsCatsListRecord = {
 };
 
 export enum AnimalsDogsListSexOptions {
-	'male' = 'male',
-	'female' = 'female'
+	male = 'male',
+	female = 'female'
 }
 
 export enum AnimalsDogsListTypeOptions {
-	'chien' = 'chien',
-	'chat' = 'chat',
-	'oiseau' = 'oiseau',
-	'vache' = 'vache',
-	'cheval' = 'cheval',
-	'chèvre' = 'chèvre',
-	'mouton' = 'mouton',
-	'lapin' = 'lapin',
-	'singe' = 'singe',
-	'rongeur' = 'rongeur',
-	'poisson' = 'poisson',
-	'amphibien' = 'amphibien',
+	chien = 'chien',
+	chat = 'chat',
+	oiseau = 'oiseau',
+	vache = 'vache',
+	cheval = 'cheval',
+	chèvre = 'chèvre',
+	mouton = 'mouton',
+	lapin = 'lapin',
+	singe = 'singe',
+	rongeur = 'rongeur',
+	poisson = 'poisson',
+	amphibien = 'amphibien',
 	'petit mammifère' = 'petit mammifère',
 	'animal de ferme' = 'animal de ferme',
 	'animal de compagnie exotique' = 'animal de compagnie exotique',
 	'animal sauvage' = 'animal sauvage',
-	'reptile' = 'reptile',
-	'insecte' = 'insecte',
-	'autre' = 'autre'
+	reptile = 'reptile',
+	insecte = 'insecte',
+	autre = 'autre'
 }
 export type AnimalsDogsListRecord = {
 	birthday?: IsoDateString;
@@ -194,30 +194,30 @@ export type AnimalsDogsListRecord = {
 };
 
 export enum AnimalsFemaleListSexOptions {
-	'male' = 'male',
-	'female' = 'female'
+	male = 'male',
+	female = 'female'
 }
 
 export enum AnimalsFemaleListTypeOptions {
-	'chien' = 'chien',
-	'chat' = 'chat',
-	'oiseau' = 'oiseau',
-	'vache' = 'vache',
-	'cheval' = 'cheval',
-	'chèvre' = 'chèvre',
-	'mouton' = 'mouton',
-	'lapin' = 'lapin',
-	'singe' = 'singe',
-	'rongeur' = 'rongeur',
-	'poisson' = 'poisson',
-	'amphibien' = 'amphibien',
+	chien = 'chien',
+	chat = 'chat',
+	oiseau = 'oiseau',
+	vache = 'vache',
+	cheval = 'cheval',
+	chèvre = 'chèvre',
+	mouton = 'mouton',
+	lapin = 'lapin',
+	singe = 'singe',
+	rongeur = 'rongeur',
+	poisson = 'poisson',
+	amphibien = 'amphibien',
 	'petit mammifère' = 'petit mammifère',
 	'animal de ferme' = 'animal de ferme',
 	'animal de compagnie exotique' = 'animal de compagnie exotique',
 	'animal sauvage' = 'animal sauvage',
-	'reptile' = 'reptile',
-	'insecte' = 'insecte',
-	'autre' = 'autre'
+	reptile = 'reptile',
+	insecte = 'insecte',
+	autre = 'autre'
 }
 export type AnimalsFemaleListRecord = {
 	birthday?: IsoDateString;
@@ -234,30 +234,30 @@ export type AnimalsFemaleListRecord = {
 };
 
 export enum AnimalsMaleListSexOptions {
-	'male' = 'male',
-	'female' = 'female'
+	male = 'male',
+	female = 'female'
 }
 
 export enum AnimalsMaleListTypeOptions {
-	'chien' = 'chien',
-	'chat' = 'chat',
-	'oiseau' = 'oiseau',
-	'vache' = 'vache',
-	'cheval' = 'cheval',
-	'chèvre' = 'chèvre',
-	'mouton' = 'mouton',
-	'lapin' = 'lapin',
-	'singe' = 'singe',
-	'rongeur' = 'rongeur',
-	'poisson' = 'poisson',
-	'amphibien' = 'amphibien',
+	chien = 'chien',
+	chat = 'chat',
+	oiseau = 'oiseau',
+	vache = 'vache',
+	cheval = 'cheval',
+	chèvre = 'chèvre',
+	mouton = 'mouton',
+	lapin = 'lapin',
+	singe = 'singe',
+	rongeur = 'rongeur',
+	poisson = 'poisson',
+	amphibien = 'amphibien',
 	'petit mammifère' = 'petit mammifère',
 	'animal de ferme' = 'animal de ferme',
 	'animal de compagnie exotique' = 'animal de compagnie exotique',
 	'animal sauvage' = 'animal sauvage',
-	'reptile' = 'reptile',
-	'insecte' = 'insecte',
-	'autre' = 'autre'
+	reptile = 'reptile',
+	insecte = 'insecte',
+	autre = 'autre'
 }
 export type AnimalsMaleListRecord = {
 	birthday?: IsoDateString;
@@ -278,10 +278,10 @@ export type AvailableCagesRecord = {
 };
 
 export enum BillsMethodOptions {
-	'cash' = 'cash',
-	'tpe' = 'tpe',
-	'cheque' = 'cheque',
-	'virement' = 'virement'
+	cash = 'cash',
+	tpe = 'tpe',
+	cheque = 'cheque',
+	virement = 'virement'
 }
 export type BillsRecord = {
 	method?: BillsMethodOptions;
@@ -327,10 +327,10 @@ export type DoctorsRecord = {
 };
 
 export enum FundTransactionsMethodOptions {
-	'cash' = 'cash',
-	'tpe' = 'tpe',
-	'cheque' = 'cheque',
-	'virement' = 'virement'
+	cash = 'cash',
+	tpe = 'tpe',
+	cheque = 'cheque',
+	virement = 'virement'
 }
 export type FundTransactionsRecord = {
 	amount?: number;
@@ -391,10 +391,10 @@ export type InventoryItemRecord = {
 };
 
 export enum InventorySaleMethodOptions {
-	'cash' = 'cash',
-	'tpe' = 'tpe',
-	'cheque' = 'cheque',
-	'virement' = 'virement'
+	cash = 'cash',
+	tpe = 'tpe',
+	cheque = 'cheque',
+	virement = 'virement'
 }
 export type InventorySaleRecord = {
 	incash?: number;
@@ -430,8 +430,8 @@ export type ToilettageRecord = {
 };
 
 export enum UsersRoleOptions {
-	'editor' = 'editor',
-	'operator' = 'operator'
+	editor = 'editor',
+	operator = 'operator'
 }
 export type UsersRecord = {
 	avatar?: string;

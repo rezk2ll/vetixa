@@ -43,13 +43,13 @@ export type AuthSystemFields<T = never> = {
 // Record types for each collection
 
 export enum AnimalsSexOptions {
-	'male' = 'male',
-	'female' = 'female'
+	male = 'male',
+	female = 'female'
 }
 
 export enum AnimalsTypeOptions {
-	'chien' = 'chien',
-	'chat' = 'chat'
+	chien = 'chien',
+	chat = 'chat'
 }
 export type AnimalsRecord = {
 	birthday?: IsoDateString;

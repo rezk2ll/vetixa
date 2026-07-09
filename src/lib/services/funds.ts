@@ -194,8 +194,7 @@ export class FundsService {
 				}
 
 				const user = (transaction.expand as RecordModel).user as unknown as
-					| UsersResponse
-					| undefined;
+					UsersResponse | undefined;
 
 				return {
 					...transaction,

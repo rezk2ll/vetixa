@@ -204,11 +204,7 @@ export interface Observation {
 }
 
 export type MatiereFecale =
-	| 'Normale'
-	| 'Diarrhée jaune'
-	| 'diarrhée verte'
-	| 'Diarrhée noire'
-	| 'Diarrhée décolorée';
+	'Normale' | 'Diarrhée jaune' | 'diarrhée verte' | 'Diarrhée noire' | 'Diarrhée décolorée';
 
 export type AnimalState =
 	| 'Détériorisé'
