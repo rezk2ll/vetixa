@@ -66,7 +66,9 @@
 				width="300"
 			/>
 		</div>
-		<div class="inset-0 z-20 rounded-xl lg:absolute lg:translate-x-3/4 lg:translate-y-80 xl:translate-y-3/4">
+		<div
+			class="inset-0 z-20 rounded-xl lg:absolute lg:translate-x-3/4 lg:translate-y-80 xl:translate-y-3/4"
+		>
 			<img
 				class="z-21 relative rounded-xl shadow-all-2xl"
 				src="/acts.png"

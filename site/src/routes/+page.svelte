@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ArrowDown from '$lib/components/ArrowDown.svelte';
 	import AgendaCard from '$lib/components/landing/AgendaCard.svelte';
 	import AnimalsClientsCard from '$lib/components/landing/AnimalsClientsCard.svelte';
 	import CaisseCard from '$lib/components/landing/CaisseCard.svelte';
@@ -41,7 +40,7 @@
 			</h3>
 			<div class="flex flex-col gap-40 lg:gap-80">
 				<VisitsCard />
-        <VisitManagementCard />
+				<VisitManagementCard />
 				<HospitCard />
 				<StockCard />
 				<CaisseCard />
