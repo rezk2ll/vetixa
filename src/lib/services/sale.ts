@@ -142,10 +142,7 @@ export class SalesService {
 	 */
 	private getVisitActSales = (
 		items: (
-			| InventoryItemResponse
-			| SurgicalActsResponse
-			| MedicalActsResponse
-			| ToilettageResponse
+			InventoryItemResponse | SurgicalActsResponse | MedicalActsResponse | ToilettageResponse
 		)[] = [],
 		visit: VisitsResponse<ItemMetadata[]>,
 		type: InventorySaleItem['type']
