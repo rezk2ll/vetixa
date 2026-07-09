@@ -3,7 +3,7 @@
 	id="Layer_1"
 	xmlns="http://www.w3.org/2000/svg"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-  class="w-14 h-14"
+	class="w-14 h-14"
 	viewBox="0 0 512 512"
 	enable-background="new 0 0 512 512"
 	xml:space="preserve"
