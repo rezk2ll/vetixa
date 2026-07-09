@@ -3,8 +3,8 @@
 	import { isIntersecting } from '$lib/utils/observer';
 	import { onDestroy, onMount } from 'svelte';
 
-	let imageRef: Element = $state();
-	let textRef: Element = $state();
+	let imageRef: Element | undefined = $state();
+	let textRef: Element | undefined = $state();
 
 	let imageObserver: IntersectionObserver | undefined;
 	let textObserver: IntersectionObserver | undefined;
@@ -13,13 +13,13 @@
 		imageObserver = isIntersecting(stockImageVisible);
 		textObserver = isIntersecting(stockTextVisible);
 
-		imageObserver?.observe(imageRef);
-		textObserver?.observe(textRef);
+		if (imageRef) imageObserver?.observe(imageRef);
+		if (textRef) textObserver?.observe(textRef);
 	});
 
 	onDestroy(() => {
-		imageObserver?.unobserve(imageRef);
-		textObserver?.unobserve(textRef);
+		if (imageRef) imageObserver?.unobserve(imageRef);
+		if (textRef) textObserver?.unobserve(textRef);
 	});
 </script>
 
