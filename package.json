@@ -59,7 +59,7 @@
 		"photoswipe": "^5.4.4",
 		"pocketbase": "^0.28.0",
 		"svelte-printpdf": "^1.0.2-metadata",
-		"svelte-select": "^5.8.3",
+		"svelte-select": "^6.0.0",
 		"svelte-sonner": "^1.0.7",
 		"to-words": "^6.0.0"
 	}
