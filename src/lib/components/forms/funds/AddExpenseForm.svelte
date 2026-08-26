@@ -30,8 +30,8 @@
 		taintedMessage: null
 	});
 
-	const handleMethodChange = (e: CustomEvent) => {
-		if (e.detail.value !== 'cash') {
+	const handleMethodChange = (method: string) => {
+		if (method !== 'cash') {
 			$form.incash = 0;
 			$form.outcash = 0;
 		}
@@ -91,9 +91,9 @@
 			items={paymentMethods}
 			disabled={$form.amount < 1}
 			listOffset={10}
-			value={paymentMethods.find((m) => m.value === 'cash')}
-			bind:justValue={$form.method}
-			on:change={handleMethodChange}
+			valueMode="id"
+			bind:value={$form.method}
+			onchange={handleMethodChange}
 		/>
 		{#if $form.method === 'cash'}
 			<div class="flex flex-row space-x-2">

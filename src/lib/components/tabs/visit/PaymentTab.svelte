@@ -43,8 +43,8 @@
 		}
 	});
 
-	const handleMethodChange = (e: CustomEvent) => {
-		if (e.detail.value !== 'cash') {
+	const handleMethodChange = (method: string) => {
+		if (method !== 'cash') {
 			$form.incash = 0;
 			$form.outcash = 0;
 		}
@@ -140,10 +140,10 @@
 							items={paymentMethods}
 							disabled={disabledSelect}
 							listOffset={10}
-							value={paymentMethods.find((m) => m.value === $form.method)}
+							valueMode="id"
 							placeholder="veuillez sélectionner"
-							bind:justValue={$form.method}
-							on:change={handleMethodChange}
+							bind:value={$form.method}
+							onchange={handleMethodChange}
 							class="rounded-[4px] ring-1 focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent ring-gray-300 focus:ring-blue-500"
 						/>
 						{#if $form.method === 'cash' && !disabledSelect}

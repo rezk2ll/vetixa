@@ -27,8 +27,8 @@
 		}))
 	);
 
-	const handleChane = (e: CustomEvent) => {
-		value = e.detail.map(({ value }: Record<string, string>) => value);
+	const handleChange = (selection: string[] | undefined) => {
+		value = selection ?? [];
 	};
 
 	const handleConfirm = () => {
@@ -51,8 +51,9 @@
 	<div class="mt-4 flex flex-col space-y-10 w-full">
 		<div class="pt-10 h-60 max-h-60">
 			<Select
-				on:change={handleChane}
+				onchange={handleChange}
 				bind:items={data}
+				valueMode="id"
 				multiple
 				showChevron
 				listOffset={10}

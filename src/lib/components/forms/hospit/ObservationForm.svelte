@@ -17,8 +17,10 @@
 		{ label: 'non', value: false }
 	];
 
-	const urinesList = ['Normale', 'Hemorragique', 'Foncée', "Pas d'urine"];
-	const animalStates = [
+	const toItems = (values: readonly string[]) => values.map((value) => ({ value, label: value }));
+
+	const urinesList = toItems(['Normale', 'Hemorragique', 'Foncée', "Pas d'urine"]);
+	const animalStates = toItems([
 		'Détériorisé',
 		'Moyen',
 		'Etat de choc',
@@ -27,14 +29,14 @@
 		'Moyen +/-',
 		'Mauvais',
 		'Stable'
-	];
-	const matiereFecaleList = [
+	]);
+	const matiereFecaleList = toItems([
 		'Normale',
 		'Diarrhée jaune',
 		'diarrhée verte',
 		'Diarrhée noire',
 		'Diarrhée décolorée'
-	];
+	]);
 </script>
 
 <CollapsibleSection
@@ -111,9 +113,9 @@
 					id="fecale-{index}"
 					items={matiereFecaleList}
 					listOffset={10}
+					valueMode="id"
 					placeholder="veuillez sélectionner"
-					value={entity.matiere_fecale}
-					bind:justValue={entity.matiere_fecale}
+					bind:value={entity.matiere_fecale}
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
@@ -123,9 +125,9 @@
 					id="urines-{index}"
 					items={urinesList}
 					listOffset={10}
+					valueMode="id"
 					placeholder="veuillez sélectionner"
-					value={entity.urines}
-					bind:justValue={entity.urines}
+					bind:value={entity.urines}
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
@@ -137,9 +139,9 @@
 					id="state-{index}"
 					items={animalStates}
 					listOffset={10}
+					valueMode="id"
 					placeholder="veuillez sélectionner"
-					value={entity.state}
-					bind:justValue={entity.state}
+					bind:value={entity.state}
 					class="rounded-[4px] focus:outline-none px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent "
 				/>
 			</div>
