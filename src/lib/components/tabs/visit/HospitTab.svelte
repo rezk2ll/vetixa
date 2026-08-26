@@ -292,10 +292,10 @@
 						id="cage"
 						name="cage"
 						items={cages}
-						value={cages.find((c) => c.value === $form.cage)}
+						valueMode="id"
 						listOffset={10}
 						placeholder="veuillez sélectionner un cage"
-						bind:justValue={$form.cage}
+						bind:value={$form.cage}
 						class="h-[48px] rounded-[4px] ring-1 pt-1 focus:outline-none ring-gray-300 px-4 text-[17px] font-medium leading-6 tracking-tight text-left peer w-full placeholder:text-transparent"
 					/>
 				</div>

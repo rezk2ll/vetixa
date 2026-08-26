@@ -76,13 +76,13 @@
 		];
 	};
 
-	const onItemSelect = (e: CustomEvent) => {
-		$form.items = [...$form.items, { id: e.detail.value, quantity: 1 }];
+	const onItemSelect = (id: string) => {
+		$form.items = [...$form.items, { id, quantity: 1 }];
 		selectedValue = '';
 	};
 
-	const handleMethodChange = (e: CustomEvent) => {
-		if (e.detail.value !== 'cash') {
+	const handleMethodChange = (method: string) => {
+		if (method !== 'cash') {
 			$form.incash = 0;
 			$form.outcash = 0;
 		}
@@ -155,10 +155,11 @@
 <div class="pt-10 h-36">
 	<Select
 		bind:items={dataSource}
-		on:change={onItemSelect}
+		onchange={onItemSelect}
 		showChevron
 		listOffset={10}
 		class="uppercase"
+		valueMode="id"
 		placeholder="veuillez sélectionner un produit"
 		bind:value={selectedValue}
 	/>
@@ -196,9 +197,9 @@
 			items={paymentMethods}
 			disabled={total < 1}
 			listOffset={10}
-			value={paymentMethods.find((m) => m.value === 'cash')}
-			bind:justValue={$form.method}
-			on:change={handleMethodChange}
+			valueMode="id"
+			bind:value={$form.method}
+			onchange={handleMethodChange}
 		/>
 		{#if $form.method === 'cash'}
 			<div class="flex flex-row space-x-2">
