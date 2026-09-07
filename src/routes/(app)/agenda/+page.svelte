@@ -1,12 +1,16 @@
 <script lang="ts">
 	import type { AgendaResponse } from '$types';
-	import { Calendar } from '@fullcalendar/core';
-	import dayGridPlugin from '@fullcalendar/daygrid';
-	import interactionPlugin from '@fullcalendar/interaction';
-	import timeGridPlugin from '@fullcalendar/timegrid';
-	import listPlugin from '@fullcalendar/list';
+	import { Calendar } from 'fullcalendar';
+	import dayGridPlugin from 'fullcalendar/daygrid';
+	import interactionPlugin from 'fullcalendar/interaction';
+	import timeGridPlugin from 'fullcalendar/timegrid';
+	import listPlugin from 'fullcalendar/list';
+	import classicTheme from 'fullcalendar/themes/classic';
 	import { onMount } from 'svelte';
-	import french from '@fullcalendar/core/locales/fr';
+	import french from 'fullcalendar/locales/fr';
+	import 'fullcalendar/skeleton.css';
+	import 'fullcalendar/themes/classic/theme.css';
+	import 'fullcalendar/themes/classic/palette.css';
 	import type { PageData } from './$types';
 	import Modal from '$components/Modal.svelte';
 	import AddEventForm from '$components/forms/agenda/AddEventForm.svelte';
@@ -61,7 +65,7 @@
 			initialView: 'timeGridWeek',
 			scrollTime: '08:00:00',
 			selectable: true,
-			plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
+			plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, classicTheme],
 			locale: french,
 			headerToolbar: {
 				left: 'today prev,next',
@@ -180,10 +184,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	@reference "tailwindcss";
-	:global(.fc-toolbar-title) {
-		@apply text-sm;
-	}
-</style>
