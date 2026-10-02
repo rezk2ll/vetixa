@@ -45,7 +45,7 @@
 	"type": "module",
 	"dependencies": {
 		"@simonwep/pickr": "^1.9.1",
-		"@sveltejs/adapter-node": "^2",
+		"@sveltejs/adapter-node": "^6.0.0",
 		"@tinymce/tinymce-svelte": "^4.0.0",
 		"chart.js": "4.5.1",
 		"currency.js": "^2.0.4",
