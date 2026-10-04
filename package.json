@@ -34,7 +34,7 @@
 		"prettier-plugin-svelte": "^4.0.0",
 		"svelte": "^5",
 		"svelte-check": "^4.0.0",
-		"sveltekit-superforms": "^2.29",
+		"sveltekit-superforms": "^3.0.0",
 		"tailwindcss": "^4",
 		"tslib": "^2.6.3",
 		"typescript": "^6.0.0",
