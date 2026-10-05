@@ -1,5 +1,5 @@
 import { goto } from '$app/navigation';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 /**
  * Get the current URL in the browser, or empty string during SSR.

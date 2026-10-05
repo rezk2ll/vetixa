@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import type { Writable } from 'svelte/store';
 
 export const isIntersecting = (store: Writable<boolean>): IntersectionObserver | undefined => {

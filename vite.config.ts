@@ -1,9 +1,31 @@
+/// <reference types="node" />
+import adapterAuto from '@sveltejs/adapter-auto';
+import adapterNode from '@sveltejs/adapter-node';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 
+const adapter = process.env.ADAPTER === 'node' ? adapterNode() : adapterAuto();
+
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit()],
+	plugins: [
+		tailwindcss(),
+		sveltekit({
+			preprocess: vitePreprocess(),
+			adapter,
+			alias: {
+				$components: 'src/lib/components',
+				$lib: 'src/lib',
+				$store: 'src/lib/store',
+				$utils: 'src/lib/utils',
+				$types: 'src/types'
+			},
+			csrf: {
+				trustedOrigins: ['*']
+			}
+		})
+	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		coverage: {

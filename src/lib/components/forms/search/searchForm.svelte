@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { searchOpen } from '$store/search';
 	import type { SearchEntityType } from '$types';
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 

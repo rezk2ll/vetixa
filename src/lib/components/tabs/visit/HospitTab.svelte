@@ -28,7 +28,7 @@
 	import ConfirmationDialog from '$components/ConfirmationDialog.svelte';
 	import LoadingSpinner from '$components/display/LoadingSpinner.svelte';
 	import { toast } from 'svelte-sonner';
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import SecondaryButton from '$components/buttons/SecondaryButton.svelte';
 
 	let locale = localeFromDateFnsLocale(fr);
