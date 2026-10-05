@@ -6,20 +6,20 @@
 	import { searchOpen } from '$lib/store/search';
 	import Modal from '$components/Modal.svelte';
 	import SearchForm from '$components/forms/search/searchForm.svelte';
-	import { env } from '$env/dynamic/public';
+	import { PUBLIC_POCKETBASE_ADMIN_URL } from '$app/env/public';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import SliderIcon from '$components/icons/SliderIcon.svelte';
 	import ThemeSwitcher from '$components/ThemeSwitcher.svelte';
 	import { configuration } from '$lib/store/configuration';
 	import { buildFileProxyUrl } from '$lib/utils/file';
 	import type { RecordModel } from 'pocketbase';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let open = $state(false);
 
 	const isActive = (href: string) => {
-		if (href === '/') return $page.url.pathname === '/';
-		return $page.url.pathname.startsWith(href);
+		if (href === '/') return page.url.pathname === '/';
+		return page.url.pathname.startsWith(href);
 	};
 
 	let avatarUrl = $derived(
@@ -361,7 +361,7 @@
 	<div class="flex flex-col space-y-6">
 		<a
 			target="_blank"
-			href={`${env.PUBLIC_POCKETBASE_ADMIN_URL}`}
+			href={`${PUBLIC_POCKETBASE_ADMIN_URL}`}
 			title="Paramètres"
 			class="p-1.5 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-200 dark:bg-gray-800 hover:bg-gray-100"
 		>

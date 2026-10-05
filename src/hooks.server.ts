@@ -1,6 +1,6 @@
 import { createInstance } from '$lib/pocketbase';
 import { handleProxy, PROXY_PATH } from '$utils/proxy';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit/hooks';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = createInstance();

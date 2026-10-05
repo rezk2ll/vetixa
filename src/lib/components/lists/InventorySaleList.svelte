@@ -4,7 +4,7 @@
 	import fr from 'date-fns/locale/fr/index';
 	import { format, setHours, setMinutes, startOfMonth, endOfMonth } from 'date-fns';
 	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import SearchIcon from '$components/icons/SearchIcon.svelte';
 	import BackArrow from '$components/icons/BackArrow.svelte';
 	import ForwardArrow from '$components/icons/ForwardArrow.svelte';
