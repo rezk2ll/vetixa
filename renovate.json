@@ -1,4 +1,10 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended"]
+	"extends": ["config:recommended"],
+	"packageRules": [
+		{
+			"groupName": "sveltekit",
+			"matchPackageNames": ["@sveltejs/kit", "@sveltejs/adapter-*", "sveltekit-superforms"]
+		}
+	]
 }
