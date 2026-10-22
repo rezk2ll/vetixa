@@ -48,7 +48,7 @@
 		"@simonwep/pickr": "^1.9.1",
 		"@sveltejs/adapter-node": "^6",
 		"@tinymce/tinymce-svelte": "^4.0.0",
-		"chart.js": "4.5.1",
+		"chart.js": "4.6.1",
 		"currency.js": "^2.0.4",
 		"date-fns": "^2.30.0",
 		"fullcalendar": "^7.1.0",
